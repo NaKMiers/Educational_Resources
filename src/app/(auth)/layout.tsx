@@ -29,6 +29,16 @@ export default async function RootLayout({
     <html lang='vi'>
       <body className='bg-black text-white' suppressHydrationWarning={true}>
         <StoreProvider session={session}>
+          {/* Toast */}
+          <Toaster
+            toastOptions={{
+              style: {
+                background: '#333',
+                color: '#fff',
+              },
+            }}
+          />
+
           {/* Main */}
           <main className='px-21'>
             <div className='max-w-1200 mx-auto'>{children}</div>
