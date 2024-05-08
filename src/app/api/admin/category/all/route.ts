@@ -1,16 +1,14 @@
 import { connectDatabase } from '@/config/database'
-import TagModel from '@/models/TagModel'
+import CategoryModel from '@/models/CategoryModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Tag
-import '@/models/TagModel'
+// Models: Category
+import '@/models/CategoryModel'
 
-export const dynamic = 'force-dynamic'
-
-// [GET]: /admin/tag/all
+// [GET]: /admin/category/all
 export async function GET(req: NextRequest) {
-  console.log('- Get All Tags -')
+  console.log('- Get All Categories -')
 
   try {
     // connect to database
@@ -53,13 +51,13 @@ export async function GET(req: NextRequest) {
     }
 
     // get amount of account
-    const amount = await TagModel.countDocuments(filter)
+    const amount = await CategoryModel.countDocuments(filter)
 
-    // get all tags from database
-    const tags = await TagModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
+    // get all categories from database
+    const categories = await CategoryModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
 
     // get all order without filter
-    const chops = await TagModel.aggregate([
+    const chops = await CategoryModel.aggregate([
       {
         $group: {
           _id: null,
@@ -69,7 +67,7 @@ export async function GET(req: NextRequest) {
       },
     ])
 
-    return NextResponse.json({ tags, amount, chops: chops[0] }, { status: 200 })
+    return NextResponse.json({ categories, amount, chops: chops[0] }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

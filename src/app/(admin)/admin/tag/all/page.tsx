@@ -43,7 +43,7 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
   const itemPerPage = 10
   const [minPQ, setMinPQ] = useState<number>(0)
   const [maxPQ, setMaxPQ] = useState<number>(0)
-  const [productQuantity, setProductQuantity] = useState<number>(0)
+  const [courseQuantity, setcourseQuantity] = useState<number>(0)
 
   // form
   const defaultValues = useMemo<FieldValues>(
@@ -89,10 +89,10 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
         setValue('isFeatured', searchParams?.isFeatured || getValues('isFeatured'))
 
         // set min and max
-        setMinPQ(chops?.minProductQuantity || 0)
-        setMaxPQ(chops?.maxProductQuantity || 0)
-        setProductQuantity(
-          searchParams?.productQuantity ? +searchParams.productQuantity : chops?.maxProductQuantity || 0
+        setMinPQ(chops?.mincourseQuantity || 0)
+        setMaxPQ(chops?.maxcourseQuantity || 0)
+        setcourseQuantity(
+          searchParams?.courseQuantity ? +searchParams.courseQuantity : chops?.maxcourseQuantity || 0
         )
       } catch (err: any) {
         console.log(err)
@@ -198,10 +198,10 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
 
       return {
         ...data,
-        productQuantity: productQuantity === maxPQ ? [] : [productQuantity.toString()],
+        courseQuantity: courseQuantity === maxPQ ? [] : [courseQuantity.toString()],
       }
     },
-    [productQuantity, maxPQ, searchParams, defaultValues]
+    [courseQuantity, maxPQ, searchParams, defaultValues]
   )
 
   // handle submit filter
@@ -260,20 +260,20 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
       <AdminMeta handleFilter={handleSubmit(handleFilter)} handleResetFilter={handleResetFilter}>
         {/* Product Quantity */}
         <div className='flex flex-col col-span-12 md:col-span-4'>
-          <label htmlFor='productQuantity'>
+          <label htmlFor='courseQuantity'>
             <span className='font-bold'>Product Quantity: </span>
-            <span>{productQuantity}</span> - <span>{maxPQ}</span>
+            <span>{courseQuantity}</span> - <span>{maxPQ}</span>
           </label>
           <input
-            id='productQuantity'
+            id='courseQuantity'
             className='input-range h-2 bg-slate-200 rounded-lg my-2'
             placeholder=' '
             disabled={false}
             type='range'
             min={minPQ || 0}
             max={maxPQ || 0}
-            value={productQuantity}
-            onChange={e => setProductQuantity(+e.target.value)}
+            value={courseQuantity}
+            onChange={e => setcourseQuantity(+e.target.value)}
           />
         </div>
 
