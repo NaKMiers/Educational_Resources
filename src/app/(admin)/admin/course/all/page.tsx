@@ -115,17 +115,17 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
         setValue('flashsale', searchParams?.flashsale || getValues('flashsale'))
 
         // get min - max
-        setMinPrice(chops.minPrice)
-        setMaxPrice(chops.maxPrice)
-        setPrice(searchParams?.price ? +searchParams.price : chops.maxPrice)
+        setMinPrice(chops?.minPrice || 0)
+        setMaxPrice(chops?.maxPrice || 0)
+        setPrice(searchParams?.price ? +searchParams.price : chops?.maxPrice || 0)
 
-        setMinStock(chops.minStock)
-        setMaxStock(chops.maxStock)
-        setStock(searchParams?.stock ? +searchParams.stock : chops.maxStock)
+        setMinStock(chops?.minStock || 0)
+        setMaxStock(chops?.maxStock || 0)
+        setStock(searchParams?.stock ? +searchParams.stock : chops?.maxStock || 0)
 
-        setMinSold(chops.minSold)
-        setMaxSold(chops.maxSold)
-        setSold(searchParams?.sold ? +searchParams.sold : chops.maxSold)
+        setMinSold(chops?.minSold || 0)
+        setMaxSold(chops?.maxSold || 0)
+        setSold(searchParams?.sold ? +searchParams.sold : chops?.maxSold || 0)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
