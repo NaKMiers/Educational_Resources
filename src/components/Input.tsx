@@ -16,6 +16,7 @@ interface InputProps {
   errors: FieldErrors
   options?: any[]
   rows?: number
+  labelBg?: string
   minDate?: string
   maxDate?: string
   onClick?: (e?: any) => void
@@ -38,6 +39,7 @@ function Input({
   onFocus,
   minDate,
   maxDate,
+  labelBg,
   className = '',
 }: InputProps) {
   // states
@@ -119,7 +121,7 @@ function Input({
           {!Icon &&
             type === 'password' &&
             (isShowPassword ? (
-              <FaEyeSlash
+              <FaEye
                 className='absolute top-1/2 -translate-y-1/2 right-3 text-dark cursor-pointer'
                 size={19}
                 onClick={showPassword}
@@ -135,7 +137,7 @@ function Input({
           {/* MARK: Label */}
           <label
             htmlFor={id}
-            className={`absolute text-nowrap rounded-md text-sm text-dark duration-300 transform -translate-y-4 scale-75 top-2 left-5 z-10 origin-[0] font-semibold bg-primary px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-[48%] peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
+            className={`absolute text-nowrap rounded-md text-sm text-dark duration-300 transform -translate-y-4 scale-75 top-2 left-5 z-10 origin-[0] font-semibold ${labelBg} px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-[48%] peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
               errors[id] ? 'text-rose-400' : 'text-dark'
             }`}>
             {label}

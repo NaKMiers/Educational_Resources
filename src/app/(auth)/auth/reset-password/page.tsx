@@ -3,6 +3,7 @@ import Divider from '@/components/Divider'
 import Input from '@/components/Input'
 import { commonEmailMistakes } from '@/constants/mistakes'
 import { resetPassword } from '@/requests'
+import { signIn } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -117,72 +118,64 @@ function ResetPasswordPage() {
   }, [handleSubmit, onSubmit])
 
   return (
-    <div className='relative min-h-screen w-full'>
-      <Image
-        className='absolute z-30 top-0 left-0'
-        src='/images/logo.png'
-        width={70}
-        height={70}
-        alt='logo'
-      />
+    <div className='h-screen w-full md:px-[46px] md:py-[52px] overflow-hidden'>
+      <div className='relative flex justify-center h-full w-full bg-primary py-9 px-21 md:rounded-[40px] shadow-lg overflow-hidden'>
+        <div className='hidden md:block absolute top-0 left-0 w-[60%]'>
+          <Image
+            className='w-full h-full object-contain object-left-top opacity-50'
+            src='/images/vector-5.png'
+            width={1000}
+            height={1000}
+            alt='shape-5'
+          />
+        </div>
 
-      <div className='hidden md:block absolute top-[0%] left-0 w-[32vw]'>
-        <Image
-          className='w-full h-full object-contain object-left'
-          src='/images/vector-1.png'
-          width={600}
-          height={600}
-          alt='shape-1'
-        />
-      </div>
+        <div className='hidden md:block absolute bottom-0 left-0 w-[60%]'>
+          <Image
+            className='w-full h-full object-contain object-left-bottom'
+            src='/images/vector-6.png'
+            width={1000}
+            height={1000}
+            alt='shape-6'
+          />
+        </div>
 
-      <div className='hidden md:block absolute bottom-[0%] left-[10%] w-[35vw]'>
-        <Image
-          className='w-full h-full object-contain object-bottom'
-          src='/images/vector-2.png'
-          width={600}
-          height={600}
-          alt='shape-2'
-        />
-      </div>
+        <div className='hidden md:block absolute z-20 left-[3vw] top-[20%] max-w-[34vw]'>
+          <div className='hidden md:block w-[25vw]'>
+            <Image
+              className='w-full h-full object-contain object-top'
+              src='/images/focus_image.png'
+              width={625}
+              height={680}
+              alt='vector-5'
+            />
+          </div>
 
-      <div className='hidden md:block absolute top-[0%] left-[0%] w-[54vw]'>
-        <Image
-          className='w-full h-full object-contain object-top'
-          src='/images/vector-3.png'
-          width={625}
-          height={680}
-          alt='shape-3'
-        />
-      </div>
+          <p className='text-[#4F7575] left-[46px] font-semibold text-3xl top-[20%]'>
+            EDUCATIONAL RESOURCES
+          </p>
+          <p className='text-[#3D3D3D] font-semibold text-3xl mt-5'>
+            Walking with you on the path to success.
+          </p>
+        </div>
 
-      <div className='hidden md:block absolute bottom-[0%] left-[0%] w-[54vw]'>
-        <Image
-          className='w-full h-full object-contain object-left'
-          src='/images/vector-4.png'
-          width={600}
-          height={600}
-          alt='shape-3'
-        />
-      </div>
+        <div className='md:absolute top-1/2 md:right-[50px] md:-translate-y-1/2 px-[32px] py-2 max-w-[500px] w-full bg-white rounded-[28px] overflow-y-auto'>
+          <div className='flex justify-center items-center gap-1'>
+            <div className='w-[50px]'>
+              <Image
+                className='w-full h-full object-contain object-left'
+                src='/images/logo.png'
+                width={80}
+                height={80}
+                alt='logo'
+              />
+            </div>
+            <span className='font-bold text-3xl text-orange-500'>ERE</span>
+          </div>
 
-      <div className='hidden md:block absolute z-20 top-[15.5%] left-0 pl-[40px] leading-10 text-[28px] max-w-[33%]'>
-        Let&apos;s develop knowledge together anytime, anywhere.
-      </div>
+          <Divider size={4} />
 
-      <div className='hidden md:block absolute z-20 left-[3vw] bottom-[10%] w-[38vw] lg:w-[30vw]'>
-        <Image
-          className='w-full h-full object-contain object-top'
-          src='/images/focus_image.png'
-          width={625}
-          height={680}
-          alt='vector-5'
-        />
-      </div>
-
-      <div className='flex justify-center px-[10%] pt-24 absolute z-10 top-0 right-0 bottom-0 h-screen w-full md:w-2/3 bg-primary md:rounded-l-[40px] md:shadow-lg md:border-l-2 md:border-gray-500 overflow-y-scroll'>
-        <div className='flex flex-col gap-6 w-full'>
-          <h1 className='font-semibold text-3xl'>Reset Password</h1>
+          <h1 className='font-semibold text-3xl text-center'>Reset Password</h1>
 
           <Divider size={4} />
           <Input
@@ -205,19 +198,21 @@ function ResetPasswordPage() {
             errors={errors}
             required
             type='text'
-            className='min-w-[40%]'
+            className='min-w-[40%] mt-6'
             onFocus={() => clearErrors('password')}
           />
 
-          <Link href='/auth/login' className='text-right -mt-4 underline underline-offset-2'>
-            Back to login?
+          <Link
+            href='/auth/login'
+            className='block w-full text-right text-sm underline underline-offset-2 mt-2'>
+            Back to login
           </Link>
 
           <div className='flex items-center justify-end gap-3'>
             <button
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={`border border-dark text-dark rounded-3xl px-5 py-2.5 font-bold text-lg hover:bg-white common-transition ${
+              className={`border border-dark bg-secondary text-dark rounded-3xl px-5 py-1.5 mt-5 font-bold text-lg hover:bg-white common-transition ${
                 isLoading ? 'bg-slate-200 pointer-events-none' : ''
               }`}>
               {isLoading ? (
@@ -231,7 +226,7 @@ function ResetPasswordPage() {
             </button>
           </div>
 
-          <Divider size={4} />
+          <Divider size={10} />
 
           <p className='font-semibold text-center'>
             Don&apos;t have an account yet?{' '}
@@ -239,11 +234,16 @@ function ResetPasswordPage() {
               Create Now
             </Link>
           </p>
+
+          <Divider size={6} />
+
           <div className='relative w-full h-px bg-black mt-2'>
-            <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary px-3 py-2 font-semibold'>
+            <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 py-2 font-semibold'>
               Or
             </span>
           </div>
+
+          <Divider size={6} />
 
           <div className='flex flex-wrap md:flex-nowrap justify-center gap-x-6 gap-y-4'>
             <button className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'>
@@ -256,7 +256,9 @@ function ResetPasswordPage() {
                   alt='github'
                 />
               </div>
-              <span className='font-semibold text-sm'>Login with GitHub</span>
+              <span className='font-semibold text-sm' onClick={() => signIn('github')}>
+                Login with GitHub
+              </span>
             </button>
 
             <button className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'>
@@ -269,11 +271,13 @@ function ResetPasswordPage() {
                   alt='github'
                 />
               </div>
-              <span className='font-semibold text-sm'>Login with Google</span>
+              <span className='font-semibold text-sm' onClick={() => signIn('google')}>
+                Login with Google
+              </span>
             </button>
           </div>
 
-          <Divider size={20} />
+          <Divider size={8} />
         </div>
       </div>
     </div>

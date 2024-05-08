@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { FaUber } from 'react-icons/fa'
+import { FaCircleNotch } from 'react-icons/fa'
 
 function RegisterPage() {
   // hooks
@@ -225,6 +225,7 @@ function RegisterPage() {
               errors={errors}
               required
               type='text'
+              labelBg='bg-primary'
               className='min-w-[40%] w-full sm:w-auto'
               onFocus={() => clearErrors('firstName')}
             />
@@ -237,6 +238,7 @@ function RegisterPage() {
               errors={errors}
               required
               type='text'
+              labelBg='bg-primary'
               className='min-w-[40%] w-full sm:w-auto'
               onFocus={() => clearErrors('lastName')}
             />
@@ -250,6 +252,7 @@ function RegisterPage() {
             errors={errors}
             required
             type='text'
+            labelBg='bg-primary'
             className='min-w-[40%]'
             onFocus={() => clearErrors('username')}
           />
@@ -262,6 +265,7 @@ function RegisterPage() {
             errors={errors}
             required
             type='text'
+            labelBg='bg-primary'
             className='min-w-[40%]'
             onFocus={() => clearErrors('email')}
           />
@@ -274,15 +278,26 @@ function RegisterPage() {
             errors={errors}
             required
             type='password'
+            labelBg='bg-primary'
             className='min-w-[40%]'
             onFocus={() => clearErrors('password')}
           />
 
-          <div className='flex justify-center'>
+          <div className='flex items-center justify-center gap-3'>
             <button
-              className='border border-dark bg-secondary text-dark rounded-3xl px-5 py-2.5 font-bold text-lg hover:bg-white common-transition'
-              onClick={handleSubmit(onSubmit)}>
-              Create Account
+              onClick={handleSubmit(onSubmit)}
+              disabled={isLoading}
+              className={`h-[50px] flex items-center justify-center border border-dark bg-secondary text-dark rounded-3xl px-5 mt-3 font-bold text-lg hover:bg-white common-transition ${
+                isLoading ? 'bg-slate-200 pointer-events-none' : ''
+              }`}>
+              {isLoading ? (
+                <FaCircleNotch
+                  size={18}
+                  className='text-slate-700 group-hover:text-dark common-transition animate-spin'
+                />
+              ) : (
+                'Create Account'
+              )}
             </button>
           </div>
 
@@ -290,11 +305,11 @@ function RegisterPage() {
 
           <p className='font-semibold text-center'>
             Already have an account?{' '}
-            <Link href='/auth/login' className='underline'>
+            <Link href='/auth/login' className='underline underline-offset-2'>
               Login
             </Link>
           </p>
-          <div className='relative w-full h-px bg-black mt-2'>
+          <div className='relative w-full border h-2 border-dark mt-2'>
             <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary px-3 py-2 font-semibold'>
               Or
             </span>
@@ -311,7 +326,9 @@ function RegisterPage() {
                   alt='github'
                 />
               </div>
-              <span className='font-semibold text-sm'>Sign up with GitHub</span>
+              <span className='font-semibold text-sm' onClick={() => signIn('github')}>
+                Sign up with GitHub
+              </span>
             </button>
 
             <button className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'>
@@ -324,7 +341,9 @@ function RegisterPage() {
                   alt='github'
                 />
               </div>
-              <span className='font-semibold text-sm'>Sign up with Google</span>
+              <span className='font-semibold text-sm' onClick={() => signIn('google')}>
+                Sign up with Google
+              </span>
             </button>
           </div>
 
