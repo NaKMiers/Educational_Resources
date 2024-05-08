@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { IUser } from './UserModel'
 const Schema = mongoose.Schema
 
 const ReportSchema = new Schema(
@@ -20,8 +21,9 @@ const ReportModel = mongoose.models.report || mongoose.model('report', ReportSch
 export default ReportModel
 
 export interface IReport {
-  userId: string
+  _id: string
+  userId: string | IUser
   content: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

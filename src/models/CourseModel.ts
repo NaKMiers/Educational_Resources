@@ -1,5 +1,9 @@
 import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
+import { IFlashSale } from './FlashSaleModel'
+import { ITag } from './TagModel'
+import { ICategory } from './CategoryModel'
+import { IUser } from './UserModel'
 const Schema = mongoose.Schema
 
 const CourseSchema = new Schema(
@@ -39,11 +43,12 @@ const CourseSchema = new Schema(
         },
       ],
     },
-    category: {
-      type: Schema.Types.ObjectId,
-      ref: 'category',
-      required: true,
-    },
+    categories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'category',
+      },
+    ],
     images: {
       type: [
         {
@@ -92,18 +97,19 @@ const CourseModel = mongoose.models.course || mongoose.model('course', CourseSch
 export default CourseModel
 
 export interface ICourse {
+  _id: string
   title: string
   oldPrice: number
   price: number
   description: string
-  flashSale: string
-  tags: string[]
-  category: string
+  flashSale: string | IFlashSale
+  tags: string[] | ITag[]
+  categories: string | ICategory[]
   images: string[]
   joined: number
   slug: string
   active: boolean
-  likes: string[]
+  likes: string[] | IUser[]
   createdAt: string
   updatedAt: string
 }

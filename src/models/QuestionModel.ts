@@ -1,5 +1,6 @@
 import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
+import { IUser } from './UserModel'
 const Schema = mongoose.Schema
 
 const QuestionSchema = new Schema(
@@ -39,10 +40,11 @@ const QuestionModel = mongoose.models.question || mongoose.model('question', Que
 export default QuestionModel
 
 export interface IQuestion {
+  _id: string
+  userId: string | IUser
   title: string
   slug: string
-  userId: string
   status: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

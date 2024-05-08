@@ -1,4 +1,7 @@
 import mongoose from 'mongoose'
+import { IUser } from './UserModel'
+import { ILesson } from './LessonModel'
+import { IQuestion } from './QuestionModel'
 const Schema = mongoose.Schema
 
 const CommentSchema = new Schema(
@@ -44,13 +47,14 @@ const CommentModel = mongoose.models.comment || mongoose.model('comment', Commen
 export default CommentModel
 
 export interface IComment {
-  userId: string
-  lessonId: string
-  questionId: string
+  _id: string
+  userId: string | IUser
+  lessonId: string | ILesson
+  questionId: string | IQuestion
   content: string
-  replied: string[]
-  likes: string[]
+  replied: string[] | IComment[]
+  likes: string[] | IUser[]
   hide: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

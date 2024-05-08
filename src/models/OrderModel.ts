@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import { IUser } from './UserModel'
+import { IVoucher } from './VoucherModel'
 const Schema = mongoose.Schema
 
 const OrderSchema = new Schema(
@@ -57,15 +59,16 @@ const OrderModel = mongoose.models.order || mongoose.model('order', OrderSchema)
 export default OrderModel
 
 export interface IOrder {
+  _id: string
   code: string
-  userId: string
+  userId: string | IUser
   email: string
   total: number
-  voucherApplied: string
+  voucherApplied: string | IVoucher
   discount: number
   items: any[]
   status: string
   paymentMethod: string
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

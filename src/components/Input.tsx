@@ -39,7 +39,7 @@ function Input({
   onFocus,
   minDate,
   maxDate,
-  labelBg,
+  labelBg = 'bg-white',
   className = '',
 }: InputProps) {
   // states

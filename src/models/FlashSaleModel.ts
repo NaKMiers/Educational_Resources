@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { ICourse } from './CourseModel'
 const Schema = mongoose.Schema
 
 const FlashSaleSchema = new Schema(
@@ -49,13 +50,15 @@ const FlashSaleModel = mongoose.models.flashSale || mongoose.model('flashSale', 
 export default FlashSaleModel
 
 export interface IFlashSale {
+  _id: string
   type: string
   value: string
-  begin: Date
+  begin: string
   timeType: string
   duration: number
-  expire: Date
+  expire: string
   courseQuantity: number
-  createdAt: Date
-  updatedAt: Date
+  courses?: ICourse[]
+  createdAt: string
+  updatedAt: string
 }

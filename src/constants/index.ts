@@ -1,7 +1,8 @@
 import { FaTicketAlt } from 'react-icons/fa'
-import { FaBoltLightning, FaCubes, FaGift, FaListCheck, FaTags, FaUser } from 'react-icons/fa6'
-import { MdCategory, MdSpaceDashboard } from 'react-icons/md'
+import { FaBoltLightning, FaListCheck, FaTags, FaUser } from 'react-icons/fa6'
+import { MdCategory, MdPlayLesson, MdReportOff, MdSpaceDashboard } from 'react-icons/md'
 import { RiBillFill } from 'react-icons/ri'
+import { SiCoursera } from 'react-icons/si'
 
 // MARK: Admin Links
 export const adminLinks = [
@@ -26,16 +27,30 @@ export const adminLinks = [
     ],
   },
   {
-    title: 'Account',
-    Icon: FaGift,
+    title: 'Course',
+    Icon: SiCoursera,
     links: [
       {
-        title: 'All Accounts',
-        href: '/admin/account/all',
+        title: 'All Courses',
+        href: '/admin/course/all',
       },
       {
-        title: 'Add Account',
-        href: '/admin/account/add',
+        title: 'Add Course',
+        href: '/admin/course/add',
+      },
+    ],
+  },
+  {
+    title: 'Lesson',
+    Icon: MdPlayLesson,
+    links: [
+      {
+        title: 'All Lessons',
+        href: '/admin/lesson/all',
+      },
+      {
+        title: 'Add Lesson',
+        href: '/admin/lesson/add',
       },
     ],
   },
@@ -59,20 +74,7 @@ export const adminLinks = [
       },
     ],
   },
-  {
-    title: 'Product',
-    Icon: FaCubes,
-    links: [
-      {
-        title: 'All Products',
-        href: '/admin/product/all',
-      },
-      {
-        title: 'Add Product',
-        href: '/admin/product/add',
-      },
-    ],
-  },
+
   {
     title: 'Tag',
     Icon: FaTags,
@@ -126,6 +128,16 @@ export const adminLinks = [
       {
         title: 'Add Flash Sale',
         href: '/admin/flash-sale/add',
+      },
+    ],
+  },
+  {
+    title: 'Report',
+    Icon: MdReportOff,
+    links: [
+      {
+        title: 'All Reports',
+        href: '/admin/report/all',
       },
     ],
   },

@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
+import { ICourse } from './CourseModel'
+import { IVoucher } from './VoucherModel'
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
@@ -169,27 +171,35 @@ export default UserModel
 
 export interface IUser {
   _id: string
-  username?: string
+  username: string
   email: string
-  password?: string
-  balance: number
-  accumulated: number
-  role: 'admin' | 'user' | 'editor' | 'collaborator'
-  avatar: string
-  firstname?: string
-  lastname?: string
-  birthday?: string
-  phone?: string
-  address?: string
-  job?: string
-  authType: 'local' | 'google' | 'facebook'
-  commission?: {
-    type: 'percentage' | 'fixed'
-    value: string
-  }
-  totalIncome?: number
+  phone: string
   verifiedEmail: boolean
   verifiedPhone: boolean
+  password: string
+  authType: string
+  role: string
+  avatar: string
+  firstName: string
+  lastName: string
+  birthday: string
+  address: string
+  job: string
+  expended: number
+  courses: { course: ICourse; progress: number }[]
+  gifts: string[] | ICourse[]
+  notifications: string[]
+  notificationSettings: {
+    newLesson: boolean
+    repliedComment: boolean
+    emotionComment: boolean
+    repliedQuestion: boolean
+  }
+  blockStatuses: {
+    blockedComment: boolean
+    repliedComment: boolean
+  }
   createdAt: string
   updatedAt: string
+  vouchers?: IVoucher[]
 }

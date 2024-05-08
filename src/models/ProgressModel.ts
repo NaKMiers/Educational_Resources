@@ -1,4 +1,7 @@
 import mongoose from 'mongoose'
+import { ICourse } from './CourseModel'
+import { IUser } from './UserModel'
+import { ILesson } from './LessonModel'
 const Schema = mongoose.Schema
 
 const ProgressSchema = new Schema(
@@ -34,11 +37,12 @@ const ProgressModel = mongoose.models.progress || mongoose.model('progress', Pro
 export default ProgressModel
 
 export interface IProgress {
-  userId: string
-  courseId: string
-  lessonId: string
+  _id: string
+  userId: string | IUser
+  courseId: string | ICourse
+  lessonId: string | ILesson
   status: string
   progress: number
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

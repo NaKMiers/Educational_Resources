@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { IUser } from './UserModel'
 const Schema = mongoose.Schema
 
 const VoucherSchema = new Schema(
@@ -88,7 +89,7 @@ export interface IVoucher {
   type: 'fixed-reduce' | 'fixed' | 'percentage'
   timesLeft?: number
   value: string
-  owner: string
+  owner: string | IUser
   usedUsers: string[]
   active: boolean
   accumulated: number

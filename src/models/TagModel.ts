@@ -38,10 +38,11 @@ const TagModel = mongoose.models.tag || mongoose.model('tag', TagSchema)
 export default TagModel
 
 export interface ITag {
+  _id: string
   title: string
   slug: string
   courseQuantity: number
   booted: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

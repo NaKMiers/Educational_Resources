@@ -38,10 +38,11 @@ const CategoryModel = mongoose.models.category || mongoose.model('category', Cat
 export default CategoryModel
 
 export interface ICategory {
+  _id: string
   title: string
   slug: string
   courseQuantity: number
   booted: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }

@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import { IUser } from './UserModel'
+import { ICourse } from './CourseModel'
 const Schema = mongoose.Schema
 
 const LessonSchema = new Schema(
@@ -46,14 +48,15 @@ const LessonModel = mongoose.models.lesson || mongoose.model('lesson', LessonSch
 export default LessonModel
 
 export interface ILesson {
-  courseId: string
+  _id: string
+  courseId: string | ICourse
   title: string
   slug: string
   duration: number
   source: string
   description: string
   active: boolean
-  likes: string[]
-  createdAt: Date
-  updatedAt: Date
+  likes: string[] | IUser[]
+  createdAt: string
+  updatedAt: string
 }
