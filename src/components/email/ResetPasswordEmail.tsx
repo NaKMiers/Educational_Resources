@@ -48,24 +48,22 @@ function ResetPasswordEmail({
           <Section className='px-5'>
             <p>Hi {name},</p>
             <p>
-              Bạn đã gửi yêu cầu khôi phục mật khẩu tại{' '}
-              <span className='font-semibold'>&quot;Anpha Shop&quot;</span> lúc{' '}
-              {new Intl.DateTimeFormat('vi', {
+              You have sent a request to restore password at{' '}
+              <span className='font-semibold'>&quot;ERE&quot;</span> at{' '}
+              {new Intl.DateTimeFormat('en', {
                 dateStyle: 'full',
                 timeStyle: 'medium',
                 timeZone: 'Asia/Ho_Chi_Minh',
-              })
-                .format(new Date())
-                .replace('lúc', '')}
+              }).format(new Date())}
               .
             </p>
 
-            <p>Nếu đây không phải là bạn, vui lòng bỏ qua email này.</p>
+            <p>If this is not you, please ignore this email.</p>
 
             <p>
-              Ngược lại, nếu đây là bạn, hãy ấn nút bên dưới để{' '}
+              On the contrary, if this is you, please click the button below to
               <a href={link} className='text-blue-500'>
-                khôi phục mật khẩu của bạn
+                restore your password
               </a>{' '}
               ngay.
             </p>
@@ -74,24 +72,21 @@ function ResetPasswordEmail({
               <a
                 href={link}
                 className='inline bg-primary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
-                Khôi phục mật khẩu
+                Restore password
               </a>
             </div>
 
+            <p>To keep your account in secure, do not share this email to anyone else!</p>
             <p>
-              Để giữ có tài khoản của bạn được an toàn, vui lòng không chia sẻ email này với bất kỳ ai.
-            </p>
-            <p>
-              Nếu có bất kỳ thắc mắc nào? Vui lòng liên hệ Anpha Shop để được hỗ trợ một cách nhiệt tình
-              và nhanh chống:{' '}
+              If you have any questions? Please contact us for fast and enthusiastic support:{' '}
               <a href='https://www.messenger.com/t/170660996137305' className='text-blue-500'>
-                Liên hệ
+                Contact
               </a>
             </p>
             <p>
-              Chân thành cảm ơn,
+              Thank you very much,
               <br />
-              Anpha Shop
+              ERE
             </p>
           </Section>
 
@@ -105,7 +100,8 @@ function ResetPasswordEmail({
           </div>
 
           <p className='text-center text-xs text-slate-600'>
-            © 2023 | Anpha Shop - Developed by Nguyen Anh Khoa, All rights reserved.
+            © 2023 | ERE - Developed by Nguyen Anh Khoa, Dao Gia Bao, Phuong Anh, Quoc Thang, All rights
+            reserved.
           </p>
 
           <div className='text-center'>

@@ -27,7 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang='vi'>
-      <body className='bg-black text-white' suppressHydrationWarning={true}>
+      <body className='' suppressHydrationWarning={true}>
         <StoreProvider session={session}>
           {/* Toast */}
           <Toaster
@@ -40,9 +40,7 @@ export default async function RootLayout({
           />
 
           {/* Main */}
-          <main className='px-21'>
-            <div className='max-w-1200 mx-auto'>{children}</div>
-          </main>
+          <main className=''>{children}</main>
         </StoreProvider>
       </body>
     </html>

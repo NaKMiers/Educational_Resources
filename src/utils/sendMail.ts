@@ -116,6 +116,9 @@ export async function sendResetPasswordEmail(email: string, name: string, link: 
   try {
     // Render template với dữ liệu
     const html = render(ResetPasswordEmail({ name, link }))
+
+    console.log('html', html)
+
     await sendMail(email, 'Khôi phục mật khẩu', html)
   } catch (err: any) {
     console.log(err)

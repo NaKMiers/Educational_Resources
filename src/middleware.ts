@@ -46,8 +46,8 @@ export default async function middleware(req: NextRequest) {
   // require admin
   if (
     req.nextUrl.pathname.startsWith('/admin') ||
-    req.nextUrl.pathname.startsWith('/api/admin') ||
-    req.nextUrl.pathname.startsWith('/email')
+    req.nextUrl.pathname.startsWith('/api/admin')
+    // || req.nextUrl.pathname.startsWith('/email')
   ) {
     return requireAdmin(req, token)
   }
@@ -63,11 +63,10 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // '/admin/:path*',
-    // '/api/admin/:path*',
+    '/admin/:path*',
+    '/api/admin/:path*',
     // '/user/:path*',
-    // '/recharge',
-    // '/auth/:path*',
+    '/auth/:path*',
     // '/email/:path*',
   ],
 }

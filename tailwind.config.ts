@@ -3,9 +3,9 @@ import type { Config } from 'tailwindcss'
 export const theme = {
   extend: {
     colors: {
-      primary: '#01dbe5',
-      secondary: '#7655e6',
-      dark: '#333',
+      primary: '#AAD7D9',
+      secondary: '#92A5CF',
+      dark: '#000000',
       light: '#fff',
       loading: '#334155',
     },
@@ -39,7 +39,7 @@ export const theme = {
     textColor: {
       light: '#fff',
       darker: '#003e70',
-      dark: '#333',
+      dark: '#000',
     },
     boxShadow: {
       'medium-light': '0px 2px 10px 1px rgba(255, 255, 255, 0.1)',

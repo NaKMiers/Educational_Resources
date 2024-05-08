@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     // connect to database
     await connectDatabase()
 
-    let { username, email, password } = await req.json()
+    let { firstName, lastName, username, email, password } = await req.json()
     email = email.toLowerCase()
 
     // check if user is already exist in database
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
       )
     }
     // create new user
-    const newUser = new UserModel({ username, email, password })
+    const newUser = new UserModel({ firstName, lastName, username, email, password })
     await newUser.save()
 
     // get resgisted user
