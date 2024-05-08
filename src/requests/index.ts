@@ -4,7 +4,7 @@ export * from './pageRequest'
 // Auth
 export * from './authRequest'
 
-// Product
+// Course
 export * from './courseRequest'
 
 // Category

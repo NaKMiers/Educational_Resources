@@ -7,18 +7,17 @@ import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICategory } from '@/models/CategoryModel'
 import { ITag } from '@/models/TagModel'
-import { addProductApi, getForceAllCagetoriesApi, getForceAllTagsApi } from '@/requests'
+import { addCourseApi, getForceAllCategoriesApi, getForceAllTagsApi } from '@/requests'
 import Image from 'next/image'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaFile, FaMoneyBillAlt } from 'react-icons/fa'
 import { FaPlay, FaX } from 'react-icons/fa6'
-
 import { MdNumbers } from 'react-icons/md'
 import { RiCharacterRecognitionLine } from 'react-icons/ri'
 
-function AddVoucherPage() {
+function AddCoursePage() {
   // hooks
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.modal.isLoading)
@@ -66,7 +65,7 @@ function AddVoucherPage() {
     const getCategories = async () => {
       try {
         // send request to server to get all categories
-        const { categories } = await getForceAllCagetoriesApi() // cache: no-store
+        const { categories } = await getForceAllCategoriesApi() // cache: no-store
         setCategories(categories)
       } catch (err: any) {
         console.log(err)
@@ -183,7 +182,7 @@ function AddVoucherPage() {
       files.forEach(file => formData.append('images', file))
 
       // send request to server to create new product
-      const { message } = await addProductApi(formData)
+      const { message } = await addCourseApi(formData)
 
       // show success message
       toast.success(message)
@@ -204,7 +203,7 @@ function AddVoucherPage() {
 
   return (
     <div className='max-w-1200 mx-auto'>
-      <AdminHeader title='Add Product' backLink='/admin/product/all' />
+      <AdminHeader title='Add Course' backLink='/admin/product/all' />
 
       <div className='pt-5' />
 
@@ -387,4 +386,4 @@ function AddVoucherPage() {
   )
 }
 
-export default AddVoucherPage
+export default AddCoursePage

@@ -7,12 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICategory } from '@/models/CategoryModel'
 import { ITag } from '@/models/TagModel'
-import {
-  getForceAllCagetoriesApi,
-  getForceAllTagsApi,
-  getProductApi,
-  updateProductApi,
-} from '@/requests'
+import { getForceAllCategoriesApi, getForceAllTagsApi, getCourseApi, updateCourseApi } from '@/requests'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -24,7 +19,7 @@ import { FaPlay, FaX } from 'react-icons/fa6'
 import { MdNumbers } from 'react-icons/md'
 import { RiCharacterRecognitionLine } from 'react-icons/ri'
 
-function AddProductPage() {
+function AddCoursePage() {
   // hooks
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.modal.isLoading)
@@ -61,29 +56,29 @@ function AddProductPage() {
   })
 
   // MARK: Get Data
-  // get product by id
+  // get course by id
   useEffect(() => {
-    const getProduct = async () => {
+    const getCourse = async () => {
       try {
-        // send request to server to get product
-        const { product } = await getProductApi(id) // cache: no-store
+        // send request to server to get course
+        const { course } = await getCourseApi(id) // cache: no-store
 
         // set value to form
-        setValue('title', product.title)
-        setValue('price', product.price)
-        setValue('oldPrice', product.oldPrice)
-        setValue('description', product.description)
-        setValue('active', product.active)
+        setValue('title', course.title)
+        setValue('price', course.price)
+        setValue('oldPrice', course.oldPrice)
+        setValue('description', course.description)
+        setValue('active', course.active)
 
-        setSelectedTags(product.tags)
-        setSelectedCategory(product.category)
-        setOriginalImages(product.images)
+        setSelectedTags(course.tags)
+        setSelectedCategory(course.category)
+        setOriginalImages(course.images)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
       }
     }
-    getProduct()
+    getCourse()
   }, [id, setValue])
 
   // get tags and categories
@@ -101,7 +96,7 @@ function AddProductPage() {
     const getCategories = async () => {
       try {
         // send request to server to get all categories
-        const { categories } = await getForceAllCagetoriesApi() // cache: no-store
+        const { categories } = await getForceAllCategoriesApi() // cache: no-store
         setCategories(categories)
       } catch (err: any) {
         console.log(err)
@@ -201,14 +196,14 @@ function AddProductPage() {
   )
 
   // MARK: Submit
-  // send data to server to create new product
+  // send data to server to create new course
   const onSubmit: SubmitHandler<FieldValues> = async data => {
     if (!handleValidate(data)) return
 
     dispatch(setLoading(true))
 
     try {
-      // send request to server to create new product
+      // send request to server to create new course
       const formData = new FormData()
 
       formData.append('title', data.title)
@@ -221,7 +216,7 @@ function AddProductPage() {
       formData.append('originalImages', JSON.stringify(originalImages))
       files.forEach(file => formData.append('images', file))
 
-      const { message } = await updateProductApi(id, formData)
+      const { message } = await updateCourseApi(id, formData)
 
       // show success message
       toast.success(message)
@@ -239,7 +234,7 @@ function AddProductPage() {
   return (
     <div className='max-w-1200 mx-auto'>
       {/* MARK: Admin Header */}
-      <AdminHeader title='Edit Product' backLink='/admin/product/all' />
+      <AdminHeader title='Edit Course' backLink='/admin/course/all' />
 
       <div className='mt-5'>
         {/* Title */}
@@ -441,4 +436,4 @@ function AddProductPage() {
   )
 }
 
-export default AddProductPage
+export default AddCoursePage
