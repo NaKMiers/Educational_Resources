@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #003e70;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
+}
+
+.common-transition {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.wiggle {
+  @apply group-hover:animate-scale-wiggle common-transition group-hover:scale-[1.2];
+  @apply hover:animate-scale-wiggle common-transition hover:scale-[1.2];
+  transform-origin: center;
+}
+
+.wiggle-0 {
+  @apply group-hover:animate-wiggle common-transition;
+  @apply hover:animate-wiggle common-transition;
+  transform-origin: center;
+}
+
+.wiggle-1 {
+  @apply hover:animate-scale-wiggle common-transition hover:scale-[1.2];
+  transform-origin: center;
+}
+
+.spin {
+  @apply animate-spin-slow text-primary/40;
+  animation-play-state: paused;
+
+  &:hover {
+    box-shadow: 0 0px 8px 2px currentColor;
+    animation-play-state: running;
+  }
+}
+
+.loading {
+  @apply bg-loading animate-pulse;
+}
+
+.number-input::-webkit-inner-spin-button,
+.number-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-input {
+  -moz-appearance: textfield;
+}
+
+.background-app {
+  background: linear-gradient(45deg, #333 80%, #01dbe5 20%);
+}
+
+@mixin underline--after($background-color, $repeat: false) {
+  position: relative;
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 0;
+    height: 1.5px;
+
+    transition: var(--common-transition);
+    background: $background-color;
+
+    @if $repeat {
+      animation: underline-repeat 1s ease-in-out infinite;
+    }
+  }
+}
+
+.no-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.md\:show-scrollbar {
+  @screen md {
+    &::-webkit-scrollbar {
+      display: initial; /* Thay 'none' bằng 'initial' để hiển thị lại thanh cuộn */
+    }
+  }
+}
+
+.input-range {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #25dbe6;
+    cursor: pointer;
+  }
+}
