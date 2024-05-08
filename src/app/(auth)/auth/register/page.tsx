@@ -147,7 +147,7 @@ function RegisterPage() {
   }, [handleSubmit, onSubmit])
 
   return (
-    <div className='relative min-h-screen w-full'>
+    <div className='relative min-h-screen w-full overflow-hidden'>
       <Image
         className='absolute z-30 top-0 left-0'
         src='/images/logo.png'

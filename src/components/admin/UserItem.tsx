@@ -7,7 +7,7 @@ import Image from 'next/image'
 import React, { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { FaPlus, FaPlusCircle, FaTrash } from 'react-icons/fa'
+import { FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { GrUpgrade } from 'react-icons/gr'
 import { HiLightningBolt } from 'react-icons/hi'
 import { RiCheckboxMultipleBlankLine, RiDonutChartFill } from 'react-icons/ri'
@@ -183,7 +183,7 @@ function UserItem({
   return (
     <>
       <div
-        className={`relative flex justify-between items-start gap-2 p-4 rounded-lg shadow-lg common-transition select-none  ${
+        className={`relative flex text-dark justify-between items-start gap-2 p-4 rounded-lg shadow-lg common-transition select-none  ${
           selectedUsers.includes(userData._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         } ${!isCurUser ? 'cursor-pointer' : ''} ${className}`}
         onClick={() =>
@@ -220,15 +220,6 @@ function UserItem({
               <span className='font-semibold'>Expended: </span>
               <span className='text-green-500'>{formatPrice(userData.expended)}</span>
             </p>
-            <button
-              className='group flex-shrink-0 rounded-full border-2 border-dark p-[2px] hover:scale-110 common-transition hover:border-primary'
-              onClick={e => e.stopPropagation()}>
-              <FaPlus
-                size={10}
-                className='group-hover:text-primary common-transition'
-                onClick={() => setIsOpenRecharge(true)}
-              />
-            </button>
           </div>
           {userData.username && (
             <p className='text-sm'>
