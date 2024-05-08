@@ -40,6 +40,7 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials: any) {
+        await connectDatabase()
         console.log('- Cedentials -', credentials)
 
         // check if credentials is empty
