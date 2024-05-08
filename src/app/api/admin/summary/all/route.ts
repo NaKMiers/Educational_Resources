@@ -1,16 +1,18 @@
 import { connectDatabase } from '@/config/database'
-import CategoryModel from '@/models/CategoryModel'
+import UserModel, { IUser } from '@/models/UserModel'
+import VoucherModel, { IVoucher } from '@/models/VoucherModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Category
-import '@/models/CategoryModel'
+// Models: User, Voucher
+import '@/models/UserModel'
+import '@/models/VoucherModel'
 
-export const dynamic = 'force-dynamic'
+export type UserWithVouchers = IUser & { vouchers: IVoucher[] }
 
-// [GET]: /admin/category/all
+// [GET]: /admin/summary/all
 export async function GET(req: NextRequest) {
-  console.log('- Get All Categories -')
+  console.log('- Get All Collaborators -')
 
   try {
     // connect to database
@@ -21,8 +23,8 @@ export async function GET(req: NextRequest) {
 
     // options
     let skip = 0
-    let itemPerPage = 10
-    const filter: { [key: string]: any } = {}
+    let itemPerPage = 9
+    const filter: { [key: string]: any } = { role: { $in: ['collaborator', 'editor'] } }
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
 
     // build filter
@@ -42,34 +44,27 @@ export async function GET(req: NextRequest) {
           continue
         }
 
-        if (key === 'courseQuantity') {
-          filter[key] = { $lte: +params[key][0] }
-          continue
-        }
-
         // Normal Cases ---------------------
         filter[key] = params[key].length === 1 ? params[key][0] : { $in: params[key] }
       }
     }
 
-    // get amount of account
-    const amount = await CategoryModel.countDocuments(filter)
+    // get amount of collaborators
+    const amount = await UserModel.countDocuments(filter)
 
-    // get all categories from database
-    const categories = await CategoryModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
+    // get all collaborators from database
+    const collaborators = await UserModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
 
-    // get all order without filter
-    const chops = await CategoryModel.aggregate([
-      {
-        $group: {
-          _id: null,
-          mincourseQuantity: { $min: '$courseQuantity' },
-          maxcourseQuantity: { $max: '$courseQuantity' },
-        },
-      },
-    ])
+    // get vouchers associated with each collaborator
+    const collaboratorsWithVouchers: UserWithVouchers[] = await Promise.all(
+      collaborators.map(async collaborator => {
+        const vouchers: IVoucher[] = await VoucherModel.find({ owner: collaborator._id }).lean()
+        return { ...collaborator, vouchers } as UserWithVouchers
+      })
+    )
 
-    return NextResponse.json({ categories, amount, chops: chops[0] }, { status: 200 })
+    // return all collaborators
+    return NextResponse.json({ collaborators: collaboratorsWithVouchers, amount }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

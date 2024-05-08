@@ -1,5 +1,5 @@
 import { connectDatabase } from '@/config/database'
-import TagModel from '@/models/TagModel'
+import TagModel, { ITag } from '@/models/TagModel'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Tag
@@ -14,13 +14,13 @@ export async function POST(req: NextRequest) {
     await connectDatabase()
 
     // get data field to add new tag
-    const { title, isFeatured } = await req.json()
+    const { title, booted } = await req.json()
 
     // create new tag
     const newTag = new TagModel({
       title: title.trim(),
-      isFeatured: !!isFeatured,
-    })
+      booted: !!booted,
+    } as ITag)
 
     // save new tag to database
     await newTag.save()

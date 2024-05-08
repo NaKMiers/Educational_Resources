@@ -9,7 +9,12 @@ import CategoryItem from '@/components/admin/CategoryItem'
 import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { ICategory } from '@/models/CategoryModel'
-import { deleteCategoriesApi, getAllCagetoriesApi } from '@/requests'
+import {
+  bootCategoriesApi,
+  deleteCategoriesApi,
+  getAllCategoriesApi,
+  updateCategoriesApi,
+} from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -32,9 +37,11 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
   const [categories, setCategories] = useState<ICategory[]>([])
   const [amount, setAmount] = useState<number>(0)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [editingValues, setEditingValues] = useState<EditingValues[]>([])
 
   // loading and confirming
   const [loadingCategories, setLoadingCategories] = useState<string[]>([])
+  const [editingCategories, setEditingCategories] = useState<string[]>([])
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState<boolean>(false)
 
   // values
@@ -47,9 +54,11 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
   const defaultValues = useMemo<FieldValues>(
     () => ({
       sort: 'updatedAt|-1',
+      booted: '',
     }),
     []
   )
+
   const {
     register,
     handleSubmit,
@@ -74,7 +83,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
 
       try {
         // sent request to server
-        const { categories, amount, chops } = await getAllCagetoriesApi(query) // cache: no-store
+        const { categories, amount, chops } = await getAllCategoriesApi(query) // cache: no-store
 
         // set to states
         setCategories(categories)
@@ -82,6 +91,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
 
         // sync search params with states
         setValue('sort', searchParams?.sort || getValues('sort'))
+        setValue('booted', searchParams?.booted || getValues('booted'))
 
         // set min and max
         setMinPQ(chops?.mincourseQuantity || 0)
@@ -101,7 +111,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
   }, [dispatch, searchParams, setValue, getValues])
 
   // MARK: Handlers
-  // handle delete category
+  // delete category
   const handleDeleteCategories = useCallback(async (ids: string[]) => {
     setLoadingCategories(ids)
 
@@ -109,7 +119,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
       // senred request to server
       const { deletedCategories, message } = await deleteCategoriesApi(ids)
 
-      // remove deleted tags from state
+      // remove deleted categories from state
       setCategories(prev =>
         prev.filter(
           category =>
@@ -125,6 +135,59 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
     } finally {
       setLoadingCategories([])
       setSelectedCategories([])
+    }
+  }, [])
+
+  // feature category
+  const handleBootCategories = useCallback(async (ids: string[], value: boolean) => {
+    try {
+      // senred request to server
+      const { updatedCategories, message } = await bootCategoriesApi(ids, value)
+
+      // update categories from state
+      setCategories(prev =>
+        prev.map(category =>
+          updatedCategories.map((category: ICategory) => category._id).includes(category._id)
+            ? { ...category, booted: value }
+            : category
+        )
+      )
+
+      // show success message
+      toast.success(message)
+    } catch (err: any) {
+      console.log(err)
+      toast.error(err.message)
+    }
+  }, [])
+
+  // handle submit edit category
+  const handleSaveEditingCategories = useCallback(async (editingValues: any[]) => {
+    setLoadingCategories(editingValues.map(t => t._id))
+
+    try {
+      // senred request to server
+      const { editedCategories, message } = await updateCategoriesApi(editingValues)
+
+      // update categories from state
+      setCategories(prev =>
+        prev.map(t =>
+          editedCategories.map((t: ICategory) => t._id).includes(t._id)
+            ? editedCategories.find((cat: ICategory) => cat._id === t._id)
+            : t
+        )
+      )
+      setEditingCategories(prev =>
+        prev.filter(id => !editedCategories.map((t: any) => t._id).includes(id))
+      )
+
+      // show success message
+      toast.success(message)
+    } catch (err: any) {
+      console.log(err)
+      toast.error(err.message)
+    } finally {
+      setLoadingCategories([])
     }
   }, [])
 
@@ -169,7 +232,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
       // push to router
       router.push(pathname + query)
     },
-    [handleOptimizeFilter, router, searchParams, pathname]
+    [handleOptimizeFilter, searchParams, router, pathname]
   )
 
   // handle reset filter
@@ -201,7 +264,14 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
 
     // Remove the event listener on cleanup
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [categories, selectedCategories, handleDeleteCategories, handleSubmit])
+  }, [
+    categories,
+    selectedCategories,
+    handleDeleteCategories,
+    handleFilter,
+    handleSubmit,
+    handleResetFilter,
+  ])
 
   return (
     <div className='w-full'>
@@ -211,10 +281,10 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
 
       {/* MARK: Filter */}
       <AdminMeta handleFilter={handleSubmit(handleFilter)} handleResetFilter={handleResetFilter}>
-        {/* Product Quantity */}
+        {/* Course Quantity */}
         <div className='flex flex-col col-span-12 md:col-span-4'>
           <label htmlFor='courseQuantity'>
-            <span className='font-bold'>Product Quantity: </span>
+            <span className='font-bold'>Course Quantity: </span>
             <span>{courseQuantity}</span> - <span>{maxPQ}</span>
           </label>
           <input
@@ -262,6 +332,34 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
               },
             ]}
           />
+
+          {/* Bootd */}
+          <Input
+            id='booted'
+            label='Bootd'
+            disabled={false}
+            register={register}
+            errors={errors}
+            icon={FaSort}
+            type='select'
+            onFocus={() => clearErrors('booted')}
+            options={[
+              {
+                value: '',
+                label: 'All',
+                selected: true,
+              },
+              {
+                value: 'true',
+                label: 'On',
+              },
+              {
+                value: 'false',
+                label: 'Off',
+              },
+            ]}
+            className='min-w-[120px]'
+          />
         </div>
 
         {/* MARK: Action Buttons */}
@@ -270,10 +368,59 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
           <button
             className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white common-transition'
             onClick={() =>
-              setSelectedCategories(selectedCategories.length > 0 ? [] : categories.map(tag => tag._id))
+              setSelectedCategories(
+                selectedCategories.length > 0 ? [] : categories.map(category => category._id)
+              )
             }>
             {selectedCategories.length > 0 ? 'Unselect All' : 'Select All'}
           </button>
+
+          {!!editingCategories.filter(id => selectedCategories.includes(id)).length && (
+            <>
+              {/* Save Many Button */}
+              <button
+                className='border border-green-500 text-green-500 rounded-lg px-3 py-2 hover:bg-green-500 hover:text-white common-transition'
+                onClick={() =>
+                  handleSaveEditingCategories(
+                    editingValues.filter(value => selectedCategories.includes(value._id))
+                  )
+                }>
+                Save All
+              </button>
+              {/* Cancel Many Button */}
+              <button
+                className='border border-slate-400 text-slate-400 rounded-lg px-3 py-2 hover:bg-slate-400 hover:text-white common-transition'
+                onClick={() => {
+                  // cancel editing values are selected
+                  setEditingCategories(editingCategories.filter(id => !selectedCategories.includes(id)))
+                  setEditingValues(
+                    editingValues.filter(value => !selectedCategories.includes(value._id))
+                  )
+                }}>
+                Cancel
+              </button>
+            </>
+          )}
+
+          {/* Mark Many Button */}
+          {!!selectedCategories.length &&
+            selectedCategories.some(id => !categories.find(category => category._id === id)?.booted) && (
+              <button
+                className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white common-transition'
+                onClick={() => handleBootCategories(selectedCategories, true)}>
+                Mark
+              </button>
+            )}
+
+          {/* Unmark Many Button */}
+          {!!selectedCategories.length &&
+            selectedCategories.some(id => categories.find(category => category._id === id)?.booted) && (
+              <button
+                className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
+                onClick={() => handleBootCategories(selectedCategories, false)}>
+                Unmark
+              </button>
+            )}
 
           {/* Delete Many Button */}
           {!!selectedCategories.length && (
@@ -298,19 +445,25 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
 
       {/* MARK: Amount */}
       <div className='p-3 text-sm text-right text-white font-semibold'>
-        {Math.min(itemPerPage * +(searchParams?.page || 1), amount)}/{amount}{' '}
-        {amount > 1 ? 'categories' : 'category'}
+        {Math.min(itemPerPage * +(searchParams?.page || 1), amount)}/{amount} category
+        {amount > 1 ? 's' : ''}
       </div>
 
       {/* MARK: MAIN LIST */}
-      <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-21'>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-21 lg:grid-cols-5'>
         {categories.map(category => (
           <CategoryItem
             data={category}
             loadingCategories={loadingCategories}
             selectedCategories={selectedCategories}
             setSelectedCategories={setSelectedCategories}
+            editingCategories={editingCategories}
+            setEditingCategories={setEditingCategories}
+            editingValues={editingValues}
+            setEditingValues={setEditingValues}
+            handleSaveEditingCategories={handleSaveEditingCategories}
             handleDeleteCategories={handleDeleteCategories}
+            handleBootCategories={handleBootCategories}
             key={category._id}
           />
         ))}

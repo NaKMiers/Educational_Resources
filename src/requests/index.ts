@@ -5,7 +5,7 @@ export * from './pageRequest'
 export * from './authRequest'
 
 // Product
-export * from './productRequest'
+export * from './courseRequest'
 
 // Category
 export * from './categoryRequest'

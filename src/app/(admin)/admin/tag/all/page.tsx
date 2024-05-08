@@ -9,7 +9,7 @@ import TagItem from '@/components/admin/TagItem'
 import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { ITag } from '@/models/TagModel'
-import { deleteTagsApi, featureTagsApi, getAllTagsApi, updateTagsApi } from '@/requests'
+import { deleteTagsApi, bootTagsApi, getAllTagsApi, updateTagsApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -49,7 +49,7 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
   const defaultValues = useMemo<FieldValues>(
     () => ({
       sort: 'updatedAt|-1',
-      isFeatured: '',
+      booted: '',
     }),
     []
   )
@@ -86,7 +86,7 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
 
         // sync search params with states
         setValue('sort', searchParams?.sort || getValues('sort'))
-        setValue('isFeatured', searchParams?.isFeatured || getValues('isFeatured'))
+        setValue('booted', searchParams?.booted || getValues('booted'))
 
         // set min and max
         setMinPQ(chops?.mincourseQuantity || 0)
@@ -129,15 +129,15 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
   }, [])
 
   // feature tag
-  const handleFeatureTags = useCallback(async (ids: string[], value: boolean) => {
+  const handleBootTags = useCallback(async (ids: string[], value: boolean) => {
     try {
       // senred request to server
-      const { updatedTags, message } = await featureTagsApi(ids, value)
+      const { updatedTags, message } = await bootTagsApi(ids, value)
 
       // update tags from state
       setTags(prev =>
         prev.map(tag =>
-          updatedTags.map((tag: ITag) => tag._id).includes(tag._id) ? { ...tag, isFeatured: value } : tag
+          updatedTags.map((tag: ITag) => tag._id).includes(tag._id) ? { ...tag, booted: value } : tag
         )
       )
 
@@ -258,10 +258,10 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
 
       {/* MARK: Filter */}
       <AdminMeta handleFilter={handleSubmit(handleFilter)} handleResetFilter={handleResetFilter}>
-        {/* Product Quantity */}
+        {/* Course Quantity */}
         <div className='flex flex-col col-span-12 md:col-span-4'>
           <label htmlFor='courseQuantity'>
-            <span className='font-bold'>Product Quantity: </span>
+            <span className='font-bold'>Course Quantity: </span>
             <span>{courseQuantity}</span> - <span>{maxPQ}</span>
           </label>
           <input
@@ -312,14 +312,14 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
 
           {/* Featured */}
           <Input
-            id='isFeatured'
+            id='booted'
             label='Featured'
             disabled={false}
             register={register}
             errors={errors}
             icon={FaSort}
             type='select'
-            onFocus={() => clearErrors('isFeatured')}
+            onFocus={() => clearErrors('booted')}
             options={[
               {
                 value: '',
@@ -376,7 +376,7 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
             selectedTags.some(id => !tags.find(tag => tag._id === id)?.booted) && (
               <button
                 className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white common-transition'
-                onClick={() => handleFeatureTags(selectedTags, true)}>
+                onClick={() => handleBootTags(selectedTags, true)}>
                 Mark
               </button>
             )}
@@ -386,7 +386,7 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
             selectedTags.some(id => tags.find(tag => tag._id === id)?.booted) && (
               <button
                 className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
-                onClick={() => handleFeatureTags(selectedTags, false)}>
+                onClick={() => handleBootTags(selectedTags, false)}>
                 Unmark
               </button>
             )}
@@ -431,7 +431,7 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
             setEditingValues={setEditingValues}
             handleSaveEditingTags={handleSaveEditingTags}
             handleDeleteTags={handleDeleteTags}
-            handleFeatureTags={handleFeatureTags}
+            handleBootTags={handleBootTags}
             key={tag._id}
           />
         ))}

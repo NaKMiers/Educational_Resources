@@ -50,8 +50,8 @@ export function SummaryEmail({ summary = summarySample }: { summary?: any }) {
               <Column className='font'>
                 <h1 className='text-2xl font-bold text-center'>
                   Hi{' '}
-                  {user.firstname && user.lastname
-                    ? user.firstname + ' ' + user.lastname
+                  {user.firstName && user.lastname
+                    ? user.firstName + ' ' + user.lastname
                     : user.username}
                   👋{' '}
                 </h1>
@@ -64,8 +64,8 @@ export function SummaryEmail({ summary = summarySample }: { summary?: any }) {
                   <p>
                     <b>Cộng tác viên: </b>
                     <span>
-                      {(user.firstname && user.lastname
-                        ? user.firstname + ' ' + user.lastname
+                      {(user.firstName && user.lastname
+                        ? user.firstName + ' ' + user.lastname
                         : user.username) || user.email}
                     </span>
                   </p>

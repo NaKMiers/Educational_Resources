@@ -66,8 +66,8 @@ function AdminMenu() {
             alt='avatar'
           />
           <span className='font-semibold font-body tracking-wide text-xl'>
-            {curUser?.firstname && curUser?.lastname
-              ? `${curUser.firstname} ${curUser.lastname}`
+            {curUser?.firstName && curUser?.lastName
+              ? `${curUser.firstName} ${curUser.lastName}`
               : curUser?.username}
           </span>
         </Link>

@@ -1,7 +1,9 @@
 // Category -------------------------------------
 
+import { EditingValues } from '@/app/(admin)/admin/category/all/page'
+
 // [GET]
-export const getAllCagetoriesApi = async (query: string = '') => {
+export const getAllCategoriesApi = async (query: string = '') => {
   // no cache
   const res = await fetch(`/api/admin/category/all${query}`, { cache: 'no-store' })
 
@@ -14,7 +16,7 @@ export const getAllCagetoriesApi = async (query: string = '') => {
 }
 
 // [GET]
-export const getForceAllCagetoriesApi = async (option: RequestInit = { cache: 'no-store' }) => {
+export const getForceAllCategoriesApi = async (option: RequestInit = { cache: 'no-store' }) => {
   // no cache
   const res = await fetch('/api/admin/category/force-all', option)
 
@@ -40,10 +42,10 @@ export const getCategoryApi = async (slug: string) => {
 }
 
 // [POST]
-export const addCategoryApi = async (data: FormData) => {
+export const addCategoryApi = async (data: any) => {
   const res = await fetch('/api/admin/category/add', {
     method: 'POST',
-    body: data,
+    body: JSON.stringify(data),
   })
 
   // check status
@@ -70,19 +72,34 @@ export const updateCategoryApi = async (slug: string, data: any) => {
 }
 
 // [PUT]
-// export const updateCategoriesApi = async (editingValues: EditingValues[]) => {
-//   const res = await fetch('/api/admin/category/edit', {
-//     method: 'PUT',
-//     body: JSON.stringify({ editingValues }),
-//   })
+export const updateCategoriesApi = async (editingValues: EditingValues[]) => {
+  const res = await fetch('/api/admin/category/edit', {
+    method: 'PUT',
+    body: JSON.stringify({ editingValues }),
+  })
 
-//   // check status
-//   if (!res.ok) {
-//     throw new Error((await res.json()).message)
-//   }
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
 
-//   return await res.json()
-// }
+  return await res.json()
+}
+
+// [PATCH]
+export const bootCategoriesApi = async (ids: string[], value: boolean) => {
+  const res = await fetch('/api/admin/category/boot', {
+    method: 'PATCH',
+    body: JSON.stringify({ ids, value }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
 
 // [DELETE]
 export const deleteCategoriesApi = async (ids: string[]) => {

@@ -21,7 +21,7 @@ interface TagItemProps {
 
   handleSaveEditingTags: (editingValues: { _id: string; value: string }[]) => void
   handleDeleteTags: (ids: string[]) => void
-  handleFeatureTags: (ids: string[], isFeatured: boolean) => void
+  handleBootTags: (ids: string[], isFeatured: boolean) => void
 }
 
 function TagItem({
@@ -40,7 +40,7 @@ function TagItem({
   // functions
   handleSaveEditingTags,
   handleDeleteTags,
-  handleFeatureTags,
+  handleBootTags,
 }: TagItemProps) {
   // states
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState<boolean>(false)
@@ -92,7 +92,7 @@ function TagItem({
               className='block group'
               onClick={e => {
                 e.stopPropagation()
-                handleFeatureTags([data._id], !data.booted)
+                handleBootTags([data._id], !data.booted)
               }}
               disabled={loadingTags.includes(data._id)}
               title={data.booted ? 'Mark Featured' : 'Mark Unfeatured'}>

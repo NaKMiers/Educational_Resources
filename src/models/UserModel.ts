@@ -89,6 +89,17 @@ const UserSchema = new Schema(
       type: Number,
       default: 0,
     },
+    commission: {
+      type: {
+        type: String,
+        enum: ['percentage', 'fixed'],
+        default: 'fixed',
+      },
+      value: {
+        type: String,
+        default: '0',
+      },
+    },
 
     // refs
     courses: [
@@ -186,6 +197,7 @@ export interface IUser {
   address: string
   job: string
   expended: number
+  commission: { type: string; value: string }
   courses: { course: ICourse; progress: number }[]
   gifts: string[] | ICourse[]
   notifications: string[]

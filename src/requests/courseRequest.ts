@@ -1,12 +1,12 @@
-// Product -------------------------------------
+// Course -------------------------------------
 
 // [GET]
-export const getAllProductsApi = async (
+export const getAllCoursesApi = async (
   query: string = '',
   option: RequestInit = { cache: 'no-store' }
 ) => {
   // no-store to avoid cache
-  const res = await fetch(`/api/admin/product/all${query}`, option)
+  const res = await fetch(`/api/admin/course/all${query}`, option)
 
   // check status
   if (!res.ok) {
@@ -17,9 +17,9 @@ export const getAllProductsApi = async (
 }
 
 // [GET]
-export const getForceAllProductsApi = async () => {
+export const getForceAllCoursesApi = async () => {
   // no-store to avoid cache
-  const res = await fetch(`/api/admin/product/force-all`, { cache: 'no-store' })
+  const res = await fetch(`/api/admin/course/force-all`, { cache: 'no-store' })
 
   // check status
   if (!res.ok) {
@@ -30,9 +30,9 @@ export const getForceAllProductsApi = async () => {
 }
 
 // [GET]
-export const getProductApi = async (id: string) => {
+export const getCourseApi = async (id: string) => {
   // no-cache
-  const res = await fetch(`/api/admin/product/${id}`, { cache: 'no-store' })
+  const res = await fetch(`/api/admin/course/${id}`, { cache: 'no-store' })
 
   // check status
   if (!res.ok) {
@@ -43,9 +43,9 @@ export const getProductApi = async (id: string) => {
 }
 
 // [GET]
-export const getBestSellerProductsApi = async () => {
+export const getBestSellerCoursesApi = async () => {
   // revalidate every 1 hour
-  const res = await fetch('/api/product/best-seller', { next: { revalidate: 0 } })
+  const res = await fetch('/api/course/best-seller', { next: { revalidate: 0 } })
 
   // check status
   if (!res.ok) {
@@ -56,9 +56,9 @@ export const getBestSellerProductsApi = async () => {
 }
 
 // [GET]
-export const searchProductsApi = async (search: string) => {
+export const searchCoursesApi = async (search: string) => {
   // no-cache
-  const res = await fetch(`/api/product/search?search=${search}`, { cache: 'no-store' })
+  const res = await fetch(`/api/course/search?search=${search}`, { cache: 'no-store' })
 
   // check status
   if (!res.ok) {
@@ -69,8 +69,8 @@ export const searchProductsApi = async (search: string) => {
 }
 
 // [POST]
-export const addProductApi = async (data: FormData) => {
-  const res = await fetch('/api/admin/product/add', {
+export const addCourseApi = async (data: FormData) => {
+  const res = await fetch('/api/admin/course/add', {
     method: 'POST',
     body: data,
   })
@@ -84,8 +84,8 @@ export const addProductApi = async (data: FormData) => {
 }
 
 // [PATCH]
-export const activateProductsApi = async (ids: string[], value: boolean) => {
-  const res = await fetch('/api/admin/product/activate', {
+export const activateCoursesApi = async (ids: string[], value: boolean) => {
+  const res = await fetch('/api/admin/course/activate', {
     method: 'PATCH',
     body: JSON.stringify({ ids, value }),
   })
@@ -100,7 +100,7 @@ export const activateProductsApi = async (ids: string[], value: boolean) => {
 
 // [PATCH]
 export const removeApplyingFlashSalesApi = async (ids: string[]) => {
-  const res = await fetch('/api/admin/product/remove-flash-sales', {
+  const res = await fetch('/api/admin/course/remove-flash-sales', {
     method: 'PATCH',
     body: JSON.stringify({ ids }),
   })
@@ -114,8 +114,8 @@ export const removeApplyingFlashSalesApi = async (ids: string[]) => {
 }
 
 // [PATCH]
-export const updateProductPropertyApi = async (id: string, field: string, value: any) => {
-  const res = await fetch(`/api/admin/product/${id}/edit-property/${field}`, {
+export const updateCoursePropertyApi = async (id: string, field: string, value: any) => {
+  const res = await fetch(`/api/admin/course/${id}/edit-property/${field}`, {
     method: 'PATCH',
     body: JSON.stringify({ value }),
   })
@@ -129,8 +129,8 @@ export const updateProductPropertyApi = async (id: string, field: string, value:
 }
 
 // [PATCH]
-export const syncProductsApi = async (ids: string[], all: boolean = false) => {
-  const res = await fetch(`/api/admin/product/sync`, {
+export const syncCoursesApi = async (ids: string[], all: boolean = false) => {
+  const res = await fetch(`/api/admin/course/sync`, {
     method: 'PATCH',
     body: JSON.stringify({ all, ids }),
   })
@@ -144,8 +144,8 @@ export const syncProductsApi = async (ids: string[], all: boolean = false) => {
 }
 
 // [PUT]
-export const updateProductApi = async (id: string, data: FormData) => {
-  const res = await fetch(`/api/admin/product/${id}/edit`, {
+export const updateCourseApi = async (id: string, data: FormData) => {
+  const res = await fetch(`/api/admin/course/${id}/edit`, {
     method: 'PUT',
     body: data,
   })
@@ -159,8 +159,8 @@ export const updateProductApi = async (id: string, data: FormData) => {
 }
 
 // [DELETE]
-export const deleteProductsApi = async (ids: string[]) => {
-  const res = await fetch('/api/admin/product/delete', {
+export const deleteCoursesApi = async (ids: string[]) => {
+  const res = await fetch('/api/admin/course/delete', {
     method: 'DELETE',
     body: JSON.stringify({ ids }),
   })

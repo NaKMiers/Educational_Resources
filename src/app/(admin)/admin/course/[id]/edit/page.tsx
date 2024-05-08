@@ -7,8 +7,14 @@ import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICategory } from '@/models/CategoryModel'
 import { ITag } from '@/models/TagModel'
-import { addProductApi, getForceAllCagetoriesApi, getForceAllTagsApi } from '@/requests'
+import {
+  getForceAllCagetoriesApi,
+  getForceAllTagsApi,
+  getProductApi,
+  updateProductApi,
+} from '@/requests'
 import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -18,28 +24,31 @@ import { FaPlay, FaX } from 'react-icons/fa6'
 import { MdNumbers } from 'react-icons/md'
 import { RiCharacterRecognitionLine } from 'react-icons/ri'
 
-function AddVoucherPage() {
+function AddProductPage() {
   // hooks
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.modal.isLoading)
+  const { id } = useParams<{ id: string }>()
+  const router = useRouter()
 
   // states
   const [tags, setTags] = useState<ITag[]>([])
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
-  const [isChecked, setIsChecked] = useState<boolean>(true)
 
+  const [originalImages, setOriginalImages] = useState<string[]>([])
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [files, setFiles] = useState<File[]>([])
 
-  // Form
+  // form
   const {
     register,
     handleSubmit,
     formState: { errors },
+    getValues,
+    setValue,
     setError,
-    reset,
     clearErrors,
   } = useForm<FieldValues>({
     defaultValues: {
@@ -47,9 +56,35 @@ function AddVoucherPage() {
       price: '',
       oldPrice: '',
       description: '',
-      isActive: true,
+      active: true,
     },
   })
+
+  // MARK: Get Data
+  // get product by id
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        // send request to server to get product
+        const { product } = await getProductApi(id) // cache: no-store
+
+        // set value to form
+        setValue('title', product.title)
+        setValue('price', product.price)
+        setValue('oldPrice', product.oldPrice)
+        setValue('description', product.description)
+        setValue('active', product.active)
+
+        setSelectedTags(product.tags)
+        setSelectedCategory(product.category)
+        setOriginalImages(product.images)
+      } catch (err: any) {
+        console.log(err)
+        toast.error(err.message)
+      }
+    }
+    getProduct()
+  }, [id, setValue])
 
   // get tags and categories
   useEffect(() => {
@@ -84,6 +119,7 @@ function AddVoucherPage() {
     }
   }, [imageUrls])
 
+  // MARK: Handlers
   // handle add files when user select files
   const handleAddFiles = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -154,16 +190,17 @@ function AddVoucherPage() {
         isValid = false
       }
 
-      if (!files.length) {
+      if (!files.length && !originalImages.length) {
         toast.error('Please select at least 1 image')
         isValid = false
       }
 
       return isValid
     },
-    [setError, selectedCategory, selectedTags, files]
+    [setError, selectedCategory, selectedTags, files, originalImages]
   )
 
+  // MARK: Submit
   // send data to server to create new product
   const onSubmit: SubmitHandler<FieldValues> = async data => {
     if (!handleValidate(data)) return
@@ -171,29 +208,26 @@ function AddVoucherPage() {
     dispatch(setLoading(true))
 
     try {
+      // send request to server to create new product
       const formData = new FormData()
 
       formData.append('title', data.title)
       formData.append('price', data.price)
       formData.append('oldPrice', data.oldPrice)
       formData.append('description', data.description)
-      formData.append('isActive', data.isActive)
+      formData.append('active', data.active)
       formData.append('tags', JSON.stringify(selectedTags))
       formData.append('category', selectedCategory)
+      formData.append('originalImages', JSON.stringify(originalImages))
       files.forEach(file => formData.append('images', file))
 
-      // send request to server to create new product
-      const { message } = await addProductApi(formData)
+      const { message } = await updateProductApi(id, formData)
 
       // show success message
       toast.success(message)
 
-      // reset form
-      setFiles([])
-      imageUrls.forEach(url => URL.revokeObjectURL(url))
-      setImageUrls([])
-      setSelectedTags([])
-      reset()
+      // redirect to back
+      router.back()
     } catch (err: any) {
       console.log(err)
       toast.error(err.message)
@@ -204,11 +238,10 @@ function AddVoucherPage() {
 
   return (
     <div className='max-w-1200 mx-auto'>
-      <AdminHeader title='Add Product' backLink='/admin/product/all' />
+      {/* MARK: Admin Header */}
+      <AdminHeader title='Edit Product' backLink='/admin/product/all' />
 
-      <div className='pt-5' />
-
-      <div>
+      <div className='mt-5'>
         {/* Title */}
         <Input
           id='title'
@@ -223,6 +256,7 @@ function AddVoucherPage() {
           onFocus={() => clearErrors('title')}
         />
 
+        {/* Prices */}
         <div className='mb-5 grid grid-cols-1 lg:grid-cols-2 gap-5'>
           {/* Price */}
           <Input
@@ -264,19 +298,24 @@ function AddVoucherPage() {
           onFocus={() => clearErrors('description')}
         />
 
+        {/* Active */}
         <div className='flex mb-4'>
           <div className='bg-white rounded-lg px-3 flex items-center'>
             <FaPlay size={16} className='text-secondary' />
           </div>
+          <input
+            checked={getValues('active')}
+            className='peer'
+            type='checkbox'
+            id='active'
+            hidden
+            {...register('active', { required: false })}
+          />
           <label
-            className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition  ${
-              isChecked ? 'bg-green-500 text-white' : 'bg-white text-green-500'
-            }`}
-            htmlFor='isActive'
-            onClick={() => setIsChecked(!isChecked)}>
+            className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white`}
+            htmlFor='active'>
             Active
           </label>
-          <input type='checkbox' id='isActive' hidden {...register('isActive', { required: false })} />
         </div>
 
         {/* Tags */}
@@ -293,6 +332,7 @@ function AddVoucherPage() {
                     )
                   }
                   hidden
+                  checked={selectedTags.some(t => t === tag._id)}
                   type='checkbox'
                   id={tag._id}
                 />
@@ -318,6 +358,7 @@ function AddVoucherPage() {
                 <input
                   onChange={() => setSelectedCategory(category._id)}
                   hidden
+                  checked={selectedCategory === category._id}
                   type='checkbox'
                   id={category._id}
                 />
@@ -333,7 +374,7 @@ function AddVoucherPage() {
           </div>
         </div>
 
-        {/* Images */}
+        {/* MARK: Images */}
         <div className='mb-5'>
           <div className='flex'>
             <span className='inline-flex items-center px-3 rounded-tl-lg rounded-bl-lg border-[2px] text-sm text-gray-900 border-slate-200 bg-slate-100'>
@@ -360,8 +401,20 @@ function AddVoucherPage() {
           </div>
         </div>
 
-        {!!imageUrls.length && (
+        {/* Image Urls */}
+        {(!!imageUrls.length || !!originalImages.length) && (
           <div className='flex flex-wrap gap-3 rounded-lg bg-white p-3 mb-5'>
+            {originalImages.map(url => (
+              <div className='relative' key={url}>
+                <Image className='rounded-lg' src={url} height={250} width={250} alt='thumbnail' />
+
+                <button
+                  onClick={() => setOriginalImages(prev => prev.filter(i => i !== url))}
+                  className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'>
+                  <FaX size={16} className='text-dark group-hover:text-white common-transition' />
+                </button>
+              </div>
+            ))}
             {imageUrls.map(url => (
               <div className='relative' key={url}>
                 <Image className='rounded-lg' src={url} height={250} width={250} alt='thumbnail' />
@@ -376,10 +429,11 @@ function AddVoucherPage() {
           </div>
         )}
 
+        {/* MARK: Save Button */}
         <LoadingButton
           className='px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
           onClick={handleSubmit(onSubmit)}
-          text='Add'
+          text='Save'
           isLoading={isLoading}
         />
       </div>
@@ -387,4 +441,4 @@ function AddVoucherPage() {
   )
 }
 
-export default AddVoucherPage
+export default AddProductPage

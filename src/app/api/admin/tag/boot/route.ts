@@ -5,9 +5,9 @@ import { NextRequest, NextResponse } from 'next/server'
 // Models: Tag
 import '@/models/TagModel'
 
-// [PATCH]: /admin/tag/feature
+// [PATCH]: /admin/tag/boot
 export async function PATCH(req: NextRequest) {
-  console.log('- Feature Tags - ')
+  console.log('- Boot Tags - ')
 
   try {
     // connect to database
@@ -17,7 +17,7 @@ export async function PATCH(req: NextRequest) {
     const { ids, value } = await req.json()
 
     // update tags from database
-    await TagModel.updateMany({ _id: { $in: ids } }, { $set: { isFeatured: value || false } })
+    await TagModel.updateMany({ _id: { $in: ids } }, { $set: { boot: value || false } })
 
     // get updated tags
     const updatedTags = await TagModel.find({ _id: { $in: ids } }).lean()

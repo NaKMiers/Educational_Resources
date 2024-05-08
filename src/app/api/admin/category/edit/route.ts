@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // Models: Category
 import '@/models/CategoryModel'
 
-// [PUT]: /admin/categories/edit
+// [PUT]: /api/admin/category/edit
 export async function PUT(req: NextRequest) {
   console.log('- Edit Categories -')
 
@@ -35,10 +35,9 @@ export async function PUT(req: NextRequest) {
     // wait for all update operations to complete
     const editedCategories = await Promise.all(updatePromises)
 
-    // return response
     return NextResponse.json({
       editedCategories,
-      message: `Edited Categories: ${editedCategories.map(cate => cate.title).join(', ')}`,
+      message: `Edited Categories: ${editedCategories.map(t => t.title).join(', ')}`,
     })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })

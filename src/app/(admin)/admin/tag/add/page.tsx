@@ -5,6 +5,7 @@ import LoadingButton from '@/components/LoadingButton'
 import AdminHeader from '@/components/admin/AdminHeader'
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
+import { ITag } from '@/models/TagModel'
 import { addTagApi } from '@/requests'
 import { useCallback, useEffect } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -27,8 +28,8 @@ function AddTagPage() {
   } = useForm<FieldValues>({
     defaultValues: {
       title: '',
-      isFeatured: false,
-    },
+      booted: false,
+    } as ITag,
   })
 
   // MARK: Submit
@@ -93,14 +94,14 @@ function AddTagPage() {
           <input
             className='peer'
             type='checkbox'
-            id='isFeatured'
+            id='booted'
             hidden
-            {...register('isFeatured', { required: false })}
+            {...register('booted', { required: false })}
           />
           <label
             className='select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white'
-            htmlFor='isFeatured'>
-            Featured
+            htmlFor='booted'>
+            Booted
           </label>
         </div>
 

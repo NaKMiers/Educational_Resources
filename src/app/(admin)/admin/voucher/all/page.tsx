@@ -18,7 +18,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaCalendar, FaSearch, FaSort } from 'react-icons/fa'
 
-export type VoucherWithOwner = IVoucher & { owner: { firstname: string; lastname: string } }
+export type VoucherWithOwner = IVoucher & { owner: { firstName: string; lastName: string } }
 
 function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
   // store

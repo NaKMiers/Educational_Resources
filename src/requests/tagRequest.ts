@@ -42,8 +42,8 @@ export const addTagApi = async (data: any) => {
 }
 
 // [PATCH]
-export const featureTagsApi = async (ids: string[], value: boolean) => {
-  const res = await fetch('/api/admin/tag/feature', {
+export const bootTagsApi = async (ids: string[], value: boolean) => {
+  const res = await fetch('/api/admin/tag/boot', {
     method: 'PATCH',
     body: JSON.stringify({ ids, value }),
   })

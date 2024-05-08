@@ -94,7 +94,7 @@ export async function GET(req: NextRequest) {
 
     // get all vouchers from database
     const vouchers = await VoucherModel.find(filter)
-      .populate('owner', 'firstname lastname')
+      .populate('owner', 'firstName lastName')
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)
