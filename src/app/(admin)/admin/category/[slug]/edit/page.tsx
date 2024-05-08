@@ -7,12 +7,10 @@ import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICategory } from '@/models/CategoryModel'
 import { getCategoryApi, updateCategoryApi } from '@/requests'
-import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { GrRadialSelected } from 'react-icons/gr'
 import { IoIosColorPalette } from 'react-icons/io'
 import { MdTitle } from 'react-icons/md'
 
@@ -97,22 +95,11 @@ function EditCategoryPage() {
   // edit category
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     async data => {
-      if (!category?.logo && !file) {
-        return toast.error('Please select a logo')
-      }
-
       dispatch(setLoading(true))
 
       try {
-        const formData = new FormData()
-        formData.append('title', data.title)
-        formData.append('color', data.color)
-        if (file) {
-          formData.append('logo', file)
-        }
-
         // add new category here
-        const { message } = await updateCategoryApi(slug, formData)
+        const { message } = await updateCategoryApi(slug, data)
 
         // show success message
         toast.success(message)
@@ -132,7 +119,7 @@ function EditCategoryPage() {
         dispatch(setLoading(false))
       }
     },
-    [dispatch, reset, router, file, imageUrl, slug, category]
+    [dispatch, reset, router, imageUrl, slug]
   )
 
   // revoke blob url when component unmount
@@ -158,26 +145,6 @@ function EditCategoryPage() {
       {/* MARK: Body */}
       <div className='mt-5'>
         <div className='mb-5 flex-wrap flex gap-5'>
-          <div
-            className='w-[50px] h-[50px] flex items-center justify-center bg-white rounded-lg p-1.5 cursor-pointer group'
-            onClick={() => logoInputRef.current?.click()}>
-            {imageUrl || category?.logo ? (
-              <Image
-                src={imageUrl || category?.logo || ''}
-                width={34}
-                height={34}
-                alt='logo'
-                className='w-full h-full rounded-md object-cover group-hover:opacity-50 common-transition'
-              />
-            ) : (
-              <GrRadialSelected
-                size={24}
-                className='text-secondary group-hover:opacity-50 common-transition'
-              />
-            )}
-            <input hidden type='file' onChange={handleAddFile} ref={logoInputRef} />
-          </div>
-
           <Input
             id='title'
             label='Title'

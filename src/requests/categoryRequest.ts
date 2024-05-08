@@ -55,10 +55,10 @@ export const addCategoryApi = async (data: FormData) => {
 }
 
 // [PUT]
-export const updateCategoryApi = async (slug: string, data: FormData) => {
+export const updateCategoryApi = async (slug: string, data: any) => {
   const res = await fetch(`/api/admin/category/${slug}/edit`, {
     method: 'PUT',
-    body: data,
+    body: JSON.stringify(data),
   })
 
   // check status
