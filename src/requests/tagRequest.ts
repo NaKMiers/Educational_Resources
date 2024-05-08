@@ -1,5 +1,3 @@
-import { EditingValues } from '@/app/(admin)/admin/tag/all/page'
-
 // Tag -------------------------------------
 
 // [GET]
@@ -59,7 +57,7 @@ export const featureTagsApi = async (ids: string[], value: boolean) => {
 }
 
 // [PUT]
-export const updateTagsApi = async (editingValues: EditingValues[]) => {
+export const updateTagsApi = async (editingValues: any[]) => {
   const res = await fetch('/api/admin/tag/edit', {
     method: 'PUT',
     body: JSON.stringify({ editingValues }),

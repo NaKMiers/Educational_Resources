@@ -210,7 +210,7 @@ function ForgotPasswordPage() {
 
           <p className='font-semibold text-center'>
             Don&apos;t have an account yet?{' '}
-            <Link href='/auth/register' className='underline'>
+            <Link href='/auth/register' className='underline underline-offset-2'>
               Create Now
             </Link>
           </p>
