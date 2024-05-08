@@ -6,7 +6,7 @@ import AdminHeader from '@/components/admin/AdminHeader'
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
-import { addFlashSaleApi, getAllProductsApi, getForceAllProductsApi } from '@/requests'
+import { addFlashSaleApi, getAllCoursesApi, getForceAllCoursesApi } from '@/requests'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -23,8 +23,8 @@ function AddFlashSalePage() {
   const isLoading = useAppSelector(state => state.modal.isLoading)
 
   // states
-  const [courses, setProducts] = useState<ICourse[]>([])
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([])
+  const [courses, setCourses] = useState<ICourse[]>([])
+  const [selectedCourses, setSelectedCourses] = useState<string[]>([])
   const [timeType, setTimeType] = useState<'loop' | 'once'>('loop')
 
   // form
@@ -50,13 +50,13 @@ function AddFlashSalePage() {
   // MARK: Get Data
   // get all courses to apply
   useEffect(() => {
-    const getAllProducts = async () => {
+    const getAllCourses = async () => {
       try {
         // send request to server
-        const { courses } = await getForceAllProductsApi()
+        const { courses } = await getForceAllCoursesApi()
 
         // // categorize courses
-        // const categorizedProductsObj = courses.reduce((acc: any, course: ICourse) => {
+        // const categorizedCoursesObj = courses.reduce((acc: any, course: ICourse) => {
         //   if (!acc[course.category.title]) {
         //     acc[course.category.title] = []
         //   }
@@ -64,16 +64,16 @@ function AddFlashSalePage() {
         //   return acc
         // }, {})
 
-        // const categorizedProducts = Object.values(categorizedProductsObj).flat() as ICourse[]
+        // const categorizedCourses = Object.values(categorizedCoursesObj).flat() as ICourse[]
 
         // set courses to state
-        // setProducts(categorizedProducts)
+        // setCourses(categorizedCourses)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
       }
     }
-    getAllProducts()
+    getAllCourses()
   }, [])
 
   // validate form
@@ -128,7 +128,7 @@ function AddFlashSalePage() {
       // send request to server
       const { message } = await addFlashSaleApi({
         ...data,
-        appliedProducts: selectedProducts,
+        appliedCourses: selectedCourses,
       })
 
       // show success message
@@ -136,11 +136,11 @@ function AddFlashSalePage() {
 
       // reset
       reset()
-      setSelectedProducts([])
+      setSelectedCourses([])
 
       // update courses
-      const { courses } = await getAllProductsApi()
-      setProducts(courses)
+      const { courses } = await getAllCoursesApi()
+      setCourses(courses)
     } catch (err: any) {
       console.log(err)
       toast.error(err.message)
@@ -277,12 +277,12 @@ function AddFlashSalePage() {
 
         {/* MARK: Apply */}
         {/* Ready to apply courses */}
-        <p className='text-white font-semibold text-xl mb-1'>Select Products</p>
+        <p className='text-white font-semibold text-xl mb-1'>Select Courses</p>
         <div className='max-h-[300px] overflow-y-auto flex flex-wrap rounded-lg bg-white p-3 gap-2 mb-5'>
           {courses.map(course => (
             <div
               className={`max-w-[250px] border-2 border-slate-300 rounded-lg flex items-center py-1 px-2 gap-2 cursor-pointer common-transition ${
-                selectedProducts.includes(course._id)
+                selectedCourses.includes(course._id)
                   ? 'bg-secondary border-white text-white'
                   : course.flashSale
                   ? 'bg-slate-200'
@@ -290,9 +290,9 @@ function AddFlashSalePage() {
               }`}
               title={course.title}
               onClick={() =>
-                selectedProducts.includes(course._id)
-                  ? setSelectedProducts(prev => prev.filter(id => id !== course._id))
-                  : setSelectedProducts(prev => [...prev, course._id])
+                selectedCourses.includes(course._id)
+                  ? setSelectedCourses(prev => prev.filter(id => id !== course._id))
+                  : setSelectedCourses(prev => [...prev, course._id])
               }
               key={course._id}>
               <Image
