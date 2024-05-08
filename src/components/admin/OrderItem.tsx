@@ -1,4 +1,3 @@
-import { FullyOrder } from '@/app/api/user/order-history/route'
 import { deliverOrderApi, reDeliverOrder } from '@/requests'
 import { formatPrice } from '@/utils/number'
 import { formatTime, isToday } from '@/utils/time'
@@ -14,13 +13,15 @@ import { RiDonutChartFill } from 'react-icons/ri'
 import { SiGooglemessages } from 'react-icons/si'
 import ConfirmDialog from '../ConfirmDialog'
 import Input from '../Input'
+import { IOrder } from '@/models/OrderModel'
+import { IVoucher } from '@/models/VoucherModel'
 
 interface OrderItemProps {
-  data: FullyOrder
+  data: IOrder
   loadingOrders: string[]
   className?: string
 
-  setOrders: React.Dispatch<React.SetStateAction<FullyOrder[]>>
+  setOrders: React.Dispatch<React.SetStateAction<IOrder[]>>
   selectedOrders: string[]
   setSelectedOrders: React.Dispatch<React.SetStateAction<string[]>>
 
@@ -238,8 +239,8 @@ function OrderItem({
           {data.voucherApplied && data.discount && (
             <p
               className='font-semibold text-slate-400 text-sm'
-              title={`voucherApplied: ${data.voucherApplied.desc}`}>
-              {data.voucherApplied.code}{' '}
+              title={`voucherApplied: ${(data.voucherApplied as IVoucher).desc}`}>
+              {(data.voucherApplied as IVoucher).code}{' '}
               <span className='text-secondary font-normal'>({formatPrice(data.discount)})</span>
             </p>
           )}
