@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       const link = `${process.env.NEXT_PUBLIC_APP_URL}/user?token=${sendToken}`
 
       const name =
-        (user.firstname && user.lastname ? `${user.firstname} ${user.lastname}` : user.username) ||
+        (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) ||
         user.email
 
       // send email
