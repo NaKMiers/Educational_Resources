@@ -225,8 +225,7 @@ function RegisterPage() {
               errors={errors}
               required
               type='text'
-              labelBg='bg-primary'
-              className='min-w-[40%] w-full sm:w-auto'
+              className='min-w-[40%] w-full sm:w-auto bg-white rounded-2xl'
               onFocus={() => clearErrors('firstName')}
             />
 
@@ -238,8 +237,7 @@ function RegisterPage() {
               errors={errors}
               required
               type='text'
-              labelBg='bg-primary'
-              className='min-w-[40%] w-full sm:w-auto'
+              className='min-w-[40%] w-full sm:w-auto bg-white rounded-2xl'
               onFocus={() => clearErrors('lastName')}
             />
           </div>
@@ -252,8 +250,7 @@ function RegisterPage() {
             errors={errors}
             required
             type='text'
-            labelBg='bg-primary'
-            className='min-w-[40%]'
+            className='min-w-[40%] w-full sm:w-auto bg-white rounded-2xl'
             onFocus={() => clearErrors('username')}
           />
 
@@ -265,8 +262,7 @@ function RegisterPage() {
             errors={errors}
             required
             type='text'
-            labelBg='bg-primary'
-            className='min-w-[40%]'
+            className='min-w-[40%] w-full sm:w-auto bg-white rounded-2xl'
             onFocus={() => clearErrors('email')}
           />
 
@@ -278,8 +274,7 @@ function RegisterPage() {
             errors={errors}
             required
             type='password'
-            labelBg='bg-primary'
-            className='min-w-[40%]'
+            className='min-w-[40%] w-full sm:w-auto bg-white rounded-2xl'
             onFocus={() => clearErrors('password')}
           />
 
@@ -316,7 +311,7 @@ function RegisterPage() {
           </div>
 
           <div className='flex flex-wrap md:flex-nowrap justify-center gap-x-6 gap-y-4'>
-            <button className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'>
+            <button className='flex items-center gap-2 group rounded-2xl border bg-white border-dark px-2.5 py-3'>
               <div className='aspect-square rounded-full wiggle flex-shrink-0'>
                 <Image
                   className='w-full h-full object-cover'
@@ -331,7 +326,7 @@ function RegisterPage() {
               </span>
             </button>
 
-            <button className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'>
+            <button className='flex items-center gap-2 group rounded-2xl border bg-white border-dark px-2.5 py-3'>
               <div className='aspect-square rounded-full wiggle flex-shrink-0'>
                 <Image
                   className='w-full h-full object-cover'

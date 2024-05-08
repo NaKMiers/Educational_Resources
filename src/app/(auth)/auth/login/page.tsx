@@ -82,9 +82,9 @@ function LoginPage() {
   }, [handleSubmit, onSubmit])
 
   return (
-    <div className='h-screen w-full md:px-[46px] md:py-[52px] overflow-hidden'>
-      <div className='relative flex justify-center h-full w-full bg-primary py-9 px-21 md:rounded-[40px] shadow-lg overflow-hidden'>
-        <div className='hidden md:block absolute top-0 left-0 w-[60%]'>
+    <div className='h-screen w-full lg:px-[46px] lg:py-[52px] overflow-hidden'>
+      <div className='relative flex justify-center h-full w-full bg-primary py-9 px-21 lg:rounded-[40px] shadow-lg overflow-hidden'>
+        <div className='hidden lg:block absolute top-0 left-0 w-[60%]'>
           <Image
             className='w-full h-full object-contain object-left-top opacity-50'
             src='/images/vector-5.png'
@@ -94,7 +94,7 @@ function LoginPage() {
           />
         </div>
 
-        <div className='hidden md:block absolute bottom-0 left-0 w-[60%]'>
+        <div className='hidden lg:block absolute bottom-0 left-0 w-[60%]'>
           <Image
             className='w-full h-full object-contain object-left-bottom'
             src='/images/vector-6.png'
@@ -104,8 +104,8 @@ function LoginPage() {
           />
         </div>
 
-        <div className='hidden md:block absolute z-20 left-[3vw] top-[20%] max-w-[34vw]'>
-          <div className='hidden md:block w-[25vw]'>
+        <div className='hidden lg:block absolute z-20 left-[3vw] top-[20%] max-w-[34vw]'>
+          <div className='hidden lg:block w-[25vw]'>
             <Image
               className='w-full h-full object-contain object-top'
               src='/images/focus_image.png'
@@ -123,7 +123,7 @@ function LoginPage() {
           </p>
         </div>
 
-        <div className='md:absolute top-1/2 md:right-[50px] md:-translate-y-1/2 px-[32px] py-2 max-w-[500px] w-full bg-white rounded-[28px] overflow-y-auto'>
+        <div className='lg:absolute top-1/2 lg:right-[50px] lg:-translate-y-1/2 px-[32px] py-2 max-w-[500px] w-full bg-white rounded-[28px] overflow-y-auto'>
           <div className='flex justify-center items-center gap-1'>
             <div className='w-[50px]'>
               <Image
@@ -212,7 +212,7 @@ function LoginPage() {
 
           <Divider size={6} />
 
-          <div className='flex flex-wrap md:flex-nowrap justify-center gap-x-6 gap-y-4'>
+          <div className='flex flex-wrap lg:flex-nowrap justify-center gap-x-6 gap-y-4'>
             <button className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'>
               <div className='aspect-square rounded-full wiggle flex-shrink-0'>
                 <Image

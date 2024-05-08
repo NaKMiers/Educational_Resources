@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className='bg-black flex justify-center items-center h-screen w-screen'>
       <button
-        className='px-5 py-3 bg-white text-dark rounded-lg shadow-lg'
+        className='px-5 py-3 bg-white text-dark rounded-lg shadow-sm shadow-light font-semibold hover:bg-slate-200 common-transition'
         onClick={() => {
           signOut()
           router.push('/auth/login')
