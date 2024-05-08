@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Product, Category, Tag
 import '@/models/CategoryModel'
-import '@/models/ProductModel'
+import '@/models/CourseModel'
 import '@/models/TagModel'
 
 // [PUT]: /api/admin/tag/:code/edit
@@ -22,7 +22,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     // let images = formData.getAll('images')
 
     // // get product from database to edit
-    // const product: IProduct | null = await ProductModel.findById(id).lean()
+    // const product: IProduct | null = await CourseModel.findById(id).lean()
 
     // // product does exist
     // if (!product) {
@@ -44,7 +44,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     // const newImages = Array.from(new Set([...stayImages, ...imageUrls]))
 
     // // update product in database
-    // await ProductModel.findByIdAndUpdate(id, {
+    // await CourseModel.findByIdAndUpdate(id, {
     //   $set: {
     //     title: title,
     //     price,

@@ -2,7 +2,6 @@ import { connectDatabase } from '@/config/database'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Product, Category, Tag, Flashsale, Account
-import '@/models/AccountModel'
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/FlashSaleModel'

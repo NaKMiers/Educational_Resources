@@ -1,7 +1,7 @@
 // import { FullyOrder } from '@/app/api/user/order-history/route'
 // import AccountModel, { IAccount } from '@/models/AccountModel'
 // import OrderModel from '@/models/OrderModel'
-// import ProductModel from '@/models/ProductModel'
+// import CourseModel from '@/models/CourseModel'
 // import UserModel from '@/models/UserModel'
 // import VoucherModel from '@/models/VoucherModel'
 // import { notifyDeliveryOrder, notifyShortageAccount } from '@/utils/sendMail'
@@ -11,7 +11,7 @@
 // // Models: Order, Account, Voucher, User, Product
 // import '@/models/AccountModel'
 // import '@/models/OrderModel'
-// import '@/models/ProductModel'
+// import '@/models/CourseModel'
 // import '@/models/UserModel'
 // import '@/models/VoucherModel'
 
@@ -203,7 +203,7 @@
 //   // do all the list of step preparation for accounts
 //   await AccountModel.bulkWrite(bulkOpsAccounts)
 //   // do all the list of step preparation for products
-//   await ProductModel.bulkWrite(bulkOpsProducts)
+//   await CourseModel.bulkWrite(bulkOpsProducts)
 //   // set order status
 //   await OrderModel.findByIdAndUpdate(order._id, {
 //     $set: { status: 'done' },

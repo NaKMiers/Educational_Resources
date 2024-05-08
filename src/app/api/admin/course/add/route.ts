@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Product, Tag, Category
 import '@/models/CategoryModel'
-import '@/models/ProductModel'
+import '@/models/CourseModel'
 import '@/models/TagModel'
 
 // [POST]: /admin/product/add
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     // const imageUrls = await Promise.all(images.map(file => uploadFile(file)))
 
     // // create new product
-    // const newProduct = new ProductModel({
+    // const newProduct = new CourseModel({
     //   title,
     //   price,
     //   description,
