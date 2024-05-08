@@ -6,24 +6,26 @@ import AdminHeader from '@/components/admin/AdminHeader'
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
-import { addFlashSaleApi, getAllProductsApi, getForceAllProductsApi } from '@/requests'
+import { getFlashSaleApi, updateFlashSaleApi } from '@/requests'
 import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaPause, FaPlay } from 'react-icons/fa6'
 import { IoReload } from 'react-icons/io5'
-
 import { MdNumbers } from 'react-icons/md'
 import { RiCharacterRecognitionLine } from 'react-icons/ri'
 
-function AddFlashSalePage() {
+function EditFlashSalePage() {
   // hooks
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.modal.isLoading)
+  const { id } = useParams<{ id: string }>()
+  const router = useRouter()
 
   // states
-  const [courses, setProducts] = useState<ICourse[]>([])
+  const [products, setProducts] = useState<ICourse[]>([])
   const [selectedProducts, setSelectedProducts] = useState<string[]>([])
   const [timeType, setTimeType] = useState<'loop' | 'once'>('loop')
 
@@ -34,7 +36,6 @@ function AddFlashSalePage() {
     formState: { errors },
     setValue,
     setError,
-    reset,
     clearErrors,
   } = useForm<FieldValues>({
     defaultValues: {
@@ -48,25 +49,50 @@ function AddFlashSalePage() {
   })
 
   // MARK: Get Data
-  // get all courses to apply
+  // get flash sale by id
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        // send request to server to get flash sale
+        const { flashSale } = await getFlashSaleApi(id) // cache: no-store
+
+        // // set value to form
+        setValue('type', flashSale.type)
+        setValue('value', flashSale.value)
+        setValue('begin', new Date(flashSale.begin).toISOString().split('T')[0])
+        setValue(
+          'expire',
+          flashSale.expire ? new Date(flashSale.expire).toISOString().split('T')[0] : ''
+        )
+        setValue('duration', flashSale.duration || 120)
+        setValue('timeType', flashSale.timeType)
+        setTimeType(flashSale.timeType)
+
+        setSelectedProducts(flashSale.products.map((product: ICourse) => product._id))
+      } catch (err: any) {
+        console.log(err)
+        toast.error(err.message)
+      }
+    }
+    getProduct()
+  }, [id, setValue])
+
+  // get all products to apply
   useEffect(() => {
     const getAllProducts = async () => {
       try {
-        // send request to server
-        const { courses } = await getForceAllProductsApi()
-
-        // // categorize courses
-        // const categorizedProductsObj = courses.reduce((acc: any, course: ICourse) => {
-        //   if (!acc[course.category.title]) {
-        //     acc[course.category.title] = []
+        // // send request to server
+        // const { products } = await getForceAllProductsApi()
+        // // categorize products
+        // const categorizedProductsObj = products.reduce((acc: any, product: ICourse) => {
+        //   if (!acc[product.categories.title]) {
+        //     acc[product.categories.title] = []
         //   }
-        //   acc[course.category.title].push(course)
+        //   acc[product.categories.title].push(product)
         //   return acc
         // }, {})
-
         // const categorizedProducts = Object.values(categorizedProductsObj).flat() as ICourse[]
-
-        // set courses to state
+        // // set products to state
         // setProducts(categorizedProducts)
       } catch (err: any) {
         console.log(err)
@@ -81,7 +107,6 @@ function AddFlashSalePage() {
     data => {
       let isValid = true
 
-      // if type if percentage, value must have % at the end
       if (data.type === 'percentage' && !data.value.endsWith('%')) {
         setError('value', { type: 'manual', message: 'Value must have %' })
         isValid = false
@@ -106,7 +131,7 @@ function AddFlashSalePage() {
       }
 
       // if expire is less than begin
-      if (new Date(data.expire).getTime() <= new Date(data.begin).getTime()) {
+      if (data.expire && new Date(data.expire) <= new Date(data.begin)) {
         setError('expire', { type: 'manual', message: 'Expire must be > begin' })
         isValid = false
       }
@@ -117,8 +142,9 @@ function AddFlashSalePage() {
   )
 
   // MARK: Submit
-  // handle send request to server to add flash sale
+  // handle send request to server to edit flash sale
   const onSubmit: SubmitHandler<FieldValues> = async data => {
+    // validate form
     if (!handleValidate(data)) return
 
     // set loading
@@ -126,21 +152,13 @@ function AddFlashSalePage() {
 
     try {
       // send request to server
-      const { message } = await addFlashSaleApi({
-        ...data,
-        appliedProducts: selectedProducts,
-      })
+      const { message } = await updateFlashSaleApi(id, data, selectedProducts)
 
       // show success message
       toast.success(message)
 
-      // reset
-      reset()
-      setSelectedProducts([])
-
-      // update courses
-      const { courses } = await getAllProductsApi()
-      setProducts(courses)
+      // redirect back
+      router.back()
     } catch (err: any) {
       console.log(err)
       toast.error(err.message)
@@ -151,10 +169,10 @@ function AddFlashSalePage() {
 
   return (
     <div className='max-w-1200 mx-auto'>
-      {/* MARK: Admin Header */}
-      <AdminHeader title='Add Flash Sale' backLink='/admin/flash-sale/all' />
+      {/* Admin Header */}
+      <AdminHeader title='Edit Flash Sale' backLink='/admin/flash-sale/all' />
 
-      <div className='mt-5 bg-slate-200 rounded-lg p-21'>
+      <div className='pt-5'>
         {/* Type */}
         <Input
           id='type'
@@ -209,15 +227,13 @@ function AddFlashSalePage() {
           errors={errors}
           required
           type='date'
-          minDate={new Date().toISOString().split('T')[0]}
           icon={FaPlay}
           className='mb-5'
           onFocus={() => clearErrors('begin')}
         />
 
-        {/* MARK: Time */}
+        {/* Time Type */}
         <div className='grid grid-col-1 lg:grid-cols-2 gap-5 mb-5'>
-          {/* Time Type */}
           <Input
             id='timeType'
             label='Time Type'
@@ -226,11 +242,11 @@ function AddFlashSalePage() {
             errors={errors}
             required
             type='select'
-            onFocus={() => clearErrors('timeType')}
             onChange={e => {
               setValue('timeType', e.target.value)
               setTimeType(e.target.value as 'loop' | 'once')
             }}
+            onFocus={() => clearErrors('timeType')}
             options={[
               {
                 label: 'Loop',
@@ -246,8 +262,7 @@ function AddFlashSalePage() {
             icon={RiCharacterRecognitionLine}
           />
 
-          {timeType === 'loop' ? (
-            // Duration
+          {timeType === 'loop' && (
             <Input
               id='duration'
               label='Duration'
@@ -259,8 +274,8 @@ function AddFlashSalePage() {
               icon={IoReload}
               onFocus={() => clearErrors('duration')}
             />
-          ) : (
-            // Expire
+          )}
+          {timeType === 'once' && (
             <Input
               id='expire'
               label='Expire'
@@ -275,45 +290,44 @@ function AddFlashSalePage() {
           )}
         </div>
 
-        {/* MARK: Apply */}
-        {/* Ready to apply courses */}
+        {/* MARK: Ready to apply products */}
         <p className='text-white font-semibold text-xl mb-1'>Select Products</p>
         <div className='max-h-[300px] overflow-y-auto flex flex-wrap rounded-lg bg-white p-3 gap-2 mb-5'>
-          {courses.map(course => (
+          {products.map(product => (
             <div
               className={`max-w-[250px] border-2 border-slate-300 rounded-lg flex items-center py-1 px-2 gap-2 cursor-pointer common-transition ${
-                selectedProducts.includes(course._id)
+                selectedProducts.includes(product._id)
                   ? 'bg-secondary border-white text-white'
-                  : course.flashSale
+                  : product.flashSale
                   ? 'bg-slate-200'
                   : ''
               }`}
-              title={course.title}
+              title={product.title}
               onClick={() =>
-                selectedProducts.includes(course._id)
-                  ? setSelectedProducts(prev => prev.filter(id => id !== course._id))
-                  : setSelectedProducts(prev => [...prev, course._id])
+                selectedProducts.includes(product._id)
+                  ? setSelectedProducts(prev => prev.filter(id => id !== product._id))
+                  : setSelectedProducts(prev => [...prev, product._id])
               }
-              key={course._id}>
+              key={product._id}>
               <Image
                 className='aspect-video rounded-md border-2 border-white'
-                src={course.images[0]}
+                src={product.images[0]}
                 height={60}
                 width={60}
                 alt='thumbnail'
               />
               <span className='block text-sm text-ellipsis line-clamp-1 text-nowrap'>
-                {course.title}
+                {product.title}
               </span>
             </div>
           ))}
         </div>
 
-        {/* MARK: Add Button */}
+        {/* MARK: Save Button */}
         <LoadingButton
           className='px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
           onClick={handleSubmit(onSubmit)}
-          text='Add'
+          text='Save'
           isLoading={isLoading}
         />
       </div>
@@ -321,4 +335,4 @@ function AddFlashSalePage() {
   )
 }
 
-export default AddFlashSalePage
+export default EditFlashSalePage

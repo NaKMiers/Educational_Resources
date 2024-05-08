@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 
 interface InputProps {
   label: string
@@ -90,7 +90,7 @@ function Input({
             <select
               id={id}
               className=' block min-h-[42px] px-2.5 pb-2.5 pt-4 w-full text-sm text-dark focus:outline-none focus:ring-0 peer rounded-r-lg'
-              style={{ WebkitAppearance: 'none' }}
+              style={{ WebkitAppearance: 'none', borderTopRightRadius: 16, borderBottomRightRadius: 16 }}
               disabled={disabled}
               {...register(id, { required })}
               onChange={onChange}

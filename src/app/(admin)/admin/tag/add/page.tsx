@@ -72,7 +72,7 @@ function AddTagPage() {
       <AdminHeader title='Add Tag' backLink='/admin/tag/all' />
 
       {/* MARK: Body */}
-      <div className='mt-5'>
+      <div className='mt-5 bg-slate-200 p-21 rounded-lg'>
         <Input
           id='title'
           label='Title'

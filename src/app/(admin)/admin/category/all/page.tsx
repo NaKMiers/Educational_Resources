@@ -84,10 +84,10 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
         setValue('sort', searchParams?.sort || getValues('sort'))
 
         // set min and max
-        setMinPQ(chops.mincourseQuantity)
-        setMaxPQ(chops.maxcourseQuantity)
+        setMinPQ(chops?.mincourseQuantity || 0)
+        setMaxPQ(chops?.maxcourseQuantity || 0)
         setcourseQuantity(
-          searchParams?.courseQuantity ? +searchParams.courseQuantity : chops.maxcourseQuantity
+          searchParams?.courseQuantity ? +searchParams.courseQuantity : chops?.maxcourseQuantity || 0
         )
       } catch (err: any) {
         console.log(err)

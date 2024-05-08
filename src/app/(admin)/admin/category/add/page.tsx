@@ -6,12 +6,9 @@ import AdminHeader from '@/components/admin/AdminHeader'
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { addCategoryApi } from '@/requests'
-import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { GrRadialSelected } from 'react-icons/gr'
-import { IoIosColorPalette } from 'react-icons/io'
 import { MdTitle } from 'react-icons/md'
 
 function AddCategoryPage() {
@@ -127,7 +124,7 @@ function AddCategoryPage() {
       <AdminHeader title='Add Category' backLink='/admin/category/all' />
 
       {/* MARK: Body */}
-      <div className='mt-5'>
+      <div className='mt-5 bg-slate-200 p-21 rounded-lg'>
         <div className='mb-5 flex-wrap flex gap-5'>
           <Input
             id='title'
