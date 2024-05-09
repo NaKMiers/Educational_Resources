@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // get amount of account
+    // get amount of lesson
     const amount = await FlashSaleModel.countDocuments(filter)
 
     // Get all flash sales from database
@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
     // get products associated with each flash sale
     const flashSalesWithProducts = await Promise.all(
       flashSales.map(async flashSale => {
-        const products = await CourseModel.find({ flashsale: flashSale._id })
+        const products = await CourseModel.find({ flashSale: flashSale._id })
           .select('title images')
           .lean()
         return { ...flashSale, products }

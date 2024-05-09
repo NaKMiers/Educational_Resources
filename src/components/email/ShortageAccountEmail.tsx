@@ -60,7 +60,7 @@ export function ShortageAccountEmail({
 
             <div className='text-center p-3 mb-10'>
               <a
-                href={`https://anpha.shop/admin/product/add`}
+                href={`https://anpha.shop/admin/course/add`}
                 className='inline bg-secondary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
                 Thêm sản phẩm ngay
               </a>

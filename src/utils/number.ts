@@ -18,7 +18,7 @@ export const applyFlashSalePrice = (flashSale: IFlashSale, price: number): numbe
 
   if (!flashSale) return price
 
-  // check flashsale is valid
+  // check flashSale is valid
   let isValid = false
 
   if (now > new Date(flashSale.begin)) {
@@ -30,7 +30,7 @@ export const applyFlashSalePrice = (flashSale: IFlashSale, price: number): numbe
       isValid = true
     }
 
-    // if invalid flashsale
+    // if invalid flashSale
     if (!isValid) {
       return price
     }

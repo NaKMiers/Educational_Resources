@@ -122,14 +122,14 @@ const handler = NextAuth({
       return session
     },
 
-    async signIn({ user, account, profile }: any) {
+    async signIn({ user, lesson, profile }: any) {
       console.log('- Sign In -')
 
       try {
         // connect to database
         await connectDatabase()
 
-        if (account && account.provider != 'credentials') {
+        if (lesson && lesson.provider != 'credentials') {
           if (!user || !profile) {
             return false
           }
@@ -140,10 +140,10 @@ const handler = NextAuth({
           let firstName: string = ''
           let lastName: string = ''
 
-          if (account.provider === 'google') {
+          if (lesson.provider === 'google') {
             firstName = profile.given_name
             lastName = profile.family_name
-          } else if (account.provider === 'github') {
+          } else if (lesson.provider === 'github') {
             firstName = profile.name
             lastName = ''
           }
@@ -166,7 +166,7 @@ const handler = NextAuth({
             avatar,
             firstName,
             lastName,
-            authType: account.provider,
+            authType: lesson.provider,
             verifiedEmail: true,
           })
 

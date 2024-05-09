@@ -21,7 +21,7 @@ interface CategoryItemProps {
 
   handleSaveEditingCategories: (editingValues: { _id: string; value: string }[]) => void
   handleDeleteCategories: (ids: string[]) => void
-  handleBootCategories: (ids: string[], isFeatured: boolean) => void
+  handleBootCategories: (ids: string[], booted: boolean) => void
 }
 
 function CategoryItem({
@@ -95,7 +95,7 @@ function CategoryItem({
                 handleBootCategories([data._id], !data.booted)
               }}
               disabled={loadingCategories.includes(data._id)}
-              title={data.booted ? 'Mark Featured' : 'Mark Unfeatured'}>
+              title={data.booted ? 'Boot' : 'Unboot'}>
               <FaCheck
                 size={18}
                 className={`wiggle ${data.booted ? 'text-green-500' : 'text-slate-300'}`}

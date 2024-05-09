@@ -21,7 +21,7 @@ interface TagItemProps {
 
   handleSaveEditingTags: (editingValues: { _id: string; value: string }[]) => void
   handleDeleteTags: (ids: string[]) => void
-  handleBootTags: (ids: string[], isFeatured: boolean) => void
+  handleBootTags: (ids: string[], booted: boolean) => void
 }
 
 function TagItem({
@@ -95,7 +95,7 @@ function TagItem({
                 handleBootTags([data._id], !data.booted)
               }}
               disabled={loadingTags.includes(data._id)}
-              title={data.booted ? 'Mark Featured' : 'Mark Unfeatured'}>
+              title={data.booted ? 'Boot' : 'Unboot'}>
               <FaCheck
                 size={18}
                 className={`wiggle ${data.booted ? 'text-green-500' : 'text-slate-300'}`}

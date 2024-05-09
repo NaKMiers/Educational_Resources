@@ -14,7 +14,7 @@ export * from './categoryRequest'
 export * from './tagRequest'
 
 // Account
-export * from './accountRequest'
+export * from './lessonRequest'
 
 // Order
 export * from './orderRequest'

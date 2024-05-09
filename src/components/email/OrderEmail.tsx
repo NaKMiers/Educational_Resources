@@ -107,13 +107,13 @@ export function OrderEmail({ order = orderSample }: { order?: any }) {
                     key={item._id}>
                     <Text className='font-semibold m-0 text-slate-500'>{item.product.title}</Text>
 
-                    {order.accounts
+                    {order.lessons
                       .find((acc: any) => acc.productId === item.product._id)
-                      .accounts.map((account: any) => (
+                      .lessons.map((lesson: any) => (
                         <Text
-                          key={account._id}
+                          key={lesson._id}
                           className='whitespace-pre m-0 py-4 max-w-[600px] overflow-x-auto border-b '>
-                          {account.info}
+                          {lesson.info}
                         </Text>
                       ))}
                   </div>

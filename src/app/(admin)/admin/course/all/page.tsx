@@ -42,7 +42,6 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
 
   // loading and confirming
   const [loadingCourses, setLoadingCourses] = useState<string[]>([])
-  const [syncingCourses, setSyncingCourses] = useState<string[]>([])
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState<boolean>(false)
 
   // values
@@ -64,7 +63,7 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
     () => ({
       sort: 'updatedAt|-1',
       active: '',
-      flashsale: '',
+      flashSale: '',
     }),
     []
   )
@@ -93,6 +92,8 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
         // send request to server to get all courses
         const { courses, amount, cates, tgs, chops } = await getAllCoursesApi(query)
 
+        console.log({ courses, amount, cates, tgs, chops })
+
         // set courses to state
         setCourses(courses)
         setAmount(amount)
@@ -112,7 +113,7 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
         // sync search params with states
         setValue('sort', searchParams?.sort || getValues('sort'))
         setValue('active', searchParams?.active || getValues('active'))
-        setValue('flashsale', searchParams?.flashsale || getValues('flashsale'))
+        setValue('flashSale', searchParams?.flashSale || getValues('flashSale'))
 
         // get min - max
         setMinPrice(chops?.minPrice || 0)
@@ -160,7 +161,7 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
     }
   }, [])
 
-  // remove applying flashsales
+  // remove applying flashSales
   const hanldeRemoveApplyingFlashsales = useCallback(async (ids: string[]) => {
     try {
       // send request to server
@@ -170,7 +171,7 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
       setCourses(prev =>
         prev.map(course =>
           updatedCourses.map((course: ICourse) => course._id).includes(course._id)
-            ? { ...course, flashsale: undefined }
+            ? { ...course, flashSale: undefined }
             : course
         )
       )
@@ -497,14 +498,14 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
 
           {/* Flash Sale */}
           <Input
-            id='flashsale'
+            id='flashSale'
             label='Flash Sale'
             disabled={false}
             register={register}
             errors={errors}
             icon={FaSort}
             type='select'
-            onFocus={() => clearErrors('flashsale')}
+            onFocus={() => clearErrors('flashSale')}
             options={[
               {
                 value: '',

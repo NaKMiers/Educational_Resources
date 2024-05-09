@@ -1,9 +1,9 @@
-// Account -------------------------------------
+// Lesson -------------------------------------
 
 // [GET]
-export const getAllAccountsApi = async (query: string = '') => {
+export const getAllLessonsApi = async (query: string = '') => {
   // no-store to bypass cache
-  const res = await fetch(`/api/admin/account/all${query}`, {
+  const res = await fetch(`/api/admin/lesson/all${query}`, {
     cache: 'no-store',
   })
 
@@ -16,9 +16,9 @@ export const getAllAccountsApi = async (query: string = '') => {
 }
 
 // [GET]
-export const getAccountApi = async (id: string) => {
+export const getLessonApi = async (id: string) => {
   // no-cache
-  const res = await fetch(`/api/admin/account/${id}`, { cache: 'no-store' })
+  const res = await fetch(`/api/admin/lesson/${id}`, { cache: 'no-store' })
 
   // check status
   if (!res.ok) {
@@ -29,8 +29,8 @@ export const getAccountApi = async (id: string) => {
 }
 
 // [POST]
-export const addAccountApi = async (data: any) => {
-  const res = await fetch('/api/admin/account/add', {
+export const addLessonApi = async (data: any) => {
+  const res = await fetch('/api/admin/lesson/add', {
     method: 'POST',
     body: JSON.stringify(data),
   })
@@ -44,8 +44,8 @@ export const addAccountApi = async (data: any) => {
 }
 
 // [PUT]
-export const updateAccountApi = async (id: string, data: any) => {
-  const res = await fetch(`/api/admin/account/${id}/edit`, {
+export const updateLessonApi = async (id: string, data: any) => {
+  const res = await fetch(`/api/admin/lesson/${id}/edit`, {
     method: 'PUT',
     body: JSON.stringify(data),
   })
@@ -59,8 +59,8 @@ export const updateAccountApi = async (id: string, data: any) => {
 }
 
 // [PATCH]
-export const activateAccountsApi = async (ids: string[], value: boolean) => {
-  const res = await fetch(`/api/admin/account/activate`, {
+export const activateLessonsApi = async (ids: string[], value: boolean) => {
+  const res = await fetch(`/api/admin/lesson/activate`, {
     method: 'PATCH',
     body: JSON.stringify({ ids, value }),
   })
@@ -74,8 +74,8 @@ export const activateAccountsApi = async (ids: string[], value: boolean) => {
 }
 
 // [DELETE]
-export const deleteAccountsApi = async (ids: string[]) => {
-  const res = await fetch(`/api/admin/account/delete`, {
+export const deleteLessonsApi = async (ids: string[]) => {
+  const res = await fetch(`/api/admin/lesson/delete`, {
     method: 'DELETE',
     body: JSON.stringify({ ids }),
   })

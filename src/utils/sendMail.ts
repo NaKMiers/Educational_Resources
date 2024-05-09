@@ -52,25 +52,6 @@ export async function notifyNewOrderToAdmin(newOrder: any) {
   }
 }
 
-// notify shortage account to admin
-export async function notifyShortageAccount(message: any) {
-  console.log('- Notify Shortage Account -')
-
-  try {
-    // get admin and editor mails
-    const admins: any[] = await UserModel.find({
-      role: { $in: ['admin', 'editor'] },
-    }).lean()
-    let emails: string[] = [...admins.map(admin => admin.email), process.env.NEXT_PUBLIC_MAIL]
-
-    // render template with new order data
-    const html = render(ShortageAccountEmail({ message }))
-    await sendMail(emails, message, html)
-  } catch (err: any) {
-    console.log(err)
-  }
-}
-
 // deliver notification
 export async function notifyDeliveryOrder(email: string, orderData: any) {
   console.log('- Notify Delivery Order -')
@@ -78,19 +59,6 @@ export async function notifyDeliveryOrder(email: string, orderData: any) {
   try {
     const html = render(OrderEmail({ order: orderData }))
     await sendMail(email, 'Bạn có đơn hàng từ Anpha Shop', html)
-  } catch (err: any) {
-    console.log(err)
-  }
-}
-
-// notify account updated
-export async function notifyAccountUpdated(email: string, data: any) {
-  console.log('- Notify Account Updated -')
-
-  try {
-    // render template with new data
-    const html = render(UpdateInfoEmail({ data }))
-    await sendMail(email, 'Cập nhật thông tin tài khoản', html)
   } catch (err: any) {
     console.log(err)
   }
@@ -120,19 +88,6 @@ export async function sendResetPasswordEmail(email: string, name: string, link: 
     console.log('html', html)
 
     await sendMail(email, 'Khôi phục mật khẩu', html)
-  } catch (err: any) {
-    console.log(err)
-  }
-}
-
-// notify expired account
-export async function notifyExpiredAccount(email: string, data: any) {
-  console.log('- Notify Expired Account -')
-
-  try {
-    // render template with new data
-    const html = render(NotifyExpiredEmail({ data }))
-    await sendMail(email, `Tài khoản hết hạn sau ${data.remainingTime} nữa 😱`, html)
   } catch (err: any) {
     console.log(err)
   }

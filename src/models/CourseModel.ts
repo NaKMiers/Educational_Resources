@@ -102,9 +102,9 @@ export interface ICourse {
   oldPrice: number
   price: number
   description: string
-  flashSale: string | IFlashSale
+  flashSale: string | undefined | IFlashSale
   tags: string[] | ITag[]
-  categories: string | ICategory[]
+  categories: string[] | ICategory[]
   images: string[]
   joined: number
   slug: string

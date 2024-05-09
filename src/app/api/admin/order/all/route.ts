@@ -102,7 +102,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // get amount of account
+    // get amount of lesson
     const amount = await OrderModel.countDocuments(filter)
 
     // get all order from database

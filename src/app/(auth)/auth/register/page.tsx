@@ -299,7 +299,7 @@ function RegisterPage() {
           <Divider size={4} />
 
           <p className='font-semibold text-center'>
-            Already have an account?{' '}
+            Already have an lesson?{' '}
             <Link href='/auth/login' className='underline underline-offset-2'>
               Login
             </Link>

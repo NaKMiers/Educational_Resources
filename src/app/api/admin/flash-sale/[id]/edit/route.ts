@@ -18,7 +18,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     // get data to create flash sale
     const { type, value, begin, timeType, duration, expire, appliedProducts } = await req.json()
 
-    // update flashsale
+    // update flashSale
     const updatedFlashSale = await FlashSaleModel.findByIdAndUpdate(id, {
       $set: {
         type,
@@ -31,7 +31,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     })
 
     // get products that have been applied by the updated flash sale before
-    const originalAppliedProducts = await CourseModel.find({ flashsale: updatedFlashSale._id }).select(
+    const originalAppliedProducts = await CourseModel.find({ flashSale: updatedFlashSale._id }).select(
       '_id'
     )
 
@@ -39,16 +39,16 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     const removedProducts = originalAppliedProducts.filter(id => !appliedProducts.includes(id))
     const setProducts = appliedProducts.filter((id: string) => !originalAppliedProducts.includes(id))
 
-    await CourseModel.updateMany({ _id: { $in: removedProducts } }, { $set: { flashsale: null } })
+    await CourseModel.updateMany({ _id: { $in: removedProducts } }, { $set: { flashSale: null } })
     await CourseModel.updateMany(
       { _id: { $in: setProducts } },
-      { $set: { flashsale: updatedFlashSale._id } }
+      { $set: { flashSale: updatedFlashSale._id } }
     )
 
-    const productQuantity = await CourseModel.countDocuments({ flashsale: updatedFlashSale._id })
+    const courseQuantity = await CourseModel.countDocuments({ flashSale: updatedFlashSale._id })
 
     // update flash sale quantity
-    await FlashSaleModel.findByIdAndUpdate(updatedFlashSale._id, { $set: { productQuantity } })
+    await FlashSaleModel.findByIdAndUpdate(updatedFlashSale._id, { $set: { courseQuantity } })
 
     // return new flash sale
     return NextResponse.json(

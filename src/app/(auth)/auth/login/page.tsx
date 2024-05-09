@@ -196,7 +196,7 @@ function LoginPage() {
           <Divider size={10} />
 
           <p className='font-semibold text-center'>
-            Don&apos;t have an account yet?{' '}
+            Don&apos;t have an lesson yet?{' '}
             <Link href='/auth/register' className='underline underline-offset-2'>
               Create Now
             </Link>

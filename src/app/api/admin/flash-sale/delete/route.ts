@@ -24,8 +24,8 @@ export async function DELETE(req: NextRequest) {
     // delete voucher from database
     await FlashSaleModel.deleteMany({ _id: { $in: ids } })
 
-    // remove flashsale of all products which are applying the deleted flash sales
-    await CourseModel.updateMany({ _id: { $in: productIds } }, { $set: { flashsale: null } })
+    // remove flashSale of all products which are applying the deleted flash sales
+    await CourseModel.updateMany({ _id: { $in: productIds } }, { $set: { flashSale: null } })
 
     // return response
     return NextResponse.json(

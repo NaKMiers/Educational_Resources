@@ -61,7 +61,7 @@ function ResetPasswordEmail({
             <p>If this is not you, please ignore this email.</p>
 
             <p>
-              On the contrary, if this is you, please click the button below to
+              On the contrary, if this is you, please click the button below to{' '}
               <a href={link} className='text-blue-500'>
                 restore your password
               </a>{' '}

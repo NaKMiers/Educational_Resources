@@ -1,83 +1,68 @@
-// // import { v2 as cloudinary } from 'cloudinary'
-// import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-// import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-// import crypto from 'crypto'
-// import sharp from 'sharp'
+import { v2 as cloudinary } from 'cloudinary'
+import sharp from 'sharp'
 
-// // create upload instance of multer
-// const s3 = new S3Client({
-//   credentials: {
-//     accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY!,
-//     secretAccessKey: process.env.AWS_BUCKET_SECRET_ACCESS_KEY!,
-//   },
-//   region: process.env.AWS_BUCKET_REGION!,
-// })
+// cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET_KEY,
+})
 
-// const randomFileName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex')
+async function uploadFile(file: any, ratio?: string) {
+  let size: any = { width: 854, height: 480, fit: 'cover' }
+  if (ratio === '1:1') {
+    size.width = 480
+    size.height = 480
+  } else if (ratio === '9:16') {
+    size.width = 480
+    size.height = 854
+  } else if (ratio === '4:3') {
+    size.width = 480
+    size.height = 640
+  } else if (ratio === '3:4') {
+    size.width = 640
+    size.height = 480
+  }
 
-// async function getFileUrl(key: string) {
-//   const params = {
-//     Bucket: process.env.AWS_BUCKET_NAME,
-//     Key: key,
-//   }
+  try {
+    // Resize
+    const buffer = Buffer.from(await file.arrayBuffer())
+    const resizedBuffer = await sharp(buffer).resize(size).toBuffer()
 
-//   const command = new GetObjectCommand(params)
-//   const url = await getSignedUrl(s3, command, { expiresIn: undefined })
+    const fileUploaded: any = await new Promise((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({ resource_type: 'image' }, (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve(result)
+          }
+        })
+        .end(resizedBuffer)
+    })
 
-//   return url
-// }
+    return fileUploaded.url
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
 
-// async function uploadFile(file: any, shape?: string) {
-//   let size: any = { height: 480, width: 854, fit: 'cover' }
-//   if (shape === '1:1') {
-//     size.height = 480
-//     size.width = 480
-//   } else if (shape === '9:16') {
-//     size.height = 854
-//     size.width = 480
-//   } else if (shape === '4:3') {
-//     size.height = 640
-//     size.width = 480
-//   } else if (shape === '3:4') {
-//     size.height = 480
-//     size.width = 640
-//   }
+async function deleteFile(imageUrl: string) {
+  try {
+    if (imageUrl.startsWith('http')) {
+      imageUrl = imageUrl.split('/').pop() || ''
 
-//   // resize image before send to s3 (16:9)
-//   const buffer = Buffer.from(await file.arrayBuffer())
-//   const resizeBuffer = await sharp(buffer).resize(size).toBuffer()
+      const publicId = imageUrl.split('.')[0]
 
-//   // const fileName = randomFileName()
-//   const filename = randomFileName()
+      const { result } = await cloudinary.uploader.destroy(publicId)
+      return result === 'ok'
+    }
+    return false
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
 
-//   const params = {
-//     Bucket: process.env.AWS_BUCKET_NAME,
-//     Key: filename,
-//     Body: resizeBuffer,
-//     ContentType: file.type,
-//   }
-
-//   const command = new PutObjectCommand(params)
-//   s3.send(command)
-
-//   return `https://${process.env.AWS_BUCKET_NAME!}.s3.${process.env
-//     .AWS_BUCKET_REGION!}.amazonaws.com/${filename}`
-// }
-
-// async function deleteFile(key: string) {
-//   if (key.startsWith('http')) {
-//     key = key.split(
-//       `https://${process.env.AWS_BUCKET_NAME!}.s3.${process.env.AWS_BUCKET_REGION!}.amazonaws.com/`
-//     )[1]
-//   }
-
-//   const params = {
-//     Bucket: process.env.AWS_BUCKET_NAME!,
-//     Key: key,
-//   }
-
-//   const command = new DeleteObjectCommand(params)
-//   await s3.send(command)
-// }
-
-// export { deleteFile, getFileUrl, uploadFile }
+export { deleteFile, uploadFile }

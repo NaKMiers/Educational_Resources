@@ -31,17 +31,17 @@ export async function POST(req: NextRequest) {
     // save new flash sale to database
     await newFlashSale.save()
 
-    // update flashsale field for all products in applyProducts
+    // update flashSale field for all products in applyProducts
     await CourseModel.updateMany(
       { _id: { $in: appliedProducts } }, // Match products by their IDs
-      { $set: { flashsale: newFlashSale._id } } // Set the flashsale field
+      { $set: { flashSale: newFlashSale._id } } // Set the flashSale field
     )
 
-    // get productQuantity of the products have just applied flash sale
-    const productQuantity = await CourseModel.countDocuments({ flashsale: newFlashSale._id })
+    // get courseQuantity of the products have just applied flash sale
+    const courseQuantity = await CourseModel.countDocuments({ flashSale: newFlashSale._id })
 
     // update flash sale quantity
-    await FlashSaleModel.findByIdAndUpdate(newFlashSale._id, { $set: { productQuantity } })
+    await FlashSaleModel.findByIdAndUpdate(newFlashSale._id, { $set: { courseQuantity } })
 
     // return new flash sale
     return NextResponse.json(

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICategory } from '@/models/CategoryModel'
 import { ITag } from '@/models/TagModel'
-import { getForceAllCategoriesApi, getForceAllTagsApi, getCourseApi, updateCourseApi } from '@/requests'
+import { getCourseApi, getForceAllCategoriesApi, getForceAllTagsApi, updateCourseApi } from '@/requests'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useCallback, useEffect, useState } from 'react'
@@ -30,7 +30,7 @@ function AddCoursePage() {
   const [tags, setTags] = useState<ITag[]>([])
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
   const [originalImages, setOriginalImages] = useState<string[]>([])
   const [imageUrls, setImageUrls] = useState<string[]>([])
@@ -62,6 +62,7 @@ function AddCoursePage() {
       try {
         // send request to server to get course
         const { course } = await getCourseApi(id) // cache: no-store
+        console.log('course', course)
 
         // set value to form
         setValue('title', course.title)
@@ -71,7 +72,7 @@ function AddCoursePage() {
         setValue('active', course.active)
 
         setSelectedTags(course.tags)
-        setSelectedCategory(course.category)
+        setSelectedCategories(course.categories)
         setOriginalImages(course.images)
       } catch (err: any) {
         console.log(err)
@@ -180,8 +181,8 @@ function AddCoursePage() {
         isValid = false
       }
 
-      if (!selectedCategory) {
-        toast.error('Please select category')
+      if (!selectedCategories) {
+        toast.error('Please select at least 1 category')
         isValid = false
       }
 
@@ -192,7 +193,7 @@ function AddCoursePage() {
 
       return isValid
     },
-    [setError, selectedCategory, selectedTags, files, originalImages]
+    [setError, selectedCategories, selectedTags, files, originalImages]
   )
 
   // MARK: Submit
@@ -212,7 +213,7 @@ function AddCoursePage() {
       formData.append('description', data.description)
       formData.append('active', data.active)
       formData.append('tags', JSON.stringify(selectedTags))
-      formData.append('category', selectedCategory)
+      formData.append('categories', JSON.stringify(selectedCategories))
       formData.append('originalImages', JSON.stringify(originalImages))
       files.forEach(file => formData.append('images', file))
 
@@ -236,7 +237,7 @@ function AddCoursePage() {
       {/* MARK: Admin Header */}
       <AdminHeader title='Edit Course' backLink='/admin/course/all' />
 
-      <div className='mt-5'>
+      <div className='mt-5 bg-slate-200 rounded-lg p-21 shadow-lg'>
         {/* Title */}
         <Input
           id='title'
@@ -315,7 +316,7 @@ function AddCoursePage() {
 
         {/* Tags */}
         <div className='mb-5'>
-          <p className='text-white font-semibold text-xl mb-1'>Select Tags</p>
+          <p className='text-dark font-semibold text-xl mb-1'>Select Tags</p>
 
           <div className='p-2 rounded-lg flex flex-wrap items-center bg-white gap-2'>
             {tags.map(tag => (
@@ -345,21 +346,29 @@ function AddCoursePage() {
 
         {/* Categories */}
         <div className='mb-5'>
-          <p className='text-white font-semibold text-xl mb-1'>Select Categories</p>
+          <p className='text-dark font-semibold text-xl mb-1'>Select Categories</p>
 
           <div className='p-2 rounded-lg flex flex-wrap items-center bg-white gap-2'>
             {categories.map(category => (
               <Fragment key={category._id}>
                 <input
-                  onChange={() => setSelectedCategory(category._id)}
+                  onChange={e =>
+                    setSelectedCategories(prev =>
+                      e.target.checked
+                        ? [...prev, category._id]
+                        : prev.filter(cate => cate !== category._id)
+                    )
+                  }
                   hidden
-                  checked={selectedCategory === category._id}
+                  checked={selectedCategories.some(cate => cate === category._id)}
                   type='checkbox'
                   id={category._id}
                 />
                 <label
-                  className={`cursor-pointer select-none rounded-lg border border-sky-500 text-sky-500 py-[6px] px-3 common-transition ${
-                    selectedCategory === category._id ? 'bg-sky-500 text-white' : ''
+                  className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 common-transition ${
+                    selectedCategories.some(cate => cate === category._id)
+                      ? 'bg-green-500 text-white'
+                      : ''
                   }`}
                   htmlFor={category._id}>
                   {category.title}

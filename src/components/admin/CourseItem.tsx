@@ -3,11 +3,12 @@ import { formatPrice } from '@/utils/number'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaEye, FaEyeSlash, FaSyncAlt, FaTrash } from 'react-icons/fa'
+import { FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
 import { PiLightningFill, PiLightningSlashFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
 import ConfirmDialog from '../ConfirmDialog'
+import { ICategory } from '@/models/CategoryModel'
 
 interface CourseItemProps {
   data: ICourse
@@ -37,10 +38,6 @@ function CourseItem({
   handleDeleteCourses,
 }: CourseItemProps) {
   // states
-  const [fieldEditing, setFieldEditing] = useState<{ stock: boolean; sold: boolean }>({
-    stock: false,
-    sold: false,
-  })
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState<boolean>(false)
   const [confirmType, setConfirmType] = useState<'deactivate' | 'Remove Flash Sale' | 'delete'>('delete')
 
@@ -88,12 +85,15 @@ function CourseItem({
           <p
             className='inline font-semibold text-[18px] mr-2 leading-4 font-body tracking-wide'
             title={data.title}>
-            {/* <span
-              className={`shadow-md text-xs ${
-                data.category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
-              } px-2 py-px select-none rounded-md font-body mr-2`}>
-              {data.category.title || 'empty'}
-            </span> */}
+            {(data.categories as ICategory[]).map(category => (
+              <span
+                className={`shadow-md text-xs ${
+                  category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
+                } px-2 py-px select-none rounded-md font-body mr-2`}
+                key={category._id}>
+                {category.title || 'empty'}
+              </span>
+            ))}
             {data.title}
           </p>
 

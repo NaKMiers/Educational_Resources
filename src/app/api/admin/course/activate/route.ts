@@ -2,38 +2,38 @@ import { connectDatabase } from '@/config/database'
 import CourseModel from '@/models/CourseModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product
+// Models: Course
 import '@/models/CourseModel'
 
-// [PATCH]: /admin/product/activate
+// [PATCH]: /admin/course/activate
 export async function PATCH(req: NextRequest) {
-  console.log('- Activate Products - ')
+  console.log('- Activate Courses - ')
 
   try {
     // connect to database
     await connectDatabase()
 
-    // get product id to delete
+    // get course id to delete
     const { ids, value } = await req.json()
 
-    // update products from database
+    // update courses from database
     await CourseModel.updateMany({ _id: { $in: ids } }, { $set: { active: value || false } })
 
-    // get updated products
-    const updatedProducts = await CourseModel.find({ _id: { $in: ids } }).lean()
+    // get updated courses
+    const updatedCourses = await CourseModel.find({ _id: { $in: ids } }).lean()
 
-    if (!updatedProducts.length) {
-      throw new Error('No product found')
+    if (!updatedCourses.length) {
+      throw new Error('No course found')
     }
 
     // return response
     return NextResponse.json(
       {
-        updatedProducts,
-        message: `Product ${updatedProducts
-          .map(product => `"${product.title}"`)
+        updatedCourses,
+        message: `Course ${updatedCourses
+          .map(course => `"${course.title}"`)
           .reverse()
-          .join(', ')} ${updatedProducts.length > 1 ? 'have' : 'has'} been ${
+          .join(', ')} ${updatedCourses.length > 1 ? 'have' : 'has'} been ${
           value ? 'activated' : 'deactivated'
         }`,
       },

@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest) {
         message: `Category ${updatedCategories
           .map(category => `"${category.title}"`)
           .reverse()
-          .join(', ')} ${updatedCategories.length > 1 ? 'have' : 'has'} been featured`,
+          .join(', ')} ${updatedCategories.length > 1 ? 'have' : 'has'} been booted`,
       },
       { status: 200 }
     )

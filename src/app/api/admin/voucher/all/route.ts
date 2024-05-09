@@ -89,7 +89,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // get amount of account
+    // get amount of lesson
     const amount = await VoucherModel.countDocuments(filter)
 
     // get all vouchers from database

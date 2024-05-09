@@ -57,7 +57,7 @@ export const order = {
           {
             _id: '6616ac1e54b0315cbef1f78c',
             title: 'G',
-            isFeatured: false,
+            booted: false,
             courseQuantity: 1,
             createdAt: '2024-04-10T15:11:26.012Z',
             updatedAt: '2024-04-10T17:18:17.555Z',
@@ -67,7 +67,7 @@ export const order = {
           {
             _id: '6616aba42e1e6bc892dfd56f',
             title: 'B',
-            isFeatured: false,
+            booted: false,
             courseQuantity: 2,
             createdAt: '2024-04-10T15:09:24.134Z',
             updatedAt: '2024-04-10T16:57:54.961Z',
@@ -77,7 +77,7 @@ export const order = {
           {
             _id: '6616ac2754b0315cbef1f790',
             title: 'I',
-            isFeatured: false,
+            booted: false,
             courseQuantity: 2,
             createdAt: '2024-04-10T15:11:35.740Z',
             updatedAt: '2024-04-10T16:57:54.961Z',
@@ -105,10 +105,10 @@ export const order = {
         updatedAt: '2024-04-19T17:53:48.792Z',
         slug: 'birds-v',
         __v: 0,
-        flashsale: null,
+        flashSale: null,
       },
       quantity: 1,
-      accounts: [
+      lessons: [
         {
           _id: '6622afaa13c9a6df523bacba',
           type: '6616c512cfdc10598ab611c4',
@@ -140,7 +140,7 @@ export const order = {
           {
             _id: '6616ac2a29ca284b69643341',
             title: 'J',
-            isFeatured: true,
+            booted: true,
             courseQuantity: 1,
             createdAt: '2024-04-10T15:11:38.726Z',
             updatedAt: '2024-04-15T18:29:24.412Z',
@@ -150,7 +150,7 @@ export const order = {
           {
             _id: '6616ac1a54b0315cbef1f78a',
             title: 'F',
-            isFeatured: true,
+            booted: true,
             courseQuantity: 1,
             createdAt: '2024-04-10T15:11:22.987Z',
             updatedAt: '2024-04-15T18:29:24.412Z',
@@ -160,7 +160,7 @@ export const order = {
           {
             _id: '6616ac1554b0315cbef1f788',
             title: 'E',
-            isFeatured: false,
+            booted: false,
             courseQuantity: 1,
             createdAt: '2024-04-10T15:11:17.374Z',
             updatedAt: '2024-04-10T17:18:31.787Z',
@@ -187,10 +187,10 @@ export const order = {
         updatedAt: '2024-04-19T17:53:41.829Z',
         slug: 'ak2',
         __v: 0,
-        flashsale: null,
+        flashSale: null,
       },
       quantity: 1,
-      accounts: [
+      lessons: [
         {
           _id: '6622afa213c9a6df523bac88',
           type: '6616c4a9cfdc10598ab611bb',
@@ -210,11 +210,11 @@ export const order = {
       ],
     },
   ],
-  accounts: [
+  lessons: [
     {
       productId: '6616c512cfdc10598ab611c4',
       quantity: 1,
-      accounts: [
+      lessons: [
         {
           _id: '6622afaa13c9a6df523bacba',
           type: '6616c512cfdc10598ab611c4',
@@ -236,7 +236,7 @@ export const order = {
     {
       productId: '6616c4a9cfdc10598ab611bb',
       quantity: 1,
-      accounts: [
+      lessons: [
         {
           _id: '6622afa213c9a6df523bac88',
           type: '6616c4a9cfdc10598ab611bb',
@@ -320,13 +320,13 @@ export const updateInfoData = {
       _id: '66236a2c0305407424d7119e',
       product: [Object],
       quantity: 1,
-      accounts: [Array],
+      lessons: [Array],
     },
     {
       _id: '66236a2a0305407424d7119d',
       product: [Object],
       quantity: 1,
-      accounts: [Array],
+      lessons: [Array],
     },
   ],
   status: 'done',
@@ -366,7 +366,7 @@ export const updateInfoData = {
     updatedAt: '2024-04-19T17:53:48.792Z',
     slug: 'birds-v',
     __v: 0,
-    flashsale: null,
+    flashSale: null,
   },
   oldInfo: {
     _id: '6622afaa13c9a6df523bacba',

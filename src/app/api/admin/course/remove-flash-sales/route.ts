@@ -7,41 +7,41 @@ import { NextRequest, NextResponse } from 'next/server'
 import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
 
-// [PATCH]: /admin/product/activate
+// [PATCH]: /admin/course/activate
 export async function PATCH(req: NextRequest) {
-  console.log('- Activate Products - ')
+  console.log('- Activate Courses - ')
 
   try {
     // connect to database
     await connectDatabase()
 
-    // get product ids to remove flash sales
+    // get course ids to remove flash sales
     const { ids } = await req.json()
 
-    // update products from database
-    await CourseModel.updateMany({ _id: { $in: ids } }, { $set: { flashsale: null } })
+    // update courses from database
+    await CourseModel.updateMany({ _id: { $in: ids } }, { $set: { flashSale: null } })
 
-    // get updated products
-    const updatedProducts = await CourseModel.find({ _id: { $in: ids } }).lean()
+    // get updated courses
+    const updatedCourses = await CourseModel.find({ _id: { $in: ids } }).lean()
 
-    if (!updatedProducts.length) {
-      throw new Error('No product found')
+    if (!updatedCourses.length) {
+      throw new Error('No course found')
     }
 
-    // update flash sale product quantity
+    // update flash sale course quantity
     await FlashSaleModel.updateMany(
-      { _id: { $in: updatedProducts.map(product => product.flashsale) } },
-      { $inc: { productQuantity: -1 } }
+      { _id: { $in: updatedCourses.map(course => course.flashSale) } },
+      { $inc: { courseQuantity: -1 } }
     )
 
     // return response
     return NextResponse.json(
       {
-        updatedProducts,
-        message: `Flash sale of product ${updatedProducts
-          .map(product => `"${product.title}"`)
+        updatedCourses,
+        message: `Flash sale of course ${updatedCourses
+          .map(course => `"${course.title}"`)
           .reverse()
-          .join(', ')} ${updatedProducts.length > 1 ? 'have' : 'has'} been removed`,
+          .join(', ')} ${updatedCourses.length > 1 ? 'have' : 'has'} been removed`,
       },
       { status: 200 }
     )

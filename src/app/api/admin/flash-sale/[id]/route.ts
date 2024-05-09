@@ -26,7 +26,7 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
     }
 
     // get all product that have been applied by the flash sale
-    const appliedProducts: ICourse[] = await CourseModel.find({ flashsale: flashSale._id }).select(
+    const appliedProducts: ICourse[] = await CourseModel.find({ flashSale: flashSale._id }).select(
       'title images'
     )
     flashSale.products = appliedProducts

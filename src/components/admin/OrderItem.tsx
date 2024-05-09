@@ -216,7 +216,7 @@ function OrderItem({
                 <FaSearch size={14} className='wiggle' />
               </span>
               <Link
-                href={`/admin/account/all?search=${data.email}`}
+                href={`/admin/lesson/all?search=${data.email}`}
                 className='text-yellow-400 group'
                 onClick={e => e.stopPropagation()}>
                 <FaEye size={15} className='wiggle' />

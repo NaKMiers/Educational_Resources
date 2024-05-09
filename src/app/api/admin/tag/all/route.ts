@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // get amount of account
+    // get amount of lesson
     const amount = await TagModel.countDocuments(filter)
 
     // get all tags from database

@@ -12,78 +12,78 @@ import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
 import '@/models/TagModel'
 
-// [DELETE]: /admin/product/delete
+// [DELETE]: /admin/course/delete
 export async function DELETE(req: NextRequest) {
-  console.log('- Delete Products - ')
+  console.log('- Delete Courses - ')
 
   try {
     // // connect to database
     // await connectDatabase()
 
-    // // get product ids to delete
+    // // get course ids to delete
     // const { ids } = await req.json()
 
-    // // Find products by their IDs before deletion
-    // const products: ICourse[] = await CourseModel.find({
+    // // Find courses by their IDs before deletion
+    // const courses: ICourse[] = await CourseModel.find({
     //   _id: { $in: ids },
     // }).lean()
 
-    // // delete product by ids
+    // // delete course by ids
     // await CourseModel.deleteMany({
     //   _id: { $in: ids },
     // })
 
-    // // decrease product quantity filed in related categories, tags, and flashsales, and delete the images associated with each product
+    // // decrease course quantity filed in related categories, tags, and flashSales, and delete the images associated with each course
     // await Promise.all(
-    //   products.map(async product => {
-    //     // decrease related categories product quantity
+    //   courses.map(async course => {
+    //     // decrease related categories course quantity
     //     await CategoryModel.updateOne(
-    //       { _id: product.category },
+    //       { _id: course.category },
     //       {
     //         $inc: {
-    //           productQuantity: -1,
+    //           courseQuantity: -1,
     //         },
     //       }
     //     )
 
-    //     // decrease related tags product quantity
+    //     // decrease related tags course quantity
     //     await TagModel.updateMany(
-    //       { _id: { $in: product.tags } },
+    //       { _id: { $in: course.tags } },
     //       {
     //         $inc: {
-    //           productQuantity: -1,
+    //           courseQuantity: -1,
     //         },
     //       }
     //     )
 
-    //     // decrease related flashsales product quantity
-    //     if (product.flashsale) {
+    //     // decrease related flashSales course quantity
+    //     if (course.flashSale) {
     //       await FlashSaleModel.updateOne(
-    //         { _id: product.flashsale },
+    //         { _id: course.flashSale },
     //         {
     //           $inc: {
-    //             productQuantity: -1,
+    //             courseQuantity: -1,
     //           },
     //         }
     //       )
     //     }
-    //     // delete the images associated with each product
-    //     await Promise.all(product.images.map(deleteFile))
+    //     // delete the images associated with each course
+    //     await Promise.all(course.images.map(deleteFile))
     //   })
     // )
 
-    // // return deleted products
+    // // return deleted courses
     // return NextResponse.json(
     //   {
-    //     deletedProducts: products,
-    //     message: `${products.map(product => product.title).join(', ')} ${
-    //       products.length > 1 ? 'have' : 'has'
+    //     deletedCourses: courses,
+    //     message: `${courses.map(course => course.title).join(', ')} ${
+    //       courses.length > 1 ? 'have' : 'has'
     //     } been deleted`,
     //   },
     //   { status: 200 }
     // )
 
-    return NextResponse.json({ message: 'Delete products' }, { status: 200 })
+    return NextResponse.json({ message: 'Delete courses' }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

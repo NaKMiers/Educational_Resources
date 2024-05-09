@@ -310,10 +310,10 @@ function AllTagsPage({ searchParams }: { searchParams?: { [key: string]: string[
             ]}
           />
 
-          {/* Featured */}
+          {/* Booter */}
           <Input
             id='booted'
-            label='Featured'
+            label='Booter'
             disabled={false}
             register={register}
             errors={errors}

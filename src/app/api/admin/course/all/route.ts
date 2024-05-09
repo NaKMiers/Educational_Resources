@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic'
 
 // [GET]: /admin/course/all
 export async function GET(req: NextRequest) {
-  console.log('- Get All Course -')
+  console.log('- Get All Courses -')
 
   try {
     // connect to database
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest) {
           continue
         }
 
-        if (key === 'flashsale') {
+        if (key === 'flashSale') {
           filter[key] =
             params[key][0] === 'true' ? { $exists: true, $ne: null } : { $exists: false, $eq: null }
           continue

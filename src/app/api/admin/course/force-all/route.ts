@@ -9,7 +9,7 @@ import '@/models/TagModel'
 
 export const dynamic = 'force-dynamic'
 
-// [GET]: /admin/product/force-all
+// [GET]: /admin/course/force-all
 export async function GET() {
   console.log('- Get Force All Products -')
 
@@ -17,22 +17,22 @@ export async function GET() {
     // connect to database
     await connectDatabase()
 
-    // get all products from database
-    const products = await CourseModel.find()
+    // get all courses from database
+    const courses = await CourseModel.find()
       .select('title images')
       .populate({
         path: 'tags',
         select: 'title',
       })
       .populate({
-        path: 'category',
+        path: 'categories',
         select: 'title',
       })
       .sort({ sold: -1 })
       .lean()
 
-    // return all products
-    return NextResponse.json({ products }, { status: 200 })
+    // return all courses
+    return NextResponse.json({ courses }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

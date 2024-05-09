@@ -1,5 +1,6 @@
 'use client'
 
+import Divider from '@/components/Divider'
 import Input from '@/components/Input'
 import LoadingButton from '@/components/LoadingButton'
 import AdminHeader from '@/components/admin/AdminHeader'
@@ -26,7 +27,7 @@ function AddCoursePage() {
   const [tags, setTags] = useState<ITag[]>([])
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
-  const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [isChecked, setIsChecked] = useState<boolean>(true)
 
   const [imageUrls, setImageUrls] = useState<string[]>([])
@@ -46,7 +47,7 @@ function AddCoursePage() {
       price: '',
       oldPrice: '',
       description: '',
-      isActive: true,
+      active: true,
     },
   })
 
@@ -148,8 +149,8 @@ function AddCoursePage() {
         isValid = false
       }
 
-      if (!selectedCategory) {
-        toast.error('Please select category')
+      if (!selectedCategories.length) {
+        toast.error('Please select at least 1 category')
         isValid = false
       }
 
@@ -160,10 +161,10 @@ function AddCoursePage() {
 
       return isValid
     },
-    [setError, selectedCategory, selectedTags, files]
+    [setError, selectedCategories, selectedTags, files]
   )
 
-  // send data to server to create new product
+  // send data to server to create new course
   const onSubmit: SubmitHandler<FieldValues> = async data => {
     if (!handleValidate(data)) return
 
@@ -176,12 +177,12 @@ function AddCoursePage() {
       formData.append('price', data.price)
       formData.append('oldPrice', data.oldPrice)
       formData.append('description', data.description)
-      formData.append('isActive', data.isActive)
+      formData.append('active', data.active)
       formData.append('tags', JSON.stringify(selectedTags))
-      formData.append('category', selectedCategory)
+      formData.append('categories', JSON.stringify(selectedCategories))
       files.forEach(file => formData.append('images', file))
 
-      // send request to server to create new product
+      // send request to server to create new course
       const { message } = await addCourseApi(formData)
 
       // show success message
@@ -192,6 +193,7 @@ function AddCoursePage() {
       imageUrls.forEach(url => URL.revokeObjectURL(url))
       setImageUrls([])
       setSelectedTags([])
+      setSelectedCategories([])
       reset()
     } catch (err: any) {
       console.log(err)
@@ -203,11 +205,11 @@ function AddCoursePage() {
 
   return (
     <div className='max-w-1200 mx-auto'>
-      <AdminHeader title='Add Course' backLink='/admin/product/all' />
+      <AdminHeader title='Add Course' backLink='/admin/course/all' />
 
-      <div className='pt-5' />
+      <Divider size={4} />
 
-      <div>
+      <div className='bg-slate-200 rounded-lg p-21 shadow-lg'>
         {/* Title */}
         <Input
           id='title'
@@ -271,16 +273,16 @@ function AddCoursePage() {
             className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition  ${
               isChecked ? 'bg-green-500 text-white' : 'bg-white text-green-500'
             }`}
-            htmlFor='isActive'
+            htmlFor='active'
             onClick={() => setIsChecked(!isChecked)}>
             Active
           </label>
-          <input type='checkbox' id='isActive' hidden {...register('isActive', { required: false })} />
+          <input type='checkbox' id='active' hidden {...register('active', { required: false })} />
         </div>
 
         {/* Tags */}
         <div className='mb-5'>
-          <p className='text-white font-semibold text-xl mb-1'>Select Tags</p>
+          <p className='text-dark font-semibold text-xl mb-1'>Select Tags</p>
 
           <div className='p-2 rounded-lg flex flex-wrap items-center bg-white gap-2'>
             {tags.map(tag => (
@@ -309,20 +311,26 @@ function AddCoursePage() {
 
         {/* Categories */}
         <div className='mb-5'>
-          <p className='text-white font-semibold text-xl mb-1'>Select Categories</p>
+          <p className='text-dark font-semibold text-xl mb-1'>Select Categories</p>
 
           <div className='p-2 rounded-lg flex flex-wrap items-center bg-white gap-2'>
             {categories.map(category => (
               <Fragment key={category._id}>
                 <input
-                  onChange={() => setSelectedCategory(category._id)}
+                  onChange={e =>
+                    setSelectedCategories(prev =>
+                      e.target.checked ? [...prev, category._id] : prev.filter(t => t !== category._id)
+                    )
+                  }
                   hidden
                   type='checkbox'
                   id={category._id}
                 />
                 <label
-                  className={`cursor-pointer select-none rounded-lg border border-sky-500 text-sky-500 py-[6px] px-3 common-transition ${
-                    selectedCategory === category._id ? 'bg-sky-500 text-white' : ''
+                  className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 common-transition ${
+                    selectedCategories.some(cate => cate === category._id)
+                      ? 'bg-green-500 text-white'
+                      : ''
                   }`}
                   htmlFor={category._id}>
                   {category.title}
@@ -362,8 +370,14 @@ function AddCoursePage() {
         {!!imageUrls.length && (
           <div className='flex flex-wrap gap-3 rounded-lg bg-white p-3 mb-5'>
             {imageUrls.map(url => (
-              <div className='relative' key={url}>
-                <Image className='rounded-lg' src={url} height={250} width={250} alt='thumbnail' />
+              <div className='relative aspect-video max-w-[250px]' key={url}>
+                <Image
+                  className='rounded-lg w-full h-full object-cover'
+                  src={url}
+                  height={250}
+                  width={250}
+                  alt='thumbnail'
+                />
 
                 <button
                   onClick={() => handleRemoveImage(url)}
