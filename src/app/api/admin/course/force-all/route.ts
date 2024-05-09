@@ -2,7 +2,7 @@ import { connectDatabase } from '@/config/database'
 import CourseModel from '@/models/CourseModel'
 import { NextResponse } from 'next/server'
 
-// Models: Product, Tag, Category
+// Models: Course, Tag, Category
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/TagModel'
@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 // [GET]: /admin/course/force-all
 export async function GET() {
-  console.log('- Get Force All Products -')
+  console.log('- Get Force All Courses -')
 
   try {
     // connect to database

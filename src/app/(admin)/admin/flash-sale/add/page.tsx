@@ -55,19 +55,25 @@ function AddFlashSalePage() {
         // send request to server
         const { courses } = await getForceAllCoursesApi()
 
-        // // categorize courses
-        // const categorizedCoursesObj = courses.reduce((acc: any, course: ICourse) => {
-        //   if (!acc[course.category.title]) {
-        //     acc[course.category.title] = []
-        //   }
-        //   acc[course.category.title].push(course)
-        //   return acc
-        // }, {})
+        // categorize courses
+        const categorizedCoursesObj: { [key: string]: ICourse[] } = {}
 
-        // const categorizedCourses = Object.values(categorizedCoursesObj).flat() as ICourse[]
+        courses.forEach((course: ICourse) => {
+          course.categories.forEach((category: any) => {
+            // assuming category has a title property
+            const categoryTitle = category.title
+            if (!categorizedCoursesObj[categoryTitle]) {
+              categorizedCoursesObj[categoryTitle] = []
+            }
+            categorizedCoursesObj[categoryTitle].push(course)
+          })
+        })
+
+        // Combine all courses from different categories into a single array
+        const categorizedCourses: ICourse[] = Object.values(categorizedCoursesObj).flat()
 
         // set courses to state
-        // setCourses(categorizedCourses)
+        setCourses(categorizedCourses)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
@@ -209,7 +215,7 @@ function AddFlashSalePage() {
           errors={errors}
           required
           type='date'
-          minDate={new Date().toISOString().split('T')[0]}
+          min={new Date().toISOString().split('T')[0]}
           icon={FaPlay}
           className='mb-5'
           onFocus={() => clearErrors('begin')}
@@ -277,7 +283,7 @@ function AddFlashSalePage() {
 
         {/* MARK: Apply */}
         {/* Ready to apply courses */}
-        <p className='text-white font-semibold text-xl mb-1'>Select Courses</p>
+        <p className='text-dark font-semibold text-xl mb-1'>Select Courses</p>
         <div className='max-h-[300px] overflow-y-auto flex flex-wrap rounded-lg bg-white p-3 gap-2 mb-5'>
           {courses.map(course => (
             <div
@@ -286,7 +292,7 @@ function AddFlashSalePage() {
                   ? 'bg-secondary border-white text-white'
                   : course.flashSale
                   ? 'bg-slate-200'
-                  : ''
+                  : 'text-dark'
               }`}
               title={course.title}
               onClick={() =>

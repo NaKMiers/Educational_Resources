@@ -17,10 +17,11 @@ interface InputProps {
   options?: any[]
   rows?: number
   labelBg?: string
-  minDate?: string
-  maxDate?: string
   onClick?: (e?: any) => void
   onFocus?: (e?: any) => void
+
+  // rest
+  [key: string]: any
 }
 
 function Input({
@@ -37,10 +38,9 @@ function Input({
   rows,
   onClick,
   onFocus,
-  minDate,
-  maxDate,
   labelBg = 'bg-white',
   className = '',
+  ...rest
 }: InputProps) {
   // states
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false)
@@ -108,13 +108,12 @@ function Input({
             <input
               id={id}
               className='block h-[42px] px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer number-input'
-              min={type === 'date' ? minDate : undefined}
-              max={type === 'date' ? maxDate : undefined}
               disabled={disabled}
               type={type === 'password' ? (isShowPassword ? 'text' : 'password') : type}
               {...register(id, { required })}
               onWheel={e => e.currentTarget.blur()}
               placeholder=''
+              {...rest}
             />
           )}
 

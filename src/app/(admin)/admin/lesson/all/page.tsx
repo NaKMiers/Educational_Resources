@@ -78,6 +78,8 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
         // sent request to server
         const { lessons, amount, courses } = await getAllLessonsApi(query) // cache: no-store
 
+        console.log('lessons', lessons)
+
         // group course by category.title
         const groupCourses: GroupCourses = {}
         courses.forEach((course: ICourse) => {
@@ -308,28 +310,31 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
                   checkAllCoursesOfCategorySelected(groupCourses[key])
                     ? // remove all courses of category
                       setSelectedCourses(prev =>
-                        prev.filter(id => !groupCourses[key].map(type => type._id).includes(id))
+                        prev.filter(id => !groupCourses[key].map((type: any) => type._id).includes(id))
                       )
                     : // add all courses of category
-                      setSelectedCourses(prev => [...prev, ...groupCourses[key].map(type => type._id)])
+                      setSelectedCourses(prev => [
+                        ...prev,
+                        ...groupCourses[key].map((type: any) => type._id),
+                      ])
                 }>
                 {key}
               </div>
-              {groupCourses[key].map(type => (
+              {groupCourses[key].map((course: any) => (
                 <div
                   className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
-                    selectedCourses.includes(type._id)
+                    selectedCourses.includes(course._id)
                       ? 'bg-secondary text-white border-secondary'
                       : 'border-slate-300'
                   }`}
-                  title={type.title}
-                  key={type._id}
+                  title={course.title}
+                  key={course._id}
                   onClick={
-                    selectedCourses.includes(type._id)
-                      ? () => setSelectedCourses(prev => prev.filter(id => id !== type._id))
-                      : () => setSelectedCourses(prev => [...prev, type._id])
+                    selectedCourses.includes(course._id)
+                      ? () => setSelectedCourses(prev => prev.filter(id => id !== course._id))
+                      : () => setSelectedCourses(prev => [...prev, course._id])
                   }>
-                  {type.title}
+                  {course.title}
                 </div>
               ))}
             </Fragment>
@@ -536,7 +541,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
       </div>
 
       {/* MARK: MAIN LIST */}
-      <div className='grid gap-21 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid gap-21 grid-cols-1 md:grid-cols-2'>
         {lessons.map(lesson => (
           <LessonItem
             data={lesson}

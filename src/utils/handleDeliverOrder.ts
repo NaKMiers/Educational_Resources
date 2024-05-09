@@ -8,7 +8,7 @@
 // import { calcExpireTime } from '@/utils/time'
 // import { NextResponse } from 'next/server'
 
-// // Models: Order, Account, Voucher, User, Product
+// // Models: Order, Account, Voucher, User, Course
 // import '@/models/AccountModel'
 // import '@/models/OrderModel'
 // import '@/models/CourseModel'
@@ -16,7 +16,7 @@
 // import '@/models/VoucherModel'
 
 // interface AccountListItem {
-//   productId: string
+//   courseId: string
 //   quantity: number
 //   accounts: any[]
 // }
@@ -51,11 +51,11 @@
 //   }
 
 //   // ACCOUNT
-//   const getAccounts = async (productId: string, quantity: number) => {
+//   const getAccounts = async (courseId: string, quantity: number) => {
 //     const currentDate = new Date()
 
 //     return await AccountModel.find({
-//       type: productId, // corresponding product
+//       type: courseId, // corresponding course
 //       renew: { $gte: currentDate }, // still in time of using
 //       $and: [
 //         {
@@ -88,18 +88,18 @@
 //   const handleItemsToAccounts = async () => {
 //     const results: AccountListItem[] = []
 
-//     for (const { product, quantity } of items) {
-//       const accounts = await getAccounts(product._id, +quantity)
+//     for (const { course, quantity } of items) {
+//       const accounts = await getAccounts(course._id, +quantity)
 
 //       if (accounts.length !== +quantity) {
 //         orderError = {
 //           error: true,
-//           message: `Thiếu sản phẩm: ${product.title}`,
+//           message: `Thiếu sản phẩm: ${course.title}`,
 //         }
 //         break
 //       } else {
 //         results.push({
-//           productId: product._id,
+//           courseId: course._id,
 //           quantity,
 //           accounts,
 //         })
@@ -137,13 +137,13 @@
 //   })
 
 //   // PRODUCT
-//   // prepared a list of steps to update product
-//   const bulkOpsProducts = accountDataList.map(accData => {
-//     const { productId, quantity } = accData
+//   // prepared a list of steps to update course
+//   const bulkOpsCourses = accountDataList.map(accData => {
+//     const { courseId, quantity } = accData
 
 //     return {
 //       updateOne: {
-//         filter: { _id: productId },
+//         filter: { _id: courseId },
 //         update: {
 //           $inc: {
 //             sold: +quantity,
@@ -193,7 +193,7 @@
 
 //   // update order items with accounts
 //   const updatedItems = items.map(item => {
-//     let accounts = accountDataList.find(acc => acc.productId.toString() === item.product._id.toString())
+//     let accounts = accountDataList.find(acc => acc.courseId.toString() === item.course._id.toString())
 //     if (!accounts) {
 //       return item
 //     }
@@ -202,8 +202,8 @@
 
 //   // do all the list of step preparation for accounts
 //   await AccountModel.bulkWrite(bulkOpsAccounts)
-//   // do all the list of step preparation for products
-//   await CourseModel.bulkWrite(bulkOpsProducts)
+//   // do all the list of step preparation for courses
+//   await CourseModel.bulkWrite(bulkOpsCourses)
 //   // set order status
 //   await OrderModel.findByIdAndUpdate(order._id, {
 //     $set: { status: 'done' },

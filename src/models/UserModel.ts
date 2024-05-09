@@ -213,5 +213,6 @@ export interface IUser {
   }
   createdAt: string
   updatedAt: string
+  // Subs
   vouchers?: IVoucher[]
 }

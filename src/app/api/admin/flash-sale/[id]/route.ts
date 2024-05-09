@@ -1,12 +1,11 @@
-import { FlashSaleWithProducts } from '@/app/(admin)/admin/flash-sale/all/page'
 import { connectDatabase } from '@/config/database'
-import FlashSaleModel from '@/models/FlashSaleModel'
 import CourseModel, { ICourse } from '@/models/CourseModel'
+import FlashSaleModel, { IFlashSale } from '@/models/FlashSaleModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product, Flash Sale
-import '@/models/FlashSaleModel'
+// Models: Course, Flash Sale
 import '@/models/CourseModel'
+import '@/models/FlashSaleModel'
 
 export const dynamic = 'force-dynamic'
 
@@ -19,17 +18,17 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
     await connectDatabase()
 
     // get flash sale from database
-    const flashSale: FlashSaleWithProducts | null = await FlashSaleModel.findById(id).lean()
+    const flashSale: IFlashSale | null = await FlashSaleModel.findById(id).lean()
 
     if (!flashSale) {
       return NextResponse.json({ message: 'Flash sale not found' }, { status: 404 })
     }
 
-    // get all product that have been applied by the flash sale
-    const appliedProducts: ICourse[] = await CourseModel.find({ flashSale: flashSale._id }).select(
+    // get all course that have been applied by the flash sale
+    const appliedCourses: ICourse[] = await CourseModel.find({ flashSale: flashSale._id }).select(
       'title images'
     )
-    flashSale.products = appliedProducts
+    flashSale.courses = appliedCourses
 
     // return flash sale
     return NextResponse.json({ flashSale, message: 'Flashsale found' }, { status: 200 })

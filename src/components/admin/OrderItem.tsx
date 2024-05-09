@@ -143,14 +143,14 @@ function OrderItem({
           <div className='w-full h-full flex items-center flex-wrap gap-2 mb-2 max-h-[145px] overflow-y-auto '>
             {data.items.map((item: any) => (
               <Link
-                href={`/${item.product.slug}`}
+                href={`/${item.course.slug}`}
                 prefetch={false}
                 className='relative rounded-lg shadow-md overflow-hidden'
                 onClick={e => e.stopPropagation()}
                 key={item._id}>
                 <Image
                   className='aspect-video h-auto w-auto'
-                  src={item.product.images[0] || '/images/not-found.jpg'}
+                  src={item.course.images[0] || '/images/not-found.jpg'}
                   height={120}
                   width={120}
                   alt='thumbnail'

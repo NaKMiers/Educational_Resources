@@ -1,6 +1,5 @@
 import { ICourse } from '@/models/CourseModel'
 import { ILesson } from '@/models/LessonModel'
-import { formatTime } from '@/utils/time'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useCallback, useState } from 'react'
@@ -45,7 +44,7 @@ function LessonItem({
   return (
     <>
       <div
-        className={`relative w-full flex items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer common-transition ${
+        className={`relative text-dark w-full flex items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer common-transition ${
           selectedLessons.includes(data._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         }  ${className}`}
         onClick={() =>
@@ -55,25 +54,49 @@ function LessonItem({
         }>
         <div className='w-[calc(100%_-_42px)]'>
           {/* MARK: Thumbnails */}
-          <Link
-            href={`/${(data.courseId as ICourse).slug || ''}`}
-            prefetch={false}
-            onClick={e => e.stopPropagation()}
-            className='mr-4 flex items-center max-w-[160px] rounded-lg shadow-md overflow-hidden mb-2'>
-            <div className='flex items-center w-full overflow-x-scroll snap-x snap-mandatory no-scrollbar'>
-              <Image
-                className='aspect-video flex-shrink-0 snap-start object-cover w-full h-full'
-                src={(data.courseId as ICourse).images[0] || '/images/not-found.jpg'}
-                height={200}
-                width={200}
-                alt='thumbnail'
-              />
+          <div className='flex flex-wrap gap-2'>
+            <Link
+              href={`/${(data.courseId as ICourse).slug || ''}`}
+              prefetch={false}
+              onClick={e => e.stopPropagation()}
+              className='flex items-center max-w-[120px] sm:max-w-[200px] rounded-lg shadow-md overflow-hidden mb-2'>
+              <div className='flex items-center w-full overflow-x-scroll snap-x snap-mandatory no-scrollbar'>
+                <Image
+                  className='aspect-video flex-shrink-0 snap-start object-cover w-full h-full'
+                  src={(data.courseId as ICourse).images[0] || '/images/not-found.jpg'}
+                  height={200}
+                  width={200}
+                  alt='thumbnail'
+                />
+              </div>
+            </Link>
+            <div className='flex items-center max-w-[120px] sm:max-w-[200px] rounded-lg shadow-md overflow-hidden mb-2'>
+              {data.sourceType === 'file' ? (
+                <video
+                  className='aspect-video flex-shrink-0 snap-start object-cover w-full h-full'
+                  src={data.source}
+                  height={200}
+                  width={200}
+                  controls
+                />
+              ) : (
+                <iframe
+                  className='aspect-video rounded-lg w-full h-full object-contain'
+                  width='1519'
+                  height='574'
+                  src={data.source}
+                  title='Is Civilization on the Brink of Collapse?'
+                  allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                  referrerPolicy='strict-origin-when-cross-origin'
+                  allowFullScreen
+                />
+              )}
             </div>
-          </Link>
+          </div>
 
-          {/* Type */}
+          {/* Course */}
           <p
-            className='inline-flex mb-2 flex-wrap gap-2 items-center font-semibold text-[18px] mr-2 leading-5 font-body tracking-wide'
+            className='inline-flex mb-2 flex-wrap gap-2 items-center font-semibold text-[18px] mr-2 font-body tracking-wide'
             title={(data.courseId as ICourse).title}>
             {(data.courseId as ICourse).categories.map((category: any) => (
               <span
@@ -84,26 +107,16 @@ function LessonItem({
                 {category.title || 'empty'}
               </span>
             ))}
-            {(data.courseId as ICourse).title}
           </p>
 
-          {/* Updated  */}
-          <p className='text-sm' title='Expire (d/m/y)'>
-            <span className='font-semibold'>Updated: </span>
-            <span
-              className={`${
-                +new Date() - +new Date(data.updatedAt) <= 60 * 60 * 1000 ? 'text-yellow-500' : ''
-              }`}>
-              {formatTime(data.updatedAt)}
-            </span>
+          {/* Title */}
+          <p className='mb-1 font-semibold text-[18px] font-body tracking-wide'>
+            {data.title} <span className='text-slate-500 text-sm font-normal'>({data.sourceType})</span>
           </p>
-
-          {/* Info */}
-          <div className='relative'>
-            <div className='w-full mt-2 max-h-[200px] border rounded-lg p-2 text-sm font-body tracking-wide overflow-scroll whitespace-pre break-all'>
-              {data.description}
-            </div>
-          </div>
+          <p className='mb-2 font-semibold text-sm text-sky-500 font-body tracking-wide'>
+            {Math.floor(data.duration / 3600)}h:{Math.floor((data.duration % 3600) / 60)}m:
+            {Math.floor((data.duration % (3600 * 60)) / 60)}s
+          </p>
         </div>
 
         {/* MARK: Action Buttons */}
@@ -124,7 +137,7 @@ function LessonItem({
 
           {/* Edit Button Link */}
           <Link
-            href={`/admin/account/${data._id}/edit`}
+            href={`/admin/lesson/${data._id}/edit`}
             className='block group'
             title='Edit'
             onClick={e => e.stopPropagation()}>
@@ -154,7 +167,7 @@ function LessonItem({
         open={isOpenConfirmModal}
         setOpen={setIsOpenConfirmModal}
         title='Delete Lesson'
-        content='Are you sure that you want to delete this account?'
+        content='Are you sure that you want to delete this lesson?'
         onAccept={() => handleDeleteLessons([data._id])}
         isLoading={loadingLessons.includes(data._id)}
       />

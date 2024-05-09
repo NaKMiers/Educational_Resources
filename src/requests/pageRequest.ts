@@ -14,7 +14,7 @@ export const getHomeApi = async () => {
 }
 
 // [GET]
-export const getProductPageApi = async (slug: string) => {
+export const getCoursePageApi = async (slug: string) => {
   // no cache
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/course/${slug}`, {
     cache: 'no-store',

@@ -8,7 +8,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET_KEY,
 })
 
-async function uploadFile(file: any, ratio?: string) {
+async function uploadFile(
+  file: any,
+  ratio: string = '16:9',
+  type: 'image' | 'video' | 'raw' | 'auto' | undefined = 'image'
+) {
   let size: any = { width: 854, height: 480, fit: 'cover' }
   if (ratio === '1:1') {
     size.width = 480
@@ -26,19 +30,21 @@ async function uploadFile(file: any, ratio?: string) {
 
   try {
     // Resize
-    const buffer = Buffer.from(await file.arrayBuffer())
-    const resizedBuffer = await sharp(buffer).resize(size).toBuffer()
+    let buffer: any = Buffer.from(await file.arrayBuffer())
+    if (type === 'image') {
+      buffer = await sharp(buffer).resize(size).toBuffer()
+    }
 
     const fileUploaded: any = await new Promise((resolve, reject) => {
       cloudinary.uploader
-        .upload_stream({ resource_type: 'image' }, (error, result) => {
+        .upload_stream({ resource_type: type }, (error, result) => {
           if (error) {
             reject(error)
           } else {
             resolve(result)
           }
         })
-        .end(resizedBuffer)
+        .end(buffer)
     })
 
     return fileUploaded.url
@@ -48,14 +54,15 @@ async function uploadFile(file: any, ratio?: string) {
   }
 }
 
-async function deleteFile(imageUrl: string) {
+async function deleteFile(url: string, type: 'image' | 'video' | 'raw' | 'auto' | undefined = 'image') {
   try {
-    if (imageUrl.startsWith('http')) {
-      imageUrl = imageUrl.split('/').pop() || ''
+    if (url.startsWith('http')) {
+      url = url.split('/').pop() || ''
+      const publicId = url.split('.')[0]
 
-      const publicId = imageUrl.split('.')[0]
-
-      const { result } = await cloudinary.uploader.destroy(publicId)
+      const { result } = await cloudinary.uploader.destroy(publicId, {
+        resource_type: type,
+      })
       return result === 'ok'
     }
     return false

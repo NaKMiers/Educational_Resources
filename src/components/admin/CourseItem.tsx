@@ -186,7 +186,7 @@ function CourseItem({
       <ConfirmDialog
         open={isOpenConfirmModal}
         setOpen={setIsOpenConfirmModal}
-        title={`${confirmType.charAt(0).toUpperCase() + confirmType.slice(1)} Product`}
+        title={`${confirmType.charAt(0).toUpperCase() + confirmType.slice(1)} Course`}
         content={`Are you sure that you want to ${confirmType} this course?`}
         onAccept={() =>
           confirmType === 'deactivate'

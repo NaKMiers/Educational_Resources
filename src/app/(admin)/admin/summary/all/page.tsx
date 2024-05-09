@@ -38,10 +38,10 @@ function AllSummariesPage({ searchParams }: { searchParams?: { [key: string]: st
       dispatch(setPageLoading(true))
 
       try {
-        // send request to server to get all products
+        // send request to server to get all courses
         const { collaborators, amount } = await getAllCollaboratorsApi(query)
 
-        // set products to state
+        // set courses to state
         setSummaries(collaborators)
         setAmount(amount)
       } catch (err: any) {

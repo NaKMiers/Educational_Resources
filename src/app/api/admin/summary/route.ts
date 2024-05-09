@@ -1,15 +1,10 @@
-import { connectDatabase } from '@/config/database'
-import CategoryModel from '@/models/CategoryModel'
-import FlashSaleModel from '@/models/FlashSaleModel'
-import CourseModel, { ICourse } from '@/models/CourseModel'
-import TagModel from '@/models/TagModel'
 // import { deleteFile } from '@/utils/uploadFile'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product, Category, Tag, Flashsale
+// Models: Course, Category, Tag, Flashsale
 import '@/models/CategoryModel'
-import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
+import '@/models/FlashSaleModel'
 import '@/models/TagModel'
 
 // [DELETE]: /admin/course/delete

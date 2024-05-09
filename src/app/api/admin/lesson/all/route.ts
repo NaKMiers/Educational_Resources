@@ -1,14 +1,14 @@
 import { connectDatabase } from '@/config/database'
-import LessonModel from '@/models/LessonModel'
 import CourseModel from '@/models/CourseModel'
+import LessonModel from '@/models/LessonModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
-import { NextRequest, NextResponse } from 'next/server'
 import momentTZ from 'moment-timezone'
+import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Lesson, Course, Category
-import '@/models/LessonModel'
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
+import '@/models/LessonModel'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     // options
     let skip = 0
     let itemPerPage = 9
-    const filter: { [key: string]: any } = { active: true, usingUser: { $exists: true, $ne: null } }
+    const filter: { [key: string]: any } = { active: true }
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
 
     // build filter
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
         }
 
         if (key === 'search') {
-          const searchFields = ['info', 'usingUser']
+          const searchFields = ['title', 'description', 'sourceType', 'source']
 
           filter.$or = searchFields.map(field => ({
             [field]: { $regex: params[key][0], $options: 'i' },
@@ -73,32 +73,6 @@ export async function GET(req: NextRequest) {
           continue
         }
 
-        if (key === 'usingUser') {
-          if (params[key][0] === 'all') delete filter[key]
-          else if (params[key][0] === 'true') filter[key] = { $exists: true, $ne: null }
-          else if (params[key][0] === 'false') filter[key] = { $exists: false, $eq: null }
-          continue
-        }
-
-        if (['expire', 'renew'].includes(key)) {
-          // expire = true: < now && exist
-          // expire = false: > now or not exist
-
-          if (params[key][0] === 'true') {
-            filter[key] = {
-              $lt: momentTZ.tz(new Date(), 'Asia/Ho_Chi_Minh').toDate(),
-              $exists: true,
-              $ne: null,
-            }
-          } else {
-            filter.$or = [
-              { [key]: { $gt: momentTZ.tz(new Date(), 'Asia/Ho_Chi_Minh').toDate() } },
-              { [key]: { $exists: false } },
-            ]
-          }
-          continue
-        }
-
         // Normal Cases ---------------------
         filter[key] = params[key].length === 1 ? params[key][0] : { $in: params[key] }
       }
@@ -110,7 +84,7 @@ export async function GET(req: NextRequest) {
     // get all lesson
     const lessons = await LessonModel.find(filter)
       .populate({
-        path: 'type',
+        path: 'courseId',
         select: 'title images categories slug',
         populate: {
           path: 'categories',

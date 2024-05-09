@@ -1,6 +1,7 @@
+import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
-import { IUser } from './UserModel'
 import { ICourse } from './CourseModel'
+import { IUser } from './UserModel'
 const Schema = mongoose.Schema
 
 const LessonSchema = new Schema(
@@ -23,6 +24,11 @@ const LessonSchema = new Schema(
       required: true,
       min: 0,
     },
+    sourceType: {
+      type: String,
+      required: true,
+      enum: ['file', 'embed'],
+    },
     source: {
       type: String,
       required: true,
@@ -44,6 +50,16 @@ const LessonSchema = new Schema(
   { timestamps: true }
 )
 
+// pre-save hook to generate slug from title
+LessonSchema.pre('save', function (next) {
+  console.log('- Pre-Save Lesson -')
+
+  if (this.isModified('title')) {
+    this.slug = generateSlug(this.title)
+  }
+  next()
+})
+
 const LessonModel = mongoose.models.lesson || mongoose.model('lesson', LessonSchema)
 export default LessonModel
 
@@ -51,6 +67,7 @@ export interface ILesson {
   _id: string
   courseId: string | ICourse
   title: string
+  sourceType: 'embed' | 'file'
   slug: string
   duration: number
   source: string

@@ -260,7 +260,7 @@ function AddVoucherPage() {
             errors={errors}
             required
             type='date'
-            minDate={new Date().toISOString().split('T')[0]}
+            min={new Date().toISOString().split('T')[0]}
             icon={FaPlay}
             onFocus={() => clearErrors('begin')}
           />

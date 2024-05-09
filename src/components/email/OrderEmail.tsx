@@ -93,7 +93,7 @@ export function OrderEmail({ order = orderSample }: { order?: any }) {
                   </div>
                 )}
 
-                {/* Product */}
+                {/* Course */}
                 <p className='text-center mt-8'>
                   <b className='text-[24px]'>Sản phẩm</b>
                 </p>
@@ -105,10 +105,10 @@ export function OrderEmail({ order = orderSample }: { order?: any }) {
                     }}
                     className='border rounded-lg p-21/2 mb-4'
                     key={item._id}>
-                    <Text className='font-semibold m-0 text-slate-500'>{item.product.title}</Text>
+                    <Text className='font-semibold m-0 text-slate-500'>{item.course.title}</Text>
 
                     {order.lessons
-                      .find((acc: any) => acc.productId === item.product._id)
+                      .find((acc: any) => acc.courseId === item.course._id)
                       .lessons.map((lesson: any) => (
                         <Text
                           key={lesson._id}

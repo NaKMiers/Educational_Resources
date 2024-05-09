@@ -180,7 +180,7 @@ function VoucherItem({
         open={isOpenConfirmModal}
         setOpen={setIsOpenConfirmModal}
         title='Delete Voucher'
-        content='Are you sure that you want to delete these products?'
+        content='Are you sure that you want to delete these courses?'
         onAccept={() => handleDeleteVouchers([data._id])}
         isLoading={loadingVouchers.includes(data._id)}
       />

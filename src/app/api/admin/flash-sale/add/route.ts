@@ -3,7 +3,7 @@ import FlashSaleModel from '@/models/FlashSaleModel'
 import CourseModel from '@/models/CourseModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Flash Sale, Product
+// Models: Flash Sale, Course
 import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
 
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     await connectDatabase()
 
     // get data to create flash sale
-    const { type, value, begin, timeType, duration, expire, appliedProducts } = await req.json()
+    const { type, value, begin, timeType, duration, expire, appliedCourses } = await req.json()
 
     // create new flash sale in databasee
     const newFlashSale = new FlashSaleModel({
@@ -31,13 +31,13 @@ export async function POST(req: NextRequest) {
     // save new flash sale to database
     await newFlashSale.save()
 
-    // update flashSale field for all products in applyProducts
+    // update flashSale field for all courses in applyCourses
     await CourseModel.updateMany(
-      { _id: { $in: appliedProducts } }, // Match products by their IDs
+      { _id: { $in: appliedCourses } }, // Match courses by their IDs
       { $set: { flashSale: newFlashSale._id } } // Set the flashSale field
     )
 
-    // get courseQuantity of the products have just applied flash sale
+    // get courseQuantity of the courses have just applied flash sale
     const courseQuantity = await CourseModel.countDocuments({ flashSale: newFlashSale._id })
 
     // update flash sale quantity

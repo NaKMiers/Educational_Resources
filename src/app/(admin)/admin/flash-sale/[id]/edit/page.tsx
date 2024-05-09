@@ -1,12 +1,13 @@
 'use client'
 
+import Divider from '@/components/Divider'
 import Input from '@/components/Input'
 import LoadingButton from '@/components/LoadingButton'
 import AdminHeader from '@/components/admin/AdminHeader'
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
-import { getFlashSaleApi, updateFlashSaleApi } from '@/requests'
+import { getFlashSaleApi, getForceAllCoursesApi, updateFlashSaleApi } from '@/requests'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
@@ -25,8 +26,8 @@ function EditFlashSalePage() {
   const router = useRouter()
 
   // states
-  const [products, setProducts] = useState<ICourse[]>([])
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([])
+  const [courses, setCourses] = useState<ICourse[]>([])
+  const [selectedCourses, setSelectedCourses] = useState<string[]>([])
   const [timeType, setTimeType] = useState<'loop' | 'once'>('loop')
 
   // form
@@ -51,7 +52,7 @@ function EditFlashSalePage() {
   // MARK: Get Data
   // get flash sale by id
   useEffect(() => {
-    const getProduct = async () => {
+    const getCourse = async () => {
       try {
         // send request to server to get flash sale
         const { flashSale } = await getFlashSaleApi(id) // cache: no-store
@@ -68,38 +69,47 @@ function EditFlashSalePage() {
         setValue('timeType', flashSale.timeType)
         setTimeType(flashSale.timeType)
 
-        setSelectedProducts(flashSale.products.map((product: ICourse) => product._id))
+        setSelectedCourses(flashSale.courses.map((course: ICourse) => course._id))
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
       }
     }
-    getProduct()
+    getCourse()
   }, [id, setValue])
 
-  // get all products to apply
+  // get all courses to apply
   useEffect(() => {
-    const getAllProducts = async () => {
+    const getAllCourses = async () => {
       try {
-        // // send request to server
-        // const { products } = await getForceAllProductsApi()
-        // // categorize products
-        // const categorizedProductsObj = products.reduce((acc: any, product: ICourse) => {
-        //   if (!acc[product.categories.title]) {
-        //     acc[product.categories.title] = []
-        //   }
-        //   acc[product.categories.title].push(product)
-        //   return acc
-        // }, {})
-        // const categorizedProducts = Object.values(categorizedProductsObj).flat() as ICourse[]
-        // // set products to state
-        // setProducts(categorizedProducts)
+        // send request to server
+        const { courses } = await getForceAllCoursesApi()
+
+        // categorize courses
+        const categorizedCoursesObj: { [key: string]: ICourse[] } = {}
+
+        courses.forEach((course: ICourse) => {
+          course.categories.forEach((category: any) => {
+            // assuming category has a title property
+            const categoryTitle = category.title
+            if (!categorizedCoursesObj[categoryTitle]) {
+              categorizedCoursesObj[categoryTitle] = []
+            }
+            categorizedCoursesObj[categoryTitle].push(course)
+          })
+        })
+
+        // Combine all courses from different categories into a single array
+        const categorizedCourses: ICourse[] = Object.values(categorizedCoursesObj).flat()
+
+        // set courses to state
+        setCourses(categorizedCourses)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
       }
     }
-    getAllProducts()
+    getAllCourses()
   }, [])
 
   // validate form
@@ -152,7 +162,7 @@ function EditFlashSalePage() {
 
     try {
       // send request to server
-      const { message } = await updateFlashSaleApi(id, data, selectedProducts)
+      const { message } = await updateFlashSaleApi(id, data, selectedCourses)
 
       // show success message
       toast.success(message)
@@ -172,7 +182,9 @@ function EditFlashSalePage() {
       {/* Admin Header */}
       <AdminHeader title='Edit Flash Sale' backLink='/admin/flash-sale/all' />
 
-      <div className='pt-5'>
+      <Divider size={5} />
+
+      <div className='bg-slate-200 rounded-lg p-21'>
         {/* Type */}
         <Input
           id='type'
@@ -290,34 +302,34 @@ function EditFlashSalePage() {
           )}
         </div>
 
-        {/* MARK: Ready to apply products */}
-        <p className='text-white font-semibold text-xl mb-1'>Select Products</p>
+        {/* MARK: Ready to apply courses */}
+        <p className='text-dark font-semibold text-xl mb-1'>Select Courses</p>
         <div className='max-h-[300px] overflow-y-auto flex flex-wrap rounded-lg bg-white p-3 gap-2 mb-5'>
-          {products.map(product => (
+          {courses.map(course => (
             <div
               className={`max-w-[250px] border-2 border-slate-300 rounded-lg flex items-center py-1 px-2 gap-2 cursor-pointer common-transition ${
-                selectedProducts.includes(product._id)
+                selectedCourses.includes(course._id)
                   ? 'bg-secondary border-white text-white'
-                  : product.flashSale
+                  : course.flashSale
                   ? 'bg-slate-200'
                   : ''
               }`}
-              title={product.title}
+              title={course.title}
               onClick={() =>
-                selectedProducts.includes(product._id)
-                  ? setSelectedProducts(prev => prev.filter(id => id !== product._id))
-                  : setSelectedProducts(prev => [...prev, product._id])
+                selectedCourses.includes(course._id)
+                  ? setSelectedCourses(prev => prev.filter(id => id !== course._id))
+                  : setSelectedCourses(prev => [...prev, course._id])
               }
-              key={product._id}>
+              key={course._id}>
               <Image
                 className='aspect-video rounded-md border-2 border-white'
-                src={product.images[0]}
+                src={course.images[0]}
                 height={60}
                 width={60}
                 alt='thumbnail'
               />
               <span className='block text-sm text-ellipsis line-clamp-1 text-nowrap'>
-                {product.title}
+                {course.title}
               </span>
             </div>
           ))}

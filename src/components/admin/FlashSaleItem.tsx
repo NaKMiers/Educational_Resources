@@ -36,7 +36,7 @@ function FlashSaleItem({
   return (
     <>
       <div
-        className={`flex flex-col p-4 rounded-lg shadow-lg cursor-pointer common-transition ${
+        className={`flex flex-col p-4 rounded-lg shadow-lg cursor-pointer common-transition text-dark ${
           selectedFlashSales.includes(data._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         }  ${className}`}
         onClick={() =>
@@ -76,26 +76,26 @@ function FlashSaleItem({
           )}
         </div>
 
-        {/* Product Quantity */}
+        {/* Course Quantity */}
         <p className='font-semibold'>
-          <span>Product Quantity:</span> <span className='text-primary'>{data.courseQuantity}</span>
+          <span>Course Quantity:</span> <span className='text-primary'>{data.courseQuantity}</span>
         </p>
 
-        {/* Applying Products */}
+        {/* Applying Courses */}
         <div className='flex flex-wrap rounded-lg gap-2 max-h-[300px] overflow-y-auto mb-3'>
-          {data.courses?.map(product => (
+          {data.courses?.map(course => (
             <div
               className='border border-slate-300 bg-white rounded-lg flex items-start p-2 gap-2'
-              key={product._id}>
+              key={course._id}>
               <Image
                 className='aspect-video rounded-md border'
-                src={product.images[0]}
+                src={course.images[0]}
                 height={80}
                 width={80}
                 alt='thumbnail'
               />
-              <span className='text-ellipsis line-clamp-2' title={product.title}>
-                {product.title}
+              <span className='text-ellipsis line-clamp-2' title={course.title}>
+                {course.title}
               </span>
             </div>
           ))}

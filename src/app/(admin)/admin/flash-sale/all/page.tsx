@@ -8,8 +8,8 @@ import AdminMeta from '@/components/admin/AdminMeta'
 import FlashSaleItem from '@/components/admin/FlashSaleItem'
 import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
-import { IFlashSale } from '@/models/FlashSaleModel'
 import { ICourse } from '@/models/CourseModel'
+import { IFlashSale } from '@/models/FlashSaleModel'
 import { deleteFlashSalesApi, getAllFlashSalesApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
@@ -18,8 +18,6 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaCalendar, FaSort } from 'react-icons/fa'
 
-export type FlashSaleWithProducts = IFlashSale & { products: ICourse[] }
-
 function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
   // store
   const dispatch = useAppDispatch()
@@ -27,7 +25,7 @@ function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: s
   const router = useRouter()
 
   // states
-  const [flashSales, setFlashSales] = useState<FlashSaleWithProducts[]>([])
+  const [flashSales, setFlashSales] = useState<IFlashSale[]>([])
   const [amount, setAmount] = useState<number>(0)
   const [selectedFlashSales, setSelectedFlashSales] = useState<string[]>([])
 
@@ -73,6 +71,8 @@ function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: s
         // send request to server to get all flash sales
         const { flashSales, amount } = await getAllFlashSalesApi(query) // cache: no-store
 
+        console.log('flashSales', flashSales)
+
         // set vouchers to state
         setFlashSales(flashSales)
         setAmount(amount)
@@ -100,18 +100,19 @@ function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: s
       setLoadingFlashSales(ids)
 
       try {
-        // from selected flash sales, get product ids
-        const productIds = flashSales
+        // from selected flash sales, get course ids
+        const courseIds = flashSales
           .filter(flashSale => ids.includes(flashSale._id))
           .reduce(
-            (acc, flashSale) => [...acc, ...flashSale.products.map(product => product._id)],
+            (acc, flashSale) => [...acc, ...(flashSale.courses as ICourse[]).map(course => course._id)],
             [] as string[]
           )
 
         // send request to server
-        const { deletedFlashSales, message } = await deleteFlashSalesApi(ids, productIds)
+        const { deletedFlashSales, message } = await deleteFlashSalesApi(ids, courseIds)
+        console.log('deletedFlashSales', deletedFlashSales)
 
-        // remove deleted vouchers from state
+        // remove deleted flash sales from state
         setFlashSales(prev =>
           prev.filter(
             flashSale =>

@@ -12,6 +12,7 @@ const CategorySchema = new Schema(
       type: String,
       unique: true,
       index: true,
+      required: true,
     },
     courseQuantity: {
       type: Number,

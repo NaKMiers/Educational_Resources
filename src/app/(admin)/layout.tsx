@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { Toaster } from 'react-hot-toast'
 import '../globals.scss'
+import PageLoading from '@/components/PageLoading'
 
 export const metadata: Metadata = {
   title: 'Educational Resources',
@@ -36,7 +37,11 @@ export default async function RootLayout({
             }}
           />
 
+          {/* Menu */}
           <AdminMenu />
+
+          {/* Loading */}
+          <PageLoading />
 
           {/* Main */}
           <main className='px-21 py-21'>{children}</main>

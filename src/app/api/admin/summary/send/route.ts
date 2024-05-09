@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     // connect to database
     await connectDatabase()
 
-    // get product ids to delete
+    // get course ids to delete
     const { ids } = await req.json()
 
     // get voucher of this collaborator

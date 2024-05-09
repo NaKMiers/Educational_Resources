@@ -3,7 +3,7 @@ import CourseModel from '@/models/CourseModel'
 import FlashSaleModel from '@/models/FlashSaleModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product, Flash Sale
+// Models: Course, Flash Sale
 import '@/models/CourseModel'
 import '@/models/FlashSaleModel'
 
@@ -16,7 +16,7 @@ export async function DELETE(req: NextRequest) {
     await connectDatabase()
 
     // get voucher ids to delete
-    const { ids, productIds } = await req.json()
+    const { ids, courseIds } = await req.json()
 
     // get delete flash sales
     const deletedFlashSales = await FlashSaleModel.find({ _id: { $in: ids } }).lean()
@@ -24,8 +24,8 @@ export async function DELETE(req: NextRequest) {
     // delete voucher from database
     await FlashSaleModel.deleteMany({ _id: { $in: ids } })
 
-    // remove flashSale of all products which are applying the deleted flash sales
-    await CourseModel.updateMany({ _id: { $in: productIds } }, { $set: { flashSale: null } })
+    // remove flashSale of all courses which are applying the deleted flash sales
+    await CourseModel.updateMany({ _id: { $in: courseIds } }, { $set: { flashSale: null } })
 
     // return response
     return NextResponse.json(

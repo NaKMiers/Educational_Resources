@@ -46,7 +46,7 @@ export const order = {
   items: [
     {
       _id: '66236a2c0305407424d7119e',
-      product: {
+      course: {
         _id: '6616c512cfdc10598ab611c4',
         title: 'Birds V',
         oldPrice: 269000,
@@ -129,7 +129,7 @@ export const order = {
     },
     {
       _id: '66236a2a0305407424d7119d',
-      product: {
+      course: {
         _id: '6616c4a9cfdc10598ab611bb',
         title: 'AK2',
         oldPrice: 500000,
@@ -212,7 +212,7 @@ export const order = {
   ],
   lessons: [
     {
-      productId: '6616c512cfdc10598ab611c4',
+      courseId: '6616c512cfdc10598ab611c4',
       quantity: 1,
       lessons: [
         {
@@ -234,7 +234,7 @@ export const order = {
       ],
     },
     {
-      productId: '6616c4a9cfdc10598ab611bb',
+      courseId: '6616c4a9cfdc10598ab611bb',
       quantity: 1,
       lessons: [
         {
@@ -318,13 +318,13 @@ export const updateInfoData = {
   items: [
     {
       _id: '66236a2c0305407424d7119e',
-      product: [Object],
+      course: [Object],
       quantity: 1,
       lessons: [Array],
     },
     {
       _id: '66236a2a0305407424d7119d',
-      product: [Object],
+      course: [Object],
       quantity: 1,
       lessons: [Array],
     },
@@ -334,7 +334,7 @@ export const updateInfoData = {
   createdAt: '2024-04-20T07:09:45.271Z',
   updatedAt: '2024-04-21T08:44:34.909Z',
   __v: 0,
-  product: {
+  course: {
     _id: '6616c512cfdc10598ab611c4',
     title: 'Birds V',
     oldPrice: 269000,

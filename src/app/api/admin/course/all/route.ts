@@ -5,7 +5,7 @@ import TagModel from '@/models/TagModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Category, Tag, Product
+// Models: Category, Tag, Course
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/TagModel'

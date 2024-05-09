@@ -79,8 +79,8 @@ function CategoryItem({
           </p>
         )}
 
-        {/* Product Quantity */}
-        <p className='font-semibold mb-2' title={`Product Quantity: ${data.courseQuantity}`}>
+        {/* Course Quantity */}
+        <p className='font-semibold mb-2' title={`Course Quantity: ${data.courseQuantity}`}>
           <span>Pr.Q:</span> <span className='text-primary'>{data.courseQuantity}</span>
         </p>
 

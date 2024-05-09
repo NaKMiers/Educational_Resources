@@ -93,10 +93,10 @@ export function UpdateInfoEmail({ data = updateInfoData }: { data?: any }) {
                   </div>
                 )}
 
-                {/* Product */}
+                {/* Course */}
                 <p className='text-center mt-8'>
                   <b className='text-xl'>
-                    Sản phẩm: <span className='italic text-slate-500'>{data.product.title}</span>
+                    Sản phẩm: <span className='italic text-slate-500'>{data.course.title}</span>
                   </b>
                 </p>
 

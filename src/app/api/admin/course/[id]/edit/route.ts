@@ -44,7 +44,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
 
     // delete the images do not associated with the course in aws s3
     if (needToRemovedImages && !!needToRemovedImages.length) {
-      await Promise.all(needToRemovedImages.map(deleteFile))
+      await Promise.all(needToRemovedImages.map(image => deleteFile(image)))
     }
 
     // merge the available images and new upload images

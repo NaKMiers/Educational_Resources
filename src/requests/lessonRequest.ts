@@ -29,10 +29,10 @@ export const getLessonApi = async (id: string) => {
 }
 
 // [POST]
-export const addLessonApi = async (data: any) => {
+export const addLessonApi = async (data: FormData) => {
   const res = await fetch('/api/admin/lesson/add', {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: data,
   })
 
   // check status
@@ -44,10 +44,10 @@ export const addLessonApi = async (data: any) => {
 }
 
 // [PUT]
-export const updateLessonApi = async (id: string, data: any) => {
+export const updateLessonApi = async (id: string, data: FormData) => {
   const res = await fetch(`/api/admin/lesson/${id}/edit`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: data,
   })
 
   // check status

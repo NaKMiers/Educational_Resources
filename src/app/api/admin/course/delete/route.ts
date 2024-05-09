@@ -7,7 +7,7 @@ import TagModel from '@/models/TagModel'
 import { deleteFile } from '@/utils/uploadFile'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product, Category, Tag, Flashsale, Account
+// Models: Course, Category, Tag, Flashsale, Account
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/FlashSaleModel'
@@ -27,6 +27,11 @@ export async function DELETE(req: NextRequest) {
     // Find courses by their IDs before deletion
     const courses: ICourse[] = await CourseModel.find({
       _id: { $in: ids },
+    }).lean()
+
+    const lessons = await LessonModel.find({
+      courseId: { $in: ids },
+      sourceType: 'file',
     }).lean()
 
     // delete course by ids
@@ -70,11 +75,14 @@ export async function DELETE(req: NextRequest) {
         }
 
         // delete the images associated with each course
-        await Promise.all(course.images.map(deleteFile))
+        await Promise.all(course.images.map(image => deleteFile(image)))
+
+        // delete all lessons'source associated with each course
+        await Promise.all(lessons.map(lesson => deleteFile(lesson.source, 'video')))
 
         // delete all lessons which associalted with each course and has empty using user
         await LessonModel.deleteMany({
-          type: course._id,
+          courseId: course._id,
         })
       })
     )

@@ -81,7 +81,7 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
                   </p>
                 </div>
 
-                {/* Product */}
+                {/* Course */}
                 <div className='mt-8'>
                   <b className='text-[24px]'>Sản phẩm: </b>
 
@@ -89,20 +89,20 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
                     {order.items.map((item: any) => (
                       <li className='mb-2' key={item._id}>
                         <a
-                          href={`https://anpha.shop/${item.product.slug}`}
+                          href={`https://anpha.shop/${item.course.slug}`}
                           className='block h-full text-dark tracking-wider no-underline'>
                           <Section>
                             <Row>
                               <Column className='w-[130px]'>
                                 <Img
-                                  src={item.product.images[0]}
+                                  src={item.course.images[0]}
                                   width={120}
                                   className='inline aspect-video rounded-lg object-cover'
                                 />
                               </Column>
                               <Column>
                                 <p className='font-semibold text-slate-600'>
-                                  {item.product.title}
+                                  {item.course.title}
                                   <span className='bg-secondary font-semibold text-xs rounded-full text-center ml-1.5 py-px px-1.5 text-white'>
                                     {item.quantity}
                                   </span>

@@ -70,7 +70,7 @@ export function NotifyExpiredEmail({ data = expiredData }: { data?: any }) {
                   </p>
                 </div>
 
-                {/* Product */}
+                {/* Course */}
                 <p className='text-center mt-8'>
                   <b className='text-[24px]'>Sản phẩm</b>
                 </p>

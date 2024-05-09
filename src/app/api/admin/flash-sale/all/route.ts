@@ -4,7 +4,7 @@ import CourseModel from '@/models/CourseModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product, Flash Sale
+// Models: Course, Flash Sale
 import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
 
@@ -76,18 +76,18 @@ export async function GET(req: NextRequest) {
     // Get all flash sales from database
     const flashSales = await FlashSaleModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
 
-    // get products associated with each flash sale
-    const flashSalesWithProducts = await Promise.all(
+    // get courses associated with each flash sale
+    const flashSalesWithCourses = await Promise.all(
       flashSales.map(async flashSale => {
-        const products = await CourseModel.find({ flashSale: flashSale._id })
+        const courses = await CourseModel.find({ flashSale: flashSale._id })
           .select('title images')
           .lean()
-        return { ...flashSale, products }
+        return { ...flashSale, courses }
       })
     )
 
     // Return response
-    return NextResponse.json({ flashSales: flashSalesWithProducts, amount }, { status: 200 })
+    return NextResponse.json({ flashSales: flashSalesWithCourses, amount }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

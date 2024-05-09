@@ -3,7 +3,7 @@ import FlashSaleModel from '@/models/FlashSaleModel'
 import CourseModel from '@/models/CourseModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Product, Flash Sale
+// Models: Course, Flash Sale
 import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
 
@@ -16,7 +16,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     await connectDatabase()
 
     // get data to create flash sale
-    const { type, value, begin, timeType, duration, expire, appliedProducts } = await req.json()
+    const { type, value, begin, timeType, duration, expire, appliedCourses } = await req.json()
 
     // update flashSale
     const updatedFlashSale = await FlashSaleModel.findByIdAndUpdate(id, {
@@ -30,18 +30,18 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
       },
     })
 
-    // get products that have been applied by the updated flash sale before
-    const originalAppliedProducts = await CourseModel.find({ flashSale: updatedFlashSale._id }).select(
+    // get courses that have been applied by the updated flash sale before
+    const originalAppliedCourses = await CourseModel.find({ flashSale: updatedFlashSale._id }).select(
       '_id'
     )
 
-    // get products that have been removed from the updated flash sale
-    const removedProducts = originalAppliedProducts.filter(id => !appliedProducts.includes(id))
-    const setProducts = appliedProducts.filter((id: string) => !originalAppliedProducts.includes(id))
+    // get courses that have been removed from the updated flash sale
+    const removedCourses = originalAppliedCourses.filter(id => !appliedCourses.includes(id))
+    const setCourses = appliedCourses.filter((id: string) => !originalAppliedCourses.includes(id))
 
-    await CourseModel.updateMany({ _id: { $in: removedProducts } }, { $set: { flashSale: null } })
+    await CourseModel.updateMany({ _id: { $in: removedCourses } }, { $set: { flashSale: null } })
     await CourseModel.updateMany(
-      { _id: { $in: setProducts } },
+      { _id: { $in: setCourses } },
       { $set: { flashSale: updatedFlashSale._id } }
     )
 

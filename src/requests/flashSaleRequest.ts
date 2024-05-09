@@ -42,12 +42,12 @@ export const addFlashSaleApi = async (data: any) => {
 }
 
 // [PUT]
-export const updateFlashSaleApi = async (id: string, data: any, appliedProducts: string[]) => {
+export const updateFlashSaleApi = async (id: string, data: any, appliedCourses: string[]) => {
   const res = await fetch(`/api/admin/flash-sale/${id}/edit`, {
     method: 'PUT',
     body: JSON.stringify({
       ...data,
-      appliedProducts,
+      appliedCourses,
     }),
   })
 
@@ -60,10 +60,10 @@ export const updateFlashSaleApi = async (id: string, data: any, appliedProducts:
 }
 
 // [DELETE]
-export const deleteFlashSalesApi = async (ids: string[], productIds: string[]) => {
+export const deleteFlashSalesApi = async (ids: string[], courseIds: string[]) => {
   const res = await fetch('/api/admin/flash-sale/delete', {
     method: 'DELETE',
-    body: JSON.stringify({ ids, productIds }),
+    body: JSON.stringify({ ids, courseIds }),
   })
 
   // check status
