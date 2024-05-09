@@ -4,7 +4,7 @@ import Divider from '@/components/Divider'
 import AdminHeader from '@/components/admin/AdminHeader'
 import { ICourse } from '@/models/CourseModel'
 
-export type GroupTypes = {
+export type GroupCourses = {
   [key: string]: ICourse[]
 }
 

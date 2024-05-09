@@ -17,7 +17,7 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaSearch, FaSort } from 'react-icons/fa'
-import { GroupTypes } from '../add/page'
+import { GroupCourses } from '../add/page'
 
 function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: string[] | string } }) {
   // store
@@ -29,9 +29,9 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
   const [lessons, setLessons] = useState<ILesson[]>([])
   const [amount, setAmount] = useState<number>(0)
   const [selectedLessons, setSelectedLessons] = useState<string[]>([])
-  const [types, setTypes] = useState<ICourse[]>([])
-  const [groupTypes, setGroupTypes] = useState<GroupTypes>({})
-  const [selectedTypes, setSelectedTypes] = useState<string[]>([])
+  const [courses, setCourses] = useState<ICourse[]>([])
+  const [groupCourses, setGroupCourses] = useState<GroupCourses>({})
+  const [selectedCourses, setSelectedCourses] = useState<string[]>([])
 
   // loading & opening
   const [loadingLessons, setLoadingLessons] = useState<string[]>([])
@@ -76,27 +76,30 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
 
       try {
         // sent request to server
-        const { lessons, amount, types } = await getAllLessonsApi(query) // cache: no-store
+        const { lessons, amount, courses } = await getAllLessonsApi(query) // cache: no-store
 
-        // // group course be category.title
-        // const groupTypes: GroupTypes = {}
-        // types.forEach((course: ILesson) => {
-        //   if (!groupTypes[course.category.title]) {
-        //     groupTypes[course.category.title] = []
-        //   }
-        //   groupTypes[course.category.title].push(course)
-        // })
+        // group course by category.title
+        const groupCourses: GroupCourses = {}
+        courses.forEach((course: ICourse) => {
+          course.categories.forEach((category: any) => {
+            const categoryTitle = category.title
+            if (!groupCourses[categoryTitle]) {
+              groupCourses[categoryTitle] = []
+            }
+            groupCourses[categoryTitle].push(course)
+          })
+        })
 
         // update lessons from state
         setLessons(lessons)
         setAmount(amount)
-        setGroupTypes(groupTypes)
-        setTypes(types)
+        setGroupCourses(groupCourses)
+        setCourses(courses)
 
         // sync search params with states
-        setSelectedTypes(
+        setSelectedCourses(
           []
-            .concat((searchParams?.course || types.map((type: ICourse) => type._id)) as [])
+            .concat((searchParams?.course || courses.map((type: ICourse) => type._id)) as [])
             .map(type => type)
         )
         setValue('search', searchParams?.search || getValues('search'))
@@ -114,7 +117,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
       }
     }
     getAllLessons()
-  }, [dispatch, searchParams, getValues, setValue, groupTypes])
+  }, [dispatch, getValues, searchParams, setValue])
 
   // MARK: Handlers
   // activate lesson
@@ -194,10 +197,10 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
       return {
         ...searchParams,
         ...data,
-        course: selectedTypes.length === types.length ? [] : selectedTypes,
+        course: selectedCourses.length === courses.length ? [] : selectedCourses,
       }
     },
-    [selectedTypes, types, searchParams, defaultValues]
+    [selectedCourses, courses, searchParams, defaultValues]
   )
 
   // handle submit filter
@@ -245,12 +248,12 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [lessons, selectedLessons, handleDeleteLessons, handleFilter, handleSubmit, handleResetFilter])
 
-  // check all types of category selected
-  const checkAllTypesOfCategorySelected = useCallback(
+  // check all courses of category selected
+  const checkAllCoursesOfCategorySelected = useCallback(
     (group: any): boolean => {
-      return group.map((type: ICourse) => type._id).every((type: any) => selectedTypes.includes(type))
+      return group.map((type: ICourse) => type._id).every((type: any) => selectedCourses.includes(type))
     },
-    [selectedTypes]
+    [selectedCourses]
   )
 
   return (
@@ -280,49 +283,51 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
         <div className='flex justify-end items-end gap-1 flex-wrap max-h-[228px] md:max-h-[152px] lg:max-h-[152px] overflow-auto col-span-12 md:col-span-8'>
           <div
             className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
-              types.length === selectedTypes.length
+              courses.length === selectedCourses.length
                 ? 'bg-dark-100 text-white border-dark-100'
                 : 'border-slate-300'
             }`}
-            title='All Types'
+            title='All Courses'
             onClick={() =>
-              setSelectedTypes(types.length === selectedTypes.length ? [] : types.map(type => type._id))
+              setSelectedCourses(
+                courses.length === selectedCourses.length ? [] : courses.map(type => type._id)
+              )
             }>
             All
           </div>
-          {Object.keys(groupTypes).map(key => (
+          {Object.keys(groupCourses).map(key => (
             <Fragment key={key}>
               <div
                 className={`ml-2 overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
-                  checkAllTypesOfCategorySelected(groupTypes[key])
+                  checkAllCoursesOfCategorySelected(groupCourses[key])
                     ? 'bg-dark-100 text-white border-dark-100'
                     : 'border-slate-300 bg-slate-200'
                 }`}
                 title={key}
                 onClick={() =>
-                  checkAllTypesOfCategorySelected(groupTypes[key])
-                    ? // remove all types of category
-                      setSelectedTypes(prev =>
-                        prev.filter(id => !groupTypes[key].map(type => type._id).includes(id))
+                  checkAllCoursesOfCategorySelected(groupCourses[key])
+                    ? // remove all courses of category
+                      setSelectedCourses(prev =>
+                        prev.filter(id => !groupCourses[key].map(type => type._id).includes(id))
                       )
-                    : // add all types of category
-                      setSelectedTypes(prev => [...prev, ...groupTypes[key].map(type => type._id)])
+                    : // add all courses of category
+                      setSelectedCourses(prev => [...prev, ...groupCourses[key].map(type => type._id)])
                 }>
                 {key}
               </div>
-              {groupTypes[key].map(type => (
+              {groupCourses[key].map(type => (
                 <div
                   className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
-                    selectedTypes.includes(type._id)
+                    selectedCourses.includes(type._id)
                       ? 'bg-secondary text-white border-secondary'
                       : 'border-slate-300'
                   }`}
                   title={type.title}
                   key={type._id}
                   onClick={
-                    selectedTypes.includes(type._id)
-                      ? () => setSelectedTypes(prev => prev.filter(id => id !== type._id))
-                      : () => setSelectedTypes(prev => [...prev, type._id])
+                    selectedCourses.includes(type._id)
+                      ? () => setSelectedCourses(prev => prev.filter(id => id !== type._id))
+                      : () => setSelectedCourses(prev => [...prev, type._id])
                   }>
                   {type.title}
                 </div>
