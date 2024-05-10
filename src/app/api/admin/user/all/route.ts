@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
           continue
         }
 
-        if (key === 'accumulated' || key === 'balance') {
+        if (key === 'accumulated') {
           filter[key] = { $lte: +params[key][0] }
           continue
         }
@@ -84,8 +84,6 @@ export async function GET(req: NextRequest) {
       {
         $group: {
           _id: null,
-          minBalance: { $min: '$balance' },
-          maxBalance: { $max: '$balance' },
           minAccumulated: { $min: '$accumulated' },
           maxAccumulated: { $max: '$accumulated' },
         },

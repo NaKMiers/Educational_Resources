@@ -1,10 +1,7 @@
-import NotifyExpiredEmail from '@/components/email/NotifyExpiredEmail'
 import NotifyOrderEmail from '@/components/email/NotifyOrderEmail'
 import OrderEmail from '@/components/email/OrderEmail'
 import ResetPasswordEmail from '@/components/email/ResetPasswordEmail'
-import ShortageAccountEmail from '@/components/email/ShortageAccountEmail'
 import SummaryEmail from '@/components/email/SummaryEmail'
-import UpdateInfoEmail from '@/components/email/UpdateInfoEmail'
 import VerifyEmailEmail from '@/components/email/VerifyEmailEmail'
 import UserModel from '@/models/UserModel'
 import { render } from '@react-email/render'
@@ -109,9 +106,4 @@ export async function sendVerifyEmail(email: string, name: string, link: string)
 // verify phone
 export async function sendVerifyPhone(phone: string, name: string, code: string) {
   console.log('- Send Verify Phone -')
-}
-
-// notify that your introduce code has been used
-export async function notifyUsedIntroduceCode(email: string, data: any) {
-  console.log('- Notify Used Introduce Code -')
 }

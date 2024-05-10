@@ -35,9 +35,6 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
 
   // values
   const itemPerPage = 9
-  const [minBalance, setMinBalance] = useState<number>(0)
-  const [maxBalance, setMaxBalance] = useState<number>(0)
-  const [balance, setBalance] = useState<number>(0)
   const [minAccumulated, setMinAccumulated] = useState<number>(0)
   const [maxAccumulated, setMaxAccumulated] = useState<number>(0)
   const [accumulated, setAccumulated] = useState<number>(0)
@@ -85,11 +82,6 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
         setValue('search', searchParams?.search || getValues('search'))
         setValue('sort', searchParams?.sort || getValues('sort'))
         setValue('role', searchParams?.role || getValues('role'))
-
-        // set balance
-        setMinBalance(chops.minBalance)
-        setMaxBalance(chops.maxBalance)
-        setBalance(searchParams?.balance ? +searchParams.balance : chops.maxBalance)
 
         // set accumulated
         setMinAccumulated(chops.minAccumulated)
@@ -158,11 +150,10 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
 
       return {
         ...data,
-        balance: balance === maxBalance ? [] : [balance.toString()],
         accumulated: accumulated === maxAccumulated ? [] : [accumulated.toString()],
       }
     },
-    [accumulated, balance, maxBalance, maxAccumulated, searchParams, defaultValues]
+    [accumulated, maxAccumulated, searchParams, defaultValues]
   )
 
   // handle submit filter
@@ -231,25 +222,6 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
             type='text'
             icon={FaSearch}
             onFocus={() => clearErrors('search')}
-          />
-        </div>
-
-        {/* Balance */}
-        <div className='flex flex-col col-span-12 md:col-span-4'>
-          <label htmlFor='balance'>
-            <span className='font-bold'>Balance: </span>
-            <span>{formatPrice(balance)}</span> - <span>{formatPrice(maxBalance)}</span>
-          </label>
-          <input
-            id='balance'
-            className='input-range h-2 bg-slate-200 rounded-lg my-2'
-            placeholder=' '
-            disabled={false}
-            type='range'
-            min={minBalance || 0}
-            max={maxBalance || 0}
-            value={balance}
-            onChange={e => setBalance(+e.target.value)}
           />
         </div>
 

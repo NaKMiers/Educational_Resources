@@ -46,7 +46,6 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
       search: '',
       sort: 'updatedAt|-1',
       active: 'true',
-      usingUser: 'true',
       expire: '',
       renew: '',
     }
@@ -107,7 +106,6 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
         setValue('search', searchParams?.search || getValues('search'))
         setValue('sort', searchParams?.sort || getValues('sort'))
         setValue('active', searchParams?.active || getValues('active').toString())
-        setValue('usingUser', searchParams?.usingUser || getValues('usingUser').toString())
         setValue('expire', searchParams?.expire || getValues('expire'))
         setValue('renew', searchParams?.renew || getValues('renew'))
       } catch (err: any) {
@@ -397,87 +395,6 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
               {
                 value: false,
                 label: 'Off',
-              },
-            ]}
-          />
-
-          {/* Using */}
-          <Input
-            id='usingUser'
-            label='Using'
-            disabled={false}
-            register={register}
-            errors={errors}
-            icon={FaSort}
-            type='select'
-            onFocus={() => clearErrors('info')}
-            options={[
-              {
-                value: 'all',
-                label: 'All',
-              },
-              {
-                value: true,
-                label: 'Using',
-                selected: true,
-              },
-              {
-                value: false,
-                label: 'Empty',
-              },
-            ]}
-          />
-
-          {/* Expire */}
-          <Input
-            id='expire'
-            label='Expiry'
-            disabled={false}
-            register={register}
-            errors={errors}
-            icon={FaSort}
-            type='select'
-            onFocus={() => clearErrors('info')}
-            options={[
-              {
-                value: '',
-                label: 'All',
-                selected: true,
-              },
-              {
-                value: true,
-                label: 'Expired',
-              },
-              {
-                value: false,
-                label: 'Normal',
-              },
-            ]}
-          />
-
-          {/* Renew */}
-          <Input
-            id='renew'
-            label='Renew'
-            disabled={false}
-            register={register}
-            errors={errors}
-            icon={FaSort}
-            type='select'
-            onFocus={() => clearErrors('info')}
-            options={[
-              {
-                value: '',
-                label: 'All',
-                selected: true,
-              },
-              {
-                value: true,
-                label: 'Expired',
-              },
-              {
-                value: false,
-                label: 'Normal',
               },
             ]}
           />

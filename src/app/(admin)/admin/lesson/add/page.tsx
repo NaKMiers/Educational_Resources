@@ -14,8 +14,8 @@ import { addLessonApi, getForceAllCoursesApi } from '@/requests'
 import toast from 'react-hot-toast'
 import { FaX } from 'react-icons/fa6'
 import { MdCategory } from 'react-icons/md'
-import { SiFramer } from 'react-icons/si'
 import { RiCharacterRecognitionLine } from 'react-icons/ri'
+import { SiFramer } from 'react-icons/si'
 
 export type GroupCourses = {
   [key: string]: ICourse[]
@@ -147,11 +147,9 @@ function AddLessonPage() {
       // clear form
       reset()
       setFile(null)
-      URL.revokeObjectURL(fileUrl)
       setFileUrl('')
-
-      // show success message
-      toast.success(message)
+      setEmbedSrc('')
+      URL.revokeObjectURL(fileUrl)
     } catch (err: any) {
       console.log(err)
       toast.error(err.message)

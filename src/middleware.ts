@@ -52,7 +52,7 @@ export default async function middleware(req: NextRequest) {
     return requireAdmin(req, token)
   }
   // require auth
-  else if (req.nextUrl.pathname.startsWith('/user') || req.nextUrl.pathname.startsWith('/recharge')) {
+  else if (req.nextUrl.pathname.startsWith('/user')) {
     return requireAuth(req, token)
   }
   // require unauth

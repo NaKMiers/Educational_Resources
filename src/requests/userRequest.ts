@@ -14,6 +14,19 @@ export const getAllUsersApi = async (query: string = '') => {
 }
 
 // [GET]
+export const getUsersApi = async (id: string = '') => {
+  // no-store to bypass cache
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/user/${id}`, { cache: 'no-store' })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [GET]
 export const getRoleUsersApi = async () => {
   // no-store to bypass cache
   const res = await fetch('/api/admin/user/role-users', { cache: 'no-store' })
@@ -85,21 +98,6 @@ export const changePasswordApi = async (data: any) => {
 }
 
 // [PATCH]
-export const rechargeUserApi = async (id: string, amount: number) => {
-  const res = await fetch(`/api/admin/user/${id}/recharge`, {
-    method: 'PATCH',
-    body: JSON.stringify({ amount }),
-  })
-
-  // check status
-  if (!res.ok) {
-    throw new Error((await res.json()).message)
-  }
-
-  return await res.json()
-}
-
-// [PATCH]
 export const setCollaboratorApi = async (userId: string, type: string, value: string) => {
   const res = await fetch(`/api/admin/user/${userId}/set-collaborator`, {
     method: 'PATCH',
@@ -118,6 +116,36 @@ export const setCollaboratorApi = async (userId: string, type: string, value: st
 export const demoteCollaboratorApi = async (userId: string) => {
   const res = await fetch(`/api/admin/user/${userId}/demote-collaborator`, {
     method: 'PATCH',
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [PATCH]
+export const blockCommentApi = async (userId: string, value: boolean) => {
+  const res = await fetch(`/api/admin/user/${userId}/block-comment`, {
+    method: 'PATCH',
+    body: JSON.stringify({ value }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [PATCH]
+export const blockAddQuestionApi = async (userId: string, value: boolean) => {
+  const res = await fetch(`/api/admin/user/${userId}/block-add-question`, {
+    method: 'PATCH',
+    body: JSON.stringify({ value }),
   })
 
   // check status

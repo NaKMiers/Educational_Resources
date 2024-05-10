@@ -38,6 +38,10 @@ const UserSchema = new Schema(
         message: 'Số điện thoại không hợp lệ',
       },
     },
+    bio: {
+      type: String,
+      default: '',
+    },
     verifiedEmail: {
       type: Boolean,
       default: false,
@@ -148,7 +152,7 @@ const UserSchema = new Schema(
         type: Boolean,
         default: false,
       },
-      repliedComment: {
+      blockedAddingQuestion: {
         type: Boolean,
         default: false,
       },
@@ -185,6 +189,7 @@ export interface IUser {
   username: string
   email: string
   phone: string
+  bio: string
   verifiedEmail: boolean
   verifiedPhone: boolean
   password: string
@@ -209,7 +214,7 @@ export interface IUser {
   }
   blockStatuses: {
     blockedComment: boolean
-    repliedComment: boolean
+    blockedAddingQuestion: boolean
   }
   createdAt: string
   updatedAt: string

@@ -1,0 +1,125 @@
+'use client'
+
+import { useAppDispatch, useAppSelector } from '@/libs/hooks'
+import { setPageLoading } from '@/libs/reducers/modalReducer'
+import { applyFlashSalePrice, countPercent } from '@/utils/number'
+import mongoose from 'mongoose'
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useState } from 'react'
+import toast from 'react-hot-toast'
+import { FaCartPlus } from 'react-icons/fa'
+import { FaCircleCheck } from 'react-icons/fa6'
+import { MdEdit } from 'react-icons/md'
+import { RiDonutChartFill } from 'react-icons/ri'
+import Price from './Price'
+import { ICourse } from '@/models/CourseModel'
+import { IFlashSale } from '@/models/FlashSaleModel'
+
+interface CourseCardProps {
+  course: ICourse
+  className?: string
+}
+
+function CourseCard({ course, className = '' }: CourseCardProps) {
+  // hooks
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const { data: session } = useSession()
+  const curUser: any = session?.user
+
+  // states
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  return (
+    <div
+      className={`relative w-full h-full min-h-[430px] p-4 bg-white shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
+      {/* MARK: Thumbnails */}
+      <Link
+        href={`/${course.slug}`}
+        prefetch={false}
+        className='relative aspect-video rounded-lg overflow-hidden shadow-lg block'>
+        <div className='flex w-full overflow-x-scroll snap-x snap-mandatory'>
+          {course.images.map(src => (
+            <Image
+              className='flex-shrink-0 snap-start w-full h-full object-cover'
+              src={src}
+              width={250}
+              height={250}
+              alt='netflix'
+              key={src}
+            />
+          ))}
+        </div>
+      </Link>
+
+      {/* Badge */}
+      {course.oldPrice && (
+        <div className='absolute z-10 -top-2 -left-2 rounded-tl-lg rounded-br-lg bg-yellow-400 p-1 max-w-10 text-white font-semibold font-body text-center text-[13px] leading-4'>
+          Giảm{' '}
+          {countPercent(
+            applyFlashSalePrice(course.flashSale as IFlashSale, course.price) || 0,
+            course.oldPrice
+          )}
+        </div>
+      )}
+
+      {/* Title */}
+      <Link href={`/${course.slug}`} prefetch={false}>
+        <h3
+          className='font-body text-[18px] text-dark tracking-wide leading-[22px] my-3'
+          title={course.title}>
+          {course.title}
+        </h3>
+      </Link>
+
+      {/* Price */}
+      <Price
+        price={course.price}
+        oldPrice={course.oldPrice}
+        flashSale={course.flashSale as IFlashSale}
+        className='mb-2'
+      />
+
+      {/* Basic Information */}
+      <div className='flex items-center font-body tracking-wide'>
+        <FaCircleCheck size={16} className='text-darker' />
+        <span className='font-bold text-darker ml-1'>Student:</span>
+        <span className='text-red-500 ml-1'>{course.joined}</span>
+      </div>
+
+      {/* MARK: Action Buttons */}
+      <div className='flex items-center justify-end md:justify-start gap-2 mt-2'>
+        <button
+          className={`bg-secondary rounded-md text-white px-2 py-[5px] font-semibold font-body tracking-wider text-nowrap hover:bg-primary common-transition ${
+            isLoading ? 'bg-slate-200 pointer-events-none' : ''
+          }`}
+          disabled={isLoading}>
+          MUA NGAY
+        </button>
+        <button
+          className={`bg-primary rounded-md py-2 px-3 group hover:bg-primary-600 hover:bg-secondary common-transition ${
+            isLoading ? 'pointer-events-none bg-slate-200' : ''
+          }`}
+          disabled={isLoading}>
+          {isLoading ? (
+            <RiDonutChartFill size={18} className='animate-spin text-white' />
+          ) : (
+            <FaCartPlus size={18} className='text-white wiggle' />
+          )}
+        </button>
+        {['admin', 'editor'].includes(curUser?.role) && (
+          <Link
+            href={`/admin/course/all?_id=${course?._id}`}
+            className='flex items-center justify-center h-[34px] border border-yellow-400 rounded-md px-3 group hover:bg-primary-600 common-transition'>
+            <MdEdit size={18} className='wiggle text-yellow-400' />
+          </Link>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default CourseCard

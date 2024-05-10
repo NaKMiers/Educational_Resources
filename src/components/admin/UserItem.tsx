@@ -1,5 +1,10 @@
 import { IUser } from '@/models/UserModel'
-import { demoteCollaboratorApi, rechargeUserApi, setCollaboratorApi } from '@/requests'
+import {
+  blockAddQuestionApi,
+  blockCommentApi,
+  demoteCollaboratorApi,
+  setCollaboratorApi,
+} from '@/requests'
 import { formatPrice } from '@/utils/number'
 import { formatDate, formatTime } from '@/utils/time'
 import { useSession } from 'next-auth/react'
@@ -7,9 +12,10 @@ import Image from 'next/image'
 import React, { useCallback, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { FaPlusCircle, FaTrash } from 'react-icons/fa'
+import { FaCommentSlash, FaTrash } from 'react-icons/fa'
 import { GrUpgrade } from 'react-icons/gr'
 import { HiLightningBolt } from 'react-icons/hi'
+import { ImBlocked } from 'react-icons/im'
 import { RiCheckboxMultipleBlankLine, RiDonutChartFill } from 'react-icons/ri'
 import ConfirmDialog from '../ConfirmDialog'
 import Input from '../Input'
@@ -42,12 +48,16 @@ function UserItem({
 
   // states
   const [userData, setUserData] = useState<IUser>(data)
-  const [isOpenRecharge, setIsOpenRecharge] = useState<boolean>(false)
-  const [isLoadingRecharge, setIsLoadingRecharge] = useState<boolean>(false)
   const [isOpenSetCollaborator, setIsOpenSetCollaborator] = useState<boolean>(false)
   const [isLoadingSetCollaborator, setIsLoadingSetCollaborator] = useState<boolean>(false)
   const [isDemoting, setIsDemoting] = useState<boolean>(false)
+  const [isBlockingComment, setIsBlockingComment] = useState<boolean>(false)
+  const [isBlockingAddQuestion, setIsBlockingAddQuestion] = useState<boolean>(false)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState<boolean>(false)
+  const [isOpenBlockCommentConfirmationDialog, setIsOpenBlockCommentConfirmationDialog] =
+    useState<boolean>(false)
+  const [isOpenBlockAddQuestionConfirmationDialog, setIsOpenBlockAddQuestionConfirmationDialog] =
+    useState<boolean>(false)
   const [isOpenDemoteCollboratorConfirmationDialog, setIsOpenDemoteCollboratorConfirmationDialog] =
     useState<boolean>(false)
 
@@ -64,38 +74,12 @@ function UserItem({
     clearErrors,
   } = useForm<FieldValues>({
     defaultValues: {
-      recharge: '',
       type: 'percentage',
       ['value-' + data._id]: '10%',
     },
   })
 
   // MARK: Handlers
-  // submit recharge form
-  const onRechargeSubmit: SubmitHandler<FieldValues> = async formData => {
-    setIsLoadingRecharge(true)
-
-    try {
-      // send request to server
-      const { user, message } = await rechargeUserApi(userData._id, formData.recharge)
-
-      // update user data
-      setUserData(user)
-
-      // show success message
-      toast.success(message)
-
-      // reset
-      reset()
-      setIsOpenRecharge(false)
-    } catch (err: any) {
-      console.log(err)
-      toast.error(err.response.userData.message)
-    } finally {
-      setIsLoadingRecharge(false)
-    }
-  }
-
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
     formData => {
@@ -150,7 +134,7 @@ function UserItem({
       setIsOpenSetCollaborator(false)
     } catch (err: any) {
       console.log(err)
-      toast.error(err.response.userData.message)
+      toast.error(err.message)
     } finally {
       setIsLoadingSetCollaborator(false)
     }
@@ -174,11 +158,67 @@ function UserItem({
       reset()
       setIsOpenSetCollaborator(false)
     } catch (err: any) {
-      toast.error(err.response.userData.message)
+      toast.error(err.message)
     } finally {
       setIsDemoting(false)
     }
   }, [data._id, reset])
+
+  // handle block / unblock comment
+  const handleBlockComment = useCallback(async () => {
+    // start loading
+    setIsBlockingComment(true)
+
+    try {
+      // send request to server
+      const { updatedUser, message } = await blockCommentApi(
+        data._id,
+        !userData.blockStatuses.blockedComment
+      )
+
+      // update user data
+      setUserData(updatedUser)
+
+      // show success message
+      toast.success(message)
+    } catch (err: any) {
+      console.log(err)
+      toast.error(err.message)
+    } finally {
+      // stop loading
+      setIsBlockingComment(false)
+    }
+  }, [data._id, userData.blockStatuses.blockedComment])
+
+  console.log('data', data)
+
+  // handle block / unblock adding question
+  const handleBlockAddingQuestion = useCallback(async () => {
+    // start loading
+    setIsBlockingAddQuestion(true)
+
+    try {
+      // send request to server
+      const { updatedUser, message } = await blockAddQuestionApi(
+        data._id,
+        !userData.blockStatuses.blockedAddingQuestion
+      )
+
+      console.log('updatedUser', updatedUser)
+
+      // update user data
+      setUserData(updatedUser)
+
+      // show success message
+      toast.success(message)
+    } catch (err: any) {
+      console.log(err)
+      toast.error(err.message)
+    } finally {
+      // stop loading
+      setIsBlockingAddQuestion(false)
+    }
+  }, [data._id, userData.blockStatuses.blockedAddingQuestion])
 
   return (
     <>
@@ -277,39 +317,6 @@ function UserItem({
           </p>
         </div>
 
-        {/* MARK: Recharge Modal */}
-        {isOpenRecharge && (
-          <div
-            className='absolute z-20 p-21 top-0 left-0 w-full h-full flex items-center justify-center gap-2 rounded-md bg-secondary bg-opacity-80'
-            onClick={e => {
-              e.stopPropagation()
-              setIsOpenRecharge(false)
-            }}>
-            <Input
-              id='recharge'
-              label='Recharge'
-              disabled={isLoadingRecharge}
-              register={register}
-              errors={errors}
-              required
-              type='number'
-              icon={HiLightningBolt}
-              className='w-full shadow-lg'
-              onClick={e => e.stopPropagation()}
-              onFocus={() => clearErrors('recharge')}
-            />
-            <LoadingButton
-              className='px-4 h-[46px] shadow-lg flex items-center justify-center bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
-              text='Add'
-              onClick={e => {
-                e.stopPropagation()
-                handleSubmit(onRechargeSubmit)(e)
-              }}
-              isLoading={isLoadingRecharge}
-            />
-          </div>
-        )}
-
         {/* MARK: Set Collaborator Modal */}
         {isOpenSetCollaborator && (
           <div
@@ -382,7 +389,7 @@ function UserItem({
               }}
               disabled={loadingUsers.includes(userData._id) || isDemoting}
               title={userData.role === 'collaborator' ? 'Demote' : 'Promote'}>
-              {isDemoting ? (
+              {loadingUsers.includes(userData._id) ? (
                 <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
               ) : (
                 <GrUpgrade
@@ -394,16 +401,56 @@ function UserItem({
               )}
             </button>
 
-            {/* Add Balance Button */}
+            {/* Block Comment Button */}
             <button
               className='block group'
               onClick={e => {
                 e.stopPropagation()
-                setIsOpenRecharge(true)
+                setIsOpenBlockCommentConfirmationDialog(true)
               }}
-              disabled={loadingUsers.includes(userData._id) || isDemoting}
-              title='Recharge'>
-              <FaPlusCircle size={18} className='wiggle' />
+              disabled={
+                loadingUsers.includes(userData._id) ||
+                isBlockingComment ||
+                isBlockingAddQuestion ||
+                isDemoting
+              }
+              title='Block COmment'>
+              {isBlockingComment ? (
+                <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
+              ) : (
+                <FaCommentSlash
+                  size={18}
+                  className={`wiggle ${
+                    userData.blockStatuses.blockedComment ? 'text-rose-500' : 'text-green-500'
+                  }`}
+                />
+              )}
+            </button>
+
+            {/* Block Add Question Button */}
+            <button
+              className='block group'
+              onClick={e => {
+                e.stopPropagation()
+                setIsOpenBlockAddQuestionConfirmationDialog(true)
+              }}
+              disabled={
+                loadingUsers.includes(userData._id) ||
+                isBlockingComment ||
+                isBlockingAddQuestion ||
+                isDemoting
+              }
+              title='Block Add Question'>
+              {isBlockingAddQuestion ? (
+                <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
+              ) : (
+                <ImBlocked
+                  size={18}
+                  className={`wiggle ${
+                    userData.blockStatuses.blockedAddingQuestion ? 'text-rose-500' : 'text-green-500'
+                  }`}
+                />
+              )}
             </button>
 
             {/* Delete Button */}
@@ -413,7 +460,12 @@ function UserItem({
                 e.stopPropagation()
                 setIsOpenConfirmModal(true)
               }}
-              disabled={loadingUsers.includes(userData._id) || isDemoting}
+              disabled={
+                loadingUsers.includes(userData._id) ||
+                isBlockingComment ||
+                isBlockingAddQuestion ||
+                isDemoting
+              }
               title='Delete'>
               {loadingUsers.includes(userData._id) ? (
                 <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
@@ -433,6 +485,26 @@ function UserItem({
         content='Are you sure that you want to delete this user?'
         onAccept={() => handleDeleteUsers([data._id])}
         isLoading={loadingUsers.includes(data._id)}
+      />
+
+      {/* Confirm Block Comment Dialog */}
+      <ConfirmDialog
+        open={isOpenBlockCommentConfirmationDialog}
+        setOpen={setIsOpenBlockCommentConfirmationDialog}
+        title='Block Comment'
+        content='Are you sure that you want to block comment this user?'
+        onAccept={handleBlockComment}
+        isLoading={isBlockingComment}
+      />
+
+      {/* Confirm Block Add Question Dialog */}
+      <ConfirmDialog
+        open={isOpenBlockAddQuestionConfirmationDialog}
+        setOpen={setIsOpenBlockAddQuestionConfirmationDialog}
+        title='Block Adding Question'
+        content='Are you sure that you want to block adding question this user?'
+        onAccept={handleBlockAddingQuestion}
+        isLoading={isBlockingAddQuestion}
       />
 
       {/* Confirm Demote Collaborator Dialog */}

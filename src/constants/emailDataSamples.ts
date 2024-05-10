@@ -30,8 +30,6 @@ export const expiredData = {
   __v: 0,
   begin: '2024-04-20T07:10:14.022Z',
   expire: '2024-07-29T07:10:14.000Z',
-  usingUser: 'oehaao@mailto.plus',
-
   remainingTime: '2 giờ',
 }
 
@@ -267,7 +265,6 @@ export const summary = {
   collaborator: {
     _id: '65a8076a46110713ceda2b94',
     email: 'hothingoctram03@gmail.com',
-    balance: 2222222,
     accumulated: 10067321,
     role: 'editor',
     avatar:

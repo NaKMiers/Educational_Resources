@@ -1,4 +1,3 @@
-// import { FullyOrder } from '@/app/api/user/order-history/route'
 // import AccountModel, { IAccount } from '@/models/AccountModel'
 // import OrderModel from '@/models/OrderModel'
 // import CourseModel from '@/models/CourseModel'
@@ -23,7 +22,7 @@
 
 // export default async function handleDeliverOrder(id: string, message: string = '') {
 //   // get order from database to deliver
-//   const order: FullyOrder | null = await OrderModel.findById(id)
+//   const order: IOrder | null = await OrderModel.findById(id)
 //     .populate({
 //       path: 'voucherApplied',
 //       select: 'code',
@@ -63,12 +62,6 @@
 //             { active: true }, // active: true
 //             { active: null }, // active: true
 //             { active: { $exists: false } }, // active does not exist
-//           ],
-//         },
-//         {
-//           $or: [
-//             { usingUser: null }, // using user does not exist
-//             { usingUser: { $exists: false } }, // using user does not exist
 //           ],
 //         },
 //         {
@@ -129,7 +122,6 @@
 //           $set: {
 //             begin: new Date(),
 //             expire: calcExpireTime(days, hours, minutes, seconds),
-//             usingUser: email,
 //           },
 //         },
 //       },
@@ -184,13 +176,6 @@
 //   }
 
 //   // USER
-//   // check balance payment method
-//   if (paymentMethod === 'balance') {
-//     await UserModel.findByIdAndUpdate(order.userId, {
-//       $inc: { balance: -total },
-//     })
-//   }
-
 //   // update order items with accounts
 //   const updatedItems = items.map(item => {
 //     let accounts = accountDataList.find(acc => acc.courseId.toString() === item.course._id.toString())
