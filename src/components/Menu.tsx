@@ -51,13 +51,13 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
             : 'max-h-0 sm:max-h-0 p-0 sm:max-w-0 sm:w-0 opacity-0x'
         } ${
           curUser && !curUser?._id ? 'hidden' : ''
-        } w-full h-[calc(100vh_-_72px)] sm:h-auto overflow-hidden transition-all duration-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-200 bg-opacity-75`}>
+        } w-full overflow-hidden transition-all duration-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-200 bg-opacity-75`}>
         {curUser ? (
           // MARK: User Logged In
           curUser?._id && (
             <>
               <Link
-                href='/user'
+                href={`/user/${curUser?._id}`}
                 className='flex items-center gap-2 py-2 px-3 rounded-lg group hover:bg-white common-transition'>
                 <Image
                   className='aspect-square rounded-full wiggle-0'

@@ -1,22 +1,12 @@
 'use client'
 
-import { useAppDispatch, useAppSelector } from '@/libs/hooks'
-import { setPageLoading } from '@/libs/reducers/modalReducer'
-import { applyFlashSalePrice, countPercent } from '@/utils/number'
-import mongoose from 'mongoose'
+import { useAppDispatch } from '@/libs/hooks'
+import { ICourse } from '@/models/CourseModel'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useCallback, useState } from 'react'
-import toast from 'react-hot-toast'
-import { FaCartPlus } from 'react-icons/fa'
-import { FaCircleCheck } from 'react-icons/fa6'
-import { MdEdit } from 'react-icons/md'
-import { RiDonutChartFill } from 'react-icons/ri'
-import Price from './Price'
-import { ICourse } from '@/models/CourseModel'
-import { IFlashSale } from '@/models/FlashSaleModel'
+import { useState } from 'react'
 
 interface CourseCardProps {
   course: ICourse
@@ -35,7 +25,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
 
   return (
     <div
-      className={`relative w-full h-full p-4 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
+      className={`relative w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
       {/* MARK: Thumbnails */}
       <Link
         href={`/${course.slug}`}
