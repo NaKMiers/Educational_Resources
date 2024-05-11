@@ -2,6 +2,7 @@
 
 import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
+import { IQuestion } from '@/models/QuestionModel'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import CourseCard from './CourseCard'
@@ -9,10 +10,11 @@ import Question from './Question'
 
 interface GroupCoursesProps {
   category?: ICategory
-  courses: {
+  courses?: {
     course: ICourse
     progress: number
   }[]
+  questions?: IQuestion[]
   hideTop?: boolean
   className?: string
   childClassName?: string
@@ -22,7 +24,8 @@ interface GroupCoursesProps {
 
 function GroupCourses({
   category,
-  courses,
+  courses = [],
+  questions = [],
   child,
   hideTop,
   bestSeller,
@@ -109,37 +112,17 @@ function GroupCourses({
           onMouseDown={() => setIsDragging(true)}
           onMouseMove={handleDraging}
           onMouseUp={() => setIsDragging(false)}>
-          {courses.map((course, index) => {
-            // const color =
-            //   index <= 2 ? (index <= 1 ? (index <= 0 ? '#f44336' : 'orange') : 'lightgreen') : '#0dcaf0'
-
-            return (
-              <div
-                key={course.course._id}
-                className={`relative flex-shrink-0 ${
-                  !isDragging ? 'snap-start' : ''
-                } ${childClassName}`}>
-                {/* {bestSeller && (
-                  <div
-                    className='absolute z-20 right-1 font-[700] rotate-[10deg]'
-                    style={{
-                      color,
-                      fontSize:
-                        index <= 2 ? (index <= 1 ? (index <= 0 ? '56px' : '48px') : '40px') : '32px',
-                      top:
-                        index <= 2 ? (index <= 1 ? (index <= 0 ? '-30px' : '-26px') : '-22px') : '-13px',
-                    }}>
-                    #{index + 1}
-                  </div>
-                )} */}
-                {child === 'course-card' ? (
-                  <CourseCard course={course.course} className='' />
-                ) : (
-                  <Question />
-                )}
-              </div>
-            )
-          })}
+          {(child === 'course-card' ? courses : questions).map((item: any, index) => (
+            <div
+              key={index}
+              className={`relative flex-shrink-0 ${!isDragging ? 'snap-start' : ''} ${childClassName}`}>
+              {child === 'course-card' ? (
+                <CourseCard course={item.course} className='' />
+              ) : (
+                <Question question={item} />
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 const QuestionSchema = new Schema(
   {
-    title: {
+    content: {
       type: String,
       required: true,
     },
@@ -24,14 +24,25 @@ const QuestionSchema = new Schema(
       enum: ['open', 'closed'],
       default: 'open',
     },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        default: [],
+      },
+    ],
+    commentAmount: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 )
 
-// pre-save hook to generate slug from title
+// pre-save hook to generate slug from content
 QuestionSchema.pre('save', function (next) {
-  if (this.isModified('title')) {
-    this.slug = generateSlug(this.title)
+  if (this.isModified('content')) {
+    this.slug = generateSlug(this.content)
   }
   next()
 })
@@ -42,9 +53,11 @@ export default QuestionModel
 export interface IQuestion {
   _id: string
   userId: string | IUser
-  title: string
+  content: string
   slug: string
   status: string
+  likes: string[]
+  commentAmount: number
   createdAt: string
   updatedAt: string
 }

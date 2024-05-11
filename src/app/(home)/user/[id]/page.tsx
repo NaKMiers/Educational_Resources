@@ -1,3 +1,4 @@
+import Background from '@/components/Background'
 import Divider from '@/components/Divider'
 import GroupCourses from '@/components/GroupCourses'
 import { IUser } from '@/models/UserModel'
@@ -22,9 +23,7 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
   return (
     <div className='bg-opacity-75'>
       {/* Background */}
-      <div className='fixed -z-10 top-0 left-0 w-full h-full flex items-start justify-center bg-primary '>
-        <Image src='/images/logo.png' width={300} height={300} alt='logo' />
-      </div>
+      <Background />
 
       {/* Top */}
       <div className='flex flex-col sm:flex-row items-center justify-between gap-21 px-21 md:px-20 py-10 border-b-2 border-dark'>
@@ -101,7 +100,7 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
           className='md:px-20'
           child='question'
           childClassName='w-full sm:w-1/2 md:w-1/3 px-21/2'
-          courses={[...user.courses, ...user.courses, ...user.courses, ...user.courses]}
+          questions={user.questions}
         />
 
         <Divider size={20} />

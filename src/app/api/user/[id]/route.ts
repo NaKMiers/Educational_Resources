@@ -29,7 +29,7 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
       return NextResponse.json({ message: 'User not found' }, { status: 404 })
     }
 
-    const questions: IQuestion[] = await QuestionModel.find({ user: id }).lean()
+    const questions: IQuestion[] = await QuestionModel.find({ userId: id }).populate('userId').lean()
     user.questions = questions
 
     // return user

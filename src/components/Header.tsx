@@ -7,20 +7,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaSearch } from 'react-icons/fa'
+import { FaBell, FaHome, FaSearch } from 'react-icons/fa'
 import { FaBars } from 'react-icons/fa6'
-import { HiLightningBolt } from 'react-icons/hi'
-import { IoClose } from 'react-icons/io5'
 import { PiLightningFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
 import Menu from './Menu'
+import { SiCoursera } from 'react-icons/si'
 
 interface HeaderProps {
   isStatic?: boolean
-  hideSearch?: boolean
 }
 
-function Header({ isStatic, hideSearch }: HeaderProps) {
+function Header({ isStatic }: HeaderProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { data: session, update } = useSession()
@@ -149,17 +147,21 @@ function Header({ isStatic, hideSearch }: HeaderProps) {
           } w-full lg:min-w-[520px] duration-300 transition-all`}>
           <div
             className={`${
-              openSearch ? 'max-w-0 w-0 overflow-hidden mr-0' : 'max-w-[136.8px] w-full mr-21'
+              openSearch
+                ? 'max-w-0 w-0 overflow-hidden mr-0'
+                : 'max-w-[68px] md:max-w-[136.8px] w-full mr-21'
             } flex items-center gap-21 duration-300 transition-all`}>
             <Link
               href='/'
               className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
-              Home
+              <span className='hidden md:block'>Home</span>
+              <FaHome size={24} className='md:hidden' />
             </Link>
             <Link
               href='/courses'
               className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
-              Courses
+              <span className='hidden md:block'>Course</span>
+              <SiCoursera size={24} className='md:hidden' />
             </Link>
           </div>
 
@@ -253,23 +255,28 @@ function Header({ isStatic, hideSearch }: HeaderProps) {
         <div className='flex-shrink-0 hidden md:flex items-center gap-4'>
           {curUser ? (
             !!curUser._id && (
-              <div
-                className='flex items-center gap-2 cursor-pointer'
-                onClick={() => setIsOpenMenu(prev => !prev)}>
-                <Image
-                  className='aspect-square rounded-full wiggle-0'
-                  src={curUser?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR!}
-                  width={40}
-                  height={40}
-                  alt='avatar'
-                />
+              <>
+                <button className='group'>
+                  <FaBell size={24} className='wiggle' />
+                </button>
+                <div
+                  className='flex items-center gap-2 cursor-pointer'
+                  onClick={() => setIsOpenMenu(prev => !prev)}>
+                  <Image
+                    className='aspect-square rounded-full wiggle-0'
+                    src={curUser?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR!}
+                    width={40}
+                    height={40}
+                    alt='avatar'
+                  />
 
-                <span className='font-semibold text-lg'>
-                  {curUser?.firstName && curUser?.lastName
-                    ? `${curUser.firstName} ${curUser.lastName}`
-                    : curUser.username}
-                </span>
-              </div>
+                  <span className='font-semibold text-lg'>
+                    {curUser?.firstName && curUser?.lastName
+                      ? `${curUser.firstName} ${curUser.lastName}`
+                      : curUser.username}
+                  </span>
+                </div>
+              </>
             )
           ) : (
             <div className='flex items-center gap-3'>
@@ -288,7 +295,10 @@ function Header({ isStatic, hideSearch }: HeaderProps) {
         </div>
 
         {/* Menu Button */}
-        <div className='md:hidden flex items-center'>
+        <div className='md:hidden flex items-center gap-0.5'>
+          <button className='group'>
+            <FaBell size={22} className='wiggle' />
+          </button>
           <button
             className='flex justify-center items-center w-[40px] h-[40px]'
             onClick={() => setIsOpenMenu(prev => !prev)}>
