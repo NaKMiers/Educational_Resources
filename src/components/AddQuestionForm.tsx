@@ -53,7 +53,7 @@ function AddQuestionForm() {
         href={`/user/${curUser?._id}`}
         className='flex-shrink-0 w-[40px] h-[40px] rounded-full overflow-hidden shadow-lg border-2 border-white'>
         <Image
-          src={curUser.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
+          src={curUser?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
           width={40}
           height={40}
           alt='avatar'
@@ -65,7 +65,7 @@ function AddQuestionForm() {
         type='text'
         value={value}
         onChange={e => setValue(e.target.value)}
-        placeholder={`What's on your mind${curUser.lastName ? `, ${curUser.lastName}` : ''}?`}
+        placeholder={`What's on your mind${curUser?.lastName ? `, ${curUser?.lastName}` : ''}?`}
       />
 
       <LoadingButton

@@ -40,8 +40,7 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials: any) {
-        await connectDatabase()
-        console.log('- Cedentials -', credentials)
+        console.log('- Credentials -', credentials)
 
         // check if credentials is empty
         if (!credentials?.usernameOrEmail || !credentials?.password) {
@@ -58,7 +57,7 @@ const handler = NextAuth({
 
         // check user exists or not in database
         if (!user) {
-          throw new Error('Tài khoản hoặc mật khẩu không đúng')
+          throw new Error('Email or Password is incorrect!')
         }
 
         // check if user is not local
@@ -70,7 +69,7 @@ const handler = NextAuth({
         const isValidPassword = await bcrypt.compare(password, user.password)
         if (!isValidPassword) {
           // push error to call back
-          throw new Error('Tài khoản hoặc mật khẩu không đúng')
+          throw new Error('Email or Password is incorrect!')
         }
 
         // // exclude password from user who have just logined
@@ -154,8 +153,6 @@ const handler = NextAuth({
             { $set: { avatar } },
             { new: true }
           ).lean()
-
-          console.log('existingUser', existingUser)
 
           // check whether user exists
           if (existingUser) {

@@ -13,6 +13,7 @@ import { PiLightningFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
 import Menu from './Menu'
 import { SiCoursera } from 'react-icons/si'
+import { MdForum } from 'react-icons/md'
 
 interface HeaderProps {
   isStatic?: boolean
@@ -124,7 +125,7 @@ function Header({ isStatic }: HeaderProps) {
         {/* MARK: Brand */}
         <div
           className={`${
-            openSearch ? 'max-w-0 overflow-hidden' : 'max-w-[150px] w-full'
+            openSearch ? 'max-w-0 overflow-hidden' : 'max-w-[100px] w-full'
           } hidden sm:flex sm:flex-shrink-0 pl-4 -ml-4 items-center h-full overflow-x-scroll no-scrollbar duration-300 transition-all`}>
           <Link href='/' prefetch={false} className='shrink-0 common-transition spin mr-2'>
             <Image
@@ -143,13 +144,13 @@ function Header({ isStatic }: HeaderProps) {
         {/* Search */}
         <div
           className={`flex items-center ${
-            openSearch ? 'max-w-full' : 'max-w-[400px]'
+            openSearch ? 'max-w-full' : 'max-w-[500px]'
           } w-full lg:min-w-[520px] duration-300 transition-all`}>
           <div
             className={`${
               openSearch
                 ? 'max-w-0 w-0 overflow-hidden mr-0'
-                : 'max-w-[68px] md:max-w-[136.8px] w-full mr-21'
+                : 'max-w-[114px] md:max-w-[200px] w-full mr-21'
             } flex items-center gap-21 duration-300 transition-all`}>
             <Link
               href='/'
@@ -162,6 +163,12 @@ function Header({ isStatic }: HeaderProps) {
               className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
               <span className='hidden md:block'>Course</span>
               <SiCoursera size={24} className='md:hidden' />
+            </Link>
+            <Link
+              href='/question'
+              className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              <span className='hidden md:block'>Forum</span>
+              <MdForum size={24} className='md:hidden' />
             </Link>
           </div>
 
