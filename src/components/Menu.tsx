@@ -123,7 +123,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
           <>
             <li className='group' onClick={() => setOpen(false)}>
               <Link
-                href='/user'
+                href='/auth/login'
                 className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
                 <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
                 <span className='font-body text-xl font-semibold tracking-wide'>Sign In</span>
@@ -131,7 +131,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
             </li>
             <li className='group' onClick={() => setOpen(false)}>
               <Link
-                href='/user'
+                href='/auth/register'
                 className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
                 <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
                 <span className='font-body text-xl font-semibold tracking-wide'>Sign Up</span>

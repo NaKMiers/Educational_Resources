@@ -20,7 +20,7 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
   }
 
   return (
-    <div className='bg-opacity-75'>
+    <div className='bg-opacity-75 mb-[72px] md:mb-auto md:mt-[72px]'>
       {/* Background */}
       <div className='fixed -z-10 top-0 left-0 w-full h-full flex items-center justify-center bg-primary '>
         <Image src='/images/logo.png' width={300} height={300} alt='logo' />

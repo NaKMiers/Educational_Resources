@@ -39,7 +39,7 @@ export default async function RootLayout({
           <Header />
 
           {/* Main */}
-          <main className='mb-[72px] md:mb-auto md:mt-[72px]'>{children}</main>
+          <main className=''>{children}</main>
         </StoreProvider>
       </body>
     </html>
