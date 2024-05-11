@@ -1,9 +1,11 @@
 import { connectDatabase } from '@/config/database'
-import UserModel from '@/models/UserModel'
+import QuestionModel, { IQuestion } from '@/models/QuestionModel'
+import UserModel, { IUser } from '@/models/UserModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: User, Course
+// Models: User, Course, Question
 import '@/models/CourseModel'
+import '@/models/QuestionModel'
 import '@/models/UserModel'
 
 // [GET]: /api/user/:id
@@ -15,12 +17,20 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
     await connectDatabase()
 
     // get user by id
-    const user = await UserModel.findById(id)
+    const user: IUser | null = await UserModel.findById(id)
       .populate({
         path: 'courses.course',
       })
       .populate('gifts')
       .lean()
+
+    // check if user exists
+    if (!user) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 })
+    }
+
+    const questions: IQuestion[] = await QuestionModel.find({ user: id }).lean()
+    user.questions = questions
 
     // return user
     return NextResponse.json({ user, message: 'Get user successfully' }, { status: 200 })

@@ -4,8 +4,6 @@ import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect } from 'react'
-import { FaUserPlus } from 'react-icons/fa'
-import { FiLogIn } from 'react-icons/fi'
 
 interface MenuProps {
   open: boolean
@@ -80,17 +78,17 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
 
               <li className='group' onClick={() => setOpen(false)}>
                 <Link
-                  href='/user'
+                  href={`/user/${curUser?._id}`}
                   className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
                   <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
-                  <span className='font-body text-xl font-semibold tracking-wide'>My Information</span>
+                  <span className='font-body text-xl font-semibold tracking-wide'>Profile</span>
                 </Link>
               </li>
               <li className='group' onClick={() => setOpen(false)}>
                 <Link
-                  href='/user'
+                  href='/setting/security'
                   className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
-                  <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                  <Image src='/images/setting-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Setting</span>
                 </Link>
               </li>
@@ -103,7 +101,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
                         : '/admin/summary/all'
                     }
                     className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
-                    <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                    <Image src='/images/order-icon.png' width={32} height={32} alt='icon' />
                     <span className='font-body text-xl font-semibold tracking-wide'>
                       {['admin', 'editor'].includes(curUser?.role) ? 'Orders' : 'Collaborator'}
                     </span>
@@ -114,7 +112,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
                 <button
                   className='flex items-center w-full gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'
                   onClick={() => signOut()}>
-                  <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                  <Image src='/images/logout-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Logout</span>
                 </button>
               </li>
@@ -125,18 +123,18 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
           <>
             <li className='group' onClick={() => setOpen(false)}>
               <Link
-                href='/auth/login'
+                href='/user'
                 className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
-                <FiLogIn size={18} className='wiggle w-[22px]' />
-                <span className='font-body tracking-wide text-[15px] text-yellow-500'>Đăng nhập</span>
+                <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                <span className='font-body text-xl font-semibold tracking-wide'>Sign In</span>
               </Link>
             </li>
             <li className='group' onClick={() => setOpen(false)}>
               <Link
-                href='/auth/register'
+                href='/user'
                 className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
-                <FaUserPlus size={18} className='wiggle w-[22px]' />
-                <span className='font-body tracking-wide text-[15px] text-yellow-500'>Đăng ký</span>
+                <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                <span className='font-body text-xl font-semibold tracking-wide'>Sign Up</span>
               </Link>
             </li>
           </>

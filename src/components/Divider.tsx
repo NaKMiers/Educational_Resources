@@ -1,11 +1,11 @@
 import React from 'react'
 
 interface DividerProps {
-  size: number
+  size?: number
   border?: boolean
 }
 
-function Divider({ size, border }: DividerProps) {
+function Divider({ size = 8, border }: DividerProps) {
   return border ? (
     <div className='border' style={{ marginTop: size * 4, marginBottom: size * 4 }} />
   ) : (

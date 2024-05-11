@@ -118,7 +118,7 @@ function Header({ isStatic, hideSearch }: HeaderProps) {
     <header
       className={`${
         isStatic ? 'static' : 'fixed z-50 left-0 bottom-0 md:bottom-auto md:top-0'
-      } bg-white w-full text-dark shadow-medium-light transition-all duration-300 ${
+      } bg-white w-full text-dark shadow-lg transition-all duration-300 ${
         isShow ? 'bottom-0 md:bottom-auto md:top-0' : '-bottom-full md:bottom-auto md:-top-full'
       }`}>
       {/* Main Header */}
@@ -272,11 +272,18 @@ function Header({ isStatic, hideSearch }: HeaderProps) {
               </div>
             )
           ) : (
-            <Link
-              href='/auth/login'
-              className='bg-secondary hover:bg-primary text-nowrap common-transition px-[10px] py-[6px] rounded-extra-small font-body font-semibold tracking-wider cursor-pointer'>
-              Đăng nhập
-            </Link>
+            <div className='flex items-center gap-3'>
+              <Link
+                href='/auth/login'
+                className='bg-[#019CDE] text-white hover:bg-white hover:text-dark border border-dark text-nowrap common-transition px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
+                Sign In
+              </Link>
+              <Link
+                href='/auth/register'
+                className='bg-[#001D4F] text-[#019CDE] hover:bg-white hover:text-dark border border-dark text-nowrap common-transition px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
+                Sign Up
+              </Link>
+            </div>
           )}
         </div>
 

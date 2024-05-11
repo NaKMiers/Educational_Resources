@@ -1,3 +1,4 @@
+import Header from '@/components/Header'
 import StoreProvider from '@/libs/StoreProvider'
 import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
@@ -35,8 +36,10 @@ export default async function RootLayout({
             }}
           />
 
+          <Header />
+
           {/* Main */}
-          <main className=''>{children}</main>
+          <main className='mb-[72px] md:mb-auto md:mt-[72px]'>{children}</main>
         </StoreProvider>
       </body>
     </html>

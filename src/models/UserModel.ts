@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 import { ICourse } from './CourseModel'
 import { IVoucher } from './VoucherModel'
+import { IQuestion } from './QuestionModel'
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
@@ -220,4 +221,5 @@ export interface IUser {
   updatedAt: string
   // Subs
   vouchers?: IVoucher[]
+  questions?: IQuestion[]
 }

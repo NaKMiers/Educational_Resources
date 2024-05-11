@@ -35,7 +35,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
 
   return (
     <div
-      className={`relative w-full h-full min-h-[430px] p-4 bg-white shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
+      className={`relative w-full h-full p-4 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
       {/* MARK: Thumbnails */}
       <Link
         href={`/${course.slug}`}
@@ -46,8 +46,8 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
             <Image
               className='flex-shrink-0 snap-start w-full h-full object-cover'
               src={src}
-              width={250}
-              height={250}
+              width={350}
+              height={350}
               alt='netflix'
               key={src}
             />
@@ -56,7 +56,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
       </Link>
 
       {/* Badge */}
-      {course.oldPrice && (
+      {/* {course.oldPrice && (
         <div className='absolute z-10 -top-2 -left-2 rounded-tl-lg rounded-br-lg bg-yellow-400 p-1 max-w-10 text-white font-semibold font-body text-center text-[13px] leading-4'>
           Giảm{' '}
           {countPercent(
@@ -64,7 +64,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
             course.oldPrice
           )}
         </div>
-      )}
+      )} */}
 
       {/* Title */}
       <Link href={`/${course.slug}`} prefetch={false}>
@@ -75,23 +75,31 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
         </h3>
       </Link>
 
+      <p className='font-body tracking-wider text-sm'>
+        {/* {course.description} */}
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eligendi. Neque nulla veritatis,
+        soluta sit eveniet ipsam facilis odio cumque doloribus adipisci provident natus unde ducimus iste
+        maxime doloremque possimus pariatur impedit quae saepe nemo? Consequatur a illum tempore dolore
+        culpa obcaecati? Corrupti vero non iusto at nemo, dolores et.
+      </p>
+
       {/* Price */}
-      <Price
+      {/* <Price
         price={course.price}
         oldPrice={course.oldPrice}
         flashSale={course.flashSale as IFlashSale}
         className='mb-2'
-      />
+      /> */}
 
       {/* Basic Information */}
-      <div className='flex items-center font-body tracking-wide'>
+      {/* <div className='flex items-center font-body tracking-wide'>
         <FaCircleCheck size={16} className='text-darker' />
         <span className='font-bold text-darker ml-1'>Student:</span>
         <span className='text-red-500 ml-1'>{course.joined}</span>
-      </div>
+      </div> */}
 
       {/* MARK: Action Buttons */}
-      <div className='flex items-center justify-end md:justify-start gap-2 mt-2'>
+      {/* <div className='flex items-center justify-end md:justify-start gap-2 mt-2'>
         <button
           className={`bg-secondary rounded-md text-white px-2 py-[5px] font-semibold font-body tracking-wider text-nowrap hover:bg-primary common-transition ${
             isLoading ? 'bg-slate-200 pointer-events-none' : ''
@@ -117,7 +125,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
             <MdEdit size={18} className='wiggle text-yellow-400' />
           </Link>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import Divider from '@/components/Divider'
-import GroupCourses from '@/components/GroupProducts'
+import GroupCourses from '@/components/GroupCourses'
 import { IUser } from '@/models/UserModel'
 import { getUsersApi } from '@/requests'
 import Image from 'next/image'
@@ -20,7 +20,12 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
   }
 
   return (
-    <div className='bg-primary bg-opacity-75'>
+    <div className='bg-opacity-75'>
+      {/* Background */}
+      <div className='fixed -z-10 top-0 left-0 w-full h-full flex items-center justify-center bg-primary '>
+        <Image src='/images/logo.png' width={300} height={300} alt='logo' />
+      </div>
+
       {/* Top */}
       <div className='flex justify-between px-20 py-10 border-b-2 border-dark'>
         {/* Info */}
@@ -59,15 +64,20 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
         </div>
       </div>
 
-      {/* Bottom */}
-      <div className='relative grid grid-cols-12 p-10'>
-        <div className='col-span-12 lg:col-span-8 px-21'>
-          <GroupCourses courses={user.courses} />
+      {/* Center */}
+      <div className='relative grid grid-cols-12 px-10 border-b-2 border-dark'>
+        <div className='col-span-12 lg:col-span-8 px-8 py-21'>
+          <h2 className='font-bold text-2xl text-center text-slate-600'>Joined Courses</h2>
 
-          <Divider size={5} />
+          <GroupCourses
+            child='course-card'
+            courses={[...user.courses, ...user.courses, ...user.courses, ...user.courses]}
+          />
+
+          <Divider size={16} />
         </div>
 
-        <div className='col-span-12 lg:col-span-4 border-l-2 border-dark px-21'>
+        <div className='col-span-12 lg:col-span-4 border-l-2 border-dark p-21'>
           <p className='sticky top-[80px] left-0 bg-slate-200 bg-opacity-80 font-semibold font-body tracking-wider p-4 rounded-lg shadow-lg'>
             {/* {user?.bio} */}
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis veritatis ipsum quaerat
@@ -76,6 +86,22 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
             dolore explicabo laborum vitae nostrum, natus iste quidem dignissimos inventore ipsa quod.
           </p>
         </div>
+      </div>
+
+      {/* Bottom */}
+      <div className='relative px-10 py-21'>
+        <h2 className='font-bold text-2xl text-center text-slate-600'>Questions</h2>
+
+        <Divider size={4} />
+
+        <GroupCourses
+          className='md:px-20'
+          child='question'
+          childClassName='w-full sm:w-1/2 md:w-1/3 px-21/2'
+          courses={[...user.courses, ...user.courses, ...user.courses, ...user.courses]}
+        />
+
+        <Divider size={20} />
       </div>
     </div>
   )
