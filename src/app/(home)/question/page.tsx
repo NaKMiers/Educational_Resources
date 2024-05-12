@@ -26,12 +26,12 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
   }
 
   return (
-    <div className='flex px-21'>
+    <div className='flex px-21 mb-21'>
       {/* Background */}
       <Background />
 
       {/* Questions */}
-      <div className='flex-1 border-r-2 border-dark p-21'>
+      <div className='flex-1 border-r-2 border-dark px-21'>
         {/* Input */}
         <AddQuestionForm />
 

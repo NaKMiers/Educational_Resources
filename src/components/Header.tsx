@@ -45,10 +45,10 @@ function Header({ isStatic }: HeaderProps) {
     const updateUser = async () => {
       await update()
     }
-    if (!curUser?._id) {
+    if (curUser && !curUser?._id) {
       updateUser()
     }
-  }, [update, curUser?._id])
+  }, [update, curUser])
 
   // show and hide header on scroll
   useEffect(() => {
@@ -116,7 +116,7 @@ function Header({ isStatic }: HeaderProps) {
   return (
     <header
       className={`${
-        isStatic ? 'static' : 'fixed z-50 left-0 bottom-0 md:bottom-auto md:top-0'
+        isStatic ? 'static' : 'fixed z-50'
       } bg-white w-full text-dark shadow-lg transition-all duration-300 ${
         isShow ? 'bottom-0 md:bottom-auto md:top-0' : '-bottom-full md:bottom-auto md:-top-full'
       }`}>
