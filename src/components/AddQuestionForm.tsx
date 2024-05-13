@@ -21,6 +21,12 @@ function AddQuestionForm() {
 
   // handle add question
   const handleAddQuestion = useCallback(async () => {
+    // check user
+    if (!curUser) {
+      toast.error('Please login to ask question!')
+      return
+    }
+
     // check value
     if (!value.trim()) {
       toast.error('Please enter your question!')
