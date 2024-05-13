@@ -42,6 +42,9 @@ const handler = NextAuth({
       async authorize(credentials: any) {
         console.log('- Credentials -', credentials)
 
+        // connect to database
+        await connectDatabase()
+
         // check if credentials is empty
         if (!credentials?.usernameOrEmail || !credentials?.password) {
           return null

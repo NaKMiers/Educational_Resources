@@ -163,7 +163,7 @@ function LoginPage() {
             register={register}
             errors={errors}
             required
-            type='text'
+            type='password'
             labelBg='bg-white'
             className='min-w-[40%] mt-6'
             onFocus={() => clearErrors('password')}

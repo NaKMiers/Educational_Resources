@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import mongoose from 'mongoose'
 import { ICourse } from './CourseModel'
-import { IVoucher } from './VoucherModel'
 import { IQuestion } from './QuestionModel'
+import { IVoucher } from './VoucherModel'
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema(
@@ -16,6 +16,10 @@ const UserSchema = new Schema(
       unique: function (this: { authType: string }) {
         return this.authType === 'local'
       },
+    },
+    nickname: {
+      type: String,
+      default: '',
     },
     email: {
       type: String,
@@ -188,6 +192,7 @@ export default UserModel
 export interface IUser {
   _id: string
   username: string
+  nickname: string
   email: string
   phone: string
   bio: string

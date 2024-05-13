@@ -26,7 +26,7 @@ function Header({ isStatic }: HeaderProps) {
   const curUser: any = session?.user
 
   // states
-  const [isShow, setIsShow] = useState<boolean>(false)
+  const [isShow, setIsShow] = useState<boolean>(true)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const lastScrollTop = useRef<number>(0)
 
