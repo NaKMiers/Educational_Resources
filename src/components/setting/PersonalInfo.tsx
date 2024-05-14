@@ -91,7 +91,8 @@ function PersonalInfo({ className = '' }: PersonalInfoProps) {
   )
 
   return (
-    <div className={`relative rounded-lg border border-dark shadow-lg py-8 ${className}`}>
+    <div
+      className={`relative rounded-lg border border-dark shadow-lg py-8 overflow-x-scroll ${className}`}>
       <div className='absolute font-semibold text-2xl w-[calc(100%_-_20px)] left-1/2 -translate-x-1/2 h-0.5 bg-slate-700'>
         <span className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-sm bg-white px-2 py-1 rounded-lg text-center'>
           Personal Information

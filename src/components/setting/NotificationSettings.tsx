@@ -6,7 +6,11 @@ import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Divider from '../Divider'
 
-function NotificationSettings() {
+interface NotificationSettingsProps {
+  className?: string
+}
+
+function NotificationSettings({ className = '' }: NotificationSettingsProps) {
   // hook
   const { data: session, update } = useSession()
   const curUser: any = session?.user
@@ -58,7 +62,8 @@ function NotificationSettings() {
   )
 
   return (
-    <div className='relative rounded-lg border border-dark shadow-lg py-8'>
+    <div
+      className={`relative rounded-lg border border-dark shadow-lg py-8 overflow-x-scroll ${className}`}>
       <div className='absolute font-semibold text-2xl w-[calc(100%_-_20px)] left-1/2 -translate-x-1/2 h-0.5 bg-slate-700'>
         <span className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-sm bg-white px-2 py-1 rounded-lg text-center'>
           Notification Settings
@@ -72,7 +77,7 @@ function NotificationSettings() {
 
         <Divider size={4} />
 
-        <ul className='max-w-[500px] w-full pl-20 flex flex-col gap-4'>
+        <ul className='max-w-[500px] w-full pl-21 md:pl-20 flex flex-col gap-4'>
           <li className='flex items-center justify-between gap-4'>
             <span>New Lesson</span>
 

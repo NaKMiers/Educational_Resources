@@ -1,11 +1,16 @@
 import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
 import { IChapter } from './ChapterModel'
+import { ICourse } from './CourseModel'
 import { IUser } from './UserModel'
 const Schema = mongoose.Schema
 
 const LessonSchema = new Schema(
   {
+    courseId: {
+      type: Schema.Types.ObjectId,
+      ref: 'course',
+    },
     chapterId: {
       type: Schema.Types.ObjectId,
       ref: 'chapter',
@@ -65,7 +70,8 @@ export default LessonModel
 
 export interface ILesson {
   _id: string
-  chapter: string | IChapter
+  courseId: string | ICourse
+  chapterId: string | IChapter
   title: string
   sourceType: 'embed' | 'file'
   slug: string

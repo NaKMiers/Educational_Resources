@@ -66,9 +66,9 @@ function PersonalSetting() {
       <Divider size={8} />
 
       {/* MARK: Account Infomation */}
-      <div className='relative rounded-lg border border-dark shadow-lg p-4'>
+      <div className='relative rounded-lg border border-dark shadow-lg p-4 overflow-x-scroll'>
         <div className='flex gap-2'>
-          <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
+          <div className='flex-shrink-0 w-[50px] h-[50px] rounded-full overflow-hidden'>
             <Image
               src={curUser?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
               width={80}
