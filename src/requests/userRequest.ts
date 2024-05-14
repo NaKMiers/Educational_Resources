@@ -39,10 +39,13 @@ export const getRoleUsersApi = async () => {
   return await res.json()
 }
 
-// [GET]
-export const getRankUsersApi = async () => {
+// [POST]
+export const checkAuthenticationApi = async (password: string) => {
   // no-store to bypass cache
-  const res = await fetch('/api/admin/user/rank-user', { cache: 'no-store' })
+  const res = await fetch('/api/user/check-authentication', {
+    method: 'POST',
+    body: JSON.stringify({ password }),
+  })
 
   // check status
   if (!res.ok) {
@@ -146,6 +149,21 @@ export const blockAddQuestionApi = async (userId: string, value: boolean) => {
   const res = await fetch(`/api/admin/user/${userId}/block-add-question`, {
     method: 'PATCH',
     body: JSON.stringify({ value }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [PATCH]
+export const changeNotificationSettingApi = async (type: string, value: boolean) => {
+  const res = await fetch(`/api/user/change-notification-setting`, {
+    method: 'PATCH',
+    body: JSON.stringify({ type, value }),
   })
 
   // check status

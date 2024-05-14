@@ -52,7 +52,7 @@ export default async function middleware(req: NextRequest) {
     return requireAdmin(req, token)
   }
   // require auth
-  else if (req.nextUrl.pathname.startsWith('/user')) {
+  else if (req.nextUrl.pathname.startsWith('/user') || req.nextUrl.pathname.startsWith('/setting')) {
     return requireAuth(req, token)
   }
   // require unauth
@@ -65,7 +65,7 @@ export const config = {
   matcher: [
     '/admin/:path*',
     '/api/admin/:path*',
-    // '/user/:path*',
+    '/setting/:path*',
     '/auth/:path*',
     // '/email/:path*',
   ],

@@ -50,35 +50,35 @@ function Header({ isStatic }: HeaderProps) {
     }
   }, [update, curUser])
 
-  // show and hide header on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (enableHideHeader) {
-        let scrollTop = window.scrollY
+  // // show and hide header on scroll
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (enableHideHeader) {
+  //       let scrollTop = window.scrollY
 
-        // scroll down
-        if (scrollTop >= 21) {
-          // scroll top
-          if (scrollTop > lastScrollTop.current) {
-            setIsShow(true)
-          } else {
-            setIsShow(false)
-            setIsOpenMenu(false)
-          }
+  //       // scroll down
+  //       if (scrollTop >= 21) {
+  //         // scroll top
+  //         if (scrollTop > lastScrollTop.current) {
+  //           setIsShow(true)
+  //         } else {
+  //           setIsShow(false)
+  //           setIsOpenMenu(false)
+  //         }
 
-          lastScrollTop.current = scrollTop
-        } else {
-          setIsShow(false)
-          setIsOpenMenu(false)
-        }
-      }
-    }
+  //         lastScrollTop.current = scrollTop
+  //       } else {
+  //         setIsShow(false)
+  //         setIsOpenMenu(false)
+  //       }
+  //     }
+  //   }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  })
+  //   window.addEventListener('scroll', handleScroll)
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //   }
+  // })
 
   // handle search
   const handleSearch = useCallback(async () => {

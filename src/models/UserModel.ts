@@ -139,15 +139,19 @@ const UserSchema = new Schema(
         type: Boolean,
         default: true,
       },
+      repliedQuestion: {
+        type: Boolean,
+        default: true,
+      },
+      emotionQuestion: {
+        type: Boolean,
+        default: true,
+      },
       repliedComment: {
         type: Boolean,
         default: true,
       },
       emotionComment: {
-        type: Boolean,
-        default: true,
-      },
-      repliedQuestion: {
         type: Boolean,
         default: true,
       },
@@ -214,9 +218,10 @@ export interface IUser {
   notifications: string[]
   notificationSettings: {
     newLesson: boolean
+    repliedQuestion: boolean
+    emotionQuestion: boolean
     repliedComment: boolean
     emotionComment: boolean
-    repliedQuestion: boolean
   }
   blockStatuses: {
     blockedComment: boolean

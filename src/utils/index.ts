@@ -17,6 +17,11 @@ export const generateSlug = (value: string): string => {
   return encodeURIComponent(cleanSlug)
 }
 
+// capitalize first letter
+export const capitalize = (value: string): string => {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
 // // generate random code
 // export const generateCode = (length: number): string => {
 //   return crypto

@@ -43,7 +43,7 @@ function LoginPage() {
 
         if (res?.ok) {
           // show success message
-          toast.success('Đăng nhập thành công')
+          toast.success('Login successful!')
 
           // redirect to home page
           router.push('/')

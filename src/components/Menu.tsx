@@ -86,7 +86,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
               </li>
               <li className='group' onClick={() => setOpen(false)}>
                 <Link
-                  href='/setting/personal'
+                  href='/setting'
                   className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
                   <Image src='/images/setting-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Setting</span>
