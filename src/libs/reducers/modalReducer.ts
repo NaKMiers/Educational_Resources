@@ -5,6 +5,8 @@ export const loading = createSlice({
   initialState: {
     isPageLoading: false,
     isLoading: false,
+    openAuthentication: false,
+    authenticated: false,
   },
   reducers: {
     setPageLoading: (state, action: PayloadAction<boolean>) => ({
@@ -15,8 +17,16 @@ export const loading = createSlice({
       ...state,
       isLoading: action.payload,
     }),
+    setOpenAuthentication: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      openAuthentication: action.payload,
+    }),
+    setAuthenticated: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      authenticated: action.payload,
+    }),
   },
 })
 
-export const { setPageLoading, setLoading } = loading.actions
+export const { setPageLoading, setLoading, setOpenAuthentication, setAuthenticated } = loading.actions
 export default loading.reducer

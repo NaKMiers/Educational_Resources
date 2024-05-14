@@ -75,8 +75,7 @@ const handler = NextAuth({
           throw new Error('Email or Password is incorrect!')
         }
 
-        // // exclude password from user who have just logined
-        const { password: _, avatar: image, ...otherDetails } = user
+        const { avatar: image, ...otherDetails } = user
 
         // return to session callback
         return { ...otherDetails, image, name: user.firstName + ' ' + user.lastName }
@@ -92,22 +91,18 @@ const handler = NextAuth({
       // console.log('jwt-trigger', trigger)
       // console.log('jwt-ss', session)
 
-      if (trigger === 'update' && token.email) {
+      if (trigger === 'update' && token._id) {
         console.log('- Update Token -')
-        const userDB: IUser | null = await UserModel.findOne({ email: token.email }).lean()
+        const userDB: IUser | null = await UserModel.findById(token._id).lean()
         if (userDB) {
-          const { password: _, ...otherDetails } = userDB
-
-          return { ...token, ...otherDetails }
+          return { ...token, ...userDB }
         }
       }
 
       if (user) {
         const userDB: IUser | null = await UserModel.findOne({ email: user.email }).lean()
         if (userDB) {
-          const { password: _, ...otherDetails } = userDB
-
-          token = { ...token, ...otherDetails }
+          token = { ...token, ...userDB }
         }
       }
 

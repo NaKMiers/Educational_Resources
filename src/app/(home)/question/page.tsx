@@ -32,10 +32,12 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
 
       {/* Questions */}
       <div className='flex-1 border-r-2 border-dark px-21'>
+        <Divider size={8} />
+
         {/* Input */}
         <AddQuestionForm />
 
-        <Divider size={20} />
+        <Divider size={12} />
 
         {/* Question List */}
         <ul className='flex flex-col gap-8'>

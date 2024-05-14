@@ -56,8 +56,23 @@ export const checkAuthenticationApi = async (password: string) => {
 }
 
 // [PUT]
-export const updateProfileApi = async (data: any) => {
-  const res = await fetch('/api/user/update-profile', {
+export const updatePersonalInfoApi = async (data: any) => {
+  const res = await fetch('/api/user/update-personal-info', {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [PUT]
+export const updatePrivateInfoApi = async (data: any) => {
+  const res = await fetch('/api/user/update-private-info', {
     method: 'PUT',
     body: JSON.stringify(data),
   })
