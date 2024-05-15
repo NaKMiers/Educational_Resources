@@ -2,7 +2,6 @@ import { connectDatabase } from '@/config/database'
 import CourseModel from '@/models/CourseModel'
 import LessonModel from '@/models/LessonModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
-import momentTZ from 'moment-timezone'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Lesson, Course, Category

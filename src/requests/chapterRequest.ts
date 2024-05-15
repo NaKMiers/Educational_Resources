@@ -13,6 +13,19 @@ export const getAllCourseChaptersApi = async (courseId: string, query: string = 
   return await res.json()
 }
 
+// [GET]
+export const getForceAllChaptersApi = async (courseId: string) => {
+  // no-store to bypass cache
+  const res = await fetch(`/api/admin/chapter/${courseId}/force-all`, { cache: 'no-store' })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
 // [POST]
 export const addNewChapterApi = async (courseId: string, data: any) => {
   // no-store to bypass cache

@@ -9,8 +9,10 @@ import { FaCheck, FaFile, FaInfo } from 'react-icons/fa'
 
 import AdminHeader from '@/components/admin/AdminHeader'
 import { setLoading } from '@/libs/reducers/modalReducer'
+import { IChapter } from '@/models/ChapterModel'
 import { ICourse } from '@/models/CourseModel'
 import { addLessonApi, getForceAllCoursesApi } from '@/requests'
+import { getForceAllChaptersApi } from '@/requests/chapterRequest'
 import toast from 'react-hot-toast'
 import { FaX } from 'react-icons/fa6'
 import { MdCategory } from 'react-icons/md'
@@ -28,6 +30,8 @@ function AddLessonPage() {
 
   // states
   const [groupCourses, setGroupTypes] = useState<GroupCourses>({})
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null)
+  const [chapters, setChapters] = useState<IChapter[]>([])
   const [sourceType, setSourceType] = useState<'file' | 'embed'>('embed')
   const [fileUrl, setFileUrl] = useState<string>('')
   const [embedSrc, setEmbedSrc] = useState<string>('')
@@ -45,6 +49,7 @@ function AddLessonPage() {
   } = useForm<FieldValues>({
     defaultValues: {
       courseId: '',
+      chapterId: '',
       title: '',
       description: '',
       hours: 0,
@@ -85,6 +90,23 @@ function AddLessonPage() {
     }
     getAllTypes()
   }, [])
+
+  // get chapters of selected course
+  useEffect(() => {
+    const getChapters = async () => {
+      if (!selectedCourse) return
+
+      try {
+        // send request to server to get all chapters of selected course
+        const { chapters } = await getForceAllChaptersApi(selectedCourse)
+        setChapters(chapters)
+      } catch (err: any) {
+        console.log(err)
+        toast.error(err.message)
+      }
+    }
+    getChapters()
+  }, [selectedCourse])
 
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
@@ -128,6 +150,7 @@ function AddLessonPage() {
     try {
       const formData = new FormData()
       formData.append('courseId', data.courseId)
+      formData.append('chapterId', data.chapterId)
       formData.append('title', data.title)
       formData.append('description', data.title)
       formData.append('duration', data.hours * 3600 + data.minutes * 60 + data.seconds)
@@ -243,7 +266,8 @@ function AddLessonPage() {
                 id='courseId'
                 className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                 disabled={isLoading}
-                {...register('courseId', { required: true })}>
+                {...register('courseId', { required: true })}
+                onChange={e => setSelectedCourse(e.target.value)}>
                 <option value=''>Select Course</option>
                 {Object.keys(groupCourses)?.map(key => (
                   <optgroup label={key} key={key}>
@@ -263,6 +287,47 @@ function AddLessonPage() {
                   errors.couseId ? 'text-rose-400' : 'text-dark'
                 }`}>
                 CouseId
+              </label>
+            </div>
+          </div>
+          {errors.type?.message && (
+            <span className='text-sm text-rose-400'>{errors.type?.message?.toString()}</span>
+          )}
+        </div>
+
+        <div className='mb-5'>
+          <div className={`flex`}>
+            <span
+              className={`inline-flex items-center px-3 rounded-tl-lg rounded-bl-lg border-[2px] text-sm text-gray-900 ${
+                errors.chapterId ? 'border-rose-400 bg-rose-100' : 'border-slate-200 bg-slate-100'
+              }`}>
+              <MdCategory size={19} className='text-secondary' />
+            </span>
+            <div
+              className={`relative w-full border-[2px] border-l-0 bg-white rounded-tr-lg rounded-br-lg ${
+                errors.chapterId ? 'border-rose-400' : 'border-slate-200'
+              }`}>
+              <select
+                id='chapterId'
+                className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
+                disabled={isLoading}
+                {...register('chapterId', { required: true })}
+                onChange={() => console.log('asdasdasdasd')}>
+                <option value=''>Select Chapter</option>
+                {chapters.map(course => (
+                  <option value={course._id} key={course._id}>
+                    {course.title}
+                  </option>
+                ))}
+              </select>
+
+              {/* label */}
+              <label
+                htmlFor='type'
+                className={`absolute rounded-md text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
+                  errors.chapterId ? 'text-rose-400' : 'text-dark'
+                }`}>
+                ChapterId
               </label>
             </div>
           </div>

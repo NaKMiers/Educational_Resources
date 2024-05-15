@@ -3,13 +3,13 @@ import ChapterModel from '@/models/ChapterModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Course
-import '@/models/CourseModel'
+// Models: Chapter
+import '@/models/ChapterModel'
 
 export const dynamic = 'force-dynamic'
 
-// [GET]: /admin/chapter/[courseId]/all
-export async function GET(req: NextRequest) {
+// [GET]: /admin/chapter/:courseId/all
+export async function GET(req: NextRequest, { params: { courseId } }: { params: { courseId: string } }) {
   console.log('- Get All Chapters Of Course -')
 
   try {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     // options
     let skip = 0
     let itemPerPage = 9
-    const filter: { [key: string]: any } = {}
+    const filter: { [key: string]: any } = { courseId }
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
 
     // build filter
