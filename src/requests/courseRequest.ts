@@ -17,6 +17,19 @@ export const getAllCoursesApi = async (
 }
 
 // [GET]
+export const getCoursesApi = async (query: string = '', option: RequestInit = { cache: 'no-store' }) => {
+  // no-store to avoid cache
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/course${query}`, option)
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [GET]
 export const getForceAllCoursesApi = async () => {
   // no-store to avoid cache
   const res = await fetch(`/api/admin/course/force-all`, { cache: 'no-store' })

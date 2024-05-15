@@ -1,12 +1,16 @@
 'use client'
 
 import { useAppDispatch } from '@/libs/hooks'
+import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import Divider from './Divider'
+import { applyFlashSalePrice, countPercent } from '@/utils/number'
+import { IFlashSale } from '@/models/FlashSaleModel'
 
 interface CourseCardProps {
   course: ICourse
@@ -46,15 +50,29 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
       </Link>
 
       {/* Badge */}
-      {/* {course.oldPrice && (
+      {course.oldPrice && (
         <div className='absolute z-10 -top-2 -left-2 rounded-tl-lg rounded-br-lg bg-yellow-400 p-1 max-w-10 text-white font-semibold font-body text-center text-[13px] leading-4'>
-          Giảm{' '}
+          Sale{' '}
           {countPercent(
             applyFlashSalePrice(course.flashSale as IFlashSale, course.price) || 0,
             course.oldPrice
           )}
         </div>
-      )} */}
+      )}
+
+      <Divider size={3} />
+
+      {/* Categories */}
+      <div className='flex flex-wrap gap-1'>
+        {course.categories.map(cat => (
+          <Link
+            href={`/courses?ctg=${(cat as ICategory).slug}`}
+            key={(cat as ICategory).slug}
+            className='text-xs font-semibold font-body tracking-wide text-dark px-2 py-1 shadow rounded-lg bg-sky-300'>
+            {(cat as ICategory).title}
+          </Link>
+        ))}
+      </div>
 
       {/* Title */}
       <Link href={`/${course.slug}`} prefetch={false}>

@@ -3,7 +3,7 @@
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 interface MenuProps {
   open: boolean
@@ -67,10 +67,10 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
                   alt='avatar'
                 />
                 <div className='flex flex-col'>
-                  <p className='font-semibold text-2xl leading-6'>
-                    {curUser?.authType === 'local'
-                      ? curUser?.username
-                      : curUser?.firstname + ' ' + curUser?.lastname}
+                  <p className='font-semibold text-2xl leading-6 mb-1'>
+                    {curUser?.firstName && curUser?.lastName
+                      ? `${curUser.firstName} ${curUser.lastName}`
+                      : curUser.username}
                   </p>
                   <p className='text-xs '>{curUser.email}</p>
                 </div>
