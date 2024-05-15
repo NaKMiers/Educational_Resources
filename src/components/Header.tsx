@@ -2,18 +2,18 @@
 
 import { useAppDispatch } from '@/libs/hooks'
 import { searchCoursesApi } from '@/requests'
-import { useSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaBell, FaHome, FaSearch } from 'react-icons/fa'
 import { FaBars } from 'react-icons/fa6'
+import { MdForum } from 'react-icons/md'
 import { PiLightningFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
-import Menu from './Menu'
 import { SiCoursera } from 'react-icons/si'
-import { MdForum } from 'react-icons/md'
+import Menu from './Menu'
 
 interface HeaderProps {
   isStatic?: boolean
@@ -23,9 +23,9 @@ function Header({ isStatic }: HeaderProps) {
   // hooks
   const dispatch = useAppDispatch()
   const { data: session, update } = useSession()
-  const curUser: any = session?.user
 
   // states
+  const [curUser, setCurUser] = useState<any>(session?.user || {})
   const [isShow, setIsShow] = useState<boolean>(true)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const lastScrollTop = useRef<number>(0)
@@ -42,11 +42,13 @@ function Header({ isStatic }: HeaderProps) {
   // MARK: Side Effects
   // update user session
   useEffect(() => {
-    const updateUser = async () => {
-      await update()
+    const getUser = async () => {
+      const session = await getSession()
+      setCurUser(session?.user)
     }
+
     if (!curUser?._id) {
-      updateUser()
+      getUser()
     }
   }, [update, curUser])
 
