@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     // get data to create lesson
     const formData = await req.formData()
     const data = Object.fromEntries(formData)
-    const { courseId, title, description, duration, active, embedUrl } = data
+    const { courseId, chapterId, title, description, duration, active, embedUrl } = data
     let file = formData.get('file')
 
     console.log('data', data)
@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
     // create new lesson
     const newLesson = new LessonModel({
       courseId,
+      chapterId,
       title,
       duration,
       sourceType: embedUrl ? 'embed' : 'file',

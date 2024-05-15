@@ -37,6 +37,26 @@ const requireAdmin = async (req: NextRequest, token: JWT | null) => {
   return NextResponse.next()
 }
 
+// Required Joined
+const requiredJoined = async (req: NextRequest, token: JWT | null) => {
+  console.log('- Required Joined -')
+
+  // check auth
+  if (!token) {
+    return NextResponse.redirect(new URL('/auth/login', req.url))
+  }
+
+  const courses: string[] = (token.courses as any).map((course: any) => course.course)
+  const courseId: string = req.nextUrl.pathname.split('/learning/')[1].split('/')[0]
+
+  // current user hasn't joined the course
+  if (!courses.includes(courseId)) {
+    return NextResponse.redirect(new URL('/', req.url))
+  }
+
+  return NextResponse.next()
+}
+
 // Middleware
 export default async function middleware(req: NextRequest) {
   console.log('- Middleware -')
@@ -59,6 +79,10 @@ export default async function middleware(req: NextRequest) {
   else if (req.nextUrl.pathname.startsWith('/auth')) {
     return requireUnauth(req, token)
   }
+  // require joined
+  else if (req.nextUrl.pathname.startsWith('/learning')) {
+    return requiredJoined(req, token)
+  }
 }
 
 export const config = {
@@ -67,6 +91,7 @@ export const config = {
     '/api/admin/:path*',
     '/setting/:path*',
     '/auth/:path*',
+    '/learning/:path*',
     // '/email/:path*',
   ],
 }

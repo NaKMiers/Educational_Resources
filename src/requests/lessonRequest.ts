@@ -18,7 +18,7 @@ export const getAllLessonsApi = async (query: string = '') => {
 // [GET]
 export const getLessonApi = async (id: string) => {
   // no-cache
-  const res = await fetch(`/api/admin/lesson/${id}`, { cache: 'no-store' })
+  const res = await fetch(`/api/lesson/${id}`, { cache: 'no-store' })
 
   // check status
   if (!res.ok) {

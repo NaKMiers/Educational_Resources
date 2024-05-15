@@ -8,6 +8,7 @@ import { FaCheck, FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
 import { RiDonutChartFill } from 'react-icons/ri'
 import ConfirmDialog from '../ConfirmDialog'
+import { IChapter } from '@/models/ChapterModel'
 
 interface LessonItemProps {
   data: ILesson
@@ -111,11 +112,23 @@ function LessonItem({
 
           {/* Title */}
           <p className='mb-1 font-semibold text-[18px] font-body tracking-wide'>
-            {data.title} <span className='text-slate-500 text-sm font-normal'>({data.sourceType})</span>
+            <span>Title: {data.title}</span>{' '}
           </p>
+
+          {/* Chapter */}
+          <p className='mb-1 font-semibold text-[18px] font-body tracking-wide'>
+            <span>Chapter: {(data.chapterId as IChapter).title}</span>{' '}
+          </p>
+
+          {/* Duration */}
           <p className='mb-2 font-semibold text-sm text-sky-500 font-body tracking-wide'>
             {Math.floor(data.duration / 3600)}h:{Math.floor((data.duration % 3600) / 60)}m:
             {Math.floor((data.duration % (3600 * 60)) / 60)}s
+          </p>
+
+          {/* Source Type */}
+          <p className='mb-2 font-semibold text-sm text-sky-500 font-body tracking-wide'>
+            <span className='text-slate-500 text-sm font-normal'>({data.sourceType})</span>
           </p>
         </div>
 

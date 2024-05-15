@@ -26,6 +26,19 @@ export const getForceAllChaptersApi = async (courseId: string) => {
   return await res.json()
 }
 
+// [GET]
+export const getLearningChaptersApi = async (courseId: string) => {
+  // no-cache
+  const res = await fetch(`/api/chapter/${courseId}`, { cache: 'no-store' })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
 // [POST]
 export const addNewChapterApi = async (courseId: string, data: any) => {
   // no-store to bypass cache

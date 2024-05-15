@@ -10,10 +10,12 @@ const LessonSchema = new Schema(
     courseId: {
       type: Schema.Types.ObjectId,
       ref: 'course',
+      required: true,
     },
     chapterId: {
       type: Schema.Types.ObjectId,
       ref: 'chapter',
+      required: true,
     },
     title: {
       type: String,

@@ -1,7 +1,9 @@
 import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
 import { ICategory } from './CategoryModel'
+import { IChapter } from './ChapterModel'
 import { IFlashSale } from './FlashSaleModel'
+import { ILesson } from './LessonModel'
 import { ITag } from './TagModel'
 import { IUser } from './UserModel'
 const Schema = mongoose.Schema
@@ -31,13 +33,13 @@ const CourseSchema = new Schema(
       type: String,
     },
     flashSale: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'flashSale',
     },
     tags: {
       type: [
         {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'tag',
           minlength: 1,
         },
@@ -45,7 +47,7 @@ const CourseSchema = new Schema(
     },
     categories: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'category',
       },
     ],
@@ -112,4 +114,8 @@ export interface ICourse {
   likes: string[] | IUser[]
   createdAt: string
   updatedAt: string
+
+  // sub
+  chapters?: IChapter[]
+  lessons: ILesson[]
 }

@@ -17,7 +17,11 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
     await connectDatabase()
 
     // get lesson from database
-    const lesson = await LessonModel.findById(id).lean()
+    const lesson = await LessonModel.findById(id)
+      .populate({
+        path: 'courseId',
+      })
+      .lean()
 
     // check lesson
     if (!lesson) {

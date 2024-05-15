@@ -1,9 +1,9 @@
 'use client'
 
-import { signOut, useSession } from 'next-auth/react'
+import { getSession, signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface MenuProps {
   open: boolean
@@ -13,10 +13,23 @@ interface MenuProps {
 
 function Menu({ open, setOpen, className = '' }: MenuProps) {
   // hooks
-  const { data: session } = useSession()
-  const curUser: any = session?.user
+  const { data: session, update } = useSession()
 
   // states
+  const [curUser, setCurUser] = useState<any>(session?.user || {})
+
+  // update user session
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession()
+      setCurUser(session?.user)
+      await update()
+    }
+
+    if (!curUser?._id) {
+      getUser()
+    }
+  }, [update, curUser])
 
   // key board event
   useEffect(() => {
@@ -51,7 +64,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
             : 'max-h-0 sm:max-h-0 p-0 sm:max-w-0 sm:w-0 opacity-0x'
         } ${
           curUser && !curUser?._id ? 'hidden' : ''
-        } w-full overflow-hidden transition-all duration-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-200 bg-opacity-75`}>
+        } w-full overflow-hidden transition-all duration-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-100`}>
         {curUser ? (
           // MARK: User Logged In
           curUser?._id && (

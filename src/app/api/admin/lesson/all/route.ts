@@ -90,6 +90,10 @@ export async function GET(req: NextRequest) {
           select: 'title',
         },
       })
+      .populate({
+        path: 'chapterId',
+        select: 'title',
+      })
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)

@@ -295,6 +295,7 @@ function AddLessonPage() {
           )}
         </div>
 
+        {/* ChapterId */}
         <div className='mb-5'>
           <div className={`flex`}>
             <span
@@ -311,12 +312,11 @@ function AddLessonPage() {
                 id='chapterId'
                 className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                 disabled={isLoading}
-                {...register('chapterId', { required: true })}
-                onChange={() => console.log('asdasdasdasd')}>
+                {...register('chapterId', { required: true })}>
                 <option value=''>Select Chapter</option>
-                {chapters.map(course => (
-                  <option value={course._id} key={course._id}>
-                    {course.title}
+                {chapters.map(chapter => (
+                  <option value={chapter._id} key={chapter._id}>
+                    {chapter.title}
                   </option>
                 ))}
               </select>

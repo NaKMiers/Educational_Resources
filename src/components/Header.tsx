@@ -45,6 +45,7 @@ function Header({ isStatic }: HeaderProps) {
     const getUser = async () => {
       const session = await getSession()
       setCurUser(session?.user)
+      await update()
     }
 
     if (!curUser?._id) {

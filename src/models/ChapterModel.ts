@@ -1,6 +1,7 @@
 import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
 import { ICourse } from './CourseModel'
+import { ILesson } from './LessonModel'
 const Schema = mongoose.Schema
 
 const ChapterSchema = new Schema(
@@ -56,4 +57,7 @@ export interface IChapter {
   order: number
   createdAt: Date
   updatedAt: Date
+
+  // sub
+  lessons?: ILesson[]
 }

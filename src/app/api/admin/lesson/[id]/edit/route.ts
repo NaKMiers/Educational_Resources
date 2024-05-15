@@ -19,11 +19,12 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     // get data to create lesson
     const formData = await req.formData()
     const data = Object.fromEntries(formData)
-    const { courseId, title, description, duration, active, embedUrl } = data
+    const { courseId, chapterId, title, description, duration, active, embedUrl } = data
     let file = formData.get('file')
 
     console.log('data', data)
     console.log('file', file)
+    console.log('chapterId', chapterId)
 
     // get course from database to edit
     const lesson: ILesson | null = await LessonModel.findById(id).lean()
@@ -51,6 +52,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     await LessonModel.findByIdAndUpdate(lesson._id, {
       $set: {
         courseId,
+        chapterId,
         title,
         duration,
         sourceType: embedUrl ? 'embed' : file ? 'file' : lesson.sourceType,
