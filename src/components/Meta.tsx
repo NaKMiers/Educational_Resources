@@ -6,7 +6,7 @@ import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { FaSearch } from 'react-icons/fa'
+import { FaEye, FaSearch } from 'react-icons/fa'
 import Input from './Input'
 
 interface MetaProps {
@@ -40,6 +40,7 @@ function Meta({
   const [selectedFilterItems, setSelectedFilterItems] = useState<string[]>(
     [].concat((searchParams?.[type] || items.map(item => item.slug)) as []).map(type => type)
   )
+  const [search, setSearch] = useState<string>(searchParams?.search as string)
 
   // refs
   const timeout = useRef<any>(null)
@@ -93,10 +94,11 @@ function Meta({
 
       return {
         ...data,
+        search: search || '',
         [type]: selectedFilterItems.length === items.length ? [] : selectedFilterItems,
       }
     },
-    [items.length, searchParams, selectedFilterItems, type, defaultValues]
+    [items.length, searchParams, selectedFilterItems, type, defaultValues, search]
   )
 
   // handle submit filter
@@ -111,6 +113,7 @@ function Meta({
         ...searchParams,
         ...params,
       })
+      console.log('Query:', query)
 
       // push to router
       router.push(pathname + query)
@@ -123,6 +126,26 @@ function Meta({
     reset()
     router.push(pathname)
   }, [reset, router, pathname])
+
+  // handle select filter item
+  const handleSelectFilterItem = useCallback(
+    (item: string) => {
+      setSelectedFilterItems(prev =>
+        prev.includes(item) ? prev.filter(id => id !== item) : [...prev, item]
+      )
+    },
+    [setSelectedFilterItems]
+  )
+
+  // auto filter when selectedFilterItems change
+  useEffect(() => {
+    if (timeout.current) {
+      clearTimeout(timeout.current)
+    }
+    timeout.current = setTimeout(() => {
+      handleSubmit(handleFilter)()
+    }, 500)
+  }, [handleFilter, handleSubmit, selectedFilterItems, search])
 
   // keyboard event
   useEffect(() => {
@@ -178,17 +201,7 @@ function Meta({
               }`}
               title={item.title}
               key={item.slug}
-              onClick={
-                selectedFilterItems.includes(item.slug)
-                  ? () => {
-                      setSelectedFilterItems(prev => prev.filter(id => id !== item.slug))
-                      handleSubmit(handleFilter)()
-                    }
-                  : () => {
-                      setSelectedFilterItems(prev => [...prev, item.slug])
-                      handleSubmit(handleFilter)()
-                    }
-              }>
+              onClick={() => handleSelectFilterItem(item.slug)}>
               {item.title}
             </div>
           ))}
@@ -196,17 +209,51 @@ function Meta({
 
         {/* Search */}
         <div className='flex flex-col col-span-12 md:col-span-4 order-1 md:order-2'>
-          <Input
-            id='search'
-            className='md:max-w-[450px]'
-            label='Search'
-            disabled={false}
-            register={register}
-            errors={errors}
-            type='text'
-            icon={FaSearch}
-            onFocus={() => clearErrors('search')}
-          />
+          <div className={`${className}`} onFocus={() => clearErrors('search')}>
+            <div
+              className={`flex border ${
+                errors['search'] ? 'border-rose-500' : 'border-dark'
+              } rounded-[16px]`}>
+              {/* MARK: Icon */}
+              <span
+                className={`inline-flex items-center px-3 rounded-l-[16px] text-sm text-gray-900 ${
+                  errors.search ? 'border-rose-400 bg-rose-100' : 'border-slate-200 bg-slate-100'
+                } cursor-pointer`}>
+                <FaSearch size={19} className='text-secondary' />
+              </span>
+
+              {/* MARK: Text Field */}
+              <div
+                className={`relative w-full border-l-0 rounded-r-[16px]'} ${
+                  errors['search'] ? 'border-rose-400' : 'border-slate-200'
+                }`}>
+                <input
+                  id={'search'}
+                  className='block h-[42px] px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer number-input'
+                  disabled={false}
+                  type='text'
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder=''
+                />
+
+                {/* MARK: Label */}
+                <label
+                  htmlFor={'search'}
+                  className={`absolute text-nowrap rounded-md text-sm text-dark duration-300 transform -translate-y-4 scale-75 top-2 left-5 z-10 origin-[0] font-semibold bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-[48%] peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
+                    errors.search ? 'text-rose-400' : 'text-dark'
+                  }`}>
+                  Search
+                </label>
+              </div>
+            </div>
+
+            {/* MARK: Error */}
+            {errors.search?.message && (
+              <span className='text-sm drop-shadow-md text-rose-400'>
+                {errors.search?.message?.toString()}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* MARK: Select Filter */}

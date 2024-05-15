@@ -83,13 +83,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
         </h3>
       </Link>
 
-      <p className='font-body tracking-wider text-sm'>
-        {/* {course.description} */}
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure, eligendi. Neque nulla veritatis,
-        soluta sit eveniet ipsam facilis odio cumque doloribus adipisci provident natus unde ducimus iste
-        maxime doloremque possimus pariatur impedit quae saepe nemo? Consequatur a illum tempore dolore
-        culpa obcaecati? Corrupti vero non iusto at nemo, dolores et.
-      </p>
+      <p className='font-body tracking-wider text-sm'>{course.description}</p>
 
       {/* Price */}
       {/* <Price

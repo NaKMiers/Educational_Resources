@@ -53,6 +53,15 @@ export async function GET(req: NextRequest) {
           continue
         }
 
+        if (key === 'search') {
+          const searchFields = ['title', 'description', 'slug']
+
+          filter.$or = searchFields.map(field => ({
+            [field]: { $regex: params[key][0], $options: 'i' },
+          }))
+          continue
+        }
+
         if (key === 'sort') {
           sort = {
             [params[key][0].split('|')[0]]: +params[key][0].split('|')[1],
