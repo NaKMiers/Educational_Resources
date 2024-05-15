@@ -9,6 +9,7 @@ import { PiLightningFill, PiLightningSlashFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
 import ConfirmDialog from '../ConfirmDialog'
 import { ICategory } from '@/models/CategoryModel'
+import { IoBalloonSharp } from 'react-icons/io5'
 
 interface CourseItemProps {
   data: ICourse
@@ -162,6 +163,15 @@ function CourseItem({
             onClick={e => e.stopPropagation()}
             title='Edit'>
             <MdEdit size={18} className='wiggle' />
+          </Link>
+
+          {/* All Chapters Button Link */}
+          <Link
+            href={`/admin/chapter/${data._id}/all`}
+            className='block group'
+            onClick={e => e.stopPropagation()}
+            title='View Chapters'>
+            <IoBalloonSharp size={18} className='wiggle' />
           </Link>
 
           {/* Delete Button */}

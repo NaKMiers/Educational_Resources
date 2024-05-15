@@ -28,6 +28,10 @@ const ChapterSchema = new Schema(
       default: 0,
       min: 0,
     },
+    order: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true }
 )
@@ -44,6 +48,7 @@ const ChapterModel = mongoose.models.chapter || mongoose.model('chapter', Chapte
 export default ChapterModel
 
 export interface IChapter {
+  _id: string
   courseId: string | ICourse
   title: string
   content: string

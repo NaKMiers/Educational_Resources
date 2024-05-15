@@ -1,20 +1,17 @@
 import { connectDatabase } from '@/config/database'
-import CategoryModel from '@/models/CategoryModel'
 import CourseModel from '@/models/CourseModel'
-import TagModel from '@/models/TagModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
+import ChapterModel from '@/models/ChapterModel'
 
-// Models: Category, Tag, Course
-import '@/models/CategoryModel'
+// Models: Course
 import '@/models/CourseModel'
-import '@/models/TagModel'
 
 export const dynamic = 'force-dynamic'
 
-// [GET]: /admin/course/all
+// [GET]: /admin/chapter/[courseId]/all
 export async function GET(req: NextRequest) {
-  console.log('- Get All Courses -')
+  console.log('- Get All Chapters Of Course -')
 
   try {
     // connect to database
@@ -60,50 +57,34 @@ export async function GET(req: NextRequest) {
           filter[key] = { $lte: +params[key][0] }
           continue
         }
-
-        if (key === 'flashSale') {
-          filter[key] =
-            params[key][0] === 'true' ? { $exists: true, $ne: null } : { $exists: false, $eq: null }
-          continue
-        }
-
         // Normal Cases ---------------------
         filter[key] = params[key].length === 1 ? params[key][0] : { $in: params[key] }
       }
     }
 
     // get amount of course
-    const amount = await CourseModel.countDocuments(filter)
+    const amount = await ChapterModel.countDocuments(filter)
 
-    // get all courses from database
-    const courses = await CourseModel.find(filter)
-      .populate('tags categories')
-      .sort(sort)
-      .skip(skip)
-      .limit(itemPerPage)
-      .lean()
+    // get all chapters from database
+    const chapters = await CourseModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
 
-    // get tags and categories
-    const tgs = await TagModel.find().select('title').lean()
-    const cates = await CategoryModel.find().select('title').lean()
-
-    // get all order without filter
-    const chops = await CourseModel.aggregate([
-      {
-        $group: {
-          _id: null,
-          minPrice: { $min: '$price' },
-          maxPrice: { $max: '$price' },
-          minSold: { $min: '$sold' },
-          maxSold: { $max: '$sold' },
-          minStock: { $min: '$stock' },
-          maxStock: { $max: '$stock' },
-        },
-      },
-    ])
+    // // get all order without filter
+    // const chops = await CourseModel.aggregate([
+    //   {
+    //     $group: {
+    //       _id: null,
+    //       minPrice: { $min: '$price' },
+    //       maxPrice: { $max: '$price' },
+    //       minSold: { $min: '$sold' },
+    //       maxSold: { $max: '$sold' },
+    //       minStock: { $min: '$stock' },
+    //       maxStock: { $max: '$stock' },
+    //     },
+    //   },
+    // ])
 
     // return all courses
-    return NextResponse.json({ courses, amount, tgs, cates, chops: chops[0] }, { status: 200 })
+    return NextResponse.json({ chapters, amount }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

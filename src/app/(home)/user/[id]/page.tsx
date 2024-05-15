@@ -13,7 +13,7 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
   try {
     // get user profile
     const res = await getUsersApi(id)
-    console.log('res:', res)
+    console.log('res:', res.user)
     user = res.user
   } catch (err: any) {
     console.error(err)
@@ -71,21 +71,14 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
         <div className='col-span-12 lg:col-span-8 px-8 py-21 order-2 lg:order-1'>
           <h2 className='font-bold text-2xl text-center text-slate-600'>Joined Courses</h2>
 
-          <GroupCourses
-            child='course-card'
-            courses={[...user.courses, ...user.courses, ...user.courses, ...user.courses]}
-          />
+          <GroupCourses child='course-card' courses={user.courses} />
 
           <Divider size={16} />
         </div>
 
         <div className='col-span-12 lg:col-span-4 order-1 lg:order-2 lg:border-l-2 border-dark p-21'>
           <p className='sticky top-[80px] left-0 bg-slate-200 bg-opacity-80 font-semibold font-body tracking-wider p-4 rounded-lg shadow-lg'>
-            {/* {user?.bio} */}
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Corporis veritatis ipsum quaerat
-            rem facere sunt accusantium quibusdam voluptatum quo! Deleniti recusandae et possimus rerum
-            quia quidem quo, nobis, facere porro quis magni, soluta autem. Officia voluptate modi, maxime
-            dolore explicabo laborum vitae nostrum, natus iste quidem dignissimos inventore ipsa quod.
+            {user?.bio}
           </p>
         </div>
       </div>

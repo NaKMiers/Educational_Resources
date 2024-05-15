@@ -32,7 +32,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
       className={`relative w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
       {/* MARK: Thumbnails */}
       <Link
-        href={`/${course.slug}`}
+        href={`/`}
         prefetch={false}
         className='relative aspect-video rounded-lg overflow-hidden shadow-lg block'>
         <div className='flex w-full overflow-x-scroll snap-x snap-mandatory'>
