@@ -1,8 +1,7 @@
 import { connectDatabase } from '@/config/database'
-import CourseModel from '@/models/CourseModel'
+import ChapterModel from '@/models/ChapterModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
-import ChapterModel from '@/models/ChapterModel'
 
 // Models: Course
 import '@/models/CourseModel'
@@ -46,6 +45,15 @@ export async function GET(req: NextRequest) {
           continue
         }
 
+        if (key === 'search') {
+          const searchFields = ['title', 'slug', 'content']
+
+          filter.$or = searchFields.map(field => ({
+            [field]: { $regex: params[key][0], $options: 'i' },
+          }))
+          continue
+        }
+
         if (key === 'sort') {
           sort = {
             [params[key][0].split('|')[0]]: +params[key][0].split('|')[1],
@@ -66,7 +74,7 @@ export async function GET(req: NextRequest) {
     const amount = await ChapterModel.countDocuments(filter)
 
     // get all chapters from database
-    const chapters = await CourseModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
+    const chapters = await ChapterModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
 
     // // get all order without filter
     // const chops = await CourseModel.aggregate([

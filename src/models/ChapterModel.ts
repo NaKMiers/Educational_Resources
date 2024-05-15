@@ -21,7 +21,6 @@ const ChapterSchema = new Schema(
       type: String,
       unique: true,
       index: true,
-      required: true,
     },
     lessonQuantity: {
       type: Number,
@@ -54,6 +53,7 @@ export interface IChapter {
   content: string
   slug: string
   lessonQuantity: number
+  order: number
   createdAt: Date
   updatedAt: Date
 }

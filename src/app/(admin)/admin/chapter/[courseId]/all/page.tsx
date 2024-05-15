@@ -1,23 +1,31 @@
 'use client'
 
 import ConfirmDialog from '@/components/ConfirmDialog'
+import Divider from '@/components/Divider'
 import Input from '@/components/Input'
 import Pagination from '@/components/Pagination'
+import AddChapter from '@/components/admin/AddChapter'
 import AdminHeader from '@/components/admin/AdminHeader'
 import AdminMeta from '@/components/admin/AdminMeta'
+import ChapterItem from '@/components/admin/ChapterItem'
 import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { IChapter } from '@/models/ChapterModel'
 import {} from '@/requests'
-import { getAllCourseChaptersApi } from '@/requests/chapterRequest'
+import { deleteChaptersApi, getAllCourseChaptersApi } from '@/requests/chapterRequest'
 import { handleQuery } from '@/utils/handleQuery'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { BiReset } from 'react-icons/bi'
 import { FaSearch, FaSort } from 'react-icons/fa'
-import { MdOutlineFormatColorText } from 'react-icons/md'
+
+export type EditingValues = {
+  _id: string
+  title: string
+  content: string
+  order: number
+}
 
 function AllCourseChaptersPage({
   searchParams,
@@ -38,13 +46,11 @@ function AllCourseChaptersPage({
 
   // loading and confirming
   const [loadingChapters, setLoadingChapters] = useState<string[]>([])
+  const [editingValues, setEditingValues] = useState<EditingValues | null>(null)
   const [isOpenConfirmModal, setIsOpenConfirmModal] = useState<boolean>(false)
 
   // values
-  const itemPerPage = 9
-  // const [minAccumulated, setMinAccumulated] = useState<number>(0)
-  // const [maxAccumulated, setMaxAccumulated] = useState<number>(0)
-  // const [accumulated, setAccumulated] = useState<number>(0)
+  const itemPerPage = 10
 
   // form
   const defaultValues = useMemo<FieldValues>(
@@ -54,7 +60,6 @@ function AllCourseChaptersPage({
     }),
     []
   )
-
   const {
     register,
     handleSubmit,
@@ -78,7 +83,7 @@ function AllCourseChaptersPage({
       dispatch(setPageLoading(true))
 
       try {
-        const { chapters, amount, chops } = await getAllCourseChaptersApi(query) // cache: no-store
+        const { chapters, amount } = await getAllCourseChaptersApi(courseId, query) // cache: no-store
 
         console.log('chapters', chapters)
 
@@ -89,11 +94,6 @@ function AllCourseChaptersPage({
         // sync search params with states
         setValue('search', searchParams?.search || getValues('search'))
         setValue('sort', searchParams?.sort || getValues('sort'))
-
-        // // set accumulated
-        // setMinAccumulated(chops.minAccumulated)
-        // setMaxAccumulated(chops.maxAccumulated)
-        // setAccumulated(searchParams?.accumulated ? +searchParams.accumulated : chops.maxAccumulated)
       } catch (err: any) {
         console.log(err)
       } finally {
@@ -102,7 +102,7 @@ function AllCourseChaptersPage({
       }
     }
     getAllChapters()
-  }, [dispatch, searchParams, setValue, getValues])
+  }, [dispatch, setValue, getValues, searchParams, courseId])
 
   // MARK: Handlers
   // delete chapter
@@ -110,16 +110,16 @@ function AllCourseChaptersPage({
     setLoadingChapters(ids)
 
     try {
-      // // senred request to server
-      // const { deletedChapters, message } = await deleteChaptersApi(ids)
-      // // remove deleted chapters from state
-      // setChapters(prev =>
-      //   prev.filter(
-      //     chapter => !deletedChapters.map((chapter: IChapter) => chapter._id).includes(chapter._id)
-      //   )
-      // )
-      // // show success message
-      // toast.success(message)
+      // senred request to server
+      const { deletedChapters, message } = await deleteChaptersApi(ids)
+      // remove deleted chapters from state
+      setChapters(prev =>
+        prev.filter(
+          chapter => !deletedChapters.map((chapter: IChapter) => chapter._id).includes(chapter._id)
+        )
+      )
+      // show success message
+      toast.success(message)
     } catch (err: any) {
       console.log(err)
       toast.error(err.message)
@@ -128,15 +128,6 @@ function AllCourseChaptersPage({
       setSelectedChapters([])
     }
   }, [])
-
-  // handle select all chapters
-  const handleSelectAllChapters = useCallback(() => {
-    setSelectedChapters(
-      selectedChapters.length > 0
-        ? []
-        : chapters.filter(chapter => chapter._id === 'chapter').map(chapter => chapter._id)
-    )
-  }, [chapters, selectedChapters.length])
 
   // handle opimize filter
   const handleOptimizeFilter: SubmitHandler<FieldValues> = useCallback(
@@ -194,7 +185,9 @@ function AllCourseChaptersPage({
       // Alt + A (Select All)
       if (e.altKey && e.key === 'a') {
         e.preventDefault()
-        handleSelectAllChapters()
+        setSelectedChapters(prev =>
+          prev.length === chapters.length ? [] : chapters.map(chapter => chapter._id)
+        )
       }
 
       // Alt + Delete (Delete)
@@ -209,7 +202,7 @@ function AllCourseChaptersPage({
 
     // Remove the event listener on cleanup
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [handleFilter, handleResetFilter, handleSelectAllChapters, handleSubmit])
+  }, [chapters, selectedChapters, handleDeleteChapters, handleFilter, handleSubmit, handleResetFilter])
 
   return (
     <div className='w-full'>
@@ -236,8 +229,6 @@ function AllCourseChaptersPage({
 
         {/* MARK: Select Filter */}
         <div className='flex justify-end items-center flex-wrap gap-3 col-span-12 md:col-span-8'>
-          {/* Select */}
-
           {/* Sort */}
           <Input
             id='sort'
@@ -268,41 +259,6 @@ function AllCourseChaptersPage({
               },
             ]}
           />
-
-          {/* role */}
-          <Input
-            id='role'
-            label='Role'
-            disabled={false}
-            register={register}
-            errors={errors}
-            icon={FaSort}
-            type='select'
-            onFocus={() => clearErrors('role')}
-            options={[
-              {
-                value: '',
-                label: 'All',
-                selected: true,
-              },
-              {
-                value: 'admin',
-                label: 'Admin',
-              },
-              {
-                value: 'editor',
-                label: 'Editor',
-              },
-              {
-                value: 'collaborator',
-                label: 'Collaborator',
-              },
-              {
-                value: 'chapter',
-                label: 'Chapter',
-              },
-            ]}
-          />
         </div>
 
         {/* MARK: Action Buttons */}
@@ -310,7 +266,11 @@ function AllCourseChaptersPage({
           {/* Select All Button */}
           <button
             className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white common-transition'
-            onClick={handleSelectAllChapters}>
+            onClick={() =>
+              setSelectedChapters(
+                selectedChapters.length > 0 ? [] : chapters.map(chapter => chapter._id)
+              )
+            }>
             {selectedChapters.length > 0 ? 'Unselect All' : 'Select All'}
           </button>
 
@@ -341,45 +301,30 @@ function AllCourseChaptersPage({
       </div>
 
       {/* Add Chapter Form */}
-      <div className='bg-white px-3 py-2 rounded-lg flex items-center gap-2'>
-        {/* Title */}
-        <Input
-          id='title'
-          className='w-full'
-          label='Title'
-          disabled={false}
-          register={register}
-          errors={errors}
-          type='text'
-          icon={MdOutlineFormatColorText}
-          onFocus={() => clearErrors('title')}
-        />
+      <AddChapter
+        courseId={courseId}
+        chapters={chapters}
+        setChapters={setChapters}
+        editingValues={editingValues}
+        setEditingValues={setEditingValues}
+      />
 
-        {/* Order */}
-        <Input
-          id='order'
-          className='w-full'
-          label='Order'
-          disabled={false}
-          register={register}
-          errors={errors}
-          type='number'
-          min={0}
-          icon={MdOutlineFormatColorText}
-          onFocus={() => clearErrors('order')}
-        />
-
-        {/* Reset Button */}
-        <button
-          className='group flex items-center text-nowrap bg-yellow-400 text-[16px] font-semibold py-2 px-3 rounded-md cursor-pointer hover:bg-slate-800 text-white common-transition'
-          title='Alt + R'
-          onClick={handleResetFilter}>
-          Add
-        </button>
-      </div>
+      <Divider />
 
       {/* MARK: MAIN LIST */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-21'></div>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-21'>
+        {chapters.map(chapter => (
+          <ChapterItem
+            data={chapter}
+            loadingChapters={loadingChapters}
+            selectedChapters={selectedChapters}
+            setSelectedChapters={setSelectedChapters}
+            setEditingValues={setEditingValues}
+            handleDeleteChapters={handleDeleteChapters}
+            key={chapter._id}
+          />
+        ))}
+      </div>
     </div>
   )
 }

@@ -12,3 +12,49 @@ export const getAllCourseChaptersApi = async (courseId: string, query: string = 
 
   return await res.json()
 }
+
+// [POST]
+export const addNewChapterApi = async (courseId: string, data: any) => {
+  // no-store to bypass cache
+  const res = await fetch(`/api/admin/chapter/${courseId}/add`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [PUT]
+export const updateChapterApi = async (id: string, data: any) => {
+  const res = await fetch('/api/admin/chapter/edit', {
+    method: 'PUT',
+    body: JSON.stringify({ id, ...data }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [DELETE]
+export const deleteChaptersApi = async (ids: string[]) => {
+  const res = await fetch('/api/admin/chapter/delete', {
+    method: 'DELETE',
+    body: JSON.stringify({ ids }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
