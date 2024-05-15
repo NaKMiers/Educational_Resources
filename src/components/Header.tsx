@@ -45,7 +45,7 @@ function Header({ isStatic }: HeaderProps) {
     const updateUser = async () => {
       await update()
     }
-    if (curUser && !curUser?._id) {
+    if (!curUser?._id) {
       updateUser()
     }
   }, [update, curUser])
