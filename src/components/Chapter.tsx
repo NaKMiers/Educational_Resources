@@ -13,9 +13,9 @@ function Chapter() {
 
   return (
     <ul className='flex flex-col gap-y-21'>
-      <li className='bg-sky-200 rounded-lg shaodow-lg'>
+      <li className='bg-slate-800 rounded-lg shaodow-lg'>
         <p
-          className='font-semibold flex justify-between items-center py-2 px-3 cursor-pointer'
+          className='font-semibold text-white flex justify-between items-center py-2 px-3 cursor-pointer'
           onClick={() => setOpen(!open)}>
           Chapter 1 <FaAngleDown size={18} className='rotate-0' />
         </p>
