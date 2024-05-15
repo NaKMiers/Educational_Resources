@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { Toaster } from 'react-hot-toast'
 import '../globals.scss'
+import Header from '@/components/Header'
 
 export const metadata: Metadata = {
   title: 'Educational Resources',
@@ -35,8 +36,10 @@ export default async function RootLayout({
             }}
           />
 
+          <Header />
+
           {/* Main */}
-          <main className=''>{children}</main>
+          <main className='mb-[72px] md:mb-auto md:mt-[72px]'>{children}</main>
         </StoreProvider>
       </body>
     </html>
