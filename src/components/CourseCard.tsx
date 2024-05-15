@@ -32,7 +32,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
       className={`relative w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
       {/* MARK: Thumbnails */}
       <Link
-        href={`/`}
+        href={`/${course.slug}`}
         prefetch={false}
         className='relative aspect-video rounded-lg overflow-hidden shadow-lg block'>
         <div className='flex w-full overflow-x-scroll snap-x snap-mandatory'>
@@ -83,7 +83,19 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
         </h3>
       </Link>
 
-      <p className='font-body tracking-wider text-sm'>{course.description}</p>
+      <p className='font-body tracking-wider text-sm max-h-[300px] overflow-auto'>
+        {course.description}
+      </p>
+
+      <Divider size={3} />
+
+      <Link
+        href={`/learning/${course._id}/continue`}
+        className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark duration-300 transition-all hover:-translate-y-1'>
+        Continue Learning
+      </Link>
+
+      <Divider size={2} />
 
       {/* Price */}
       {/* <Price

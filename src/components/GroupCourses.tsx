@@ -105,9 +105,9 @@ function GroupCourses({
       {/* MARK: Slider */}
       <div className='flex flex-wrap'>
         <div
-          className={`flex ${isExpaned ? 'flex-wrap gap-y-21' : ''} w-full py-21 overflow-x-auto ${
-            !isDragging ? 'snap-x snap-mandatory' : ''
-          }`}
+          className={`flex items-start ${
+            isExpaned ? 'flex-wrap gap-y-21' : ''
+          } w-full py-21 overflow-x-auto ${!isDragging ? 'snap-x snap-mandatory' : ''}`}
           ref={slideTrackRef}
           onMouseDown={() => setIsDragging(true)}
           onMouseMove={handleDraging}
