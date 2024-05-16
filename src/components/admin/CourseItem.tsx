@@ -82,9 +82,9 @@ function CourseItem({
             />
           )}
 
-          {/* Title */}
+          {/* Category */}
           <p
-            className='inline font-semibold text-[18px] mr-2 leading-4 font-body tracking-wide'
+            className='inline font-semibold text-dark text-[18px] mr-2 leading-4 font-body tracking-wide'
             title={data.title}>
             {(data.categories as ICategory[]).map(category => (
               <span
@@ -95,8 +95,10 @@ function CourseItem({
                 {category.title || 'empty'}
               </span>
             ))}
-            {data.title}
           </p>
+
+          {/* Title */}
+          <p className='text-dark font-semibold tracking-wider mt-1'>{data.title}</p>
 
           {/* Price - Old Price */}
           <div className='flex items-center flex-wrap gap-2'>

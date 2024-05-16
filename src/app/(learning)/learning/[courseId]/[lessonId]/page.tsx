@@ -46,6 +46,7 @@ function LessonPage({
         <span>{(lesson?.courseId as ICourse)?.title}</span>
       </h2>
       <Divider size={4} />
+
       {/* Source */}
       <div className='px-3'>
         <div className='aspect-video w-full rounded-lg shadow-lg overflow-hidden'>
@@ -62,12 +63,15 @@ function LessonPage({
         </div>
       </div>
       <Divider size={4} />
+
       {/* Title */}
       <h1 className='text-ellipsis line-clamp-2 w-full text-4xl font-body tracking-wider px-3' title=''>
         {lesson?.title}
       </h1>
+
       {/* Description */}
       <div className='px-21'>{lesson?.description}</div>
+
       {/* Question */}
       <Link
         href='/question'
@@ -75,6 +79,8 @@ function LessonPage({
         <span className='font-semibold text-lg'>Ask Question </span>
         <FaQuestion size={18} />
       </Link>
+
+      {/* Navigator */}
       <div className='flex flex-1 items-end pt-9'>
         <div className='py-2 w-full bg-slate-800 flex items-center justify-between px-3 gap-21'>
           <Link
