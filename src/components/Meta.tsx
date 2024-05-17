@@ -6,8 +6,8 @@ import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { FaEye, FaSearch } from 'react-icons/fa'
-import Input from './Input'
+import { FaSearch } from 'react-icons/fa'
+import { IoIosCloseCircle, IoMdClose } from 'react-icons/io'
 
 interface MetaProps {
   title?: string
@@ -41,6 +41,7 @@ function Meta({
     [].concat((searchParams?.[type] || items.map(item => item.slug)) as []).map(type => type)
   )
   const [search, setSearch] = useState<string>(searchParams?.search as string)
+  const [openFilter, setOpenFilter] = useState<boolean>(false)
 
   // refs
   const timeout = useRef<any>(null)
@@ -130,11 +131,16 @@ function Meta({
   // handle select filter item
   const handleSelectFilterItem = useCallback(
     (item: string) => {
+      clearTimeout(timeout.current)
       setSelectedFilterItems(prev =>
         prev.includes(item) ? prev.filter(id => id !== item) : [...prev, item]
       )
+
+      timeout.current = setTimeout(() => {
+        handleSubmit(handleFilter)()
+      }, 500)
     },
-    [setSelectedFilterItems]
+    [setSelectedFilterItems, handleFilter, handleSubmit]
   )
 
   // auto filter when selectedFilterItems change
@@ -172,39 +178,81 @@ function Meta({
 
   return (
     <div
-      className={`self-end w-full text-dark overflow-auto transition-all duration-300 no-scrollbar p-21 ${className}`}>
+      className={`self-end w-full text-dark transition-all duration-300 no-scrollbar p-21 ${className}`}>
       {/* MARK: Filter */}
-      <div className='grid grid-cols-12 gap-21'>
+      <div className='relative grid grid-cols-12 gap-21'>
         {/* MARK: Item Selection */}
-        <div className='flex items-center gap-1 flex-wrap max-h-[228px] md:max-h-[152px] lg:max-h-[152px] overflow-auto col-span-12 md:col-span-8 order-2 md:order-1'>
+        <div className='flex items-center gap-1 flex-wrap max-h-[110px] overflow-auto col-span-12 md:col-span-8 order-2 md:order-1'>
           <div
             className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
-              items.length === selectedFilterItems.length
-                ? 'bg-dark-100 text-white border-dark-100'
-                : 'border-slate-300 bg-slate-200'
+              openFilter ? 'bg-dark-100 text-white border-dark-100' : 'border-slate-300 bg-slate-200'
             }`}
-            title='All Types'
-            onClick={() => {
-              setSelectedFilterItems(
-                items.length === selectedFilterItems.length ? [] : items.map(tag => tag.slug)
-              )
-              handleSubmit(handleFilter)()
-            }}>
-            All
+            title='Filter'
+            onClick={() => setOpenFilter(true)}>
+            Filter
           </div>
-          {items.map(item => (
-            <div
+          {selectedFilterItems.length !== items.length &&
+            items
+              .filter(item => selectedFilterItems.includes(item.slug))
+              .map(item => (
+                <div
+                  className={`group flex items-center justify-center gap-1 overflow-hidden text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+                    selectedFilterItems.includes(item.slug)
+                      ? 'bg-secondary text-white border-secondary'
+                      : 'border-slate-300'
+                  }`}
+                  title={item.title}
+                  key={item.slug}
+                  onClick={() => handleSelectFilterItem(item.slug)}>
+                  {item.title}
+                  <IoMdClose size={16} className='wiggle' />
+                </div>
+              ))}
+
+          {/* MARK: Overlay */}
+          <div
+            className={`${
+              openFilter ? 'block' : 'hidden'
+            } fixed top-0 left-0 right-0 bottom-0 w-screen h-screen z-30 ${className}`}
+            onClick={() => setOpenFilter(false)}
+          />
+
+          {/* MARK: Main */}
+          <ul
+            className={`${
+              openFilter
+                ? 'max-h-[200px] max-w-[500px] w-full p-3 opacity-1 overflow-auto'
+                : 'max-w-0 max-h-0 overflow-hidden p-0 opacity-0'
+            } flex flex-wrap gap-1 transition-all duration-300 absolute top-9 left-0 z-30 rounded-lg shadow-md bg-slate-100`}>
+            <li
               className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
-                selectedFilterItems.includes(item.slug)
-                  ? 'bg-secondary text-white border-secondary'
-                  : 'border-slate-300'
+                items.length === selectedFilterItems.length
+                  ? 'bg-dark-100 text-white border-dark-100'
+                  : 'border-slate-300 bg-slate-200'
               }`}
-              title={item.title}
-              key={item.slug}
-              onClick={() => handleSelectFilterItem(item.slug)}>
-              {item.title}
-            </div>
-          ))}
+              title='All Types'
+              onClick={() => {
+                setSelectedFilterItems(
+                  items.length === selectedFilterItems.length ? [] : items.map(tag => tag.slug)
+                )
+                handleSubmit(handleFilter)()
+              }}>
+              All
+            </li>
+            {items.map(item => (
+              <li
+                className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+                  selectedFilterItems.includes(item.slug)
+                    ? 'bg-secondary text-white border-secondary'
+                    : 'border-slate-300'
+                }`}
+                title={item.title}
+                key={item.slug}
+                onClick={() => handleSelectFilterItem(item.slug)}>
+                {item.title}
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Search */}
@@ -255,58 +303,6 @@ function Meta({
             )}
           </div>
         </div>
-
-        {/* MARK: Select Filter */}
-        {/* <div className='flex justify-end items-center flex-wrap gap-3 col-span-12 md:col-span-8'>
-          <Input
-            id='sort'
-            label='Sắp xếp'
-            disabled={false}
-            register={register}
-            errors={errors}
-            icon={FaSort}
-            type='select'
-            onFocus={() => clearErrors('sort')}
-            options={[
-              {
-                value: 'createdAt|-1',
-                label: 'Newest',
-              },
-              {
-                value: 'createdAt|1',
-                label: 'Oldest',
-              },
-              {
-                value: 'updatedAt|-1',
-                label: 'Latest',
-                selected: true,
-              },
-              {
-                value: 'updatedAt|1',
-                label: 'Farthest',
-              },
-            ]}
-          />
-        </div> */}
-
-        {/* MARK: Filter Buttons */}
-        {/* <div className='flex justify-end gap-2 items-center col-span-12 md:col-span-4'>
-          <button
-            className='group flex items-center text-nowrap bg-primary text-[16px] font-semibold py-2 px-3 rounded-md cursor-pointer hover:bg-secondary text-white common-transition'
-            title='Alt + Enter'
-            onClick={handleSubmit(handleFilter)}>
-            Lọc
-            <FaFilter size={14} className='ml-1 wiggle' />
-          </button>
-
-          <button
-            className='group flex items-center text-nowrap bg-slate-600 text-[16px] font-semibold py-2 px-3 rounded-md cursor-pointer hover:bg-slate-800 text-white common-transition'
-            title='Alt + R'
-            onClick={handleResetFilter}>
-            Đặt lại
-            <BiReset size={22} className='ml-1 wiggle' />
-          </button>
-        </div> */}
       </div>
     </div>
   )

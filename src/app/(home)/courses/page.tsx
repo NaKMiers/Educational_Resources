@@ -2,7 +2,6 @@ import CourseCard from '@/components/CourseCard'
 import Divider from '@/components/Divider'
 import Meta from '@/components/Meta'
 import Pagination from '@/components/Pagination'
-import SearchBar from '@/components/SearchBar'
 import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
 import { ITag } from '@/models/TagModel'
@@ -57,8 +56,12 @@ async function CoursesPage({ searchParams }: { searchParams?: { [key: string]: s
         ))}
       </div>
 
+      <Divider size={8} />
+
       {/* Pagination */}
       <Pagination searchParams={searchParams} amount={amount} itemsPerPage={itemPerPage} />
+
+      <Divider size={20} />
     </div>
   )
 }

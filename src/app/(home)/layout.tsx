@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { Toaster } from 'react-hot-toast'
 import '../globals.scss'
+import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
   title: 'Educational Resources',
@@ -36,10 +37,14 @@ export default async function RootLayout({
             }}
           />
 
+          {/* Header */}
           <Header />
 
           {/* Main */}
           <main className='mb-[72px] md:mb-auto md:mt-[72px]'>{children}</main>
+
+          {/* Footer */}
+          <Footer />
         </StoreProvider>
       </body>
     </html>

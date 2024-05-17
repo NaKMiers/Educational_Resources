@@ -83,7 +83,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
         </h3>
       </Link>
 
-      <p className='font-body tracking-wider text-sm max-h-[300px] overflow-auto'>
+      <p className='font-body tracking-wider text-sm max-h-[200px] overflow-auto'>
         {course.description}
       </p>
 
