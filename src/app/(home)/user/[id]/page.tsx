@@ -1,4 +1,3 @@
-import Background from '@/components/Background'
 import Divider from '@/components/Divider'
 import GroupCourses from '@/components/GroupCourses'
 import { IUser } from '@/models/UserModel'
@@ -22,9 +21,6 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
 
   return (
     <div className='bg-opacity-75'>
-      {/* Background */}
-      <Background />
-
       {/* Top */}
       <div className='flex flex-col sm:flex-row items-center justify-between gap-21 px-21 md:px-20 py-10 border-b-2 border-dark'>
         {/* Info */}

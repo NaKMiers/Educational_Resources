@@ -1,5 +1,4 @@
 import AddQuestionForm from '@/components/AddQuestionForm'
-import Background from '@/components/Background'
 import Divider from '@/components/Divider'
 import Pagination from '@/components/Pagination'
 import Question from '@/components/Question'
@@ -27,9 +26,6 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
 
   return (
     <div className='flex px-21 mb-21'>
-      {/* Background */}
-      <Background />
-
       {/* Questions */}
       <div className='flex-1 border-r-2 border-dark px-21'>
         <Divider size={8} />
