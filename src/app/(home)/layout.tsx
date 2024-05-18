@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth'
 import { Toaster } from 'react-hot-toast'
 import '../globals.scss'
 import Footer from '@/components/Footer'
+import PageLoading from '@/components/PageLoading'
 
 export const metadata: Metadata = {
   title: 'Educational Resources',
@@ -39,6 +40,9 @@ export default async function RootLayout({
 
           {/* Header */}
           <Header />
+
+          {/* Loading */}
+          <PageLoading />
 
           {/* Main */}
           <main className='mb-[72px] md:mb-auto md:mt-[72px]'>{children}</main>

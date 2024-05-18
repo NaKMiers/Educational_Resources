@@ -24,7 +24,7 @@ export async function sendMail(to: string | string[], subject: string, html: str
   console.log('- Send Mail -')
 
   await transporter.sendMail({
-    from: 'Anpha Shop <no-reply@anpha.shop>',
+    from: 'ERE <no-reply@anpha.shop>',
     to: to,
     subject: subject,
     html: html,
@@ -55,7 +55,7 @@ export async function notifyDeliveryOrder(email: string, orderData: any) {
 
   try {
     const html = render(OrderEmail({ order: orderData }))
-    await sendMail(email, 'Bạn có đơn hàng từ Anpha Shop', html)
+    await sendMail(email, 'Bạn có đơn hàng từ ERE', html)
   } catch (err: any) {
     console.log(err)
   }

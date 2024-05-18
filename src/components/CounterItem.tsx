@@ -41,7 +41,7 @@ function CounterItem({ max, value, size = 25, className }: CounterItem) {
 
   return (
     <div className={`overflow-y-hidden ${className}`} style={{ height: size }}>
-      <div className={`flex flex-col h-full common-transition`} ref={slideTrackRef}>
+      <div className={`flex flex-col h-full trans-200`} ref={slideTrackRef}>
         {[...Array.from({ length: max + 1 }, (_, i) => max - i), max].map((n, i) => (
           <span className='flex-shrink-0 h-full' key={i}>
             {n}

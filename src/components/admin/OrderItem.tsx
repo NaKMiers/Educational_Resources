@@ -124,7 +124,7 @@ function OrderItem({
   return (
     <>
       <div
-        className={`relative w-full flex justify items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer common-transition ${
+        className={`relative w-full text-dark flex justify items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer trans-200 ${
           selectedOrders.includes(data._id)
             ? 'bg-violet-50 -translate-y-1'
             : data.status === 'done'
@@ -141,25 +141,20 @@ function OrderItem({
         <div className='w-[calc(100%_-_44px)]'>
           {/* MARK: Thumbnails */}
           <div className='w-full h-full flex items-center flex-wrap gap-2 mb-2 max-h-[145px] overflow-y-auto '>
-            {data.items.map((item: any) => (
-              <Link
-                href={`/${item.course.slug}`}
-                prefetch={false}
-                className='relative rounded-lg shadow-md overflow-hidden'
-                onClick={e => e.stopPropagation()}
-                key={item._id}>
-                <Image
-                  className='aspect-video h-auto w-auto'
-                  src={item.course.images[0] || '/images/not-found.jpg'}
-                  height={120}
-                  width={120}
-                  alt='thumbnail'
-                />
-                <span className='py-[2px] px-[3px] rounded-full absolute top-1 right-1 bg-secondary shadow-md text-[8px] font-semibold text-white border-2 border-white'>
-                  x{item.quantity}
-                </span>
-              </Link>
-            ))}
+            <Link
+              href={`/${data.item.slug}`}
+              prefetch={false}
+              className='relative rounded-lg shadow-md overflow-hidden'
+              onClick={e => e.stopPropagation()}
+              key={data.item._id}>
+              <Image
+                className='aspect-video h-auto w-auto'
+                src={data.item.images[0] || '/images/not-found.jpg'}
+                height={120}
+                width={120}
+                alt='thumbnail'
+              />
+            </Link>
           </div>
 
           {/* MARK: Information */}
@@ -229,11 +224,6 @@ function OrderItem({
             className='flex items-center flex-wrap gap-x-2 mr-2 text-green-500 text-xl font-semibold'
             title='total'>
             {formatPrice(data.total)}{' '}
-            <span
-              className='px-[7px] py-[1px] text-center text-xs rounded-full shadow-sm bg-sky-300 text-white'
-              title='quantity'>
-              x{data.items.reduce((quantity: number, item: any) => quantity + item.quantity, 0)}
-            </span>
           </p>
 
           {data.voucherApplied && data.discount && (

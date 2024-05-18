@@ -12,7 +12,7 @@ function AdminHeader({ title, addLink, backLink, className = '' }: AdminHeaderPr
   return (
     <div className={`flex flex-wrap text-sm justify-center items-end mb-3 gap-3 ${className}`}>
       <Link
-        className='flex items-center gap-1 text-dark bg-slate-200 py-2 px-3 rounded-lg common-transition hover:bg-white hover:text-primary'
+        className='flex items-center gap-1 text-dark bg-slate-200 py-2 px-3 rounded-lg trans-200 hover:bg-white hover:text-primary'
         href='/admin'>
         <FaArrowLeft />
         Admin
@@ -25,7 +25,7 @@ function AdminHeader({ title, addLink, backLink, className = '' }: AdminHeaderPr
       {backLink && (
         <Link
           href={backLink}
-          className='flex items-center gap-1 bg-slate-200 text-dark py-2 px-3 rounded-lg common-transition hover:bg-yellow-300 hover:text-secondary'>
+          className='flex items-center gap-1 bg-slate-200 text-dark py-2 px-3 rounded-lg trans-200 hover:bg-yellow-300 hover:text-secondary'>
           <FaArrowLeft />
           Back
         </Link>
@@ -34,7 +34,7 @@ function AdminHeader({ title, addLink, backLink, className = '' }: AdminHeaderPr
       {addLink && (
         <Link
           href={addLink}
-          className='flex items-center gap-1 bg-slate-200 text-dark py-2 px-3 rounded-lg common-transition hover:bg-yellow-300 hover:text-secondary'>
+          className='flex items-center gap-1 bg-slate-200 text-dark py-2 px-3 rounded-lg trans-200 hover:bg-yellow-300 hover:text-secondary'>
           <FaPlus />
           Add
         </Link>

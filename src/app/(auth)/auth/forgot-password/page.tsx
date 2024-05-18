@@ -195,11 +195,11 @@ function ForgotPasswordPage() {
             <button
               onClick={handleSubmit(onSubmit)}
               disabled={isSent && isCounting}
-              className={`border border-dark bg-secondary text-dark rounded-3xl px-5 py-1.5 mt-5 font-bold text-lg hover:bg-white common-transition ${
+              className={`border border-dark bg-secondary text-dark rounded-3xl px-5 py-1.5 mt-5 font-bold text-lg hover:bg-white trans-200 ${
                 isLoading || isCounting ? 'pointer-events-none bg-white' : 'bg-secondary'
               }`}>
               {isLoading || isCounting ? (
-                <FaCircleNotch size={18} className='text-dark common-transition animate-spin' />
+                <FaCircleNotch size={18} className='text-dark trans-200 animate-spin' />
               ) : (
                 'Send Code'
               )}

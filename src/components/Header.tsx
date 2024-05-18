@@ -130,7 +130,7 @@ function Header({ isStatic }: HeaderProps) {
           className={`${
             openSearch ? 'max-w-0 overflow-hidden' : 'max-w-[100px] w-full'
           } hidden sm:flex sm:flex-shrink-0 pl-4 -ml-4 items-center h-full overflow-x-scroll no-scrollbar duration-300 transition-all`}>
-          <Link href='/' prefetch={false} className='shrink-0 common-transition spin mr-2'>
+          <Link href='/' prefetch={false} className='shrink-0 trans-200 spin mr-2'>
             <Image
               className='aspect-square rounded-md'
               src='/images/logo.png'
@@ -157,19 +157,19 @@ function Header({ isStatic }: HeaderProps) {
             } flex items-center gap-21 duration-300 transition-all`}>
             <Link
               href='/'
-              className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
               <span className='hidden md:block'>Home</span>
               <FaHome size={24} className='md:hidden' />
             </Link>
             <Link
               href='/courses'
-              className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
               <span className='hidden md:block'>Course</span>
               <SiCoursera size={24} className='md:hidden' />
             </Link>
             <Link
               href='/question'
-              className='font-semibold hover:text-sky-400 underline-offset-2 common-transition relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
               <span className='hidden md:block'>Forum</span>
               <MdForum size={24} className='md:hidden' />
             </Link>
@@ -220,7 +220,7 @@ function Header({ isStatic }: HeaderProps) {
                   <Link
                     href={`/${course.slug}`}
                     key={course._id}
-                    className='flex gap-4 py-2 items-start rounded-lg p-2 hover:bg-sky-200 common-transition'>
+                    className='flex gap-4 py-2 items-start rounded-lg p-2 hover:bg-sky-200 trans-200'>
                     <div className='relative aspect-video flex-shrink-0'>
                       {course.stock <= 0 && (
                         <div className='absolute top-0 left-0 right-0 flex justify-center items-start aspect-video bg-white rounded-lg bg-opacity-50'>
@@ -292,12 +292,12 @@ function Header({ isStatic }: HeaderProps) {
             <div className='flex items-center gap-3'>
               <Link
                 href='/auth/login'
-                className='bg-[#019CDE] text-white hover:bg-white hover:text-dark border border-dark text-nowrap common-transition px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
+                className='bg-[#019CDE] text-white hover:bg-white hover:text-dark border border-dark text-nowrap trans-200 px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
                 Sign In
               </Link>
               <Link
                 href='/auth/register'
-                className='bg-[#001D4F] text-[#019CDE] hover:bg-white hover:text-dark border border-dark text-nowrap common-transition px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
+                className='bg-[#001D4F] text-[#019CDE] hover:bg-white hover:text-dark border border-dark text-nowrap trans-200 px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
                 Sign Up
               </Link>
             </div>
@@ -312,7 +312,7 @@ function Header({ isStatic }: HeaderProps) {
           <button
             className='flex justify-center items-center w-[40px] h-[40px]'
             onClick={() => setIsOpenMenu(prev => !prev)}>
-            <FaBars size={22} className='common-transition wiggle' />
+            <FaBars size={22} className='trans-200 wiggle' />
           </button>
         </div>
 

@@ -179,13 +179,13 @@ function LoginPage() {
             <button
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={`h-[42px] flex items-center justify-center border border-dark bg-secondary text-dark rounded-3xl px-5 mt-5 font-bold text-lg hover:bg-white common-transition ${
+              className={`h-[42px] flex items-center justify-center border border-dark bg-secondary text-dark rounded-3xl px-5 mt-5 font-bold text-lg hover:bg-white trans-200 ${
                 isLoading ? 'bg-slate-200 pointer-events-none' : ''
               }`}>
               {isLoading ? (
                 <FaCircleNotch
                   size={18}
-                  className='text-slate-700 group-hover:text-dark common-transition animate-spin'
+                  className='text-slate-700 group-hover:text-dark trans-200 animate-spin'
                 />
               ) : (
                 'Login'

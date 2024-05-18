@@ -90,12 +90,12 @@ function GroupCourses({
       {!isExpaned && (
         <>
           <button
-            className='group flex items-center justify-center absolute -left-21 top-1/2 -translate-y-1/2 bg-secondary bg-opacity-80 w-11 h-11 z-10 rounded-full shadow-md common-transition hover:bg-opacity-100 group'
+            className='group flex items-center justify-center absolute -left-21 top-1/2 -translate-y-1/2 bg-secondary bg-opacity-80 w-11 h-11 z-10 rounded-full shadow-md trans-200 hover:bg-opacity-100 group'
             onClick={prevSlide}>
             <FaChevronLeft size={18} className='wiggle text-white' />
           </button>
           <button
-            className='group flex items-center justify-center absolute -right-21 top-1/2 -translate-y-1/2 bg-secondary bg-opacity-80 w-11 h-11 z-10 rounded-full shadow-md common-transition hover:bg-opacity-100 group'
+            className='group flex items-center justify-center absolute -right-21 top-1/2 -translate-y-1/2 bg-secondary bg-opacity-80 w-11 h-11 z-10 rounded-full shadow-md trans-200 hover:bg-opacity-100 group'
             onClick={nextSlide}>
             <FaChevronRight size={18} className='wiggle text-white' />
           </button>

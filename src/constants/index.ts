@@ -147,35 +147,19 @@ export const adminLinks = [
 export const admins = {
   KHOA: {
     momo: {
-      account: process.env.NEXT_PUBLIC_ADMIN_PHONE!,
-      receiver: process.env.NEXT_PUBLIC_ADMIN_NAME!,
-      link: process.env.NEXT_PUBLIC_MOMO_LINK!,
+      account: '0899320427',
+      receiver: 'Nguyễn Anh Khoa',
+      link: 'https://me.momo.vn/anphashop',
       image: '/images/momo-qr.jpg',
     },
     banking: {
-      name: process.env.NEXT_PUBLIC_BANK_NAME!,
-      account: process.env.NEXT_PUBLIC_BANK_ACCOUNT!,
-      receiver: process.env.NEXT_PUBLIC_ADMIN_NAME!,
+      name: 'Vietcombank',
+      account: '1040587211',
+      receiver: 'Nguyễn Anh Khoa',
       image: '/images/banking-qr.jpg',
     },
-    zalo: process.env.NEXT_PUBLIC_ZALO!,
-    messenger: process.env.NEXT_PUBLIC_MESSENGER!,
-  },
-  TRAM: {
-    momo: {
-      account: process.env.NEXT_PUBLIC_ADMIN_PHONE_2!,
-      receiver: process.env.NEXT_PUBLIC_ADMIN_NAME_2!,
-      link: process.env.NEXT_PUBLIC_MOMO_LINK_2!,
-      image: '/images/momo-qr-2.jpg',
-    },
-    banking: {
-      name: process.env.NEXT_PUBLIC_BANK_NAME_2!,
-      account: process.env.NEXT_PUBLIC_BANK_ACCOUNT_2!,
-      receiver: process.env.NEXT_PUBLIC_ADMIN_NAME_2!,
-      image: '/images/banking-qr-2.jpg',
-    },
-    zalo: process.env.NEXT_PUBLIC_ZALO_2!,
-    messenger: process.env.NEXT_PUBLIC_MESSENGER!,
+    zalo: 'https://zalo.me/0899320427',
+    messenger: 'https://www.messenger.com/t/170660996137305',
   },
 }
 

@@ -3,7 +3,7 @@ import { theme } from '../../../tailwind.config'
 
 function ResetPasswordEmail({
   name = 'David Pi',
-  link = 'https://anpha.shop',
+  link = 'https://ere-eta.vercel.app',
 }: {
   name?: string
   link?: string
@@ -18,10 +18,10 @@ function ResetPasswordEmail({
           <Section className='inline-block mx-auto'>
             <Row className='mb-3 w-full'>
               <Column>
-                <a href='https://anpha.shop'>
+                <a href='https://ere-eta.vercel.app'>
                   <Img
                     className='aspect-square rounded-full'
-                    src={`${'https://anpha.shop'}/images/logo.jpg`}
+                    src={`${'https://ere-eta.vercel.app'}/images/logo.jpg`}
                     width={35}
                     height={35}
                     alt='logo'
@@ -30,9 +30,9 @@ function ResetPasswordEmail({
               </Column>
               <Column>
                 <a
-                  href='https://anpha.shop'
+                  href='https://ere-eta.vercel.app'
                   className='text-2xl font-bold tracking-[0.3px] no-underline text-dark'>
-                  .AnphaShop
+                  ERE
                 </a>
               </Column>
             </Row>
@@ -95,7 +95,7 @@ function ResetPasswordEmail({
             <Img
               className='max-w-full'
               width={620}
-              src={`${'https://anpha.shop'}/images/footer-banner.jpg`}
+              src={`${'https://ere-eta.vercel.app'}/images/footer-banner.jpg`}
             />
           </div>
 
@@ -110,7 +110,12 @@ function ResetPasswordEmail({
               target='_blank'
               rel='noreferrer'
               className='inline-block'>
-              <Img src={`${'https://anpha.shop'}/images/zalo.jpg`} width={35} height={35} alt='zalo' />
+              <Img
+                src={`${'https://ere-eta.vercel.app'}/images/zalo.jpg`}
+                width={35}
+                height={35}
+                alt='zalo'
+              />
             </a>
             <a
               href='https://www.messenger.com/t/170660996137305'
@@ -118,7 +123,7 @@ function ResetPasswordEmail({
               rel='noreferrer'
               className='inline-block ml-2'>
               <Img
-                src={`${'https://anpha.shop'}/images/messenger.jpg`}
+                src={`${'https://ere-eta.vercel.app'}/images/messenger.jpg`}
                 width={35}
                 height={35}
                 alt='messenger'

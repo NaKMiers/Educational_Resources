@@ -71,7 +71,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
             <>
               <Link
                 href={`/user/${curUser?._id}`}
-                className='flex items-center gap-2 py-2 px-3 rounded-lg group hover:bg-white common-transition'>
+                className='flex items-center gap-2 py-2 px-3 rounded-lg group hover:bg-white trans-200'>
                 <Image
                   className='aspect-square rounded-full wiggle-0'
                   src={curUser?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR!}
@@ -92,7 +92,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
               <li className='group' onClick={() => setOpen(false)}>
                 <Link
                   href={`/user/${curUser?._id}`}
-                  className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
+                  className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
                   <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Profile</span>
                 </Link>
@@ -100,7 +100,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
               <li className='group' onClick={() => setOpen(false)}>
                 <Link
                   href='/setting'
-                  className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
+                  className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
                   <Image src='/images/setting-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Setting</span>
                 </Link>
@@ -113,7 +113,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
                         ? '/admin/order/all'
                         : '/admin/summary/all'
                     }
-                    className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
+                    className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
                     <Image src='/images/order-icon.png' width={32} height={32} alt='icon' />
                     <span className='font-body text-xl font-semibold tracking-wide'>
                       {['admin', 'editor'].includes(curUser?.role) ? 'Orders' : 'Collaborator'}
@@ -123,7 +123,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
               )}
               <li className='group' onClick={() => setOpen(false)}>
                 <button
-                  className='flex items-center w-full gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'
+                  className='flex items-center w-full gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'
                   onClick={() => signOut()}>
                   <Image src='/images/logout-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Logout</span>
@@ -137,7 +137,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
             <li className='group' onClick={() => setOpen(false)}>
               <Link
                 href='/auth/login'
-                className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
+                className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
                 <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
                 <span className='font-body text-xl font-semibold tracking-wide'>Sign In</span>
               </Link>
@@ -145,7 +145,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
             <li className='group' onClick={() => setOpen(false)}>
               <Link
                 href='/auth/register'
-                className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white common-transition'>
+                className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
                 <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
                 <span className='font-body text-xl font-semibold tracking-wide'>Sign Up</span>
               </Link>

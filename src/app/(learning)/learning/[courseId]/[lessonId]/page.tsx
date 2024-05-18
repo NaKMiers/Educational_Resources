@@ -75,7 +75,7 @@ function LessonPage({
       {/* Question */}
       <Link
         href='/question'
-        className='absolute bottom-[70px] right-2 px-2 py-1 bg-slate-200  flex items-center rounded-lg hover:bg-dark-100 hover:text-white common-transition shadow-lg'>
+        className='absolute bottom-[70px] right-2 px-2 py-1 bg-slate-200  flex items-center rounded-lg hover:bg-dark-100 hover:text-white trans-200 shadow-lg'>
         <span className='font-semibold text-lg'>Ask Question </span>
         <FaQuestion size={18} />
       </Link>
@@ -85,13 +85,13 @@ function LessonPage({
         <div className='py-2 w-full bg-slate-800 flex items-center justify-between px-3 gap-21'>
           <Link
             href='/'
-            className='group flex items-center gap-2 rounded-lg px-2 py-1 bg-slate-200 border-2 border-dark hover:bg-white common-transition'>
+            className='group flex items-center gap-2 rounded-lg px-2 py-1 bg-slate-200 border-2 border-dark hover:bg-white trans-200'>
             <FaChevronCircleLeft size={20} className='wiggle' />
             <span className='text-xl'>Previous</span>
           </Link>
           <Link
             href='/'
-            className='group flex items-center gap-2 rounded-lg px-2 py-1 bg-slate-200 border-2 border-dark hover:bg-white common-transition'>
+            className='group flex items-center gap-2 rounded-lg px-2 py-1 bg-slate-200 border-2 border-dark hover:bg-white trans-200'>
             <span className='text-xl'>Next</span>
             <FaChevronCircleRight size={20} className='wiggle' />
           </Link>

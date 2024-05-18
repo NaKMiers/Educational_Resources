@@ -31,13 +31,8 @@ const OrderSchema = new Schema(
       type: Number,
       default: 0,
     },
-    items: {
-      type: [
-        {
-          type: {},
-        },
-      ],
-      minlength: 1,
+    item: {
+      type: {},
     },
     status: {
       type: String,
@@ -66,7 +61,7 @@ export interface IOrder {
   total: number
   voucherApplied: string | IVoucher
   discount: number
-  items: any[]
+  item: any
   status: string
   paymentMethod: string
   createdAt: string

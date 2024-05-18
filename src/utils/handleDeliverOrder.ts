@@ -1,216 +1,112 @@
-// import AccountModel, { IAccount } from '@/models/AccountModel'
-// import OrderModel from '@/models/OrderModel'
-// import CourseModel from '@/models/CourseModel'
-// import UserModel from '@/models/UserModel'
-// import VoucherModel from '@/models/VoucherModel'
-// import { notifyDeliveryOrder, notifyShortageAccount } from '@/utils/sendMail'
-// import { calcExpireTime } from '@/utils/time'
-// import { NextResponse } from 'next/server'
+import CourseModel from '@/models/CourseModel'
+import OrderModel, { IOrder } from '@/models/OrderModel'
+import UserModel, { IUser } from '@/models/UserModel'
+import VoucherModel, { IVoucher } from '@/models/VoucherModel'
+import { NextResponse } from 'next/server'
 
-// // Models: Order, Account, Voucher, User, Course
-// import '@/models/AccountModel'
-// import '@/models/OrderModel'
-// import '@/models/CourseModel'
-// import '@/models/UserModel'
-// import '@/models/VoucherModel'
+// Models: Order, Voucher, User, Course
+import '@/models/CourseModel'
+import '@/models/OrderModel'
+import '@/models/UserModel'
+import '@/models/VoucherModel'
 
-// interface AccountListItem {
-//   courseId: string
-//   quantity: number
-//   accounts: any[]
-// }
+export default async function handleDeliverOrder(id: string, message: string = '') {
+  // get order from database to deliver
+  const order: IOrder | null = await OrderModel.findById(id)
+    .populate({
+      path: 'voucherApplied',
+      select: 'code',
+      populate: 'owner',
+    })
+    .lean()
 
-// export default async function handleDeliverOrder(id: string, message: string = '') {
-//   // get order from database to deliver
-//   const order: IOrder | null = await OrderModel.findById(id)
-//     .populate({
-//       path: 'voucherApplied',
-//       select: 'code',
-//       populate: 'owner',
-//     })
-//     .lean()
+  // check order exist
+  if (!order) {
+    return NextResponse.json({ message: 'Order not found' }, { status: 404 })
+  }
 
-//   // check order exist
-//   if (!order) {
-//     return NextResponse.json({ message: 'Order not found' }, { status: 404 })
-//   }
+  // only deliver order with status is 'pending' | 'cancel'
+  if (order.status === 'done') {
+    return NextResponse.json({ message: 'Order is not ready to deliver' }, { status: 400 })
+  }
 
-//   // only deliver order with status is 'pending' | 'cancel'
-//   if (order.status === 'done') {
-//     return NextResponse.json({ message: 'Order is not ready to deliver' }, { status: 400 })
-//   }
+  // get item and applied voucher
+  const { item, email, total } = order
 
-//   // get items and applied voucher
-//   const { items, email, paymentMethod, total } = order
+  // error state
+  let orderError = {
+    error: false,
+    message: '',
+  }
 
-//   // error state
-//   let orderError = {
-//     error: false,
-//     message: '',
-//   }
+  // VOUCHER
+  const voucher: IVoucher = order.voucherApplied as IVoucher
 
-//   // ACCOUNT
-//   const getAccounts = async (courseId: string, quantity: number) => {
-//     const currentDate = new Date()
+  if (voucher) {
+    const commission: any = (voucher.owner as IUser).commission
+    let extraAccumulated = 0
 
-//     return await AccountModel.find({
-//       type: courseId, // corresponding course
-//       renew: { $gte: currentDate }, // still in time of using
-//       $and: [
-//         {
-//           $or: [
-//             { active: true }, // active: true
-//             { active: null }, // active: true
-//             { active: { $exists: false } }, // active does not exist
-//           ],
-//         },
-//         {
-//           $or: [
-//             { expire: { $lt: currentDate } }, // expired
-//             { expire: { $exists: false } }, // expire does not exist
-//             { expire: null }, // expire does not exist
-//           ],
-//         },
-//       ],
-//     })
-//       .limit(quantity)
-//       .lean()
-//   }
+    switch (commission.type) {
+      case 'fixed': {
+        extraAccumulated = commission.value
+        break
+      }
+      case 'percentage': {
+        extraAccumulated = (order.total * parseFloat(commission.value)) / 100
+        break
+      }
+    }
 
-//   // get accountsList
-//   const handleItemsToAccounts = async () => {
-//     const results: AccountListItem[] = []
+    // update voucher
+    await VoucherModel.findByIdAndUpdate(voucher._id, {
+      $addToSet: { usedUsers: email },
+      $inc: {
+        accumulated: extraAccumulated,
+        timesLeft: -1,
+      },
+    })
+  }
 
-//     for (const { course, quantity } of items) {
-//       const accounts = await getAccounts(course._id, +quantity)
+  // USER
+  await UserModel.findOneAndUpdate(
+    { email },
+    {
+      $inc: { expended: total },
+      $addToSet: { courses: item._id },
+    }
+  )
 
-//       if (accounts.length !== +quantity) {
-//         orderError = {
-//           error: true,
-//           message: `Thiếu sản phẩm: ${course.title}`,
-//         }
-//         break
-//       } else {
-//         results.push({
-//           courseId: course._id,
-//           quantity,
-//           accounts,
-//         })
-//       }
-//     }
+  // COURSE
+  const course = await CourseModel.findByIdAndUpdate(
+    order.item._id,
+    {
+      $inc: { joined: 1 },
+    },
+    { new: true }
+  )
 
-//     return results
-//   }
-//   const accountDataList: AccountListItem[] = await handleItemsToAccounts()
+  // ORDER
+  const updatedOrder: IOrder | null = await OrderModel.findByIdAndUpdate(
+    order._id,
+    {
+      $set: { status: 'done', item: course },
+    },
+    { new: true }
+  )
 
-//   // check if shortage accounts
-//   if (orderError.error) {
-//     await notifyShortageAccount(orderError.message)
-//     return { order, isError: orderError.error, message: orderError.message }
-//   }
+  // data transfering to email
+  const orderData = {
+    ...updatedOrder,
+    discount: updatedOrder?.discount || 0,
+    message,
+  }
 
-//   // prepare a list of step to update accounts
-//   let accounts: any[] = accountDataList.map(accData => accData.accounts)
-//   accounts = accounts.reduce((result, item) => result.concat(item), [])
-//   const bulkOpsAccounts = accounts.map(account => {
-//     const { days, hours, minutes, seconds } = account.times
+  // EMAIL
+  // await notifyDeliveryOrder(email, orderData)
 
-//     return {
-//       updateOne: {
-//         filter: { _id: account._id },
-//         update: {
-//           $set: {
-//             begin: new Date(),
-//             expire: calcExpireTime(days, hours, minutes, seconds),
-//           },
-//         },
-//       },
-//     }
-//   })
-
-//   // PRODUCT
-//   // prepared a list of steps to update course
-//   const bulkOpsCourses = accountDataList.map(accData => {
-//     const { courseId, quantity } = accData
-
-//     return {
-//       updateOne: {
-//         filter: { _id: courseId },
-//         update: {
-//           $inc: {
-//             sold: +quantity,
-//             stock: -1 * +quantity,
-//           },
-//         },
-//       },
-//     }
-//   })
-
-//   // VOUCHER
-//   // get voucher form database
-//   const voucher = order.voucherApplied
-
-//   if (voucher) {
-//     const commission: any = voucher.owner.commission
-//     let extraAccumulated = 0
-
-//     switch (commission.type) {
-//       case 'fixed': {
-//         extraAccumulated = commission.value
-//         break
-//       }
-//       case 'percentage': {
-//         extraAccumulated = (order.total * parseFloat(commission.value)) / 100
-//         break
-//       }
-//     }
-
-//     // update voucher
-//     await VoucherModel.findByIdAndUpdate(voucher._id, {
-//       $addToSet: { usedUsers: email },
-//       $inc: {
-//         accumulated: extraAccumulated,
-//         timesLeft: -1,
-//       },
-//     })
-//   }
-
-//   // USER
-//   // update order items with accounts
-//   const updatedItems = items.map(item => {
-//     let accounts = accountDataList.find(acc => acc.courseId.toString() === item.course._id.toString())
-//     if (!accounts) {
-//       return item
-//     }
-//     return { ...item, accounts: accounts.accounts }
-//   })
-
-//   // do all the list of step preparation for accounts
-//   await AccountModel.bulkWrite(bulkOpsAccounts)
-//   // do all the list of step preparation for courses
-//   await CourseModel.bulkWrite(bulkOpsCourses)
-//   // set order status
-//   await OrderModel.findByIdAndUpdate(order._id, {
-//     $set: { status: 'done' },
-//   })
-//   await OrderModel.findByIdAndUpdate(order._id, {
-//     $set: { items: updatedItems },
-//   })
-
-//   // data transfering to email
-//   const orderData = {
-//     ...order,
-//     accounts: accountDataList,
-//     discount: order.discount || 0,
-//     message,
-//   }
-
-//   // EMAIL
-//   await notifyDeliveryOrder(email, orderData)
-
-//   return {
-//     order,
-//     isError: orderError.error,
-//     message: `Deliver Order Successfully`,
-//   }
-// }
+  return {
+    order,
+    isError: orderError.error,
+    message: `Deliver Order Successfully`,
+  }
+}

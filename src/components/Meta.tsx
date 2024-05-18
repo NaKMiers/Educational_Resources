@@ -184,7 +184,7 @@ function Meta({
         {/* MARK: Item Selection */}
         <div className='flex items-center gap-1 flex-wrap max-h-[110px] overflow-auto col-span-12 md:col-span-8 order-2 md:order-1'>
           <div
-            className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+            className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
               openFilter ? 'bg-dark-100 text-white border-dark-100' : 'border-slate-300 bg-slate-200'
             }`}
             title='Filter'
@@ -196,7 +196,7 @@ function Meta({
               .filter(item => selectedFilterItems.includes(item.slug))
               .map(item => (
                 <div
-                  className={`group flex items-center justify-center gap-1 overflow-hidden text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+                  className={`group flex items-center justify-center gap-1 overflow-hidden text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                     selectedFilterItems.includes(item.slug)
                       ? 'bg-secondary text-white border-secondary'
                       : 'border-slate-300'
@@ -225,7 +225,7 @@ function Meta({
                 : 'max-w-0 max-h-0 overflow-hidden p-0 opacity-0'
             } flex flex-wrap gap-1 transition-all duration-300 absolute top-9 left-0 z-30 rounded-lg shadow-md bg-slate-100`}>
             <li
-              className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+              className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                 items.length === selectedFilterItems.length
                   ? 'bg-dark-100 text-white border-dark-100'
                   : 'border-slate-300 bg-slate-200'
@@ -241,7 +241,7 @@ function Meta({
             </li>
             {items.map(item => (
               <li
-                className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+                className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                   selectedFilterItems.includes(item.slug)
                     ? 'bg-secondary text-white border-secondary'
                     : 'border-slate-300'

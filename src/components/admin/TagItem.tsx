@@ -48,7 +48,7 @@ function TagItem({
   return (
     <>
       <div
-        className={`flex flex-col p-4 rounded-lg shadow-lg text-dark cursor-pointer common-transition ${
+        className={`flex flex-col p-4 rounded-lg shadow-lg text-dark cursor-pointer trans-200 ${
           selectedTags.includes(data._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         } ${className}`}
         key={data._id}

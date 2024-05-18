@@ -115,14 +115,14 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
       {/* MARK: Action Buttons */}
       {/* <div className='flex items-center justify-end md:justify-start gap-2 mt-2'>
         <button
-          className={`bg-secondary rounded-md text-white px-2 py-[5px] font-semibold font-body tracking-wider text-nowrap hover:bg-primary common-transition ${
+          className={`bg-secondary rounded-md text-white px-2 py-[5px] font-semibold font-body tracking-wider text-nowrap hover:bg-primary trans-200 ${
             isLoading ? 'bg-slate-200 pointer-events-none' : ''
           }`}
           disabled={isLoading}>
           MUA NGAY
         </button>
         <button
-          className={`bg-primary rounded-md py-2 px-3 group hover:bg-primary-600 hover:bg-secondary common-transition ${
+          className={`bg-primary rounded-md py-2 px-3 group hover:bg-primary-600 hover:bg-secondary trans-200 ${
             isLoading ? 'pointer-events-none bg-slate-200' : ''
           }`}
           disabled={isLoading}>
@@ -135,7 +135,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
         {['admin', 'editor'].includes(curUser?.role) && (
           <Link
             href={`/admin/course/all?_id=${course?._id}`}
-            className='flex items-center justify-center h-[34px] border border-yellow-400 rounded-md px-3 group hover:bg-primary-600 common-transition'>
+            className='flex items-center justify-center h-[34px] border border-yellow-400 rounded-md px-3 group hover:bg-primary-600 trans-200'>
             <MdEdit size={18} className='wiggle text-yellow-400' />
           </Link>
         )}

@@ -74,9 +74,9 @@ function Input({
 
         {/* MARK: Text Field */}
         <div
-          className={`relative w-full border-l-0 ${Icon ? 'rounded-r-[16px]' : 'rounded-[16px]'} ${
-            errors[id] ? 'border-rose-400' : 'border-slate-200'
-          }`}>
+          className={`relative w-full border-l-0 bg-white ${
+            Icon ? 'rounded-r-[16px]' : 'rounded-[16px]'
+          } ${errors[id] ? 'border-rose-400' : 'border-slate-200'}`}>
           {type === 'textarea' ? (
             <textarea
               id={id}
@@ -107,7 +107,7 @@ function Input({
           ) : (
             <input
               id={id}
-              className='block h-[42px] px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer number-input'
+              className='block h-[42px] px-2.5 pb-2.5 pt-4 w-full rounded-r-[16px] text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer number-input'
               disabled={disabled}
               type={type === 'password' ? (isShowPassword ? 'text' : 'password') : type}
               {...register(id, { required })}

@@ -3,7 +3,7 @@ import { theme } from '../../../tailwind.config'
 
 function VerifyEmailEmail({
   name = 'Alexander Pi Pi',
-  link = 'https://anpha.shop',
+  link = 'https://ere-eta.vercel.app',
 }: {
   name?: string
   link?: string
@@ -18,10 +18,10 @@ function VerifyEmailEmail({
           <Section className='inline-block mx-auto'>
             <Row className='mb-3 w-full'>
               <Column>
-                <a href='https://anpha.shop'>
+                <a href='https://ere-eta.vercel.app'>
                   <Img
                     className='aspect-square rounded-full'
-                    src={`${'https://anpha.shop'}/images/logo.jpg`}
+                    src={`${'https://ere-eta.vercel.app'}/images/logo.jpg`}
                     width={35}
                     height={35}
                     alt='logo'
@@ -30,9 +30,9 @@ function VerifyEmailEmail({
               </Column>
               <Column>
                 <a
-                  href='https://anpha.shop'
+                  href='https://ere-eta.vercel.app'
                   className='text-2xl font-bold tracking-[0.3px] no-underline text-dark'>
-                  .AnphaShop
+                  ERE
                 </a>
               </Column>
             </Row>
@@ -49,7 +49,7 @@ function VerifyEmailEmail({
             <p>Hi {name},</p>
             <p>
               Bạn đã gửi yêu cầu xác minh email tại{' '}
-              <span className='font-semibold'>&quot;Anpha Shop&quot;</span> lúc{' '}
+              <span className='font-semibold'>&quot;ERE&quot;</span> lúc{' '}
               {new Intl.DateTimeFormat('vi', {
                 dateStyle: 'full',
                 timeStyle: 'medium',
@@ -83,8 +83,8 @@ function VerifyEmailEmail({
               Để giữ có tài khoản của bạn được an toàn, vui lòng không chia sẻ email này với bất kỳ ai.
             </p>
             <p>
-              Nếu có bất kỳ thắc mắc nào? Vui lòng liên hệ Anpha Shop để được hỗ trợ một cách nhiệt tình
-              và nhanh chống:{' '}
+              Nếu có bất kỳ thắc mắc nào? Vui lòng liên hệ ERE để được hỗ trợ một cách nhiệt tình và
+              nhanh chống:{' '}
               <a href='https://www.messenger.com/t/170660996137305' className='text-blue-500'>
                 Liên hệ
               </a>
@@ -92,7 +92,7 @@ function VerifyEmailEmail({
             <p>
               Chân thành cảm ơn,
               <br />
-              Anpha Shop
+              ERE
             </p>
           </Section>
 
@@ -101,12 +101,12 @@ function VerifyEmailEmail({
             <Img
               className='max-w-full'
               width={620}
-              src={`${'https://anpha.shop'}/images/footer-banner.jpg`}
+              src={`${'https://ere-eta.vercel.app'}/images/footer-banner.jpg`}
             />
           </div>
 
           <p className='text-center text-xs text-slate-600'>
-            © 2023 | Anpha Shop - Developed by Nguyen Anh Khoa, All rights reserved.
+            © 2023 | ERE - Developed by Nguyen Anh Khoa, All rights reserved.
           </p>
 
           <div className='text-center'>
@@ -115,7 +115,12 @@ function VerifyEmailEmail({
               target='_blank'
               rel='noreferrer'
               className='inline-block'>
-              <Img src={`${'https://anpha.shop'}/images/zalo.jpg`} width={35} height={35} alt='zalo' />
+              <Img
+                src={`${'https://ere-eta.vercel.app'}/images/zalo.jpg`}
+                width={35}
+                height={35}
+                alt='zalo'
+              />
             </a>
             <a
               href='https://www.messenger.com/t/170660996137305'
@@ -123,7 +128,7 @@ function VerifyEmailEmail({
               rel='noreferrer'
               className='inline-block ml-2'>
               <Img
-                src={`${'https://anpha.shop'}/images/messenger.jpg`}
+                src={`${'https://ere-eta.vercel.app'}/images/messenger.jpg`}
                 width={35}
                 height={35}
                 alt='messenger'

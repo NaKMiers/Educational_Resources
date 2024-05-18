@@ -105,7 +105,7 @@ function PersonalInfo({ className = '' }: PersonalInfoProps) {
         <div className='flex items-center justify-center gap-2 absolute -top-4 right-2'>
           {!editMode ? (
             <button
-              className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white common-transition'
+              className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-200'
               onClick={() =>
                 curUser?.authType === 'local'
                   ? !authenticated
@@ -119,7 +119,7 @@ function PersonalInfo({ className = '' }: PersonalInfoProps) {
           ) : (
             <>
               <button
-                className='flex gap-1 items-center justify-center rounded-lg border group border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white common-transition'
+                className='flex gap-1 items-center justify-center rounded-lg border group border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-200'
                 onClick={handleSubmit(onSubmit)}>
                 {loading ? (
                   <RiDonutChartFill size={23} className='animate-spin text-slate-400' />
@@ -132,7 +132,7 @@ function PersonalInfo({ className = '' }: PersonalInfoProps) {
               </button>
 
               <button
-                className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white common-transition'
+                className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-200'
                 onClick={() => setEditMode(false)}>
                 <MdCancel size={20} />
                 <span className='font-semibold'>Cancel</span>

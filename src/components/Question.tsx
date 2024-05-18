@@ -74,7 +74,7 @@ function Question({ question, className = '' }: QuestionProps) {
         </div>
         {user._id === curUser?._id && (
           <button
-            className={`absolute top-2 right-2 font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg common-transition ${
+            className={`absolute top-2 right-2 font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg trans-200 ${
               status === 'open'
                 ? 'border-dark hover:bg-black'
                 : 'border-green-500 text-green-500 hover:bg-green-500'
@@ -100,7 +100,7 @@ function Question({ question, className = '' }: QuestionProps) {
                 !likes.includes(curUser?._id)
                   ? 'text-dark group-hover:text-rose-500'
                   : 'text-rose-500 group-hover:text-dark'
-              } common-transition`}
+              } trans-200`}
               onClick={handleLike}
             />
           </button>

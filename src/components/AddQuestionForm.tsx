@@ -75,7 +75,7 @@ function AddQuestionForm() {
       />
 
       <LoadingButton
-        className='flex items-center justify-center rounded-lg bg-secondary h-[40px] px-4 font-semibold text-md shadow-lg text-white hover:text-dark hover:bg-white border-2 hover:border-dark common-transition'
+        className='flex items-center justify-center rounded-lg bg-secondary h-[40px] px-4 font-semibold text-md shadow-lg text-white hover:text-dark hover:bg-white border-2 hover:border-dark trans-200'
         isLoading={loading}
         text='Submit'
         onClick={handleAddQuestion}

@@ -308,7 +308,7 @@ function AddCoursePage() {
             {...register('active', { required: false })}
           />
           <label
-            className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white`}
+            className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg trans-200 bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white`}
             htmlFor='active'>
             Active
           </label>
@@ -333,7 +333,7 @@ function AddCoursePage() {
                   id={tag._id}
                 />
                 <label
-                  className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 common-transition ${
+                  className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 trans-200 ${
                     selectedTags.some(t => t === tag._id) ? 'bg-green-500 text-white' : ''
                   }`}
                   htmlFor={tag._id}>
@@ -365,7 +365,7 @@ function AddCoursePage() {
                   id={category._id}
                 />
                 <label
-                  className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 common-transition ${
+                  className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 trans-200 ${
                     selectedCategories.some(cate => cate === category._id)
                       ? 'bg-green-500 text-white'
                       : ''
@@ -415,7 +415,7 @@ function AddCoursePage() {
                 <button
                   onClick={() => setOriginalImages(prev => prev.filter(i => i !== url))}
                   className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'>
-                  <FaX size={16} className='text-dark group-hover:text-white common-transition' />
+                  <FaX size={16} className='text-dark group-hover:text-white trans-200' />
                 </button>
               </div>
             ))}
@@ -426,7 +426,7 @@ function AddCoursePage() {
                 <button
                   onClick={() => handleRemoveImage(url)}
                   className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'>
-                  <FaX size={16} className='text-dark group-hover:text-white common-transition' />
+                  <FaX size={16} className='text-dark group-hover:text-white trans-200' />
                 </button>
               </div>
             ))}
@@ -435,7 +435,7 @@ function AddCoursePage() {
 
         {/* MARK: Save Button */}
         <LoadingButton
-          className='px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
+          className='px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold trans-200'
           onClick={handleSubmit(onSubmit)}
           text='Save'
           isLoading={isLoading}

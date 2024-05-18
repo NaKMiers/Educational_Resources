@@ -282,7 +282,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
         {/* Type Selection */}
         <div className='flex justify-end items-end gap-1 flex-wrap max-h-[228px] md:max-h-[152px] lg:max-h-[152px] overflow-auto col-span-12 md:col-span-8'>
           <div
-            className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+            className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
               courses.length === selectedCourses.length
                 ? 'bg-dark-100 text-white border-dark-100'
                 : 'border-slate-300'
@@ -298,7 +298,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
           {Object.keys(groupCourses).map(key => (
             <Fragment key={key}>
               <div
-                className={`ml-2 overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+                className={`ml-2 overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                   checkAllCoursesOfCategorySelected(groupCourses[key])
                     ? 'bg-dark-100 text-white border-dark-100'
                     : 'border-slate-300 bg-slate-200'
@@ -320,7 +320,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
               </div>
               {groupCourses[key].map((course: any) => (
                 <div
-                  className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none common-transition ${
+                  className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                     selectedCourses.includes(course._id)
                       ? 'bg-secondary text-white border-secondary'
                       : 'border-slate-300'
@@ -404,7 +404,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
         <div className='flex flex-wrap justify-end items-center gap-2 col-span-12'>
           {/* Select All Button */}
           <button
-            className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white common-transition'
+            className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white trans-200'
             title='Alt + A'
             onClick={() =>
               setSelectedLessons(selectedLessons.length > 0 ? [] : lessons.map(lesson => lesson._id))
@@ -415,7 +415,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
           {/* Activate Many Button */}
           {selectedLessons.some(id => !lessons.find(lesson => lesson._id === id)?.active) && (
             <button
-              className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white common-transition'
+              className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white trans-200'
               onClick={() => handleActivateLessons(selectedLessons, true)}>
               Activate
             </button>
@@ -424,7 +424,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
           {/* Deactivate Many Button */}
           {selectedLessons.some(id => lessons.find(lesson => lesson._id === id)?.active) && (
             <button
-              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
+              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
               onClick={() => handleActivateLessons(selectedLessons, false)}>
               Deactivate
             </button>
@@ -433,7 +433,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
           {/* Delete Many Button */}
           {!!selectedLessons.length && (
             <button
-              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
+              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
               title='Alt + Delete'
               onClick={() => setIsOpenConfirmModal(true)}>
               Delete

@@ -99,7 +99,7 @@ function AddTagPage() {
             {...register('booted', { required: false })}
           />
           <label
-            className='select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white'
+            className='select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg trans-200 bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white'
             htmlFor='booted'>
             Booted
           </label>
@@ -107,7 +107,7 @@ function AddTagPage() {
 
         {/* MARK: Add Button */}
         <LoadingButton
-          className='mt-4 px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
+          className='mt-4 px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold trans-200'
           onClick={handleSubmit(onSubmit)}
           text='Add'
           isLoading={isLoading}

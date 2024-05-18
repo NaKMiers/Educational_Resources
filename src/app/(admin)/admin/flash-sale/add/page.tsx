@@ -287,7 +287,7 @@ function AddFlashSalePage() {
         <div className='max-h-[300px] overflow-y-auto flex flex-wrap rounded-lg bg-white p-3 gap-2 mb-5'>
           {courses.map(course => (
             <div
-              className={`max-w-[250px] border-2 border-slate-300 rounded-lg flex items-center py-1 px-2 gap-2 cursor-pointer common-transition ${
+              className={`max-w-[250px] border-2 border-slate-300 rounded-lg flex items-center py-1 px-2 gap-2 cursor-pointer trans-200 ${
                 selectedCourses.includes(course._id)
                   ? 'bg-secondary border-white text-white'
                   : course.flashSale
@@ -317,7 +317,7 @@ function AddFlashSalePage() {
 
         {/* MARK: Add Button */}
         <LoadingButton
-          className='px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
+          className='px-4 py-2 bg-secondary hover:bg-primary text-white rounded-lg font-semibold trans-200'
           onClick={handleSubmit(onSubmit)}
           text='Add'
           isLoading={isLoading}

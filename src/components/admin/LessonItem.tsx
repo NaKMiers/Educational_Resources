@@ -45,7 +45,7 @@ function LessonItem({
   return (
     <>
       <div
-        className={`relative text-dark w-full flex items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer common-transition ${
+        className={`relative text-dark w-full flex items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer trans-200 ${
           selectedLessons.includes(data._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         }  ${className}`}
         onClick={() =>

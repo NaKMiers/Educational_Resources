@@ -212,13 +212,13 @@ function ResetPasswordPage() {
             <button
               onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
-              className={`border border-dark bg-secondary text-dark rounded-3xl px-5 py-1.5 mt-5 font-bold text-lg hover:bg-white common-transition ${
+              className={`border border-dark bg-secondary text-dark rounded-3xl px-5 py-1.5 mt-5 font-bold text-lg hover:bg-white trans-200 ${
                 isLoading ? 'bg-slate-200 pointer-events-none' : ''
               }`}>
               {isLoading ? (
                 <FaCircleNotch
                   size={18}
-                  className='text-white group-hover:text-dark common-transition animate-spin'
+                  className='text-white group-hover:text-dark trans-200 animate-spin'
                 />
               ) : (
                 'Reset'

@@ -14,10 +14,10 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
           <Section className='inline-block mx-auto'>
             <Row className='mb-3 w-full'>
               <Column>
-                <a href='https://anpha.shop'>
+                <a href='https://ere-eta.vercel.app'>
                   <Img
                     className='aspect-square rounded-full'
-                    src={`${'https://anpha.shop'}/images/logo.jpg`}
+                    src={`${'https://ere-eta.vercel.app'}/images/logo.jpg`}
                     width={35}
                     height={35}
                     alt='logo'
@@ -26,9 +26,9 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
               </Column>
               <Column>
                 <a
-                  href='https://anpha.shop'
+                  href='https://ere-eta.vercel.app'
                   className='text-2xl font-bold tracking-[0.3px] no-underline text-dark'>
-                  .AnphaShop
+                  ERE
                 </a>
               </Column>
             </Row>
@@ -40,25 +40,24 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
               border: '1px solid rgb(0, 0, 0, 0.1)',
             }}>
             <div>
-              <Img src='https://anpha.shop/images/brand-banner.jpg' className='w-full object-cover' />
+              <Img
+                src='https://ere-eta.vercel.app/images/brand-banner.jpg'
+                className='w-full object-cover'
+              />
             </div>
 
             <Row className='p-4'>
               <Column className='font'>
                 <h1 className='text-2xl font-bold text-center'>Hi👋 </h1>
-                <h2 className='text-xl font-semibold text-center'>
-                  Bạn có đơn hàng từ Anpha Shop kìa.
-                  <br />
-                  Mau giao hàng thôi nào!
-                </h2>
+                <h2 className='text-xl font-semibold text-center'>You have an order from ERE.</h2>
 
                 <div className='text-sm mt-8'>
                   <p>
-                    <b>Mã đơn hàng: </b>
+                    <b>Code: </b>
                     <span className='text-secondary tracking-wider font-semibold'>{order.code}</span>
                   </p>
                   <p>
-                    <b>Ngày đặt hàng: </b>
+                    <b>Bought Date: </b>
                     {new Intl.DateTimeFormat('vi', {
                       dateStyle: 'full',
                       timeStyle: 'medium',
@@ -68,11 +67,11 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
                       .replace('lúc', '')}
                   </p>
                   <p>
-                    <b>Trạng thái: </b>
-                    <span className='text-yellow-500'>Chờ xử lí</span>
+                    <b>Status: </b>
+                    <span className='text-yellow-500'>Pending</span>
                   </p>
                   <p>
-                    <b>Tổng tiền: </b>
+                    <b>Total: </b>
                     <b>{formatPrice(order.total)}</b>
                   </p>
                   <p>
@@ -83,37 +82,26 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
 
                 {/* Course */}
                 <div className='mt-8'>
-                  <b className='text-[24px]'>Sản phẩm: </b>
+                  <b className='text-[24px]'>Course: </b>
 
-                  <ul className='list-none p-0'>
-                    {order.items.map((item: any) => (
-                      <li className='mb-2' key={item._id}>
-                        <a
-                          href={`https://anpha.shop/${item.course.slug}`}
-                          className='block h-full text-dark tracking-wider no-underline'>
-                          <Section>
-                            <Row>
-                              <Column className='w-[130px]'>
-                                <Img
-                                  src={item.course.images[0]}
-                                  width={120}
-                                  className='inline aspect-video rounded-lg object-cover'
-                                />
-                              </Column>
-                              <Column>
-                                <p className='font-semibold text-slate-600'>
-                                  {item.course.title}
-                                  <span className='bg-secondary font-semibold text-xs rounded-full text-center ml-1.5 py-px px-1.5 text-white'>
-                                    {item.quantity}
-                                  </span>
-                                </p>
-                              </Column>
-                            </Row>
-                          </Section>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                  <a
+                    href={`https://ere-eta.vercel.app/${order.item.slug}`}
+                    className='block h-full text-dark tracking-wider no-underline mt-2'>
+                    <Section>
+                      <Row>
+                        <Column className='w-[130px]'>
+                          <Img
+                            src={order.item.images[0]}
+                            width={120}
+                            className='inline aspect-video rounded-lg object-cover'
+                          />
+                        </Column>
+                        <Column>
+                          <p className='font-semibold text-slate-600'>{order.title}</p>
+                        </Column>
+                      </Row>
+                    </Section>
+                  </a>
                 </div>
               </Column>
             </Row>
@@ -121,7 +109,7 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
             {order.userId && (
               <div className='text-center p-3 mb-8'>
                 <a
-                  href={`https://anpha.shop/admin/order/all`}
+                  href={`https://ere-eta.vercel.app/admin/order/all`}
                   className='inline bg-primary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
                   Giao hàng ngay
                 </a>
@@ -133,12 +121,12 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
             <Img
               className='max-w-full'
               width={620}
-              src={`${'https://anpha.shop'}/images/footer-banner.jpg`}
+              src={`${'https://ere-eta.vercel.app'}/images/footer-banner.jpg`}
             />
           </div>
 
           <p className='text-center text-xs text-slate-600'>
-            © 2023 | Anpha Shop - Developed by Nguyen Anh Khoa, All rights reserved.
+            © 2023 | ERE - Developed by Nguyen Anh Khoa, All rights reserved.
           </p>
 
           <div className='text-center'>
@@ -147,7 +135,12 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
               target='_blank'
               rel='noreferrer'
               className='inline-block'>
-              <Img src={`${'https://anpha.shop'}/images/zalo.jpg`} width={35} height={35} alt='zalo' />
+              <Img
+                src={`${'https://ere-eta.vercel.app'}/images/zalo.jpg`}
+                width={35}
+                height={35}
+                alt='zalo'
+              />
             </a>
             <a
               href='https://www.messenger.com/t/170660996137305'
@@ -155,7 +148,7 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
               rel='noreferrer'
               className='inline-block ml-2'>
               <Img
-                src={`${'https://anpha.shop'}/images/messenger.jpg`}
+                src={`${'https://ere-eta.vercel.app'}/images/messenger.jpg`}
                 width={35}
                 height={35}
                 alt='messenger'

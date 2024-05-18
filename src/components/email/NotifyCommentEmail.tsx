@@ -13,10 +13,10 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
           <Section className='inline-block mx-auto'>
             <Row className='mb-3 w-full'>
               <Column>
-                <a href='https://anpha.shop'>
+                <a href='https://ere-eta.vercel.app'>
                   <Img
                     className='aspect-square rounded-full'
-                    src={`${'https://anpha.shop'}/images/logo.jpg`}
+                    src={`${'https://ere-eta.vercel.app'}/images/logo.jpg`}
                     width={35}
                     height={35}
                     alt='logo'
@@ -25,9 +25,9 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
               </Column>
               <Column>
                 <a
-                  href='https://anpha.shop'
+                  href='https://ere-eta.vercel.app'
                   className='text-2xl font-bold tracking-[0.3px] no-underline text-dark'>
-                  .AnphaShop
+                  ERE
                 </a>
               </Column>
             </Row>
@@ -39,7 +39,10 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
               border: '1px solid rgb(0, 0, 0, 0.1)',
             }}>
             <div>
-              <Img src='https://anpha.shop/images/brand-banner.jpg' className='w-full object-cover' />
+              <Img
+                src='https://ere-eta.vercel.app/images/brand-banner.jpg'
+                className='w-full object-cover'
+              />
             </div>
 
             <Row className='p-4'>
@@ -98,12 +101,12 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
             <Img
               className='max-w-full'
               width={620}
-              src={`${'https://anpha.shop'}/images/footer-banner.jpg`}
+              src={`${'https://ere-eta.vercel.app'}/images/footer-banner.jpg`}
             />
           </div>
 
           <p className='text-center text-xs text-slate-600'>
-            © 2023 | Anpha Shop - Developed by Nguyen Anh Khoa, All rights reserved.
+            © 2023 | ERE - Developed by Nguyen Anh Khoa, All rights reserved.
           </p>
 
           <div className='text-center'>
@@ -112,7 +115,12 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
               target='_blank'
               rel='noreferrer'
               className='inline-block'>
-              <Img src={`${'https://anpha.shop'}/images/zalo.jpg`} width={35} height={35} alt='zalo' />
+              <Img
+                src={`${'https://ere-eta.vercel.app'}/images/zalo.jpg`}
+                width={35}
+                height={35}
+                alt='zalo'
+              />
             </a>
             <a
               href='https://www.messenger.com/t/170660996137305'
@@ -120,7 +128,7 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
               rel='noreferrer'
               className='inline-block ml-2'>
               <Img
-                src={`${'https://anpha.shop'}/images/messenger.jpg`}
+                src={`${'https://ere-eta.vercel.app'}/images/messenger.jpg`}
                 width={35}
                 height={35}
                 alt='messenger'

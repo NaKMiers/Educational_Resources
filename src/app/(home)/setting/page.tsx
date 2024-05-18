@@ -141,13 +141,13 @@ function PersonalSetting() {
           <button
             onClick={handleCheckAuthentication}
             disabled={isCheckingAuthentication}
-            className={`h-8 flex items-center justify-center rounded-lg shadow-lg px-4 py-1 text-slate-500 bg-slate-200 hover:bg-white common-transition ${
+            className={`h-8 flex items-center justify-center rounded-lg shadow-lg px-4 py-1 text-slate-500 bg-slate-200 hover:bg-white trans-200 ${
               isCheckingAuthentication ? 'bg-slate-200 pointer-events-none' : ''
             }`}>
             {isCheckingAuthentication ? (
               <FaCircleNotch
                 size={18}
-                className='text-slate-500 group-hover:text-dark common-transition animate-spin'
+                className='text-slate-500 group-hover:text-dark trans-200 animate-spin'
               />
             ) : (
               'Submit'

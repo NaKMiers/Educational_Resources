@@ -124,7 +124,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
         <div className='flex items-center justify-center gap-2 absolute -top-4 right-2'>
           {!editMode ? (
             <button
-              className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white common-transition0'
+              className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-2000'
               onClick={() =>
                 curUser?.authType === 'local'
                   ? !authenticated
@@ -138,7 +138,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
           ) : (
             <>
               <button
-                className={`flex gap-1 items-center justify-center rounded-lg border group border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white common-transition ${
+                className={`flex gap-1 items-center justify-center rounded-lg border group border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-200 ${
                   loading ? 'pointer-events-none' : 'cursor-pointer'
                 }`}
                 onClick={handleSubmit(onSubmit)}>
@@ -153,7 +153,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
               </button>
 
               <button
-                className={`flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white common-transition ${
+                className={`flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-200 ${
                   loading ? 'pointer-events-none' : 'cursor-pointer'
                 }`}
                 onClick={() => setEditMode(false)}>

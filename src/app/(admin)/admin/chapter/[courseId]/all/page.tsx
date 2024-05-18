@@ -265,7 +265,7 @@ function AllCourseChaptersPage({
         <div className='flex flex-wrap justify-end items-center gap-2 col-span-12'>
           {/* Select All Button */}
           <button
-            className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white common-transition'
+            className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white trans-200'
             onClick={() =>
               setSelectedChapters(
                 selectedChapters.length > 0 ? [] : chapters.map(chapter => chapter._id)
@@ -277,7 +277,7 @@ function AllCourseChaptersPage({
           {/* Delete Many Button */}
           {!!selectedChapters.length && (
             <button
-              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
+              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
               onClick={() => setIsOpenConfirmModal(true)}>
               Delete
             </button>

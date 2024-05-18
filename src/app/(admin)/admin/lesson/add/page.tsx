@@ -519,7 +519,7 @@ function AddLessonPage() {
             <button
               onClick={() => handleRemoveSource(fileUrl)}
               className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'>
-              <FaX size={16} className='text-dark group-hover:text-white common-transition' />
+              <FaX size={16} className='text-dark group-hover:text-white trans-200' />
             </button>
           </div>
         )}
@@ -537,7 +537,7 @@ function AddLessonPage() {
             {...register('active', { required: false })}
           />
           <label
-            className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg common-transition bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white`}
+            className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg trans-200 bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white`}
             htmlFor='active'>
             Active
           </label>
@@ -545,7 +545,7 @@ function AddLessonPage() {
 
         {/* MARK: Add Button */}
         <LoadingButton
-          className='px-4 py-2 bg-secondary hover:bg-primary text-light rounded-lg font-semibold common-transition'
+          className='px-4 py-2 bg-secondary hover:bg-primary text-light rounded-lg font-semibold trans-200'
           onClick={handleSubmit(onSubmit)}
           text='Add'
           isLoading={isLoading}

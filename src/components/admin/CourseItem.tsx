@@ -45,7 +45,7 @@ function CourseItem({
   return (
     <>
       <div
-        className={`relative flex justify-between items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer common-transition ${
+        className={`relative flex justify-between items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer trans-200 ${
           selectedCourses.includes(data._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         }  ${className}`}
         onClick={() =>
@@ -108,6 +108,7 @@ function CourseItem({
             )}
           </div>
 
+          {/* Tags */}
           <p className='text-slate-500'>
             <span className='text-dark font-semibold'>Tags: </span>
             {data.tags.map((tag: any, index) => (
@@ -116,6 +117,12 @@ function CourseItem({
                 {index < data.tags.length - 1 ? ', ' : ''}
               </span>
             ))}
+          </p>
+
+          {/* Joined */}
+          <p className='text-slate-500'>
+            <span className='text-dark font-semibold'>Joined: </span>
+            {data.joined} students
           </p>
         </div>
 

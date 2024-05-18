@@ -28,6 +28,7 @@ export const theme = {
     },
     backgroundColor: {
       dark: {
+        0: '#000000',
         100: '#2f2e3e',
         200: '#003e70',
       },

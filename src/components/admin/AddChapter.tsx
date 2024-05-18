@@ -177,7 +177,7 @@ function AddChapter({
       <div className='flex gap-2'>
         {editingValues?._id && (
           <button
-            className='h-[40px] group flex items-center text-nowrap bg-slate-400 text-[16px] font-semibold px-3 rounded-md cursor-pointer hover:bg-slate-800 text-white common-transition'
+            className='h-[40px] group flex items-center text-nowrap bg-slate-400 text-[16px] font-semibold px-3 rounded-md cursor-pointer hover:bg-slate-800 text-white trans-200'
             title='Alt + R'
             onClick={() =>
               setEditingValues({
@@ -191,7 +191,7 @@ function AddChapter({
           </button>
         )}
         <button
-          className='h-[40px] group flex items-center text-nowrap bg-yellow-400 text-[16px] font-semibold px-3 rounded-md cursor-pointer hover:bg-slate-800 text-white common-transition'
+          className='h-[40px] group flex items-center text-nowrap bg-yellow-400 text-[16px] font-semibold px-3 rounded-md cursor-pointer hover:bg-slate-800 text-white trans-200'
           title='Alt + R'
           onClick={
             !editingValues?._id ? handleSubmit(handleAddChapter) : handleSubmit(handleUpdateChapter)

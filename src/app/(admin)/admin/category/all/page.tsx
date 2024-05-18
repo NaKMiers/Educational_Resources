@@ -366,7 +366,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
         <div className='flex flex-wrap justify-end items-center gap-2 col-span-12'>
           {/* Select All Button */}
           <button
-            className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white common-transition'
+            className='border border-sky-400 text-sky-400 rounded-lg px-3 py-2 hover:bg-sky-400 hover:text-white trans-200'
             onClick={() =>
               setSelectedCategories(
                 selectedCategories.length > 0 ? [] : categories.map(category => category._id)
@@ -379,7 +379,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
             <>
               {/* Save Many Button */}
               <button
-                className='border border-green-500 text-green-500 rounded-lg px-3 py-2 hover:bg-green-500 hover:text-white common-transition'
+                className='border border-green-500 text-green-500 rounded-lg px-3 py-2 hover:bg-green-500 hover:text-white trans-200'
                 onClick={() =>
                   handleSaveEditingCategories(
                     editingValues.filter(value => selectedCategories.includes(value._id))
@@ -389,7 +389,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
               </button>
               {/* Cancel Many Button */}
               <button
-                className='border border-slate-400 text-slate-400 rounded-lg px-3 py-2 hover:bg-slate-400 hover:text-white common-transition'
+                className='border border-slate-400 text-slate-400 rounded-lg px-3 py-2 hover:bg-slate-400 hover:text-white trans-200'
                 onClick={() => {
                   // cancel editing values are selected
                   setEditingCategories(editingCategories.filter(id => !selectedCategories.includes(id)))
@@ -406,7 +406,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
           {!!selectedCategories.length &&
             selectedCategories.some(id => !categories.find(category => category._id === id)?.booted) && (
               <button
-                className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white common-transition'
+                className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white trans-200'
                 onClick={() => handleBootCategories(selectedCategories, true)}>
                 Mark
               </button>
@@ -416,7 +416,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
           {!!selectedCategories.length &&
             selectedCategories.some(id => categories.find(category => category._id === id)?.booted) && (
               <button
-                className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
+                className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
                 onClick={() => handleBootCategories(selectedCategories, false)}>
                 Unmark
               </button>
@@ -425,7 +425,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
           {/* Delete Many Button */}
           {!!selectedCategories.length && (
             <button
-              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white common-transition'
+              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
               onClick={() => setIsOpenConfirmModal(true)}>
               Delete
             </button>

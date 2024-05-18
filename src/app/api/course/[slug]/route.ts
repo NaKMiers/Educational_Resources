@@ -26,9 +26,7 @@ export async function GET(req: NextRequest, { params: { slug } }: { params: { sl
       slug: encodeURIComponent(slug),
       active: true,
     })
-      .populate('tags')
-      .populate('category')
-      .populate('flashSale')
+      .populate('tags categories flashSale')
       .lean()
 
     // check if course is not found

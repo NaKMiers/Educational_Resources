@@ -1,7 +1,7 @@
 import { IFlashSale } from '@/models/FlashSaleModel'
 
 export const formatPrice = (price: number = 0) => {
-  return Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price)
+  return Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
 }
 
 export const countPercent = (price: number, oldPrice: number) =>

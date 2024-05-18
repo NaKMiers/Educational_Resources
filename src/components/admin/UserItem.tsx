@@ -223,7 +223,7 @@ function UserItem({
   return (
     <>
       <div
-        className={`relative flex text-dark justify-between items-start gap-2 p-4 rounded-lg shadow-lg common-transition select-none  ${
+        className={`relative flex text-dark justify-between items-start gap-2 p-4 rounded-lg shadow-lg trans-200 select-none  ${
           selectedUsers.includes(userData._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
         } ${!isCurUser ? 'cursor-pointer' : ''} ${className}`}
         onClick={() =>
@@ -363,7 +363,7 @@ function UserItem({
                 onFocus={() => clearErrors('value-' + data._id)}
               />
               <LoadingButton
-                className='px-4 h-[46px] flex items-center justify-center shadow-lg bg-secondary hover:bg-primary text-white rounded-lg font-semibold common-transition'
+                className='px-4 h-[46px] flex items-center justify-center shadow-lg bg-secondary hover:bg-primary text-white rounded-lg font-semibold trans-200'
                 text='Set'
                 onClick={e => {
                   e.stopPropagation()

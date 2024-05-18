@@ -30,24 +30,28 @@
   background-color: #a8bbbf;
 }
 
-.common-transition {
+.trans-200 {
   @apply transition-all duration-200 ease-in-out;
 }
 
+.trans-300 {
+  @apply transition-all duration-300 ease-in-out;
+}
+
 .wiggle {
-  @apply group-hover:animate-scale-wiggle common-transition group-hover:scale-[1.2];
-  @apply hover:animate-scale-wiggle common-transition hover:scale-[1.2];
+  @apply group-hover:animate-scale-wiggle trans-200 group-hover:scale-[1.2];
+  @apply hover:animate-scale-wiggle trans-200 hover:scale-[1.2];
   transform-origin: center;
 }
 
 .wiggle-0 {
-  @apply group-hover:animate-wiggle common-transition;
-  @apply hover:animate-wiggle common-transition;
+  @apply group-hover:animate-wiggle trans-200;
+  @apply hover:animate-wiggle trans-200;
   transform-origin: center;
 }
 
 .wiggle-1 {
-  @apply hover:animate-scale-wiggle common-transition hover:scale-[1.2];
+  @apply hover:animate-scale-wiggle trans-200 hover:scale-[1.2];
   transform-origin: center;
 }
 
@@ -97,7 +101,7 @@
     width: 0;
     height: 1.5px;
 
-    transition: var(--common-transition);
+    transition: var(--trans-200);
     background: $background-color;
 
     @if $repeat {

@@ -100,7 +100,7 @@ function ConfirmDialog({
 
         <div className='flex items-center justify-end gap-3 select-none'>
           <button
-            className={`rounded-lg shadow-lg px-3 py-2 border border-slate-300 hover:bg-slate-300 hover:text-white common-transition ${
+            className={`rounded-lg shadow-lg px-3 py-2 border border-slate-300 hover:bg-slate-300 hover:text-white trans-200 ${
               isLoading ? 'pointer-events-none' : ''
             }`}
             onClick={() => setOpen(false)}
@@ -108,7 +108,7 @@ function ConfirmDialog({
             {cancelLabel || 'Hủy'}
           </button>
           <button
-            className={`rounded-lg shadow-lg px-3 py-2 border text-${color}-500 hover:bg-secondary hover:border-secondary hover:text-white common-transition ${
+            className={`rounded-lg shadow-lg px-3 py-2 border text-${color}-500 hover:bg-secondary hover:border-secondary hover:text-white trans-200 ${
               isLoading ? 'pointer-events-none border-slate-300' : `border-${color}-500`
             }`}
             onClick={() => {

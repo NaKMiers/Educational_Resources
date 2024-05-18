@@ -72,7 +72,11 @@ export default async function middleware(req: NextRequest) {
     return requireAdmin(req, token)
   }
   // require auth
-  else if (req.nextUrl.pathname.startsWith('/user') || req.nextUrl.pathname.startsWith('/setting')) {
+  else if (
+    req.nextUrl.pathname.startsWith('/user') ||
+    req.nextUrl.pathname.startsWith('/setting') ||
+    req.nextUrl.pathname.startsWith('/checkout')
+  ) {
     return requireAuth(req, token)
   }
   // require unauth
@@ -92,6 +96,7 @@ export const config = {
     '/setting/:path*',
     '/auth/:path*',
     '/learning/:path*',
+    '/checkout/:path*',
     // '/email/:path*',
   ],
 }
