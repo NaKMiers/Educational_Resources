@@ -34,12 +34,12 @@ function BuyNowButton({ course, className = '' }: BuyNowButtonProps) {
     <div className={`flex items-center justify-center gap-3 ${className}`}>
       <Link
         href={
-          curUser?.courses.map((course: any) => course.course).includes(course._id)
+          curUser?._id && curUser?.courses.map((course: any) => course.course).includes(course._id)
             ? `/learning/${course?._id}/continue`
             : `/checkout/${course?.slug}`
         }
         className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}>
-        {curUser?.courses.map((course: any) => course.course).includes(course._id)
+        {curUser?._id && curUser?.courses.map((course: any) => course.course).includes(course._id)
           ? 'Continue Learning'
           : 'Buy Now'}
       </Link>

@@ -127,7 +127,7 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                   <span>Categories: </span>
                   {(course.categories as ICategory[]).map(category => (
                     <Link
-                      href={`/tag?tag=${category.slug}`}
+                      href={`/courses?ctg=${category.slug}`}
                       className={`shadow-md text-xs ${
                         category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
                       } px-2 py-px select-none rounded-md font-body mr-1`}
@@ -146,7 +146,7 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                   <span>Tags: </span>
                   {(course.tags as ICategory[]).map(tag => (
                     <Link
-                      href={`/tag?tag=${tag.slug}`}
+                      href={`/courses?tag=${tag.slug}`}
                       className={`shadow-md text-xs ${
                         tag.title ? 'bg-sky-300 text-dark' : 'bg-slate-200 text-slate-400'
                       } px-2 py-px select-none rounded-md font-body mr-1`}

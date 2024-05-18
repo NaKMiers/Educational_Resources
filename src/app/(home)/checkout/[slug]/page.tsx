@@ -398,6 +398,25 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
 
               <Divider size={12} />
             </div>
+
+            {/* Buy Now */}
+            <div className='flex lg:hidden items-center justify-center gap-3 mb-10'>
+              <button
+                onClick={handleCheckout}
+                disabled={loading}
+                className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200 ${
+                  loading ? 'bg-slate-200 pointer-events-none' : ''
+                }`}>
+                {loading ? (
+                  <FaCircleNotch
+                    size={18}
+                    className='text-slate-700 group-hover:text-dark trans-200 animate-spin'
+                  />
+                ) : (
+                  'Confirm Payment'
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -499,10 +518,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
               </div>
             </div>
 
-            <Divider size={6} />
-
             {/* Buy Now */}
-            <div className='flex items-center justify-center gap-3'>
+            <div className='hidden lg:flex items-center justify-center gap-3 mb-4 mt-6'>
               <button
                 onClick={handleCheckout}
                 disabled={loading}
@@ -515,12 +532,10 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     className='text-slate-700 group-hover:text-dark trans-200 animate-spin'
                   />
                 ) : (
-                  'Buy Now'
+                  'Confirm Payment'
                 )}
               </button>
             </div>
-
-            <Divider size={4} />
           </div>
         </div>
       </div>
