@@ -24,6 +24,8 @@ async function CoursesPage({ searchParams }: { searchParams?: { [key: string]: s
     // cache: no-store for filter
     const data = await getCoursesApi(query)
 
+    console.log('data: ', data)
+
     // destructure
     courses = data.courses
     categories = data.cates

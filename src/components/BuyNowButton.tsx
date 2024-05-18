@@ -35,7 +35,7 @@ function BuyNowButton({ course, className = '' }: BuyNowButtonProps) {
       <Link
         href={
           curUser?.courses.map((course: any) => course.course).includes(course._id)
-            ? `/learning/${course?.slug}/continue`
+            ? `/learning/${course?._id}/continue`
             : `/checkout/${course?.slug}`
         }
         className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}>

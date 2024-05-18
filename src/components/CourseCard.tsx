@@ -105,12 +105,12 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
       <div className='flex-1 flex items-end'>
         <Link
           href={
-            curUser?.courses.map((course: any) => course.course).includes(course._id)
-              ? `/learning/${course?.slug}/continue`
+            curUser?._id && curUser?.courses.map((course: any) => course.course).includes(course._id)
+              ? `/learning/${course?._id}/continue`
               : `/checkout/${course?.slug}`
           }
           className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark duration-300 transition-all hover:-translate-y-1'>
-          {curUser?.courses.map((course: any) => course.course).includes(course._id)
+          {curUser?._id && curUser?.courses.map((course: any) => course.course).includes(course._id)
             ? 'Continue Learning'
             : 'Buy Now'}
         </Link>

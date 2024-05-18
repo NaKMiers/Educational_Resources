@@ -1,5 +1,5 @@
 import { connectDatabase } from '@/config/database'
-import CategoryModel, { ICategory } from '@/models/CategoryModel'
+import CategoryModel from '@/models/CategoryModel'
 import CourseModel from '@/models/CourseModel'
 import TagModel from '@/models/TagModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // Models: Category, Tag, Course
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
+import '@/models/FlashSaleModel'
 import '@/models/TagModel'
 
 export const dynamic = 'force-dynamic'
