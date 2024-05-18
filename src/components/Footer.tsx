@@ -17,7 +17,7 @@ function Footer() {
             <span className='font-body text-sky-700 font-bold text-3xl'>ERE</span>
           </div>
 
-          <span className='font-bold text-dark text-lg'>Educational Resources</span>
+          <span className='font-bold text-dark text-lg hidden md:block'>Educational Resources</span>
         </div>
 
         <div className='flex flex-wrap items-center gap-x-4 gap-y-2'>
@@ -89,6 +89,8 @@ function Footer() {
           </ul>
         </div>
       </div>
+
+      <div className='mb-[72px] md:mb-auto' />
     </footer>
   )
 }
