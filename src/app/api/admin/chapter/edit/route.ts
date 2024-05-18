@@ -1,6 +1,5 @@
 import { connectDatabase } from '@/config/database'
 import ChapterModel from '@/models/ChapterModel'
-import { generateSlug } from '@/utils'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Chapter
@@ -22,7 +21,6 @@ export async function PUT(req: NextRequest) {
       {
         $set: {
           title,
-          slug: generateSlug(title),
           content,
           order,
         },

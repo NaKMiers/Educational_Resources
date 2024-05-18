@@ -110,7 +110,7 @@ function Price({ price, oldPrice, flashSale, big, className = '' }: PriceProps) 
     <div className={`rounded-md overflow-hidden ${className}`}>
       {/* MARK: Flash Sale */}
       {isValidFS && (
-        <div className='flex items-center justify-between flex-wrap px-3 py-2 bg-secondary text-white font-body text-[18px] font-bold tracking-wider'>
+        <div className='flex items-center justify-between flex-wrap px-3 py-2 bg-dark-0 text-white font-body text-[18px] font-bold tracking-wider'>
           <span className={`${big ? 'sm:text-[22px]' : ''} text-[18px]`}>Flash sale</span>
 
           {/* Counter */}
@@ -142,9 +142,9 @@ function Price({ price, oldPrice, flashSale, big, className = '' }: PriceProps) 
       <div
         className={`flex items-center justify-evenly gap-2 px-1.5 py-2 ${
           big ? 'sm:justify-start sm:gap-4 sm:py-4 sm:px-21' : ''
-        } flex-wrap bg-slate-100 font-body`}>
+        } flex-wrap bg-white font-body`}>
         <div
-          className={`text-secondary ${
+          className={`text-dark ${
             big ? 'text-[30px] tracking-wide' : 'text-[22px] tracking-wider'
           }  leading-7`}>
           {formatPrice(newPrice)}

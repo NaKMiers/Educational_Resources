@@ -18,11 +18,6 @@ const ChapterSchema = new Schema(
     content: {
       type: String,
     },
-    slug: {
-      type: String,
-      unique: true,
-      index: true,
-    },
     lessonQuantity: {
       type: Number,
       default: 0,
@@ -36,14 +31,6 @@ const ChapterSchema = new Schema(
   { timestamps: true }
 )
 
-// pre-save hook to generate slug from title
-ChapterSchema.pre('save', function (next) {
-  if (this.isModified('title')) {
-    this.slug = generateSlug(this.title)
-  }
-  next()
-})
-
 const ChapterModel = mongoose.models.chapter || mongoose.model('chapter', ChapterSchema)
 export default ChapterModel
 
@@ -52,7 +39,6 @@ export interface IChapter {
   courseId: string | ICourse
   title: string
   content: string
-  slug: string
   lessonQuantity: number
   order: number
   createdAt: Date

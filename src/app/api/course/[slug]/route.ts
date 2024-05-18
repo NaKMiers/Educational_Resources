@@ -1,13 +1,17 @@
 import { connectDatabase } from '@/config/database'
+import ChapterModel, { IChapter } from '@/models/ChapterModel'
 import CommentModel from '@/models/CommentModel'
 import CourseModel, { ICourse } from '@/models/CourseModel'
+import LessonModel, { ILesson } from '@/models/LessonModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Course, Tag, Category, FlashSale, Comment, User,
+// Models: Course, Tag, Category, FlashSale, Comment, User, Chapter, Lesson,
 import '@/models/CategoryModel'
+import '@/models/ChapterModel'
 import '@/models/CommentModel'
 import '@/models/CourseModel'
 import '@/models/FlashSaleModel'
+import '@/models/LessonModel'
 import '@/models/TagModel'
 import '@/models/UserModel'
 
@@ -34,14 +38,17 @@ export async function GET(req: NextRequest, { params: { slug } }: { params: { sl
       return NextResponse.json({ message: 'Course not found' }, { status: 404 })
     }
 
-    // get relatedCourses from database
-    const relatedCourses: ICourse[] = await CourseModel.find({
-      _id: { $ne: course._id },
-      active: true,
-      categories: course.categories,
+    // get all chapters and lessons of course
+    const chapters: IChapter[] = await ChapterModel.find({ courseId: course._id }).lean()
+    const lessons: ILesson[] = await LessonModel.find({ courseId: course._id }).lean()
+
+    // add lessons to each chapter
+    const chaptersWithLessons = chapters.map(chapter => {
+      const chapterLessons = lessons.filter(
+        lesson => lesson.chapterId.toString() === chapter._id.toString()
+      )
+      return { ...chapter, lessons: chapterLessons }
     })
-      .populate('flashSale')
-      .lean()
 
     // get comment of the current course
     let comments = await CommentModel.find({
@@ -70,7 +77,7 @@ export async function GET(req: NextRequest, { params: { slug } }: { params: { sl
       })),
     }))
 
-    return NextResponse.json({ course, relatedCourses, comments }, { status: 200 })
+    return NextResponse.json({ course, chapters: chaptersWithLessons, comments }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

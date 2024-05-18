@@ -9,11 +9,11 @@ import { IChapter } from '@/models/ChapterModel'
 interface ChapterProps {
   chapter: IChapter
   courseId: string
-  lessonId: string
+  lessonId?: string
   className?: string
 }
 
-function Chapter({ chapter, courseId, lessonId, className = '' }: ChapterProps) {
+function Chapter({ chapter, courseId, lessonId = '', className = '' }: ChapterProps) {
   // hooks
 
   // states

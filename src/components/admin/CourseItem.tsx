@@ -82,7 +82,7 @@ function CourseItem({
             />
           )}
 
-          {/* Category */}
+          {/* Categories */}
           <p
             className='inline font-semibold text-dark text-[18px] mr-2 leading-4 font-body tracking-wide'
             title={data.title}>

@@ -46,7 +46,7 @@ export async function GET(req: NextRequest, { params: { courseId } }: { params: 
         }
 
         if (key === 'search') {
-          const searchFields = ['title', 'slug', 'content']
+          const searchFields = ['title', 'content']
 
           filter.$or = searchFields.map(field => ({
             [field]: { $regex: params[key][0], $options: 'i' },

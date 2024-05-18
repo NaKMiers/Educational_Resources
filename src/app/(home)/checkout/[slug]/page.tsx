@@ -228,7 +228,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
     <div className='max-w-1200 mx-auto p-21'>
       <div className='grid grid-cols-12 gap-21'>
         {/* MARK: Payment Method */}
-        <div className='col-span-12 lg:col-span-7'>
+        <div className='col-span-12 lg:col-span-7 order-2 lg:order-1'>
           <div className='rounded-lg shadow-lg border-2 border-sky-400 px-21 md:px-10'>
             <Divider size={12} />
 
@@ -404,7 +404,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
         </div>
 
         {/* MARK: Course */}
-        <div className='col-span-12 lg:col-span-5'>
+        <div className='col-span-12 lg:col-span-5 order-1 lg:order-2'>
           <div className='rounded-lg shadow-lg border-2 border-sky-400 p-3'>
             {course && (
               <div className='flex gap-21'>
@@ -503,6 +503,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
 
             <Divider size={6} />
 
+            {/* Buy Now */}
             <div className='flex items-center justify-center gap-3'>
               <button
                 onClick={handleCheckout}

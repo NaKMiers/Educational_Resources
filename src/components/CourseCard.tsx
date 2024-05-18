@@ -14,10 +14,11 @@ import { IFlashSale } from '@/models/FlashSaleModel'
 
 interface CourseCardProps {
   course: ICourse
+  hideBadge?: boolean
   className?: string
 }
 
-function CourseCard({ course, className = '' }: CourseCardProps) {
+function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
   // hooks
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -50,7 +51,7 @@ function CourseCard({ course, className = '' }: CourseCardProps) {
       </Link>
 
       {/* Badge */}
-      {course.oldPrice && (
+      {course.oldPrice && !hideBadge && (
         <div className='absolute z-10 -top-2 -left-2 rounded-tl-lg rounded-br-lg bg-yellow-400 p-1 max-w-10 text-white font-semibold font-body text-center text-[13px] leading-4'>
           Sale{' '}
           {countPercent(

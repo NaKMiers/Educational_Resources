@@ -60,7 +60,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
       <ul
         className={`${
           open
-            ? 'max-h-[300px] sm:max-w-full sm:w-[300px] sm:max-h-[350px] p-3 opacity-1x'
+            ? 'max-h-[400px] sm:max-w-full sm:w-[300px] sm:max-h-[350px] p-3 opacity-1x'
             : 'max-h-0 sm:max-h-0 p-0 sm:max-w-0 sm:w-0 opacity-0x'
         } ${
           curUser && !curUser?._id ? 'hidden' : ''
@@ -95,6 +95,14 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
                   className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
                   <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>Profile</span>
+                </Link>
+              </li>
+              <li className='group' onClick={() => setOpen(false)}>
+                <Link
+                  href={`/my-courses`}
+                  className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
+                  <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                  <span className='font-body text-xl font-semibold tracking-wide'>My Courses</span>
                 </Link>
               </li>
               <li className='group' onClick={() => setOpen(false)}>

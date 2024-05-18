@@ -10,7 +10,7 @@ import '@/models/LessonModel'
 
 export const dynamic = 'force-dynamic'
 
-// [GET]: /course/learning/:slug
+// [GET]: /course/learning/:courseId
 export async function GET(req: NextRequest, { params: { courseId } }: { params: { courseId: string } }) {
   console.log('- Get Course Learning - ')
 
