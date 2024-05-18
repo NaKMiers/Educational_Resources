@@ -56,7 +56,6 @@ export async function PUT(req: NextRequest) {
     }
 
     // new password exists
-    console.log('newPassword', newPassword)
     let newHashedPassword = ''
     if (newPassword) {
       // hash new password
@@ -64,8 +63,6 @@ export async function PUT(req: NextRequest) {
 
       set.password = newHashedPassword
     }
-
-    console.log('set', set)
 
     // update personal info
     const asd = await UserModel.findByIdAndUpdate(
@@ -75,8 +72,6 @@ export async function PUT(req: NextRequest) {
       },
       { new: true }
     )
-
-    console.log('asd', asd)
 
     // return response
     return NextResponse.json({ message: 'Updated Private Information' }, { status: 200 })

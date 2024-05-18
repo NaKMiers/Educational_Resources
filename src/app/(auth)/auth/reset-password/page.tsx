@@ -71,7 +71,6 @@ function ResetPasswordPage() {
   // MARK: Reset Password Submition
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     async data => {
-      console.log('data')
       // validate form
       if (!handleValidate(data)) return
 

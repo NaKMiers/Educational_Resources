@@ -92,8 +92,6 @@ function AllCoursesPage({ searchParams }: { searchParams?: { [key: string]: stri
         // send request to server to get all courses
         const { courses, amount, cates, tgs, chops } = await getAllCoursesApi(query)
 
-        console.log({ courses, amount, cates, tgs, chops })
-
         // set courses to state
         setCourses(courses)
         setAmount(amount)

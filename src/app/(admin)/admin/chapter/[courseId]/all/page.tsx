@@ -85,8 +85,6 @@ function AllCourseChaptersPage({
       try {
         const { chapters, amount } = await getAllCourseChaptersApi(courseId, query) // cache: no-store
 
-        console.log('chapters', chapters)
-
         // set to states
         setChapters(chapters)
         setAmount(amount)

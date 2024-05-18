@@ -21,9 +21,6 @@ export async function POST(req: NextRequest) {
     const { courseId, chapterId, title, description, duration, active, embedUrl } = data
     let file = formData.get('file')
 
-    console.log('data', data)
-    console.log('file', file)
-
     if (!file && !embedUrl) {
       return NextResponse.json({ message: 'Source or embed is required' }, { status: 400 })
     }
@@ -35,8 +32,6 @@ export async function POST(req: NextRequest) {
     } else if (file) {
       source = await uploadFile(file, '16:9', 'video')
     }
-
-    console.log('source', source)
 
     // create new lesson
     const newLesson = new LessonModel({

@@ -25,8 +25,6 @@ function LessonPage({
       try {
         const { lesson } = await getLessonApi(lessonId)
         setLesson(lesson)
-
-        console.log('lesson:', lesson)
       } catch (err: any) {
         console.log(err)
       }

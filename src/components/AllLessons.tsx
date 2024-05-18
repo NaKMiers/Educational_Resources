@@ -24,8 +24,6 @@ function AllLessons() {
         // send request to get all chapters with lessons
         const { chapters } = await getLearningChaptersApi(courseId)
 
-        console.log('chapters:', chapters)
-
         // set chapters
         setChapters(chapters)
       } catch (err: any) {

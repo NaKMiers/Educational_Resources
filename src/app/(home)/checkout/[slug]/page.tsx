@@ -84,8 +84,6 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
         // revalidate every 1 minute
         const { course } = await getCoursePageApi(slug)
         setCourse(course)
-
-        console.log('slug', slug)
       } catch (err: any) {
         return notFound()
       } finally {

@@ -77,7 +77,6 @@ function AllOrdersPage({ searchParams }: { searchParams?: { [key: string]: strin
       try {
         // sent request to server
         const { orders, amount, chops } = await getAllOrdersApi(query) // cache: no-store
-        console.log('orders', orders)
 
         // update orders from state
         setOrders(orders)

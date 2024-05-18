@@ -71,7 +71,6 @@ function EditLessonPage() {
       try {
         // send request to server to get course
         const { lesson } = await getLessonApi(id) // cache: no-store
-        console.log('lesson', lesson)
         setLesson(lesson)
 
         // set value to form
@@ -190,8 +189,6 @@ function EditLessonPage() {
     dispatch(setLoading(true))
 
     try {
-      console.log('data', data)
-
       const formData = new FormData()
       formData.append('courseId', data.courseId)
       formData.append('chapterId', data.chapterId)

@@ -71,8 +71,6 @@ function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: s
         // send request to server to get all flash sales
         const { flashSales, amount } = await getAllFlashSalesApi(query) // cache: no-store
 
-        console.log('flashSales', flashSales)
-
         // set vouchers to state
         setFlashSales(flashSales)
         setAmount(amount)
@@ -110,7 +108,6 @@ function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: s
 
         // send request to server
         const { deletedFlashSales, message } = await deleteFlashSalesApi(ids, courseIds)
-        console.log('deletedFlashSales', deletedFlashSales)
 
         // remove deleted flash sales from state
         setFlashSales(prev =>

@@ -25,8 +25,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Voucher has already existed' }, { status: 400 })
     }
 
-    console.log('owner: ', owner)
-
     // create new voucher
     const newVoucher = new VoucherModel({
       code,

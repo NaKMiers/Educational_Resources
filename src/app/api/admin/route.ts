@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
       'http://res.cloudinary.com/djpg3r44p/video/upload/v1715275254/krkrbwvfaxdanl1ubbqn.mp4',
       'video'
     )
-    console.log('res', res)
 
     return new Response('Hello from admin route', { status: 200 })
   } catch (err: any) {

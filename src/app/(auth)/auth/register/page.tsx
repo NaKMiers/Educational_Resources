@@ -91,8 +91,6 @@ function RegisterPage() {
   // MARK: Register Submition
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     async data => {
-      console.log('data', data)
-
       // validate form
       if (!handleValidate(data)) return
 

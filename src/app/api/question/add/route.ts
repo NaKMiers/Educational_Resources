@@ -23,12 +23,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
     }
 
-    console.log('userId:', userId)
-
     // get data to add question
     const { content } = await req.json()
-
-    console.log('content:', content)
 
     // add new question to database
     const question = new QuestionModel({
@@ -37,8 +33,6 @@ export async function POST(req: NextRequest) {
     })
 
     await question.save()
-
-    console.log('question:', question)
 
     // return question
     return NextResponse.json({ question }, { status: 201 })

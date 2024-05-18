@@ -1,18 +1,14 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
-import { setOpenAuthentication } from '@/libs/reducers/modalReducer'
 import { updatePrivateInfoApi } from '@/requests'
 import { capitalize } from '@/utils'
-import { useSession } from 'next-auth/react'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { FaEyeSlash, FaSave } from 'react-icons/fa'
-import { MdCancel, MdEdit } from 'react-icons/md'
-import { RiDonutChartFill } from 'react-icons/ri'
 import Divider from '../Divider'
 import Input from '../Input'
+import { getSession, useSession } from 'next-auth/react'
 
 interface PrivateInfoProps {
   className?: string
@@ -23,9 +19,9 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
   const dispatch = useAppDispatch()
   const { data: session, update } = useSession()
   const authenticated = useAppSelector(state => state.modal.authenticated)
-  const curUser: any = session?.user
 
   // states
+  const [curUser, setCurUser] = useState<any>(session?.user || null)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -56,6 +52,19 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
     }
   }, [reset, curUser])
 
+  // MARK: Side Effects
+  // update user session
+  useEffect(() => {
+    const getUser = async () => {
+      const session = await getSession()
+      setCurUser(session?.user)
+    }
+
+    if (!curUser?._id) {
+      getUser()
+    }
+  }, [update, curUser])
+
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
     data => {
@@ -79,8 +88,6 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
   // update personal info
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     async data => {
-      console.log('data', data)
-
       // validate form
       if (!handleValidate(data)) return
 
@@ -121,7 +128,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
       <Divider size={6} />
 
       <div className='relative grid grid-cols-3 p-5 gap-21'>
-        <div className='flex items-center justify-center gap-2 absolute -top-4 right-2'>
+        {/* <div className='flex items-center justify-center gap-2 absolute -top-4 right-2'>
           {!editMode ? (
             <button
               className='flex gap-1 items-center justify-center rounded-lg border border-dark shadow-lg bg-slate-200 px-2 py-1 hover:bg-white trans-2000'
@@ -162,7 +169,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
               </button>
             </>
           )}
-        </div>
+        </div> */}
 
         <div className='col-span-3 md:col-span-1'>
           {!editMode ? (
@@ -185,6 +192,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
             />
           )}
         </div>
+
         <div className='col-span-3 md:col-span-1'>
           {!editMode ? (
             <>
@@ -205,7 +213,8 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
             />
           )}
         </div>
-        {curUser?.authType === 'local' && (
+
+        {/* {curUser?.authType === 'local' && (
           <div className='col-span-3 md:col-span-1'>
             {!editMode ? (
               <>
@@ -227,7 +236,8 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
               />
             )}
           </div>
-        )}
+        )} */}
+
         <div className='col-span-3 md:col-span-1'>
           <p className='text-slate-500'>Role</p>
           <p>{capitalize(curUser?.role || '')}</p>

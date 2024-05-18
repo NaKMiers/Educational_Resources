@@ -97,7 +97,7 @@ function PersonalSetting() {
       <Divider size={8} />
 
       {/* MARK: Private Information */}
-      <PrivateInfo />
+      {/* <PrivateInfo /> */}
 
       <Divider size={8} />
 

@@ -31,7 +31,6 @@ function MyCoursesPage({ searchParams }: { searchParams?: { [key: string]: strin
         const { courses } = await getMyCoursesApi()
         setCourses(courses)
 
-        console.log('courses:', courses)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)

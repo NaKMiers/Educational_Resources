@@ -62,7 +62,6 @@ function AddCoursePage() {
       try {
         // send request to server to get course
         const { course } = await getCourseApi(id) // cache: no-store
-        console.log('course', course)
 
         // set value to form
         setValue('title', course.title)

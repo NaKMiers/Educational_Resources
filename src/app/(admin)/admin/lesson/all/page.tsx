@@ -77,8 +77,6 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
         // sent request to server
         const { lessons, amount, courses } = await getAllLessonsApi(query) // cache: no-store
 
-        console.log('lessons', lessons)
-
         // group course by category.title
         const groupCourses: GroupCourses = {}
         courses.forEach((course: ICourse) => {

@@ -27,8 +27,6 @@ export async function GET(req: NextRequest) {
     const filter: { [key: string]: any } = {}
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
 
-    console.log('Params: ', params)
-
     // build filter
     for (const key in params) {
       if (params.hasOwnProperty(key)) {

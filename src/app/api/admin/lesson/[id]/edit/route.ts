@@ -22,10 +22,6 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     const { courseId, chapterId, title, description, duration, active, embedUrl } = data
     let file = formData.get('file')
 
-    console.log('data', data)
-    console.log('file', file)
-    console.log('chapterId', chapterId)
-
     // get course from database to edit
     const lesson: ILesson | null = await LessonModel.findById(id).lean()
 

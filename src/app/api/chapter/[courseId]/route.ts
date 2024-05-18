@@ -22,9 +22,6 @@ export async function GET(req: NextRequest, { params: { courseId } }: { params: 
     const chapters: IChapter[] = await ChapterModel.find({ courseId }).lean()
     const lessons: ILesson[] = await LessonModel.find({ courseId }).lean()
 
-    console.log('chapters:', chapters)
-    console.log('lessons:', lessons)
-
     // add lessons to each chapter
     const chaptersWithLessons = chapters.map(chapter => {
       const chapterLessons = lessons.filter(

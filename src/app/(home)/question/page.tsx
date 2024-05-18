@@ -14,7 +14,6 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
   try {
     // get query
     const query = handleQuery(searchParams)
-    console.log('query:', query)
 
     const res = await getQuestionPageApi(query)
 

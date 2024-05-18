@@ -21,7 +21,6 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
 
     // get id and value to close
     const { value } = await req.json()
-    console.log('value:', value)
 
     // user does not exist
     if (!userId) {
@@ -37,8 +36,6 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
     if (!updatedQuestion) {
       return NextResponse.json({ message: 'Question not found' }, { status: 404 })
     }
-
-    console.log('updatedQuestion', updatedQuestion)
 
     // return response
     return NextResponse.json(

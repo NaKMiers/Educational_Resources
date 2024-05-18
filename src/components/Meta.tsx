@@ -53,9 +53,6 @@ function Meta({
   const timeoutCtg = useRef<any>(null)
   const timeoutTg = useRef<any>(null)
 
-  console.log(categories.length, selectedFilterCategories.length)
-  console.log(tags.length, selectedFilterTags.length)
-
   // form
   const defaultValues = useMemo<FieldValues>(
     () => ({
@@ -128,8 +125,6 @@ function Meta({
         ...searchParams,
         ...params,
       })
-      console.log('Query:', query)
-
       // push to router
       router.push(pathname + query)
     },

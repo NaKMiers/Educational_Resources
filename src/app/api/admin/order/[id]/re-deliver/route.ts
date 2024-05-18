@@ -49,8 +49,6 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
       message,
     }
 
-    console.log('orderData: ', orderData)
-
     // EMAIL
     await notifyDeliveryOrder(email, orderData)
 

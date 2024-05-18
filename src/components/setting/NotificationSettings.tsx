@@ -14,7 +14,6 @@ function NotificationSettings({ className = '' }: NotificationSettingsProps) {
   // hook
   const { data: session, update } = useSession()
   const curUser: any = session?.user
-  console.log('curUser', curUser)
 
   // states
   const [userNotificationSettings, setUserNotificationSettings] = useState<any>({

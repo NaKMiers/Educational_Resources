@@ -38,7 +38,6 @@ function AddQuestionForm() {
 
     try {
       const question = await addQuestionApi({ content: value })
-      console.log('question:', question)
 
       // reset
       setValue('')
@@ -51,7 +50,7 @@ function AddQuestionForm() {
       // stop loading
       setLoading(false)
     }
-  }, [router, value])
+  }, [router, curUser, value])
 
   return (
     <div className='flex items-center gap-3'>

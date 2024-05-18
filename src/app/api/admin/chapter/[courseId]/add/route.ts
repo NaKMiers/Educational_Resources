@@ -19,11 +19,6 @@ export async function POST(
     // get data field to add new chapter
     const { title, content, order } = await req.json()
 
-    console.log('courseId:', courseId)
-    console.log('title:', title)
-    console.log('content:', content)
-    console.log('order:', order)
-
     // create new chapter
     const newChapter = new ChapterModel({
       courseId,

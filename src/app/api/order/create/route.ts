@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
 
     // get data to create order
     const { code, email, total, voucherApplied, discount, item, paymentMethod } = await req.json()
-    console.log({ code, email, total, voucherApplied, discount, item, paymentMethod })
 
     // get user id
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
@@ -28,8 +27,6 @@ export async function POST(req: NextRequest) {
 
     // check if user has already joined course
     const userCourses: any = await UserModel.findById(userId).select('courses').lean()
-    console.log(userCourses?.courses.map((course: any) => course.course.toString()))
-    console.log('item._id.toString()', item._id.toString())
 
     if (
       userCourses?.courses.map((course: any) => course.course.toString()).includes(item._id.toString())
