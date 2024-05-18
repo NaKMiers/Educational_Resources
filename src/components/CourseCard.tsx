@@ -3,14 +3,15 @@
 import { useAppDispatch } from '@/libs/hooks'
 import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
+import { IFlashSale } from '@/models/FlashSaleModel'
+import { applyFlashSalePrice, countPercent } from '@/utils/number'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Divider from './Divider'
-import { applyFlashSalePrice, countPercent } from '@/utils/number'
-import { IFlashSale } from '@/models/FlashSaleModel'
+import Price from './Price'
 
 interface CourseCardProps {
   course: ICourse
@@ -25,12 +26,14 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
   const { data: session } = useSession()
   const curUser: any = session?.user
 
+  console.log('course: ', course)
+
   // states
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return (
     <div
-      className={`relative w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
+      className={`relative flex flex-col w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
       {/* MARK: Thumbnails */}
       <Link
         href={`/${course.slug}`}
@@ -61,7 +64,23 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
         </div>
       )}
 
-      <Divider size={3} />
+      {/* Title */}
+      <Link href={`/${course.slug}`} prefetch={false}>
+        <h3
+          className='font-body text-xl text-dark tracking-wide leading-[22px] my-3'
+          title={course.title}>
+          {course.title}
+        </h3>
+      </Link>
+
+      {/* Price */}
+      <Price
+        price={course.price}
+        oldPrice={course.oldPrice}
+        flashSale={course.flashSale as IFlashSale}
+      />
+
+      <Divider size={2} />
 
       {/* Categories */}
       <div className='flex flex-wrap gap-1'>
@@ -75,14 +94,7 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
         ))}
       </div>
 
-      {/* Title */}
-      <Link href={`/${course.slug}`} prefetch={false}>
-        <h3
-          className='font-body text-[18px] text-dark tracking-wide leading-[22px] my-3'
-          title={course.title}>
-          {course.title}
-        </h3>
-      </Link>
+      <Divider size={2} />
 
       <p className='font-body tracking-wider text-sm max-h-[200px] overflow-auto'>
         {course.description}
@@ -90,57 +102,21 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
 
       <Divider size={3} />
 
-      <Link
-        href={`/learning/${course._id}/continue`}
-        className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark duration-300 transition-all hover:-translate-y-1'>
-        Continue Learning
-      </Link>
+      <div className='flex-1 flex items-end'>
+        <Link
+          href={
+            curUser?.courses.map((course: any) => course.course).includes(course._id)
+              ? `/learning/${course?.slug}/continue`
+              : `/checkout/${course?.slug}`
+          }
+          className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark duration-300 transition-all hover:-translate-y-1'>
+          {curUser?.courses.map((course: any) => course.course).includes(course._id)
+            ? 'Continue Learning'
+            : 'Buy Now'}
+        </Link>
+      </div>
 
       <Divider size={2} />
-
-      {/* Price */}
-      {/* <Price
-        price={course.price}
-        oldPrice={course.oldPrice}
-        flashSale={course.flashSale as IFlashSale}
-        className='mb-2'
-      /> */}
-
-      {/* Basic Information */}
-      {/* <div className='flex items-center font-body tracking-wide'>
-        <FaCircleCheck size={16} className='text-darker' />
-        <span className='font-bold text-darker ml-1'>Student:</span>
-        <span className='text-red-500 ml-1'>{course.joined}</span>
-      </div> */}
-
-      {/* MARK: Action Buttons */}
-      {/* <div className='flex items-center justify-end md:justify-start gap-2 mt-2'>
-        <button
-          className={`bg-secondary rounded-md text-white px-2 py-[5px] font-semibold font-body tracking-wider text-nowrap hover:bg-primary trans-200 ${
-            isLoading ? 'bg-slate-200 pointer-events-none' : ''
-          }`}
-          disabled={isLoading}>
-          MUA NGAY
-        </button>
-        <button
-          className={`bg-primary rounded-md py-2 px-3 group hover:bg-primary-600 hover:bg-secondary trans-200 ${
-            isLoading ? 'pointer-events-none bg-slate-200' : ''
-          }`}
-          disabled={isLoading}>
-          {isLoading ? (
-            <RiDonutChartFill size={18} className='animate-spin text-white' />
-          ) : (
-            <FaCartPlus size={18} className='text-white wiggle' />
-          )}
-        </button>
-        {['admin', 'editor'].includes(curUser?.role) && (
-          <Link
-            href={`/admin/course/all?_id=${course?._id}`}
-            className='flex items-center justify-center h-[34px] border border-yellow-400 rounded-md px-3 group hover:bg-primary-600 trans-200'>
-            <MdEdit size={18} className='wiggle text-yellow-400' />
-          </Link>
-        )}
-      </div> */}
     </div>
   )
 }

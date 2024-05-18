@@ -15,7 +15,7 @@ async function CoursesPage({ searchParams }: { searchParams?: { [key: string]: s
   let query: string = ''
   let amount: number = 0
   let chops: { [key: string]: number } | null = null
-  let itemPerPage = 8
+  let itemPerPage = 6
 
   try {
     // get query
@@ -44,7 +44,7 @@ async function CoursesPage({ searchParams }: { searchParams?: { [key: string]: s
       {/* Filter & Search Bar */}
       <div className='flex justify-between'>
         {/* Filter */}
-        <Meta searchParams={searchParams} type='ctg' items={categories} chops={chops} />
+        <Meta searchParams={searchParams} tags={tags} categories={categories} chops={chops} />
       </div>
 
       <Divider size={5} />

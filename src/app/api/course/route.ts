@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
     // // options
     let skip = 0
-    let itemPerPage = 9
+    let itemPerPage = 6
     const filter: { [key: string]: any } = {}
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
 
@@ -90,6 +90,16 @@ export async function GET(req: NextRequest) {
           continue
         }
 
+        if (key === 'tag') {
+          // convert slugs to ids
+          const tgIds = [params[key]][0]
+            .map(item => tgs.find(tag => tag.slug === item)?._id)
+            .filter(item => item)
+
+          filter['tags'] = { $in: tgIds }
+          continue
+        }
+
         // Normal Cases ---------------------
         filter[key] = params[key].length === 1 ? params[key][0] : { $in: params[key] }
       }
@@ -100,7 +110,7 @@ export async function GET(req: NextRequest) {
 
     // get all courses from database
     let courses = await CourseModel.find(filter)
-      .populate('tags categories')
+      .populate('tags categories flashSale')
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)

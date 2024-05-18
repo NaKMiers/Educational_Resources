@@ -7,13 +7,14 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FaSearch } from 'react-icons/fa'
-import { IoIosCloseCircle, IoMdClose } from 'react-icons/io'
+import { IoMdClose } from 'react-icons/io'
 
 interface MetaProps {
   title?: string
   searchParams: { [key: string]: string[] | string } | undefined
-  type: 'tag' | 'ctg' | 'flash-sale' | 'best-seller' | 'search'
-  items?: ITag[] | ICategory[]
+  // type: 'tag' | 'ctg' | 'flash-sale' | 'best-seller' | 'search'
+  categories?: ICategory[]
+  tags?: ITag[]
   chops?: { [key: string]: number } | null
   hideSearch?: boolean
   hidePrice?: boolean
@@ -23,9 +24,9 @@ interface MetaProps {
 
 function Meta({
   title,
-  type,
   searchParams,
-  items = [],
+  categories = [],
+  tags = [],
   chops,
   hidePrice,
   hideStock,
@@ -37,14 +38,23 @@ function Meta({
   const router = useRouter()
 
   // states
-  const [selectedFilterItems, setSelectedFilterItems] = useState<string[]>(
-    [].concat((searchParams?.[type] || items.map(item => item.slug)) as []).map(type => type)
+  const [selectedFilterCategories, setSelectedFilterCategories] = useState<string[]>(
+    [].concat((searchParams?.ctg || categories.map(category => category.slug)) as []).map(type => type)
+  )
+  // states
+  const [selectedFilterTags, setSelectedFilterTags] = useState<string[]>(
+    [].concat((searchParams?.tag || tags.map(tag => tag.slug)) as []).map(type => type)
   )
   const [search, setSearch] = useState<string>(searchParams?.search as string)
-  const [openFilter, setOpenFilter] = useState<boolean>(false)
+  const [openFilterCategory, setOpenFilterCategory] = useState<boolean>(false)
+  const [openFilterTag, setOpenFilterTag] = useState<boolean>(false)
 
   // refs
-  const timeout = useRef<any>(null)
+  const timeoutCtg = useRef<any>(null)
+  const timeoutTg = useRef<any>(null)
+
+  console.log(categories.length, selectedFilterCategories.length)
+  console.log(tags.length, selectedFilterTags.length)
 
   // form
   const defaultValues = useMemo<FieldValues>(
@@ -76,7 +86,10 @@ function Meta({
   // MARK: Handlers
   // handle opimize filter
   const handleOptimizeFilter: SubmitHandler<FieldValues> = useCallback(
-    data => {
+    ({ data, newSelectedCates, newSelectedTgs }) => {
+      newSelectedCates = newSelectedCates || []
+      newSelectedTgs = newSelectedTgs || []
+
       // reset page
       if (searchParams?.page) {
         delete searchParams.page
@@ -96,18 +109,19 @@ function Meta({
       return {
         ...data,
         search: search || '',
-        [type]: selectedFilterItems.length === items.length ? [] : selectedFilterItems,
+        ctg: newSelectedCates.length === categories.length ? [] : newSelectedCates,
+        tag: newSelectedTgs.length === tags.length ? [] : newSelectedTgs,
       }
     },
-    [items.length, searchParams, selectedFilterItems, type, defaultValues, search]
+    [categories.length, tags.length, searchParams, defaultValues, search]
   )
 
   // handle submit filter
   const handleFilter: SubmitHandler<FieldValues> = useCallback(
-    async data => {
-      console.log('Filtering...')
+    async ({ data, newSelectedCates, newSelectedTgs }) => {
+      console.log('Filtering...', newSelectedCates)
 
-      const params: any = handleOptimizeFilter(data)
+      const params: any = handleOptimizeFilter({ data, newSelectedCates, newSelectedTgs })
 
       // handle query
       const query = handleQuery({
@@ -129,29 +143,38 @@ function Meta({
   }, [reset, router, pathname])
 
   // handle select filter item
-  const handleSelectFilterItem = useCallback(
+  const handleSelectFilterCategory = useCallback(
     (item: string) => {
-      clearTimeout(timeout.current)
-      setSelectedFilterItems(prev =>
-        prev.includes(item) ? prev.filter(id => id !== item) : [...prev, item]
-      )
+      clearTimeout(timeoutCtg.current)
+      const newSelectedCates = selectedFilterCategories.includes(item)
+        ? selectedFilterCategories.filter(id => id !== item)
+        : [...selectedFilterCategories, item]
 
-      timeout.current = setTimeout(() => {
-        handleSubmit(handleFilter)()
+      setSelectedFilterCategories(newSelectedCates)
+
+      timeoutCtg.current = setTimeout(() => {
+        handleSubmit(data => handleFilter({ data, newSelectedCates }))()
       }, 500)
     },
-    [setSelectedFilterItems, handleFilter, handleSubmit]
+    [setSelectedFilterCategories, handleSubmit, handleFilter, selectedFilterCategories]
   )
 
-  // auto filter when selectedFilterItems change
-  useEffect(() => {
-    if (timeout.current) {
-      clearTimeout(timeout.current)
-    }
-    timeout.current = setTimeout(() => {
-      handleSubmit(handleFilter)()
-    }, 500)
-  }, [handleFilter, handleSubmit, selectedFilterItems, search])
+  // handle select filter item
+  const handleSelectFilterTag = useCallback(
+    (item: string) => {
+      clearTimeout(timeoutTg.current)
+      const newSelectedTgs = selectedFilterTags.includes(item)
+        ? selectedFilterTags.filter(id => id !== item)
+        : [...selectedFilterTags, item]
+
+      setSelectedFilterTags(newSelectedTgs)
+
+      timeoutTg.current = setTimeout(() => {
+        handleSubmit(data => handleFilter({ data, newSelectedTgs }))()
+      }, 500)
+    },
+    [setSelectedFilterTags, handleSubmit, handleFilter, selectedFilterTags]
+  )
 
   // keyboard event
   useEffect(() => {
@@ -181,29 +204,31 @@ function Meta({
       className={`self-end w-full text-dark transition-all duration-300 no-scrollbar p-21 ${className}`}>
       {/* MARK: Filter */}
       <div className='relative grid grid-cols-12 gap-21'>
-        {/* MARK: Item Selection */}
-        <div className='flex items-center gap-1 flex-wrap max-h-[110px] overflow-auto col-span-12 md:col-span-8 order-2 md:order-1'>
+        {/* MARK: Categories Selection */}
+        <div className='flex gap-1 flex-wrap max-h-[110px] overflow-auto col-span-12 md:col-span-4 order-2 md:order-1'>
           <div
             className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
-              openFilter ? 'bg-dark-100 text-white border-dark-100' : 'border-slate-300 bg-slate-200'
+              openFilterCategory
+                ? 'bg-dark-100 text-white border-dark-100'
+                : 'border-slate-300 bg-slate-200'
             }`}
             title='Filter'
-            onClick={() => setOpenFilter(true)}>
-            Filter
+            onClick={() => setOpenFilterCategory(true)}>
+            Filter Categories
           </div>
-          {selectedFilterItems.length !== items.length &&
-            items
-              .filter(item => selectedFilterItems.includes(item.slug))
+          {selectedFilterCategories.length !== categories.length &&
+            categories
+              .filter(item => selectedFilterCategories.includes(item.slug))
               .map(item => (
                 <div
                   className={`group flex items-center justify-center gap-1 overflow-hidden text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
-                    selectedFilterItems.includes(item.slug)
+                    selectedFilterCategories.includes(item.slug)
                       ? 'bg-secondary text-white border-secondary'
                       : 'border-slate-300'
                   }`}
                   title={item.title}
                   key={item.slug}
-                  onClick={() => handleSelectFilterItem(item.slug)}>
+                  onClick={() => handleSelectFilterCategory(item.slug)}>
                   {item.title}
                   <IoMdClose size={16} className='wiggle' />
                 </div>
@@ -212,43 +237,133 @@ function Meta({
           {/* MARK: Overlay */}
           <div
             className={`${
-              openFilter ? 'block' : 'hidden'
+              openFilterCategory ? 'block' : 'hidden'
             } fixed top-0 left-0 right-0 bottom-0 w-screen h-screen z-30 ${className}`}
-            onClick={() => setOpenFilter(false)}
+            onClick={() => setOpenFilterCategory(false)}
           />
 
           {/* MARK: Main */}
           <ul
             className={`${
-              openFilter
+              openFilterCategory
                 ? 'max-h-[200px] max-w-[500px] w-full p-3 opacity-1 overflow-auto'
                 : 'max-w-0 max-h-0 overflow-hidden p-0 opacity-0'
             } flex flex-wrap gap-1 transition-all duration-300 absolute top-9 left-0 z-30 rounded-lg shadow-md bg-slate-100`}>
             <li
               className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
-                items.length === selectedFilterItems.length
+                categories.length === selectedFilterCategories.length
                   ? 'bg-dark-100 text-white border-dark-100'
                   : 'border-slate-300 bg-slate-200'
               }`}
               title='All Types'
               onClick={() => {
-                setSelectedFilterItems(
-                  items.length === selectedFilterItems.length ? [] : items.map(tag => tag.slug)
+                setSelectedFilterCategories(
+                  categories.length === selectedFilterCategories.length
+                    ? []
+                    : categories.map(tag => tag.slug)
                 )
-                handleSubmit(handleFilter)()
+                handleSubmit(data =>
+                  handleFilter({
+                    data,
+                    newSelectedCates:
+                      categories.length === selectedFilterCategories.length
+                        ? []
+                        : categories.map(tag => tag.slug),
+                  })
+                )()
               }}>
               All
             </li>
-            {items.map(item => (
+            {categories.map(item => (
               <li
                 className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
-                  selectedFilterItems.includes(item.slug)
+                  selectedFilterCategories.includes(item.slug)
                     ? 'bg-secondary text-white border-secondary'
                     : 'border-slate-300'
                 }`}
                 title={item.title}
                 key={item.slug}
-                onClick={() => handleSelectFilterItem(item.slug)}>
+                onClick={() => handleSelectFilterCategory(item.slug)}>
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* MARK: Tags Selection */}
+        <div className='flex gap-1 flex-wrap max-h-[110px] overflow-auto col-span-12 md:col-span-4 order-2 md:order-1'>
+          <div
+            className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
+              openFilterTag ? 'bg-dark-100 text-white border-dark-100' : 'border-slate-300 bg-slate-200'
+            }`}
+            title='Filter'
+            onClick={() => setOpenFilterTag(true)}>
+            Filter Tags
+          </div>
+          {selectedFilterTags.length !== tags.length &&
+            tags
+              .filter(item => selectedFilterTags.includes(item.slug))
+              .map(item => (
+                <div
+                  className={`group flex items-center justify-center gap-1 overflow-hidden text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
+                    selectedFilterTags.includes(item.slug)
+                      ? 'bg-secondary text-white border-secondary'
+                      : 'border-slate-300'
+                  }`}
+                  title={item.title}
+                  key={item.slug}
+                  onClick={() => handleSelectFilterTag(item.slug)}>
+                  {item.title}
+                  <IoMdClose size={16} className='wiggle' />
+                </div>
+              ))}
+
+          {/* MARK: Overlay */}
+          <div
+            className={`${
+              openFilterTag ? 'block' : 'hidden'
+            } fixed top-0 left-0 right-0 bottom-0 w-screen h-screen z-30 ${className}`}
+            onClick={() => setOpenFilterTag(false)}
+          />
+
+          {/* MARK: Main */}
+          <ul
+            className={`${
+              openFilterTag
+                ? 'max-h-[200px] max-w-[500px] w-full p-3 opacity-1 overflow-auto'
+                : 'max-w-0 max-h-0 overflow-hidden p-0 opacity-0'
+            } flex flex-wrap gap-1 transition-all duration-300 absolute top-9 left-1/3 z-30 rounded-lg shadow-md bg-slate-100`}>
+            <li
+              className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
+                tags.length === selectedFilterTags.length
+                  ? 'bg-dark-100 text-white border-dark-100'
+                  : 'border-slate-300 bg-slate-200'
+              }`}
+              title='All Types'
+              onClick={() => {
+                setSelectedFilterTags(
+                  tags.length === selectedFilterTags.length ? [] : tags.map(tag => tag.slug)
+                )
+                handleSubmit(data =>
+                  handleFilter({
+                    data,
+                    newSelectedTgs:
+                      tags.length === selectedFilterTags.length ? [] : tags.map(tag => tag.slug),
+                  })
+                )()
+              }}>
+              All
+            </li>
+            {tags.map(item => (
+              <li
+                className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
+                  selectedFilterTags.includes(item.slug)
+                    ? 'bg-secondary text-white border-secondary'
+                    : 'border-slate-300'
+                }`}
+                title={item.title}
+                key={item.slug}
+                onClick={() => handleSelectFilterTag(item.slug)}>
                 {item.title}
               </li>
             ))}

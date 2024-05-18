@@ -142,7 +142,7 @@ function Price({ price, oldPrice, flashSale, big, className = '' }: PriceProps) 
       <div
         className={`flex items-center justify-evenly gap-2 px-1.5 py-2 ${
           big ? 'sm:justify-start sm:gap-4 sm:py-4 sm:px-21' : ''
-        } flex-wrap bg-white font-body`}>
+        } flex-wrap bg-slate-100 font-body`}>
         <div
           className={`text-dark ${
             big ? 'text-[30px] tracking-wide' : 'text-[22px] tracking-wider'
