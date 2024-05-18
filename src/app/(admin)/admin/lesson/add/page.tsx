@@ -113,6 +113,12 @@ function AddLessonPage() {
     data => {
       let isValid = true
 
+      // chapterId is required
+      if (!data.chapterId) {
+        toast.error('Please select a chapter')
+        isValid
+      }
+
       // hours must be >= 0 and <= 23
       if (data.hours < 0) {
         setError('hours', { type: 'manual', message: 'Hours must be from 0 - 23' })
@@ -142,7 +148,7 @@ function AddLessonPage() {
     if (!handleValidate(data)) return
 
     if (!file && !fileUrl && !embedSrc) {
-      return toast.error('Please select a fileUrl url or upload a file')
+      return toast.error('Please embed an url or upload a video')
     }
 
     dispatch(setLoading(true))
@@ -312,6 +318,7 @@ function AddLessonPage() {
                 id='chapterId'
                 className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                 disabled={isLoading}
+                required
                 {...register('chapterId', { required: true })}>
                 <option value=''>Select Chapter</option>
                 {chapters.map(chapter => (

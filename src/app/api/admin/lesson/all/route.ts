@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Lesson, Course, Category
 import '@/models/CategoryModel'
+import '@/models/ChapterModel'
 import '@/models/CourseModel'
 import '@/models/LessonModel'
 

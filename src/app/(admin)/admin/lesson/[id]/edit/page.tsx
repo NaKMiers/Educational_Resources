@@ -184,7 +184,7 @@ function EditLessonPage() {
     if (!handleValidate(data)) return
 
     if (!file && !fileUrl && !embedSrc) {
-      return toast.error('Please select a fileUrl url or upload a file')
+      return toast.error('Please embed an url or upload a video')
     }
 
     dispatch(setLoading(true))
