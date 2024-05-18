@@ -55,7 +55,7 @@ export async function notifyDeliveryOrder(email: string, orderData: any) {
 
   try {
     const html = render(OrderEmail({ order: orderData }))
-    await sendMail(email, 'Bạn có đơn hàng từ ERE', html)
+    await sendMail(email, 'You have an order from ERE', html)
   } catch (err: any) {
     console.log(err)
   }
@@ -68,7 +68,7 @@ export async function summaryNotification(email: string, summary: any) {
   try {
     // Render template với dữ liệu
     const html = render(SummaryEmail({ summary }))
-    await sendMail(email, `Báo cáo thu nhập tháng ${new Date().getMonth() + 1}`, html)
+    await sendMail(email, `Monthly Summary ${new Date().getMonth() + 1}`, html)
   } catch (err: any) {
     console.log(err)
   }
@@ -84,7 +84,7 @@ export async function sendResetPasswordEmail(email: string, name: string, link: 
 
     console.log('html', html)
 
-    await sendMail(email, 'Khôi phục mật khẩu', html)
+    await sendMail(email, 'Reset Password', html)
   } catch (err: any) {
     console.log(err)
   }
@@ -97,13 +97,8 @@ export async function sendVerifyEmail(email: string, name: string, link: string)
   try {
     // Render template với dữ liệu
     const html = render(VerifyEmailEmail({ name, link }))
-    await sendMail(email, 'Xác minh email', html)
+    await sendMail(email, 'Verify Email', html)
   } catch (err: any) {
     console.log(err)
   }
-}
-
-// verify phone
-export async function sendVerifyPhone(phone: string, name: string, code: string) {
-  console.log('- Send Verify Phone -')
 }

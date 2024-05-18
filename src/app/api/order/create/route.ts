@@ -4,9 +4,11 @@ import handleDeliverOrder from '@/utils/handleDeliverOrder'
 import { notifyNewOrderToAdmin } from '@/utils/sendMail'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
+import UserModel from '@/models/UserModel'
 
 // Models: User, Order
 import '@/models/OrderModel'
+import '@/models/UserModel'
 
 // [POST]: /order/create
 export async function POST(req: NextRequest) {
@@ -23,6 +25,17 @@ export async function POST(req: NextRequest) {
     // get user id
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     const userId = token?._id
+
+    // check if user has already joined course
+    const userCourses: any = await UserModel.findById(userId).select('courses').lean()
+    console.log(userCourses?.courses.map((course: any) => course.course.toString()))
+    console.log('item._id.toString()', item._id.toString())
+
+    if (
+      userCourses?.courses.map((course: any) => course.course.toString()).includes(item._id.toString())
+    ) {
+      return NextResponse.json({ message: 'User has already joined this course' }, { status: 400 })
+    }
 
     // create new order
     const newOrder = new OrderModel({

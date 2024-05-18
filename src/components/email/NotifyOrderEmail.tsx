@@ -17,7 +17,7 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
                 <a href='https://ere-eta.vercel.app'>
                   <Img
                     className='aspect-square rounded-full'
-                    src={`${'https://ere-eta.vercel.app'}/images/logo.jpg`}
+                    src={`${'https://ere-eta.vercel.app'}/images/logo.png`}
                     width={35}
                     height={35}
                     alt='logo'
@@ -62,9 +62,7 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
                       dateStyle: 'full',
                       timeStyle: 'medium',
                       timeZone: 'Asia/Ho_Chi_Minh',
-                    })
-                      .format(new Date(order.createdAt))
-                      .replace('lúc', '')}
+                    }).format(new Date(order.createdAt))}
                   </p>
                   <p>
                     <b>Status: </b>

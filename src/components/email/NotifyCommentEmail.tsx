@@ -73,9 +73,7 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
                       dateStyle: 'full',
                       timeStyle: 'medium',
                       timeZone: 'Asia/Ho_Chi_Minh',
-                    })
-                      .format(new Date(data.time))
-                      .replace('lúc', '')}
+                    }).format(new Date(data.time))}
                   </p>
                   <p>
                     <b>Nội dung: </b>

@@ -54,9 +54,7 @@ function VerifyPhoneEmail({
                 dateStyle: 'full',
                 timeStyle: 'medium',
                 timeZone: 'Asia/Ho_Chi_Minh',
-              })
-                .format(new Date())
-                .replace('lúc', '')}
+              }).format(new Date())}
               .
             </p>
 

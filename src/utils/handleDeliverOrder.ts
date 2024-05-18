@@ -9,8 +9,11 @@ import '@/models/CourseModel'
 import '@/models/OrderModel'
 import '@/models/UserModel'
 import '@/models/VoucherModel'
+import { notifyDeliveryOrder } from './sendMail'
 
 export default async function handleDeliverOrder(id: string, message: string = '') {
+  console.log('- Handle Deliver Order -')
+
   // get order from database to deliver
   const order: IOrder | null = await OrderModel.findById(id)
     .populate({
@@ -72,13 +75,20 @@ export default async function handleDeliverOrder(id: string, message: string = '
     { email },
     {
       $inc: { expended: total },
-      $addToSet: { courses: item._id },
+      $addToSet: {
+        courses: {
+          course: item._id,
+          process: 0,
+        },
+      },
     }
   )
 
+  console.log('order', order)
+
   // COURSE
   const course = await CourseModel.findByIdAndUpdate(
-    order.item._id,
+    order.item._id.toString(),
     {
       $inc: { joined: 1 },
     },
@@ -87,12 +97,12 @@ export default async function handleDeliverOrder(id: string, message: string = '
 
   // ORDER
   const updatedOrder: IOrder | null = await OrderModel.findByIdAndUpdate(
-    order._id,
+    order._id.toString(),
     {
       $set: { status: 'done', item: course },
     },
     { new: true }
-  )
+  ).lean()
 
   // data transfering to email
   const orderData = {
@@ -101,8 +111,10 @@ export default async function handleDeliverOrder(id: string, message: string = '
     message,
   }
 
+  console.log('orderData: ', orderData)
+
   // EMAIL
-  // await notifyDeliveryOrder(email, orderData)
+  await notifyDeliveryOrder(email, orderData)
 
   return {
     order,

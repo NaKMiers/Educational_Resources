@@ -50,30 +50,28 @@ export function OrderEmail({ order = orderSample }: { order?: any }) {
               <Column className='font'>
                 <h1 className='text-2xl font-bold text-center'>Hi👋 </h1>
                 <h2 className='text-xl font-semibold text-center'>
-                  Cảm ơn bạn đã mua hàng, chúc bạn một ngày tốt lành!
+                  Thank you for joining ERE and purchasing our course. We hope you enjoy it!
                 </h2>
 
                 <div className='text-sm mt-8'>
                   <p>
-                    <b>Mã đơn hàng: </b>
+                    <b>Code: </b>
                     <span className='text-secondary tracking-wider font-semibold'>{order.code}</span>
                   </p>
                   <p>
-                    <b>Ngày đặt hàng: </b>
-                    {new Intl.DateTimeFormat('vi', {
+                    <b>Bought Date: </b>
+                    {new Intl.DateTimeFormat('en', {
                       dateStyle: 'full',
                       timeStyle: 'medium',
                       timeZone: 'Asia/Ho_Chi_Minh',
-                    })
-                      .format(new Date(order.createdAt))
-                      .replace('lúc', '')}
+                    }).format(new Date(order.createdAt))}
                   </p>
                   <p>
-                    <b>Trạng thái: </b>
-                    <span className='text-[#50C878]'>Đã giao</span>
+                    <b>Status: </b>
+                    <span className='text-[#50C878]'>Done</span>
                   </p>
                   <p>
-                    <b>Tổng tiền: </b>
+                    <b>Total Amount: </b>
                     <b>{formatPrice(order.total)}</b>
                   </p>
                   <p>
@@ -90,46 +88,44 @@ export function OrderEmail({ order = orderSample }: { order?: any }) {
                       border: '1px solid rgb(0, 0, 0, 0.1)',
                     }}>
                     <p className='font-semibold underline tracking-wider text-sm text-slate-400 text-center m-0 mb-3'>
-                      Lời nhắn từ quản trị viên
+                      Message from admin
                     </p>
                     <p className='text-sm m-0'>{order.message}</p>
                   </div>
                 )}
 
                 {/* Course */}
-                <p className='text-center mt-8'>
-                  <b className='text-[24px]'>Sản phẩm</b>
-                </p>
+                <div className='mt-8'>
+                  <b className='text-[24px]'>Course: </b>
 
-                {order.items.map((item: any) => (
-                  <div
-                    style={{
-                      border: '1px solid rgb(0, 0, 0, 0.1)',
-                    }}
-                    className='border rounded-lg p-21/2 mb-4'
-                    key={item._id}>
-                    <Text className='font-semibold m-0 text-slate-500'>{item.course.title}</Text>
-
-                    {order.lessons
-                      .find((acc: any) => acc.courseId === item.course._id)
-                      .lessons.map((lesson: any) => (
-                        <Text
-                          key={lesson._id}
-                          className='whitespace-pre m-0 py-4 max-w-[600px] overflow-x-auto border-b '>
-                          {lesson.info}
-                        </Text>
-                      ))}
-                  </div>
-                ))}
+                  <a
+                    href={`https://ere-eta.vercel.app/${order.item.slug}`}
+                    className='block h-full text-dark tracking-wider no-underline mt-2'>
+                    <Section>
+                      <Row>
+                        <Column className='w-[130px]'>
+                          <Img
+                            src={order.item.images[0]}
+                            width={120}
+                            className='inline aspect-video rounded-lg object-cover'
+                          />
+                        </Column>
+                        <Column>
+                          <p className='font-semibold text-slate-600'>{order.item.title}</p>
+                        </Column>
+                      </Row>
+                    </Section>
+                  </a>
+                </div>
               </Column>
             </Row>
 
             {order.userId && (
               <div className='text-center p-3 mb-8'>
                 <a
-                  href={`https://ere-eta.vercel.app/user/order/${order.code}`}
+                  href={`https://ere-eta.vercel.app/learning/${order.item._id}/start`}
                   className='inline bg-primary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
-                  Xem chi tiết
+                  Learn Now
                 </a>
               </div>
             )}

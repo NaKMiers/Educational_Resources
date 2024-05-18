@@ -12,7 +12,7 @@ import { applyVoucherApi, createOrderApi, generateOrderCodeApi, getCoursePageApi
 import { applyFlashSalePrice, calcPercentage, formatPrice } from '@/utils/number'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -24,6 +24,7 @@ import { RiCoupon2Fill, RiDonutChartFill } from 'react-icons/ri'
 function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
   // hooks
   const dispatch = useAppDispatch()
+  const router = useRouter()
   const { data: session, update } = useSession()
 
   // states
@@ -197,14 +198,31 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
         paymentMethod
       )
 
+      // notify success
       toast.success(message)
+
+      // move to my course
+      router.push('/my-courses')
     } catch (err: any) {
       console.log(err)
-    } finally {
+      toast.error(err.message)
+
       // stop page loading
       dispatch(setPageLoading(false))
     }
-  }, [dispatch, code, curUser?._id, curUser.email, discount, , total, voucher, course, paymentMethod])
+  }, [
+    dispatch,
+    router,
+    code,
+    curUser?._id,
+    curUser.email,
+    discount,
+    ,
+    total,
+    voucher,
+    course,
+    paymentMethod,
+  ])
 
   return (
     <div className='max-w-1200 mx-auto p-21'>
