@@ -45,9 +45,7 @@ function ChapterItem({
           )
         }>
         {/* Chapter Title */}
-        <p className='font-semibold' title={data.slug}>
-          {data.title}
-        </p>
+        <p className='font-semibold'>{data.title}</p>
 
         {/* Course Quantity */}
         <p className='font-semibold mb-2' title={`Course Quantity: ${data.lessonQuantity}`}>
