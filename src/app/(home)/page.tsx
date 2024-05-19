@@ -1,3 +1,9 @@
+import Banner from '@/components/Banner'
+
 export default function Home() {
-  return <div className='h-[150vh]'>Home Page</div>
+  return (
+    <div className='min-h-screen'>
+      <Banner />
+    </div>
+  )
 }
