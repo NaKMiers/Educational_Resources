@@ -72,18 +72,19 @@ function Question({ question, className = '' }: QuestionProps) {
           </p>
           <p className='text-slate-500 text-sm font-semibold'>{format(question.createdAt)}</p>
         </div>
-        {user._id === curUser?._id && (
-          <button
-            className={`absolute top-2 right-2 font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg trans-200 ${
-              status === 'open'
-                ? 'border-dark hover:bg-black'
-                : 'border-green-500 text-green-500 hover:bg-green-500'
-            }`}
-            title={status === 'open' ? 'opening' : 'closing'}
-            onClick={handleClose}>
-            {status === 'open' ? 'close' : 'open'}
-          </button>
-        )}
+        {user._id === curUser?._id ||
+          (user.role === 'admin' && (
+            <button
+              className={`absolute top-2 right-2 font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg trans-200 ${
+                status === 'open'
+                  ? 'border-dark hover:bg-black'
+                  : 'border-green-500 text-green-500 hover:bg-green-500'
+              }`}
+              title={status === 'open' ? 'opening' : 'closing'}
+              onClick={handleClose}>
+              {status === 'open' ? 'close' : 'open'}
+            </button>
+          ))}
       </div>
 
       {/* Center */}

@@ -4,7 +4,7 @@ import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 
 interface BannerProps {
@@ -57,6 +57,15 @@ function Banner({ courses, className = '' }: BannerProps) {
   const nextSlide = useCallback(() => {
     handleSlide('next')
   }, [handleSlide])
+
+  // auto slide
+  useEffect(() => {
+    setTimeout(() => {
+      setInterval(() => {
+        nextSlide()
+      }, time * 5)
+    }, time * 5)
+  }, [nextSlide])
 
   return (
     <div

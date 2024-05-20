@@ -164,21 +164,23 @@ export const admins = {
 }
 
 // MARK: Choose Me
-export const chooseMeList = [
+export const features = [
   {
-    title: 'Đa dạng sản phẩm',
-    image: '/images/choose-me-1.jpg',
+    title: 'Video bài giảng chất lượng cao',
+    image: '/images/feature-1.png',
+    description:
+      'Với những bài giảng từ các thầy cô uy tín và các nguồn đáng tin cậy trong chuyên ngành chuyên môn, đảm bảo nắm bắt đúng trọng tâm nâng cao kiến thức.',
   },
   {
-    title: 'Rẻ nhất thị trường',
-    image: '/images/choose-me-2.jpg',
+    title: 'Giá thành hợp lí ',
+    image: '/images/feature-2.png',
+    description:
+      'Giá cả hợp lí, tiếp cận nhiều nguồn khách hàng, nâng cao phạm vi trải nghiệm nền giáo dục chỉ có tại ERE. Giúp các bạn trẻ có thể tiếp cận được ERE.',
   },
   {
-    title: 'Thanh toán lập tức',
-    image: '/images/choose-me-3.jpg',
-  },
-  {
-    title: 'Bảo hành uy tín',
-    image: '/images/choose-me-4.jpg',
+    title: 'Trao đổi kiến thức',
+    image: '/images/feature-3.png',
+    description:
+      'Với chức năng đăng câu hỏi, các học viên có thể trực tiếp trao đổi bài giảng của nhau, giúp đỡ nhau giải bày các thắc mắc.',
   },
 ]
