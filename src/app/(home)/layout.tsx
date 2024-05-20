@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast'
 import '../globals.scss'
 import Footer from '@/components/Footer'
 import PageLoading from '@/components/PageLoading'
+import FloatingButton from '@/components/FloatingButton'
 
 export const metadata: Metadata = {
   title: 'Educational Resources',
@@ -43,6 +44,9 @@ export default async function RootLayout({
 
           {/* Loading */}
           <PageLoading />
+
+          {/* Floating Button */}
+          <FloatingButton />
 
           {/* Main */}
           <main className='mb-[72px] md:mb-auto md:mt-[72px]'>{children}</main>
