@@ -31,7 +31,7 @@ async function FlashSalePage({ searchParams }: { searchParams?: { [key: string]:
       <Divider size={12} />
 
       {/* Heading */}
-      <h1 className='text-4xl font-semibold px-21 text-center'>Flash Sale Now</h1>
+      <h1 className='text-4xl font-semibold px-21 text-center'>Flash Sale Now ({amount})</h1>
 
       <Divider size={8} />
 

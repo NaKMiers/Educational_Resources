@@ -1,11 +1,10 @@
 import { connectDatabase } from '@/config/database'
 import CourseModel, { ICourse } from '@/models/CourseModel'
-import { IFlashSale } from '@/models/FlashSaleModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
-import { applyFlashSalePrice } from '@/utils/number'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Course, Flash Sale
+// Models: Course, FlashSale, Category
+import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/FlashSaleModel'
 
@@ -25,7 +24,7 @@ export async function GET(req: NextRequest) {
     // options
     let skip = 0
     let itemPerPage = 8
-    const filter: { [key: string]: any } = { active: true }
+    const filter: { [key: string]: any } = { flashSale: { $exists: true, $ne: null }, active: true }
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
 
     // build filter
@@ -70,43 +69,17 @@ export async function GET(req: NextRequest) {
 
     let courses: ICourse[] = []
     let amount: number = 0
-    if (params.price) {
-      // get all courses from database
-      courses = await CourseModel.find({
-        flashSale: { $exists: true, $ne: null },
-        ...filter,
-      })
-        .populate('flashSale')
-        .sort(sort)
-        .lean()
 
-      courses = courses
-        .map(course => {
-          const appliedPrice = applyFlashSalePrice(course.flashSale as IFlashSale, course.price)
-          return { ...course, price: appliedPrice }
-        })
-        .filter(course => course.price <= +params.price[0])
-        .slice(skip, skip + itemPerPage)
+    // get all courses
+    courses = await CourseModel.find(filter)
+      .populate('flashSale categories')
+      .sort(sort)
+      .skip(skip)
+      .limit(itemPerPage)
+      .lean()
 
-      amount = courses.length
-    } else {
-      // get all courses
-      courses = await CourseModel.find({
-        flashSale: { $exists: true, $ne: null },
-        ...filter,
-      })
-        .populate('flashSale')
-        .sort(sort)
-        .skip(skip)
-        .limit(itemPerPage)
-        .lean()
-
-      // get amount of account
-      amount = await CourseModel.countDocuments({
-        flashSale: { $exists: true, $ne: null },
-        ...filter,
-      })
-    }
+    // get amount of account
+    amount = await CourseModel.countDocuments(filter)
 
     // return flashSale courses
     return NextResponse.json({ courses, amount }, { status: 200 })
