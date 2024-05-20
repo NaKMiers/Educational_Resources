@@ -60,12 +60,6 @@ export async function GET(req: NextRequest) {
           continue
         }
 
-        if (key === 'course') {
-          filter.type = params[key].length === 1 ? params[key][0] : { $in: params[key] }
-
-          continue
-        }
-
         if (key === 'active') {
           if (params[key][0] === 'all') delete filter[key]
           else if (params[key][0] === 'true') filter[key] = true

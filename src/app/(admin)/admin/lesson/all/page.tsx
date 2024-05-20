@@ -195,7 +195,7 @@ function AllLessonsPage({ searchParams }: { searchParams?: { [key: string]: stri
       return {
         ...searchParams,
         ...data,
-        course: selectedCourses.length === courses.length ? [] : selectedCourses,
+        courseId: selectedCourses.length === courses.length ? [] : selectedCourses,
       }
     },
     [selectedCourses, courses, searchParams, defaultValues]

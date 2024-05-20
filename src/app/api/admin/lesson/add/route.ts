@@ -1,11 +1,13 @@
 import { connectDatabase } from '@/config/database'
+import ChapterModel from '@/models/ChapterModel'
 import LessonModel from '@/models/LessonModel'
+import { uploadFile } from '@/utils/uploadFile'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Lesson, Course
+// Models: Lesson, Course, Chapter
+import '@/models/ChapterModel'
 import '@/models/CourseModel'
 import '@/models/LessonModel'
-import { uploadFile } from '@/utils/uploadFile'
 
 // [POST]: /admin/lesson/add
 export async function POST(req: NextRequest) {
@@ -47,6 +49,9 @@ export async function POST(req: NextRequest) {
 
     // save new lesson to database
     await newLesson.save()
+
+    // increase lesson quantity in chapter
+    await ChapterModel.findByIdAndUpdate(chapterId, { $inc: { lessonQuantity: 1 } })
 
     // return response
     return NextResponse.json({ message: 'Add lesson successfully' }, { status: 200 })

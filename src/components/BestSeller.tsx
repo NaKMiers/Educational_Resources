@@ -11,7 +11,7 @@ interface BestSellerProps {
 
 function BestSeller({ courses, className = '' }: BestSellerProps) {
   return (
-    <div className='max-w-1200 mx-auto px-21'>
+    <div className={`max-w-1200 mx-auto px-21 ${className}`}>
       <div className='flex items-center justify-center'>
         <Image
           className='object-cover'
@@ -37,14 +37,16 @@ function BestSeller({ courses, className = '' }: BestSellerProps) {
               <span className='font-semibold text-lg'>Sold</span>
               <span className='font-semibold text-lg'>{course.joined}</span>
 
-              <span className='absolute w-[80px] h-[80px] right-8 -top-5'>
-                <Image
-                  className='w-full h-full object-cover'
-                  src='/images/top-1-badge.png'
-                  fill
-                  alt='badge'
-                />
-              </span>
+              {index <= 2 && (
+                <span className='absolute w-[80px] h-[80px] right-8 -top-5'>
+                  <Image
+                    className='w-full h-full object-cover'
+                    src={`/images/top-${index + 1}-badge.png`}
+                    fill
+                    alt='badge'
+                  />
+                </span>
+              )}
             </div>
           </div>
         ))}
