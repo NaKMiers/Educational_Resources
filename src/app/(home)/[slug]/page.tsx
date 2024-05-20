@@ -38,7 +38,7 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
   return (
     <div className='max-w-1200 mx-auto pt-21 px-21'>
       {/* Introduction */}
-      <div className='bg-slate-200 p-21 grid grid-cols-2 gap-21 items-start rounded-lg shadow-lg'>
+      <div className='relative bg-slate-200 p-21 grid grid-cols-2 gap-[42px] items-start rounded-lg shadow-lg'>
         <div className='col-span-2 lg:col-span-1'>
           {/* Thumbnails */}
           <div className='relative flex justify-center items-center rounded-lg shadow-md overflow-hidden'>
@@ -72,8 +72,10 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
           {course && <BuyNowButton course={course} className='w-full' />}
         </div>
 
+        <div className='hidden lg:block w-0.5 h-[calc(100%-2*21px)] rounded-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-dark-0' />
+
         {/* Infomation */}
-        <div className='col-span-2 lg:col-span-1 border-t-2 lg:border-t-0 lg:border-l-2 border-dark pt-21 lg:pt-0 px-21'>
+        <div className='col-span-2 lg:col-span-1 pt-21 lg:pt-0 border-t-2 border-dark lg:border-0'>
           <p className='font-body tracking-wide text-center lg:text-start'>{course?.description}</p>
 
           <Divider size={3} border />
@@ -114,7 +116,7 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
 
           {/* Detail */}
           <div className='col-span-12 lg:col-span-4 order-1 lg:order-2'>
-            <div className='h-full p-3 rounded-lg bg-slate-200 shadow-lg'>
+            <div className='h-full p-3 pb-5 rounded-lg bg-slate-200 shadow-lg'>
               <h1 className='font-semibold text-3xl'>Detail</h1>
 
               <Divider size={3} />

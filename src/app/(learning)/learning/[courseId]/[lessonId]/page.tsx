@@ -6,7 +6,7 @@ import { ILesson } from '@/models/LessonModel'
 import { getLessonApi } from '@/requests'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { FaChevronCircleLeft, FaChevronCircleRight, FaQuestion } from 'react-icons/fa'
+import { FaQuestion } from 'react-icons/fa'
 import { IoChevronBackCircleOutline } from 'react-icons/io5'
 
 function LessonPage({
@@ -38,7 +38,7 @@ function LessonPage({
       <Divider size={5} />
 
       <h2 className='flex items-center gap-2 font-semibold text-3xl px-21'>
-        <Link href='/'>
+        <Link href='/my-courses'>
           <IoChevronBackCircleOutline size={36} className='wiggle' />
         </Link>
         <span>{(lesson?.courseId as ICourse)?.title}</span>
@@ -60,6 +60,7 @@ function LessonPage({
           ) : null}
         </div>
       </div>
+
       <Divider size={4} />
 
       {/* Title */}
@@ -67,8 +68,12 @@ function LessonPage({
         {lesson?.title}
       </h1>
 
+      <Divider size={4} />
+
       {/* Description */}
-      <div className='px-21'>{lesson?.description}</div>
+      <div className='px-4'>{lesson?.description}</div>
+
+      <Divider size={20} />
 
       {/* Question */}
       <Link
@@ -77,24 +82,6 @@ function LessonPage({
         <span className='font-semibold text-lg'>Ask Question </span>
         <FaQuestion size={18} />
       </Link>
-
-      {/* Navigator */}
-      <div className='flex flex-1 items-end pt-9'>
-        <div className='py-2 w-full bg-slate-800 flex items-center justify-between px-3 gap-21'>
-          <Link
-            href='/'
-            className='group flex items-center gap-2 rounded-lg px-2 py-1 bg-slate-200 border-2 border-dark hover:bg-white trans-200'>
-            <FaChevronCircleLeft size={20} className='wiggle' />
-            <span className='text-xl'>Previous</span>
-          </Link>
-          <Link
-            href='/'
-            className='group flex items-center gap-2 rounded-lg px-2 py-1 bg-slate-200 border-2 border-dark hover:bg-white trans-200'>
-            <span className='text-xl'>Next</span>
-            <FaChevronCircleRight size={20} className='wiggle' />
-          </Link>
-        </div>
-      </div>
     </div>
   )
 }

@@ -6,12 +6,14 @@ import LessonModel from '@/models/LessonModel'
 import TagModel from '@/models/TagModel'
 import { deleteFile } from '@/utils/uploadFile'
 import { NextRequest, NextResponse } from 'next/server'
+import UserModel from '@/models/UserModel'
 
-// Models: Course, Category, Tag, Flashsale, Account
+// Models: Course, Category, Tag, FlashSale, User
 import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/FlashSaleModel'
 import '@/models/TagModel'
+import '@/models/UserModel'
 
 // [DELETE]: /admin/course/delete
 export async function DELETE(req: NextRequest) {
@@ -73,6 +75,14 @@ export async function DELETE(req: NextRequest) {
             }
           )
         }
+
+        // remove all courses from the user's joining this course
+        await UserModel.updateMany(
+          { 'courses.course': course._id },
+          {
+            $pull: { courses: course._id },
+          }
+        )
 
         // delete the images associated with each course
         await Promise.all(course.images.map(image => deleteFile(image)))

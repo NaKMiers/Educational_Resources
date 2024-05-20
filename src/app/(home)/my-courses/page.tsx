@@ -7,6 +7,7 @@ import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
 import { getMyCoursesApi } from '@/requests'
+import { Link } from '@react-email/components'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -30,7 +31,6 @@ function MyCoursesPage({ searchParams }: { searchParams?: { [key: string]: strin
         // send request to get my courses
         const { courses } = await getMyCoursesApi()
         setCourses(courses)
-
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
@@ -55,11 +55,24 @@ function MyCoursesPage({ searchParams }: { searchParams?: { [key: string]: strin
       <Divider size={8} border />
 
       {/* MAIN List */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-21'>
-        {courses.map(course => (
-          <CourseCard course={course} key={course._id} hideBadge />
-        ))}
-      </div>
+      {!!courses.length ? (
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-21'>
+          {courses.map(course => (
+            <CourseCard course={course} key={course._id} hideBadge />
+          ))}
+        </div>
+      ) : (
+        <div className='font-body tracking-wider text-center'>
+          <p className='italic'>
+            You haven&apos;t enrolled in any courses yet. <br />
+          </p>
+          <Link
+            href='/courses'
+            className='text-sky-500 underline underline-offset-2 hover:text-sky-700 hover:tracking trans-200'>
+            Explore our courses and start learning today!
+          </Link>
+        </div>
+      )}
 
       <Divider size={28} />
     </div>

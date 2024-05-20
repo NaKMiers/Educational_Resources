@@ -41,6 +41,8 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
         ))
     )
 
+    console.log('user:', user)
+
     // return user
     return NextResponse.json({ user, message: 'Get user successfully' }, { status: 200 })
   } catch (err: any) {

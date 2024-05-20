@@ -1,6 +1,5 @@
 'use client'
 
-import { useAppDispatch } from '@/libs/hooks'
 import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
 import { IFlashSale } from '@/models/FlashSaleModel'
@@ -8,8 +7,6 @@ import { applyFlashSalePrice, countPercent } from '@/utils/number'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import Divider from './Divider'
 import Price from './Price'
 
@@ -21,15 +18,8 @@ interface CourseCardProps {
 
 function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
   // hooks
-  const dispatch = useAppDispatch()
-  const router = useRouter()
   const { data: session } = useSession()
   const curUser: any = session?.user
-
-  console.log('course: ', course)
-
-  // states
-  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return (
     <div

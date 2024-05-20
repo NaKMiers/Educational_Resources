@@ -37,8 +37,8 @@ function Chapter({ chapter, courseId, lessonId = '', className = '' }: ChapterPr
           {chapter.lessons?.map(lesson => (
             <Link
               href={`/learning/${courseId}/${lesson._id}`}
-              className={`bg-white rounded-md py-2 px-3 hover:bg-sky-100 trans-200 ${
-                lesson._id === lessonId ? 'bg-sky-100 font-semibold' : ''
+              className={`bg-white rounded-md py-2 px-3 hover:bg-sky-200 trans-200 ${
+                lesson._id === lessonId ? 'font-semibold text-orange-500' : ''
               }`}
               key={lesson._id}>
               {lesson.title}

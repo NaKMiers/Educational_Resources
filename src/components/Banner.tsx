@@ -61,13 +61,13 @@ function Banner({ courses, className = '' }: BannerProps) {
   }, [handleSlide])
 
   // auto slide
-  useEffect(() => {
-    setTimeout(() => {
-      setInterval(() => {
-        nextSlide()
-      }, time * 5)
-    }, time * 5)
-  }, [nextSlide])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setInterval(() => {
+  //       nextSlide()
+  //     }, time * 5)
+  //   }, time * 5)
+  // }, [nextSlide])
 
   return (
     <div
@@ -88,7 +88,9 @@ function Banner({ courses, className = '' }: BannerProps) {
               <div className='author font-bold tracking-[10px] drop-shadow-lg uppercase'>
                 {course.author}
               </div>
-              <div className='title font-bold text-[30px] md:text-[5em] leading-[1.3em] drop-shadow-xl'>
+              <div
+                className='title font-bold text-[30px] md:text-[5em] leading-[1.3em] drop-shadow-xl text-ellipsis line-clamp-1'
+                title={course.title}>
                 {course.title}
               </div>
               <div className='topic flex flex-wrap gap-x-2 gap-y-1 font-bold my-3'>

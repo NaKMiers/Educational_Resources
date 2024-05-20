@@ -101,7 +101,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
                 <Link
                   href={`/my-courses`}
                   className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
-                  <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                  <Image src='/images/my-courses-icon.png' width={32} height={32} alt='icon' />
                   <span className='font-body text-xl font-semibold tracking-wide'>My Courses</span>
                 </Link>
               </li>
@@ -146,7 +146,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
               <Link
                 href='/auth/login'
                 className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
-                <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                <Image src='/images/sign-in-icon.png' width={32} height={32} alt='icon' />
                 <span className='font-body text-xl font-semibold tracking-wide'>Sign In</span>
               </Link>
             </li>
@@ -154,7 +154,7 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
               <Link
                 href='/auth/register'
                 className='flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-white trans-200'>
-                <Image src='/images/info-icon.png' width={32} height={32} alt='icon' />
+                <Image src='/images/sign-up-icon.png' width={32} height={32} alt='icon' />
                 <span className='font-body text-xl font-semibold tracking-wide'>Sign Up</span>
               </Link>
             </li>

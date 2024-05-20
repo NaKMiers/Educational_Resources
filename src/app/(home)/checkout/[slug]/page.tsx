@@ -10,6 +10,7 @@ import { IFlashSale } from '@/models/FlashSaleModel'
 import { IVoucher } from '@/models/VoucherModel'
 import { applyVoucherApi, createOrderApi, generateOrderCodeApi, getCoursePageApi } from '@/requests'
 import { applyFlashSalePrice, calcPercentage, formatPrice } from '@/utils/number'
+import { Link } from '@react-email/components'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { notFound, useRouter } from 'next/navigation'
@@ -121,10 +122,10 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
     if (voucher) {
       if (voucher.type === 'fixed-reduce') {
         discount = +voucher.value
-        finalTotal = subTotal + discount
+        finalTotal = subTotal + discount < 0 ? 0 : subTotal + discount
       } else if (voucher.type === 'fixed') {
         discount = +voucher.value
-        finalTotal = discount
+        finalTotal = discount < 0 ? 0 : discount
       } else if (voucher.type === 'percentage') {
         discount = +calcPercentage(voucher.value, subTotal)
         finalTotal = subTotal + discount
@@ -400,7 +401,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             </div>
 
             {/* Buy Now */}
-            <div className='flex lg:hidden items-center justify-center gap-3 mb-10'>
+            <div className='flex lg:hidden items-center justify-center gap-3'>
               <button
                 onClick={handleCheckout}
                 disabled={loading}
@@ -417,6 +418,17 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 )}
               </button>
             </div>
+
+            <Divider size={6} />
+
+            {/* Note */}
+            <p className='font-body italic text-sm text-center mb-10'>
+              *If you are not received any email in 5 minutes, please contact admin to be supported.{' '}
+              <Link href='https://facebook.com' className='text-sky-500 underline underline-offset-2'>
+                Contact now
+              </Link>
+              .
+            </p>
           </div>
         </div>
 
@@ -536,6 +548,15 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 )}
               </button>
             </div>
+
+            {/* Note */}
+            <p className='font-body italic text-sm text-center'>
+              *If you are not received any email in 5 minutes, please contact admin to be supported.{' '}
+              <Link href='https://facebook.com' className='text-sky-500 underline underline-offset-2'>
+                Contact now
+              </Link>
+              .
+            </p>
           </div>
         </div>
       </div>

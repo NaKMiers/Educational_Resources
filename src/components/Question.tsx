@@ -21,6 +21,8 @@ function Question({ question, className = '' }: QuestionProps) {
   const { data: session } = useSession()
   const curUser: any = session?.user
 
+  console.log('curUser:', curUser)
+
   const [data, setData] = useState<IQuestion>(question)
   const { userId, content, likes, commentAmount, status } = data
   const user: IUser = userId as IUser
@@ -66,25 +68,24 @@ function Question({ question, className = '' }: QuestionProps) {
             alt='avatar'
           />
         </Link>
-        <div className=''>
+        <Link href={`/user/${user._id}`}>
           <p className='text-lg font-bold -mt-1.5'>
             {user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username}
           </p>
           <p className='text-slate-500 text-sm font-semibold'>{format(question.createdAt)}</p>
-        </div>
-        {user._id === curUser?._id ||
-          (user.role === 'admin' && (
-            <button
-              className={`absolute top-2 right-2 font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg trans-200 ${
-                status === 'open'
-                  ? 'border-dark hover:bg-black'
-                  : 'border-green-500 text-green-500 hover:bg-green-500'
-              }`}
-              title={status === 'open' ? 'opening' : 'closing'}
-              onClick={handleClose}>
-              {status === 'open' ? 'close' : 'open'}
-            </button>
-          ))}
+        </Link>
+        {(user._id === curUser?._id || user.role === 'admin') && (
+          <button
+            className={`absolute top-2 right-2 font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg trans-200 ${
+              status === 'open'
+                ? 'border-dark hover:bg-black'
+                : 'border-green-500 text-green-500 hover:bg-green-500'
+            }`}
+            title={status === 'open' ? 'opening' : 'closing'}
+            onClick={handleClose}>
+            {status === 'open' ? 'close' : 'open'}
+          </button>
+        )}
       </div>
 
       {/* Center */}
@@ -108,9 +109,9 @@ function Question({ question, className = '' }: QuestionProps) {
         </div>
 
         <div className='flex justify-center items-center w-full'>
-          <button className='flex items-center justify-center'>
+          <Link href={`/question/${question.slug}`} className='flex items-center justify-center'>
             <span className='mr-1.5 font-semibold'>{commentAmount}</span> <FaRegCommentDots size={18} />
-          </button>
+          </Link>
         </div>
       </div>
     </div>

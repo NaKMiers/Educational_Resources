@@ -1,10 +1,10 @@
 import CourseCard from '@/components/CourseCard'
 import Divider from '@/components/Divider'
-import Meta from '@/components/Meta'
 import Pagination from '@/components/Pagination'
 import { ICourse } from '@/models/CourseModel'
-import { getFlashSaleApi } from '@/requests'
+import { getFlashSalePageApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
+import Link from 'next/link'
 
 async function FlashSalePage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
   let courses: ICourse[] = []
@@ -17,9 +17,7 @@ async function FlashSalePage({ searchParams }: { searchParams?: { [key: string]:
     query = handleQuery(searchParams)
 
     // cache: no-store for filter
-    const data = await getFlashSaleApi(query)
-
-    console.log('data: ', data)
+    const data = await getFlashSalePageApi(query)
 
     // destructure
     courses = data.courses
@@ -30,25 +28,32 @@ async function FlashSalePage({ searchParams }: { searchParams?: { [key: string]:
 
   return (
     <div className='px-21'>
-      <Divider size={6} />
+      <Divider size={12} />
 
       {/* Heading */}
-      <h1 className='text-4xl font-semibold px-21'>Flash Sales</h1>
+      <h1 className='text-4xl font-semibold px-21 text-center'>Flash Sale Now</h1>
 
-      {/* Filter & Search Bar */}
-      <div className='flex justify-between'>
-        {/* Filter */}
-        {/* <Meta searchParams={searchParams} tags={tags} categories={categories} chops={chops} /> */}
-      </div>
-
-      <Divider size={5} />
+      <Divider size={8} />
 
       {/* MAIN List */}
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-21'>
-        {courses.map(course => (
-          <CourseCard course={course} key={course._id} />
-        ))}
-      </div>
+      {!!courses.length ? (
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-21'>
+          {courses.map(course => (
+            <CourseCard course={course} key={course._id} />
+          ))}
+        </div>
+      ) : (
+        <div className='font-body tracking-wider text-center'>
+          <p className='italic'>
+            There are not any courses on flash sale at the moment. Please come back later.
+          </p>
+          <Link
+            href='/'
+            className='text-sky-500 underline underline-offset-2 hover:text-sky-700 trans-200'>
+            Return Home
+          </Link>
+        </div>
+      )}
 
       <Divider size={8} />
 

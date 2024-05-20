@@ -3,6 +3,7 @@ import GroupCourses from '@/components/GroupCourses'
 import { IUser } from '@/models/UserModel'
 import { getUsersApi } from '@/requests'
 import Image from 'next/image'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FaDiscourse } from 'react-icons/fa'
 
@@ -12,6 +13,8 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
   try {
     // get user profile
     const res = await getUsersApi(id)
+    console.log('res:', res)
+
     user = res.user
   } catch (err: any) {
     console.error(err)
@@ -66,7 +69,16 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
         <div className='col-span-12 lg:col-span-8 px-8 py-21 order-2 lg:order-1'>
           <h2 className='font-bold text-2xl text-center text-slate-600'>Joined Courses</h2>
 
-          <GroupCourses child='course-card' courses={user.courses} />
+          {!!user.courses.length ? (
+            <GroupCourses child='course-card' courses={user.courses} />
+          ) : (
+            <p className='text-center font-body tracking-wider italic mt-4'>
+              You haven&apos;t joined any courses yet.{' '}
+              <Link href='/courses' className='text-sky-500 underline underline-offset-2'>
+                Explore new courses now.
+              </Link>
+            </p>
+          )}
 
           <Divider size={16} />
         </div>
@@ -84,12 +96,21 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
 
         <Divider size={4} />
 
-        <GroupCourses
-          className='md:px-20'
-          child='question'
-          childClassName='w-full sm:w-1/2 md:w-1/3 px-21/2'
-          questions={user.questions}
-        />
+        {!!user?.questions?.length ? (
+          <GroupCourses
+            className='md:px-20'
+            child='question'
+            childClassName='w-full sm:w-1/2 md:w-1/3 px-21/2'
+            questions={user.questions}
+          />
+        ) : (
+          <p className='text-center font-body tracking-wider italic'>
+            You haven&apos;t asked any questions yet.{' '}
+            <Link href='/question' className='text-sky-500 underline underline-offset-2'>
+              Write down your mind now.
+            </Link>
+          </p>
+        )}
 
         <Divider size={20} />
       </div>

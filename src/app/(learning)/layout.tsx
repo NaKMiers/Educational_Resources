@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { getServerSession } from 'next-auth'
 import { Toaster } from 'react-hot-toast'
 import '../globals.scss'
+import PageLoading from '@/components/PageLoading'
 
 export const metadata: Metadata = {
   title: 'Educational Resources',
@@ -37,7 +38,11 @@ export default async function RootLayout({
             }}
           />
 
+          {/* Heading */}
           <Header />
+
+          {/* Page Loading */}
+          <PageLoading />
 
           {/* Main */}
           <main className='grid grid-cols-12 mb-[72px] md:mb-auto md:mt-[72px] gap-y-4'>
