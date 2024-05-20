@@ -26,7 +26,7 @@ function Banner({ courses, className = '' }: BannerProps) {
   const timeout = useRef<any>(null)
 
   // values
-  const time = 2000
+  const time = 2001
 
   // methods
   const handleSlide = useCallback((type: 'prev' | 'next') => {
