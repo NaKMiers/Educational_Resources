@@ -22,10 +22,12 @@ export async function POST(req: NextRequest) {
     // get data to create course
     const formData = await req.formData()
     const data = Object.fromEntries(formData)
-    const { title, price, oldPrice, description, active } = data
+    const { title, price, oldPrice, author, description, active } = data
     const tags = JSON.parse(data.tags as string)
     const categories = JSON.parse(data.categories as string)
     let images = formData.getAll('images')
+
+    console.log('author', author)
 
     // check images
     if (!images.length) {
@@ -43,6 +45,7 @@ export async function POST(req: NextRequest) {
     const newCourse = new CourseModel({
       title,
       price,
+      author,
       description,
       active,
       tags,
@@ -50,6 +53,8 @@ export async function POST(req: NextRequest) {
       oldPrice,
       images: imageUrls,
     })
+
+    console.log('newCourse:', newCourse)
 
     // save new course to database
     await newCourse.save()

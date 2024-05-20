@@ -141,22 +141,59 @@
 }
 
 /* Carousel */
+.carousel {
+  & .list {
+    & .item {
+      &:nth-child(1) {
+        z-index: 1;
 
-/* Thumbnails */
+        & .author,
+        & .title,
+        & .topic,
+        & .desc,
+        & .buttons {
+          @apply translate-y-[50px] blur-xl opacity-0;
+          animation: showContent 0.5s 1s linear 1 forwards;
+        }
 
-.carousel .list .item:nth-child(1) {
-  z-index: 1;
-}
+        & .title {
+          animation-delay: 1.2s;
+        }
+        & .topic {
+          animation-delay: 1.4s;
+        }
+        & .desc {
+          animation-delay: 1.6s;
+        }
+        & .buttons {
+          animation-delay: 1.8s;
+        }
+      }
 
-.carousel .list .item:nth-child(1) .author,
-.carousel .list .item:nth-child(1) .title,
-.carousel .list .item:nth-child(1) .topic,
-.carousel .list .item:nth-child(1) .desc,
-.carousel .list .item:nth-child(1) .buttons {
-  transform: translateY(50px);
-  filter: blur(20px);
-  opacity: 0;
-  animation: showContent 0.5s 1s linear 1 forwards;
+      &:nth-child(2) {
+        & .author,
+        & .title,
+        & .topic,
+        & .desc,
+        & .buttons {
+          animation: hideContent 1.5s linear 1 forwards;
+        }
+
+        & .title {
+          animation-delay: 0.4s;
+        }
+        & .topic {
+          animation-delay: 0.6s;
+        }
+        & .desc {
+          animation-delay: 0.8s;
+        }
+        & .buttons {
+          animation-delay: 1s;
+        }
+      }
+    }
+  }
 }
 
 @keyframes showContent {
@@ -168,10 +205,23 @@
 }
 
 /* Effect Next */
-.carousel.next .list .item:nth-child(1) .img {
-  @apply w-[150px] h-[220px] absolute left-1/2 bottom-[50px] rounded-medium;
-  animation: showImage 0.5s linear 1 forwards;
+.carousel.next {
+  & .list .item:nth-child(1) .img {
+    @apply w-[150px] h-[220px] absolute left-1/2 bottom-[50px] rounded-medium;
+    animation: showImage 0.5s linear 1 forwards;
+  }
+
+  & .thumbnails {
+    @apply translate-x-[150px];
+    animation: transformThumbnail 0.5s linear 1 forwards;
+
+    & .item:nth-last-child(1) {
+      @apply w-0 overflow-hidden;
+      animation: showThumbnail 0.5s linear 1 forwards;
+    }
+  }
 }
+
 @keyframes showImage {
   to {
     width: 100%;
@@ -182,20 +232,12 @@
   }
 }
 
-.carousel.next .thumbnails .item:nth-last-child(1) {
-  @apply w-0 overflow-hidden;
-  animation: showThumbnail 0.5s linear 1 forwards;
-}
 @keyframes showThumbnail {
   to {
     width: 150px;
   }
 }
 
-.carousel.next .thumbnails {
-  @apply translate-x-[150px];
-  animation: transformThumbnail 0.5s linear 1 forwards;
-}
 @keyframes transformThumbnail {
   to {
     transform: translateX(0);
@@ -203,13 +245,22 @@
 }
 
 /* Effect Prev */
-.carousel.prev .list .item:nth-child(2) {
-  z-index: 1;
-}
+.carousel.prev {
+  & .list .item:nth-child(2) {
+    z-index: 1;
 
-.carousel.prev .list .item:nth-child(2) .img {
-  @apply absolute bottom-0 left-0;
-  animation: hideImage 0.5s linear 1 forwards;
+    & .img {
+      @apply absolute bottom-0 left-0;
+      animation: hideImage 0.5s linear 1 forwards;
+    }
+  }
+
+  & .thumbnails .item {
+    &:nth-child(1) {
+      @apply w-0 overflow-hidden opacity-0;
+      animation: showThumbnail 0.5s linear 1 forwards;
+    }
+  }
 }
 @keyframes hideImage {
   to {
@@ -221,18 +272,6 @@
   }
 }
 
-.carousel.prev .thumbnails .item:nth-child(1) {
-  @apply w-0 overflow-hidden opacity-0;
-  animation: showThumbnail 0.5s linear 1 forwards;
-}
-
-.carousel .list .item:nth-child(2) .author,
-.carousel .list .item:nth-child(2) .title,
-.carousel .list .item:nth-child(2) .topic,
-.carousel .list .item:nth-child(2) .desc,
-.carousel .list .item:nth-child(2) .buttons {
-  animation: hideContent 1.5s linear 1 forwards;
-}
 @keyframes hideContent {
   to {
     transform: translateY(-150px);
@@ -241,17 +280,18 @@
   }
 }
 
-.carousel.next .arrows button,
-.carousel.prev .arrows button {
-  pointer-events: none;
+.carousel.next,
+.carousel.prev {
+  & .arrows button {
+    pointer-events: none;
+  }
+
+  & .time {
+    @apply w-full;
+    animation: timeRunning 2s linear 1 forwards;
+  }
 }
 
-/* Time */
-.carousel.next .time,
-.carousel.prev .time {
-  @apply w-full;
-  animation: timeRunning 2s linear 1 forwards;
-}
 @keyframes timeRunning {
   to {
     width: 0;

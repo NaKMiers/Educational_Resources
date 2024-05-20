@@ -13,13 +13,13 @@ async function uploadFile(
   ratio: string = '16:9',
   type: 'image' | 'video' | 'raw' | 'auto' | undefined = 'image'
 ) {
-  let size: any = { width: 854, height: 480, fit: 'cover' }
+  let size: any = { width: 1920, height: 1080, fit: 'cover' }
   if (ratio === '1:1') {
     size.width = 480
     size.height = 480
   } else if (ratio === '9:16') {
-    size.width = 480
-    size.height = 854
+    size.width = 1920
+    size.height = 1080
   } else if (ratio === '4:3') {
     size.width = 480
     size.height = 640

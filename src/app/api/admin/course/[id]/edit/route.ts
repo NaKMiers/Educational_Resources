@@ -22,11 +22,13 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     // get data to create course
     const formData = await req.formData()
     const data = Object.fromEntries(formData)
-    const { title, price, oldPrice, description, isActive } = data
+    const { title, price, oldPrice, author, description, isActive } = data
     const tags = JSON.parse(data.tags as string)
     const categories = JSON.parse(data.categories as string)
     const originalImages = JSON.parse(data.originalImages as string)
     let images = formData.getAll('images')
+
+    console.log('data:', data)
 
     // get course from database to edit
     const course: ICourse | null = await CourseModel.findById(id).lean()
@@ -56,6 +58,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
         title: title,
         price,
         oldPrice: oldPrice === 'null' ? null : oldPrice,
+        author,
         description,
         active: isActive,
         tags,

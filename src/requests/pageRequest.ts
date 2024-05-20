@@ -3,7 +3,7 @@
 // [GET]
 export const getHomeApi = async () => {
   // revalidate every 0.5 minute
-  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api`, { next: { revalidate: 30 } })
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api`, { next: { revalidate: 0 } })
 
   // check status
   if (!res.ok) {

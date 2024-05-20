@@ -29,6 +29,9 @@ const CourseSchema = new Schema(
       },
       min: 0,
     },
+    author: {
+      type: String,
+    },
     description: {
       type: String,
     },
@@ -103,6 +106,7 @@ export interface ICourse {
   title: string
   oldPrice: number
   price: number
+  author: string
   description: string
   flashSale: string | undefined | IFlashSale
   tags: string[] | ITag[]

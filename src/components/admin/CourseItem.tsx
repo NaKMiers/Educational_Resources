@@ -1,15 +1,15 @@
+import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
 import { formatPrice } from '@/utils/number'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa'
+import { IoBalloonSharp } from 'react-icons/io5'
 import { MdEdit } from 'react-icons/md'
 import { PiLightningFill, PiLightningSlashFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
 import ConfirmDialog from '../ConfirmDialog'
-import { ICategory } from '@/models/CategoryModel'
-import { IoBalloonSharp } from 'react-icons/io5'
 
 interface CourseItemProps {
   data: ICourse
@@ -84,21 +84,27 @@ function CourseItem({
 
           {/* Categories */}
           <p
-            className='inline font-semibold text-dark text-[18px] mr-2 leading-4 font-body tracking-wide'
+            className='flex flex-wrap gap-1 font-semibold text-dark text-[18px] leading-4 font-body tracking-wide'
             title={data.title}>
             {(data.categories as ICategory[]).map(category => (
-              <span
+              <Link
+                href={`/courses?ctg=${category.slug}`}
                 className={`shadow-md text-xs ${
                   category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
-                } px-2 py-px select-none rounded-md font-body mr-2`}
+                } px-2 py-px select-none rounded-md font-body`}
                 key={category._id}>
                 {category.title || 'empty'}
-              </span>
+              </Link>
             ))}
           </p>
 
           {/* Title */}
           <p className='text-dark font-semibold tracking-wider mt-1'>{data.title}</p>
+
+          {/* Author */}
+          <p className='text-slate-500 font-semibold tracking-wider mb-1'>
+            Author: <span className='font-normal'>{data.author}</span>
+          </p>
 
           {/* Price - Old Price */}
           <div className='flex items-center flex-wrap gap-2'>

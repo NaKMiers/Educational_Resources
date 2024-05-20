@@ -13,7 +13,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { FaFile, FaMoneyBillAlt } from 'react-icons/fa'
+import { FaFile, FaMoneyBillAlt, FaUser } from 'react-icons/fa'
 import { FaPlay, FaX } from 'react-icons/fa6'
 
 import { MdNumbers } from 'react-icons/md'
@@ -50,6 +50,7 @@ function AddCoursePage() {
       title: '',
       price: '',
       oldPrice: '',
+      author: '',
       description: '',
       active: true,
     },
@@ -67,6 +68,7 @@ function AddCoursePage() {
         setValue('title', course.title)
         setValue('price', course.price)
         setValue('oldPrice', course.oldPrice)
+        setValue('author', course.author)
         setValue('description', course.description)
         setValue('active', course.active)
 
@@ -209,6 +211,7 @@ function AddCoursePage() {
       formData.append('title', data.title)
       formData.append('price', data.price)
       formData.append('oldPrice', data.oldPrice)
+      formData.append('author', data.author)
       formData.append('description', data.description)
       formData.append('active', data.active)
       formData.append('tags', JSON.stringify(selectedTags))
@@ -237,19 +240,34 @@ function AddCoursePage() {
       <AdminHeader title='Edit Course' backLink='/admin/course/all' />
 
       <div className='mt-5 bg-slate-200 rounded-lg p-21 shadow-lg'>
-        {/* Title */}
-        <Input
-          id='title'
-          label='Title'
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-          type='text'
-          icon={RiCharacterRecognitionLine}
-          className='mb-5'
-          onFocus={() => clearErrors('title')}
-        />
+        <div className='mb-5 grid grid-cols-1 lg:grid-cols-2 gap-5'>
+          {/* Title */}
+          <Input
+            id='title'
+            label='Title'
+            disabled={isLoading}
+            register={register}
+            errors={errors}
+            required
+            type='text'
+            icon={RiCharacterRecognitionLine}
+            onFocus={() => clearErrors('title')}
+          />
+
+          {/* Author */}
+          <Input
+            id='author'
+            label='Author'
+            disabled={isLoading}
+            register={register}
+            required
+            errors={errors}
+            type='text'
+            rows={10}
+            icon={FaUser}
+            onFocus={() => clearErrors('author')}
+          />
+        </div>
 
         {/* Prices */}
         <div className='mb-5 grid grid-cols-1 lg:grid-cols-2 gap-5'>

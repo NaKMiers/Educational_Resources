@@ -55,25 +55,8 @@ function AddFlashSalePage() {
         // send request to server
         const { courses } = await getForceAllCoursesApi()
 
-        // categorize courses
-        const categorizedCoursesObj: { [key: string]: ICourse[] } = {}
-
-        courses.forEach((course: ICourse) => {
-          course.categories.forEach((category: any) => {
-            // assuming category has a title property
-            const categoryTitle = category.title
-            if (!categorizedCoursesObj[categoryTitle]) {
-              categorizedCoursesObj[categoryTitle] = []
-            }
-            categorizedCoursesObj[categoryTitle].push(course)
-          })
-        })
-
-        // Combine all courses from different categories into a single array
-        const categorizedCourses: ICourse[] = Object.values(categorizedCoursesObj).flat()
-
         // set courses to state
-        setCourses(categorizedCourses)
+        setCourses(courses)
       } catch (err: any) {
         console.log(err)
         toast.error(err.message)
@@ -285,6 +268,21 @@ function AddFlashSalePage() {
         {/* Ready to apply courses */}
         <p className='text-dark font-semibold text-xl mb-1'>Select Courses</p>
         <div className='max-h-[300px] overflow-y-auto flex flex-wrap rounded-lg bg-white p-3 gap-2 mb-5'>
+          <div
+            className={`border-2 rounded-lg flex items-center px-3 gap-2 cursor-pointer trans-200 ${
+              courses.length === selectedCourses.length
+                ? 'bg-dark-100 text-white border-dark'
+                : 'text-dark border-slate-300'
+            }
+            }`}
+            title='All'
+            onClick={() =>
+              courses.length === selectedCourses.length
+                ? setSelectedCourses([])
+                : setSelectedCourses(courses.map(course => course._id))
+            }>
+            <span className='block text-ellipsis line-clamp-1 text-nowrap'>All</span>
+          </div>
           {courses.map(course => (
             <div
               className={`max-w-[250px] border-2 border-slate-300 rounded-lg flex items-center py-1 px-2 gap-2 cursor-pointer trans-200 ${
