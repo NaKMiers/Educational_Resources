@@ -14,7 +14,7 @@ function Features({ className = '' }: FeaturesProps) {
           <div
             className='px-21 h-full transition-all duration-300 hover:-translate-y-2'
             key={item.image}>
-            <div className='p-21 h-full rounded-small shadow-medium overflow-hidden bg-white'>
+            <div className='p-21 h-full rounded-small shadow-lg overflow-hidden bg-white'>
               <div className='max-w-[75px] max-h-[75px] w-full h-full aspect-square'>
                 <Image
                   className='w-full h-full object-cover'

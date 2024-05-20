@@ -1,13 +1,13 @@
 import { connectDatabase } from '@/config/database'
 import CourseModel from '@/models/CourseModel'
+import QuestionModel from '@/models/QuestionModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Course, Category, Question
-import '@/models/CourseModel'
+// Models: Course, Category, Question, User
 import '@/models/CategoryModel'
+import '@/models/CourseModel'
 import '@/models/QuestionModel'
-import Question from '@/components/Question'
-import QuestionModel from '@/models/QuestionModel'
+import '@/models/UserModel'
 
 export const dynamic = 'force-dynamic'
 

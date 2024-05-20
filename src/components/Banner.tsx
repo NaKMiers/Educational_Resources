@@ -15,6 +15,8 @@ interface BannerProps {
 function Banner({ courses, className = '' }: BannerProps) {
   // hooks
 
+  console.log('courses', courses)
+
   // states
 
   // ref
@@ -122,28 +124,29 @@ function Banner({ courses, className = '' }: BannerProps) {
       </div>
 
       {/* Thumbnails */}
-      <div
-        className='thumbnails absolute bottom-[50px] left-1/2 z-10 flex gap-21 text-white'
-        ref={thumbnailsRef}>
-        {[...courses.slice(1), courses[0]].map(course => (
-          <div
-            className='item relative w-[150px] h-[220px] flex-shrink-0 overflow-hidden rounded-medium'
-            key={course._id}>
-            <Image
-              className='img w-full h-full object-cover'
-              src={course.images[0]}
-              width={300}
-              height={300}
-              alt='item'
-            />
-            <div className='content absolute bottom-0 left-0 right-0 bg-white bg-opacity-80 px-3 py-1 text-sm rounded-t-lg text-dark'>
-              <div className='title font-semibold'>{course.title}</div>
-              <div className='description drop-shadow-lg'>{course.joined} students</div>
+      {!!courses.length && (
+        <div
+          className='thumbnails absolute bottom-[50px] left-1/2 z-10 flex gap-21 text-white'
+          ref={thumbnailsRef}>
+          {[...courses.slice(1), courses[0]].map(course => (
+            <div
+              className='item relative w-[150px] h-[220px] flex-shrink-0 overflow-hidden rounded-medium'
+              key={course._id}>
+              <Image
+                className='img w-full h-full object-cover'
+                src={course.images[0]}
+                width={300}
+                height={300}
+                alt='item'
+              />
+              <div className='content absolute bottom-0 left-0 right-0 bg-white bg-opacity-80 px-3 py-1 text-sm rounded-t-lg text-dark'>
+                <div className='title font-semibold'>{course.title}</div>
+                <div className='description drop-shadow-lg'>{course.joined} students</div>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-
+          ))}
+        </div>
+      )}
       {/* Arrows */}
       <div className='arrows absolute bottom-[50px] left-[10%] md:left-1/3 flex gap-4'>
         <button

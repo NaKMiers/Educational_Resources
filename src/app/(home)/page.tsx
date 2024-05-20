@@ -37,14 +37,14 @@ async function Home() {
       <Divider size={28} />
 
       {/* Features */}
-      <Heading title='My Features' />
+      <Heading title='My Features' space />
       <Divider size={8} />
       <Features />
 
       <Divider size={28} />
 
       {/* Questions */}
-      <Heading title='Questions' />
+      <Heading title='Questions' space />
       <Divider size={8} />
       <div className='relative px-8 md:px-12 py-21'>
         <GroupCourses
