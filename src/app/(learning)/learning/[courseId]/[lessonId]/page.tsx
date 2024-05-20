@@ -73,7 +73,7 @@ function LessonPage({
       {/* Description */}
       <div className='px-4'>{lesson?.description}</div>
 
-      <Divider size={20} />
+      <Divider size={8} />
 
       {/* Question */}
       <Link

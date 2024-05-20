@@ -1,10 +1,10 @@
 'use client'
 
+import { IChapter } from '@/models/ChapterModel'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaAngleDown } from 'react-icons/fa'
 import Divider from './Divider'
-import { IChapter } from '@/models/ChapterModel'
 
 interface ChapterProps {
   chapter: IChapter
@@ -14,8 +14,6 @@ interface ChapterProps {
 }
 
 function Chapter({ chapter, courseId, lessonId = '', className = '' }: ChapterProps) {
-  // hooks
-
   // states
   const [open, setOpen] = useState<boolean>(
     chapter.lessons?.map(lesson => lesson._id).includes(lessonId) || false
@@ -25,7 +23,9 @@ function Chapter({ chapter, courseId, lessonId = '', className = '' }: ChapterPr
     <ul className={`flex flex-col gap-y-21 ${className}`}>
       <li className='bg-slate-800 rounded-lg shaodow-lg'>
         <p
-          className='font-semibold text-white flex justify-between items-center py-2 px-3 cursor-pointer'
+          className={`${
+            chapter.lessons?.some(lesson => lesson._id === lessonId) ? 'text-orange-500' : 'text-white'
+          } font-semibold flex justify-between items-center py-2 px-3 cursor-pointer`}
           onClick={() => setOpen(!open)}>
           {chapter.title} <FaAngleDown size={18} className='rotate-0' />
         </p>

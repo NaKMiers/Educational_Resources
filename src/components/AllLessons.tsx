@@ -5,13 +5,13 @@ import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { IChapter } from '@/models/ChapterModel'
 import { ILesson } from '@/models/LessonModel'
 import { getLearningChaptersApi } from '@/requests/chapterRequest'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa'
 import Chapter from './Chapter'
 import Divider from './Divider'
-import Link from 'next/link'
 
 function AllLessons() {
   // hooks
@@ -22,8 +22,8 @@ function AllLessons() {
 
   // states
   const [chapters, setChapters] = useState<IChapter[]>([])
-  const [nextLesson, setNextLesson] = useState<string>()
-  const [prevLesson, setPrevLesson] = useState<string>()
+  const [nextLesson, setNextLesson] = useState<string>('')
+  const [prevLesson, setPrevLesson] = useState<string>('')
 
   // get all chapters with lessons
   useEffect(() => {
@@ -55,16 +55,8 @@ function AllLessons() {
     const lessons: ILesson[] = chapters.map(chapter => chapter.lessons).flat() as ILesson[]
     const curLessonIndex = lessons.findIndex(lesson => lesson._id === lessonId)
 
-    console.log('lessons', lessons)
-    console.log('curLessonIndex', curLessonIndex)
-
-    if (curLessonIndex > 0) {
-      setPrevLesson(lessons[curLessonIndex - 1]._id)
-    }
-
-    if (curLessonIndex < lessons.length - 1) {
-      setNextLesson(lessons[curLessonIndex + 1]._id)
-    }
+    setPrevLesson(curLessonIndex > 0 ? lessons[curLessonIndex - 1]._id : '')
+    setNextLesson(curLessonIndex < lessons.length - 1 ? lessons[curLessonIndex + 1]._id : '')
   }, [chapters, lessonId])
 
   return (
