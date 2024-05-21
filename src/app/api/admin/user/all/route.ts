@@ -38,16 +38,16 @@ export async function GET(req: NextRequest) {
         if (key === 'search') {
           const searchFields = [
             'username',
+            'nickname',
+            'bio',
             'email',
             'role',
-            'String',
             'firstName',
             'lastName',
             'phone',
             'address',
             'job',
             'authType',
-            'commission',
           ]
 
           filter.$or = searchFields.map(field => ({
@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
           continue
         }
 
-        if (key === 'accumulated') {
+        if (key === 'expended') {
           filter[key] = { $lte: +params[key][0] }
           continue
         }
@@ -84,8 +84,8 @@ export async function GET(req: NextRequest) {
       {
         $group: {
           _id: null,
-          minAccumulated: { $min: '$accumulated' },
-          maxAccumulated: { $max: '$accumulated' },
+          minExpended: { $min: '$expended' },
+          maxExpended: { $max: '$expended' },
         },
       },
     ])

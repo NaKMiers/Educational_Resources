@@ -93,8 +93,8 @@ function NotificationMenu({
                   alt='avatar'
                 />
               </div>
-              <div className='font-body tracking-wider -mt-1'>
-                <p className='flex gap-2 font-semibold text-xs'>
+              <div className='font-body tracking-wider -mt-1 w-full'>
+                <p className='flex justify-between gap-2 font-semibold text-xs'>
                   {noti.title}
                   <IoCloseCircleOutline
                     size={20}

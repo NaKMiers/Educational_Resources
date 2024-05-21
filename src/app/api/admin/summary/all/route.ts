@@ -2,6 +2,7 @@ import { connectDatabase } from '@/config/database'
 import UserModel, { IUser } from '@/models/UserModel'
 import VoucherModel, { IVoucher } from '@/models/VoucherModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
+import momentTZ from 'moment-timezone'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: User, Voucher
@@ -53,18 +54,31 @@ export async function GET(req: NextRequest) {
     const amount = await UserModel.countDocuments(filter)
 
     // get all collaborators from database
-    const collaborators = await UserModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
+    let collaborators: IUser[] = await UserModel.find(filter)
+      .sort(sort)
+      .skip(skip)
+      .limit(itemPerPage)
+      .lean()
+
+    // get all vouchers from database
+    const vouchers: IVoucher[] = await VoucherModel.find({
+      active: true,
+    }).lean()
+
+    console.log('vouchers: ', vouchers)
 
     // get vouchers associated with each collaborator
-    const collaboratorsWithVouchers: UserWithVouchers[] = await Promise.all(
-      collaborators.map(async collaborator => {
-        const vouchers: IVoucher[] = await VoucherModel.find({ owner: collaborator._id }).lean()
-        return { ...collaborator, vouchers } as UserWithVouchers
+    collaborators = await Promise.all(
+      collaborators.map(async (collaborator: any) => {
+        const userVouchers: IVoucher[] = vouchers.filter(
+          voucher => voucher.owner.toString() === collaborator._id.toString()
+        )
+        return { ...collaborator, vouchers: userVouchers } as UserWithVouchers
       })
     )
 
     // return all collaborators
-    return NextResponse.json({ collaborators: collaboratorsWithVouchers, amount }, { status: 200 })
+    return NextResponse.json({ collaborators, amount }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

@@ -35,9 +35,9 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
 
   // values
   const itemPerPage = 9
-  const [minAccumulated, setMinAccumulated] = useState<number>(0)
-  const [maxAccumulated, setMaxAccumulated] = useState<number>(0)
-  const [accumulated, setAccumulated] = useState<number>(0)
+  const [minExpended, setMinExpended] = useState<number>(0)
+  const [maxExpended, setMaxExpended] = useState<number>(0)
+  const [expended, setExpended] = useState<number>(0)
 
   // form
   const defaultValues = useMemo<FieldValues>(
@@ -83,10 +83,10 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
         setValue('sort', searchParams?.sort || getValues('sort'))
         setValue('role', searchParams?.role || getValues('role'))
 
-        // set accumulated
-        setMinAccumulated(chops.minAccumulated)
-        setMaxAccumulated(chops.maxAccumulated)
-        setAccumulated(searchParams?.accumulated ? +searchParams.accumulated : chops.maxAccumulated)
+        // set expended
+        setMinExpended(chops.minExpended)
+        setMaxExpended(chops.maxExpended)
+        setExpended(searchParams?.expended ? +searchParams.expended : chops.maxExpended)
       } catch (err: any) {
         console.log(err)
       } finally {
@@ -150,10 +150,10 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
 
       return {
         ...data,
-        accumulated: accumulated === maxAccumulated ? [] : [accumulated.toString()],
+        expended: expended === maxExpended ? [] : [expended.toString()],
       }
     },
-    [accumulated, maxAccumulated, searchParams, defaultValues]
+    [expended, maxExpended, searchParams, defaultValues]
   )
 
   // handle submit filter
@@ -225,23 +225,22 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
           />
         </div>
 
-        {/* Accumulated */}
+        {/* Expended */}
         <div className='flex flex-col col-span-12 md:col-span-4'>
-          <label htmlFor='accumulated'>
-            <span className='font-bold'>Accumulated: </span>
-            <span>{formatPrice(accumulated || maxAccumulated)}</span> -{' '}
-            <span>{formatPrice(maxAccumulated)}</span>
+          <label htmlFor='expended'>
+            <span className='font-bold'>Expended: </span>
+            <span>{formatPrice(expended || maxExpended)}</span> - <span>{formatPrice(maxExpended)}</span>
           </label>
           <input
-            id='accumulated'
+            id='expended'
             className='input-range h-2 bg-slate-200 rounded-lg my-2'
             placeholder=' '
             disabled={false}
             type='range'
-            min={minAccumulated || 0}
-            max={maxAccumulated || 0}
-            value={accumulated}
-            onChange={e => setAccumulated(+e.target.value)}
+            min={minExpended || 0}
+            max={maxExpended || 0}
+            value={expended}
+            onChange={e => setExpended(+e.target.value)}
           />
         </div>
 
@@ -299,10 +298,6 @@ function AllUsersPage({ searchParams }: { searchParams?: { [key: string]: string
               {
                 value: 'admin',
                 label: 'Admin',
-              },
-              {
-                value: 'editor',
-                label: 'Editor',
               },
               {
                 value: 'collaborator',

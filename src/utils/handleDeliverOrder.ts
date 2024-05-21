@@ -55,8 +55,11 @@ export default async function handleDeliverOrder(id: string, message: string = '
   // VOUCHER
   const voucher: IVoucher = order.voucherApplied as IVoucher
 
+  console.log('voucher: ', voucher)
+
   if (voucher) {
     const commission: any = (voucher.owner as IUser).commission
+    console.log('commission: ', commission)
     let extraAccumulated = 0
 
     switch (commission.type) {

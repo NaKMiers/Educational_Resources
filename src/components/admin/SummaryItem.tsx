@@ -28,7 +28,7 @@ function SummaryItem({
 }: SummaryItemProps) {
   return (
     <div
-      className={`relative w-full flex justify items-start gap-2 p-4 rounded-lg shadow-lg cursor-pointer trans-200 ${
+      className={`relative w-full flex justify items-start gap-2 p-4 rounded-lg text-dark shadow-lg cursor-pointer trans-200 ${
         selectedSummaries.includes(data._id) ? 'bg-violet-50 -translate-y-1' : 'bg-white'
       }  ${className}`}
       onClick={() =>
@@ -51,8 +51,11 @@ function SummaryItem({
           </span>
         </div>
 
+        {/* <p className='font-semibold text-sm'>
+          Accumulated: <span className='text-rose-500'>{formatPrice(data.accumulated)}</span>
+        </p> */}
         <p className='font-semibold text-sm'>
-          Spent: <span className='text-rose-500'>{formatPrice(data.expended)}</span>
+          Commission: <span className='text-rose-500'>{data.commission.value}</span>
         </p>
         <p className='font-semibold text-sm'>
           Temporary Income:{' '}
@@ -64,7 +67,13 @@ function SummaryItem({
           Vouchers:{' '}
           {data.vouchers?.map((voucher, index) => (
             <span
-              className='text-slate-500'
+              className={`${
+                (!voucher.expire || new Date(voucher.expire || 0) > new Date()) &&
+                new Date(voucher.begin) < new Date() &&
+                (voucher.timesLeft || 0) > 0
+                  ? 'text-green-500'
+                  : 'text-slate-500'
+              }`}
               title={`${voucher.type} | ${
                 voucher.type !== 'percentage' ? formatPrice(+voucher.value) : voucher.value
               } | ${voucher.timesLeft} | ${

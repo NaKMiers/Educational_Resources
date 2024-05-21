@@ -1,13 +1,15 @@
 import { connectDatabase } from '@/config/database'
 import ChapterModel from '@/models/ChapterModel'
 import LessonModel from '@/models/LessonModel'
+import UserModel from '@/models/UserModel'
 import { uploadFile } from '@/utils/uploadFile'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Lesson, Course, Chapter
+// Models: Lesson, Course, Chapter, User
 import '@/models/ChapterModel'
 import '@/models/CourseModel'
 import '@/models/LessonModel'
+import '@/models/UserModel'
 
 // [POST]: /admin/lesson/add
 export async function POST(req: NextRequest) {
@@ -49,6 +51,22 @@ export async function POST(req: NextRequest) {
 
     // save new lesson to database
     await newLesson.save()
+
+    // notify to all users who joined course
+    await UserModel.updateMany(
+      { 'courses.course': courseId },
+      {
+        $push: {
+          notifications: {
+            _id: new Date().getTime(),
+            title: 'New Lesson Added: ' + title,
+            image: '/images/logo.png',
+            link: `/learning/${courseId}/${newLesson._id}`,
+            type: 'new-lesson',
+          },
+        },
+      }
+    )
 
     // increase lesson quantity in chapter
     await ChapterModel.findByIdAndUpdate(chapterId, { $inc: { lessonQuantity: 1 } })
