@@ -1,10 +1,10 @@
 import { connectDatabase } from '@/config/database'
 import OrderModel from '@/models/OrderModel'
+import UserModel from '@/models/UserModel'
 import handleDeliverOrder from '@/utils/handleDeliverOrder'
 import { notifyNewOrderToAdmin } from '@/utils/sendMail'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
-import UserModel from '@/models/UserModel'
 
 // Models: User, Order
 import '@/models/OrderModel'
@@ -45,8 +45,24 @@ export async function POST(req: NextRequest) {
       item,
       paymentMethod,
     })
-    // save new order
-    await newOrder.save()
+
+    await Promise.all([
+      // save new order
+      await newOrder.save(),
+
+      // notify user
+      await UserModel.findByIdAndUpdate(userId, {
+        $push: {
+          notifications: {
+            _id: new Date().getTime(),
+            title: 'You have buy a new course, please wait in a few minutes to get access to course',
+            image: '/images/logo.png',
+            link: '/my-courses',
+            type: 'create-order',
+          },
+        },
+      }),
+    ])
 
     // auto deliver order
     let response: any = null
@@ -61,7 +77,7 @@ export async function POST(req: NextRequest) {
         : 'Your order has been sent to email ' + email
 
     // notify new order to admin
-    await notifyNewOrderToAdmin(newOrder)
+    // await notifyNewOrderToAdmin(newOrder)
 
     return NextResponse.json({ message }, { status: 201 })
   } catch (err: any) {

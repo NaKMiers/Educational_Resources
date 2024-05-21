@@ -131,7 +131,43 @@ const UserSchema = new Schema(
         ref: 'course',
       },
     ],
-    notifications: [String],
+    notifications: [
+      {
+        _id: {
+          type: String,
+          required: true,
+        },
+        image: {
+          type: String,
+          default: '/images/logo.png',
+        },
+        title: {
+          type: String,
+          required: true,
+        },
+        content: String,
+        link: String,
+        type: {
+          type: String,
+          enum: [
+            'unset',
+            'create-order',
+            'delivered-order',
+            'comment-question',
+            'emotion-question',
+            'replied-comment',
+            'emotion-comment',
+            'new-lesson',
+            'new-event',
+          ],
+          default: 'unset',
+        },
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
 
     // settings
     notificationSettings: {
@@ -215,7 +251,7 @@ export interface IUser {
   commission: { type: string; value: string }
   courses: { course: ICourse; progress: number }[]
   gifts: string[] | ICourse[]
-  notifications: string[]
+  notifications: INotification[]
   notificationSettings: {
     newLesson: boolean
     repliedQuestion: boolean
@@ -232,4 +268,14 @@ export interface IUser {
   // Subs
   vouchers?: IVoucher[]
   questions?: IQuestion[]
+}
+
+export interface INotification {
+  _id: string
+  image: string
+  title: string
+  content?: string
+  link?: string
+  type: string
+  createdAt: string
 }

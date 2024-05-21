@@ -2,8 +2,10 @@ import { connectDatabase } from '@/config/database'
 import OrderModel from '@/models/OrderModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Order
+// Models: Order, User
 import '@/models/OrderModel'
+import '@/models/UserModel'
+import UserModel from '@/models/UserModel'
 
 // [DELETE]: /admin/order/delete
 export async function DELETE(req: NextRequest) {
@@ -19,7 +21,19 @@ export async function DELETE(req: NextRequest) {
     // get deleted orders
     const deletedOrders = await OrderModel.find({
       _id: { $in: ids },
-    })
+    }).lean()
+
+    await Promise.all(
+      deletedOrders.map(async (order: any) => {
+        const { userId, item } = order
+        console.log('userId:', userId)
+        console.log('item:', item)
+
+        await UserModel.findByIdAndUpdate(userId, {
+          $pull: { courses: { course: item._id } },
+        })
+      })
+    )
 
     // delete orders
     await OrderModel.deleteMany({

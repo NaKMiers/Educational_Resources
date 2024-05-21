@@ -8,7 +8,7 @@ import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
 import { IFlashSale } from '@/models/FlashSaleModel'
 import { IVoucher } from '@/models/VoucherModel'
-import { applyVoucherApi, createOrderApi, generateOrderCodeApi, getCoursePageApi } from '@/requests'
+import { applyVoucherApi, createOrderApi, generateOrderCodeApi, getSingleCourseApi } from '@/requests'
 import { applyFlashSalePrice, calcPercentage, formatPrice } from '@/utils/number'
 import { Link } from '@react-email/components'
 import { getSession, useSession } from 'next-auth/react'
@@ -32,7 +32,6 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
   const [curUser, setCurUser] = useState<any>(session?.user || {})
   const [course, setCourse] = useState<ICourse | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<'momo' | 'banking'>('momo')
-  const [loading, setLoading] = useState<boolean>(false)
 
   const [isShowVoucher, setIsShowVoucher] = useState<boolean>(false)
   const [voucher, setVoucher] = useState<IVoucher | null>(null)
@@ -83,7 +82,9 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
 
       try {
         // revalidate every 1 minute
-        const { course } = await getCoursePageApi(slug)
+        const { course } = await getSingleCourseApi(slug)
+
+        console.log('course:', course)
         setCourse(course)
       } catch (err: any) {
         return notFound()
@@ -200,6 +201,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
       // notify success
       toast.success(message)
 
+      await update()
+
       // move to my course
       router.push('/my-courses')
     } catch (err: any) {
@@ -210,6 +213,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
       dispatch(setPageLoading(false))
     }
   }, [
+    update,
     dispatch,
     router,
     code,
@@ -252,7 +256,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                   <select
                     id='paymentMethod'
                     className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
-                    disabled={loading}
+                    disabled={false}
                     required
                     {...register('paymentMethod', { required: true })}
                     onChange={e => setPaymentMethod(e.target.value as 'momo' | 'banking')}>
@@ -404,18 +408,9 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             <div className='flex lg:hidden items-center justify-center gap-3'>
               <button
                 onClick={handleCheckout}
-                disabled={loading}
-                className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200 ${
-                  loading ? 'bg-slate-200 pointer-events-none' : ''
-                }`}>
-                {loading ? (
-                  <FaCircleNotch
-                    size={18}
-                    className='text-slate-700 group-hover:text-dark trans-200 animate-spin'
-                  />
-                ) : (
-                  'Confirm Payment'
-                )}
+                disabled={false}
+                className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}>
+                Confirm Payment
               </button>
             </div>
 
@@ -534,18 +529,9 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             <div className='hidden lg:flex items-center justify-center gap-3 mb-4 mt-6'>
               <button
                 onClick={handleCheckout}
-                disabled={loading}
-                className={`h-[42px] flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200 ${
-                  loading ? 'bg-slate-200 pointer-events-none' : ''
-                }`}>
-                {loading ? (
-                  <FaCircleNotch
-                    size={18}
-                    className='text-slate-700 group-hover:text-dark trans-200 animate-spin'
-                  />
-                ) : (
-                  'Confirm Payment'
-                )}
+                disabled={false}
+                className={`h-[42px] flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}>
+                Confirm Payment
               </button>
             </div>
 

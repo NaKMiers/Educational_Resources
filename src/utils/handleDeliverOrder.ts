@@ -23,23 +23,33 @@ export default async function handleDeliverOrder(id: string, message: string = '
     })
     .lean()
 
-  // check order exist
-  if (!order) {
-    return NextResponse.json({ message: 'Order not found' }, { status: 404 })
-  }
-
-  // only deliver order with status is 'pending' | 'cancel'
-  if (order.status === 'done') {
-    return NextResponse.json({ message: 'Order is not ready to deliver' }, { status: 400 })
-  }
-
-  // get item and applied voucher
-  const { item, email, total } = order
-
   // error state
   let orderError = {
     error: false,
     message: '',
+    status: 200,
+  }
+
+  // check order exist
+  if (!order) {
+    throw new Error('Order not found')
+  }
+
+  // only deliver order with status is 'pending' | 'cancel'
+  if (order.status === 'done') {
+    throw new Error('Order is not ready to deliver')
+  }
+
+  // get item and applied voucher
+  const { item, email, total, userId } = order
+
+  // get user to check if user has already joined course
+  const userCourses: any = await UserModel.findById(userId).select('courses').lean()
+
+  if (
+    userCourses?.courses.map((course: any) => course.course.toString()).includes(item._id.toString())
+  ) {
+    throw new Error('User has already joined this course')
   }
 
   // VOUCHER
@@ -81,10 +91,18 @@ export default async function handleDeliverOrder(id: string, message: string = '
           process: 0,
         },
       },
+      // notify user
+      $push: {
+        notifications: {
+          _id: new Date().getTime(),
+          title: 'You new course has been delivered',
+          image: '/images/logo.png',
+          link: '/my-courses',
+          type: 'delivered-order',
+        },
+      },
     }
   )
-
-  console.log('order', order)
 
   // COURSE
   const course = await CourseModel.findByIdAndUpdate(
@@ -111,8 +129,6 @@ export default async function handleDeliverOrder(id: string, message: string = '
     message,
   }
 
-  console.log('orderData: ', orderData)
-
   // EMAIL
   await notifyDeliveryOrder(email, orderData)
 
@@ -120,5 +136,6 @@ export default async function handleDeliverOrder(id: string, message: string = '
     order,
     isError: orderError.error,
     message: `Deliver Order Successfully`,
+    status: 200,
   }
 }

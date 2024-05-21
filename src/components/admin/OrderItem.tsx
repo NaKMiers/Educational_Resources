@@ -181,13 +181,6 @@ function OrderItem({
               title='payment-method'>
               {data.paymentMethod}
             </p>
-
-            {/* UserID */}
-            <FaCheckSquare
-              title='userId'
-              size={18}
-              className={`${data.userId ? 'text-green-500' : 'text-slate-600'}`}
-            />
           </div>
 
           {/* Email */}

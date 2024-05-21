@@ -1,6 +1,6 @@
 'use client'
 
-import { searchCoursesApi } from '@/requests'
+import { removeNotificationApi, searchCoursesApi } from '@/requests'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -14,6 +14,7 @@ import { RiDonutChartFill } from 'react-icons/ri'
 import { SiCoursera } from 'react-icons/si'
 import Menu from './Menu'
 import NotificationMenu from './NotificationMenu'
+import { INotification } from '@/models/UserModel'
 
 interface HeaderProps {
   isStatic?: boolean
@@ -28,6 +29,7 @@ function Header({ isStatic }: HeaderProps) {
   const [isShow, setIsShow] = useState<boolean>(true)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
   const [isOpenNotificationMenu, setIsOpenNotificationMenu] = useState<boolean>(false)
+  const [notifications, setNotifications] = useState<INotification[]>(curUser?.notifications || [])
 
   // search
   const [openSearch, setOpenSearch] = useState<boolean>(false)
@@ -42,7 +44,10 @@ function Header({ isStatic }: HeaderProps) {
   useEffect(() => {
     const getUser = async () => {
       const session = await getSession()
-      setCurUser(session?.user)
+      const user: any = session?.user
+      setCurUser(user)
+      setNotifications(user.notifications || [])
+
       await update()
     }
 
@@ -82,6 +87,29 @@ function Header({ isStatic }: HeaderProps) {
       setSearchResults(null)
     }
   }, [searchValue, handleSearch])
+
+  // handle remove notification
+  const handleRemoveNotification = useCallback(
+    async (id: string) => {
+      try {
+        const { message } = await removeNotificationApi(id)
+
+        // remove notification
+        const newNotifications = notifications.filter(noti => noti._id !== id)
+        setNotifications(newNotifications)
+        if (newNotifications.length === 0) {
+          setIsOpenNotificationMenu(false)
+        }
+
+        // show success
+        toast.success(message)
+      } catch (err: any) {
+        console.log(err)
+        toast.error(err.message)
+      }
+    },
+    [setNotifications, setIsOpenNotificationMenu, notifications]
+  )
 
   return (
     <header
@@ -234,7 +262,9 @@ function Header({ isStatic }: HeaderProps) {
                   className='relative group'
                   onClick={() => setIsOpenNotificationMenu(prev => !prev)}>
                   <FaBell size={24} className='wiggle' />
-                  <span className='absolute top-0 right-0 w-1.5 h-1.5 rounded-lg bg-green-400' />
+                  {!!notifications.length && (
+                    <span className='absolute top-0 right-0 w-1.5 h-1.5 rounded-lg bg-green-400' />
+                  )}
                 </button>
                 <div
                   className='flex items-center gap-2 cursor-pointer'
@@ -273,9 +303,11 @@ function Header({ isStatic }: HeaderProps) {
 
         {/* Menu Button */}
         <div className='md:hidden flex items-center gap-0.5'>
-          <button className='group' onClick={() => setIsOpenNotificationMenu(prev => !prev)}>
+          <button className='relative group' onClick={() => setIsOpenNotificationMenu(prev => !prev)}>
             <FaBell size={22} className='wiggle' />
-            <span className='w-1 h-1 rounded-lg bg-green-500' />
+            {!!notifications.length && (
+              <span className='absolute top-0 right-0 w-1.5 h-1.5 rounded-lg bg-green-400' />
+            )}
           </button>
           <button
             className='flex justify-center items-center w-[40px] h-[40px]'
@@ -288,7 +320,12 @@ function Header({ isStatic }: HeaderProps) {
         <Menu open={isOpenMenu} setOpen={setIsOpenMenu} />
 
         {/* MARK: Notification Menu */}
-        <NotificationMenu open={isOpenNotificationMenu} setOpen={setIsOpenNotificationMenu} />
+        <NotificationMenu
+          open={isOpenNotificationMenu}
+          setOpen={setIsOpenNotificationMenu}
+          notifications={notifications}
+          handleRemoveNotification={handleRemoveNotification}
+        />
       </div>
     </header>
   )

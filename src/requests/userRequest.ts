@@ -203,3 +203,17 @@ export const deleteUsersApi = async (ids: string[]) => {
 
   return await res.json()
 }
+
+// [DELETE]
+export const removeNotificationApi = async (notificationId: string) => {
+  const res = await fetch(`/api/user/remove-notification/${notificationId}`, {
+    method: 'DELETE',
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}

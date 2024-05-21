@@ -238,6 +238,7 @@ export const updateInfoData = {
 }
 
 export const notificationSamples = [
-  '{"user": {"_id": "2o3131232132l1j", "name": "John Doe"," avatar": "/images/default-avatar.jpg"}, "createdAt": "05/21/2024 10:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
-  '{"user": {"_id": "2o3131232132l1j", "name": "John Wick"," avatar": "/images/default-avatar.jpg"}, "createdAt": "05/21/2024 11:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
+  '{"_id": "dklakldassadf23213", "image": "/images/default-avatar.jpg", "createdAt": "05/21/2024 10:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
+  '{"_id": "dklakldassadf23222", "image": "/images/default-avatar.jpg", "createdAt": "05/21/2024 11:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
+  '{"_id": "dklakldassadf23222", "image": "/images/default-avatar.jpg", "createdAt": "05/21/2024 11:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
 ]
