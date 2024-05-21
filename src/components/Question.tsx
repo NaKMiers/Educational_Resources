@@ -21,8 +21,6 @@ function Question({ question, className = '' }: QuestionProps) {
   const { data: session } = useSession()
   const curUser: any = session?.user
 
-  console.log('curUser:', curUser)
-
   const [data, setData] = useState<IQuestion>(question)
   const { userId, content, likes, commentAmount, status } = data
   const user: IUser = userId as IUser

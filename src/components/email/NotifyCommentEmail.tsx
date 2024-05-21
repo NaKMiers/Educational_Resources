@@ -1,6 +1,6 @@
 import { Body, Column, Container, Img, Row, Section, Tailwind } from '@react-email/components'
 import { theme } from '../../../tailwind.config'
-import { commentData } from '@/constants/emailDataSamples'
+import { commentData } from '@/constants/dataSamples'
 
 export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
   return (

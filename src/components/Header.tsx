@@ -1,6 +1,5 @@
 'use client'
 
-import { useAppDispatch } from '@/libs/hooks'
 import { searchCoursesApi } from '@/requests'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -14,6 +13,7 @@ import { PiLightningFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
 import { SiCoursera } from 'react-icons/si'
 import Menu from './Menu'
+import NotificationMenu from './NotificationMenu'
 
 interface HeaderProps {
   isStatic?: boolean
@@ -21,14 +21,13 @@ interface HeaderProps {
 
 function Header({ isStatic }: HeaderProps) {
   // hooks
-  const dispatch = useAppDispatch()
   const { data: session, update } = useSession()
 
   // states
   const [curUser, setCurUser] = useState<any>(session?.user || {})
   const [isShow, setIsShow] = useState<boolean>(true)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
-  const lastScrollTop = useRef<number>(0)
+  const [isOpenNotificationMenu, setIsOpenNotificationMenu] = useState<boolean>(false)
 
   // search
   const [openSearch, setOpenSearch] = useState<boolean>(false)
@@ -36,7 +35,6 @@ function Header({ isStatic }: HeaderProps) {
   const [searchLoading, setSearchLoading] = useState<boolean>(false)
   const [searchResults, setSearchResults] = useState<any[] | null>(null)
   const searchTimeout = useRef<any>(null)
-  const [enableHideHeader, setEnableHideHeader] = useState<boolean>(true)
   const [openResults, setOpenResults] = useState<boolean>(false)
 
   // MARK: Side Effects
@@ -52,36 +50,6 @@ function Header({ isStatic }: HeaderProps) {
       getUser()
     }
   }, [update, curUser])
-
-  // // show and hide header on scroll
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (enableHideHeader) {
-  //       let scrollTop = window.scrollY
-
-  //       // scroll down
-  //       if (scrollTop >= 21) {
-  //         // scroll top
-  //         if (scrollTop > lastScrollTop.current) {
-  //           setIsShow(true)
-  //         } else {
-  //           setIsShow(false)
-  //           setIsOpenMenu(false)
-  //         }
-
-  //         lastScrollTop.current = scrollTop
-  //       } else {
-  //         setIsShow(false)
-  //         setIsOpenMenu(false)
-  //       }
-  //     }
-  //   }
-
-  //   window.addEventListener('scroll', handleScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll)
-  //   }
-  // })
 
   // handle search
   const handleSearch = useCallback(async () => {
@@ -112,7 +80,6 @@ function Header({ isStatic }: HeaderProps) {
       }, 500)
     } else {
       setSearchResults(null)
-      setEnableHideHeader(true)
     }
   }, [searchValue, handleSearch])
 
@@ -186,14 +153,11 @@ function Header({ isStatic }: HeaderProps) {
               value={searchValue}
               onChange={e => setSearchValue(e.target.value)}
               onFocus={() => {
-                setEnableHideHeader(false)
                 setOpenResults(true)
-
                 setOpenSearch(true)
                 // setEnableHideHeader(true)
               }}
               onBlur={() => {
-                setEnableHideHeader(true)
                 setOpenResults(false)
                 setOpenSearch(false)
               }}
@@ -266,8 +230,11 @@ function Header({ isStatic }: HeaderProps) {
           {curUser ? (
             !!curUser._id && (
               <>
-                <button className='group'>
+                <button
+                  className='relative group'
+                  onClick={() => setIsOpenNotificationMenu(prev => !prev)}>
                   <FaBell size={24} className='wiggle' />
+                  <span className='absolute top-0 right-0 w-1.5 h-1.5 rounded-lg bg-green-400' />
                 </button>
                 <div
                   className='flex items-center gap-2 cursor-pointer'
@@ -306,8 +273,9 @@ function Header({ isStatic }: HeaderProps) {
 
         {/* Menu Button */}
         <div className='md:hidden flex items-center gap-0.5'>
-          <button className='group'>
+          <button className='group' onClick={() => setIsOpenNotificationMenu(prev => !prev)}>
             <FaBell size={22} className='wiggle' />
+            <span className='w-1 h-1 rounded-lg bg-green-500' />
           </button>
           <button
             className='flex justify-center items-center w-[40px] h-[40px]'
@@ -318,6 +286,9 @@ function Header({ isStatic }: HeaderProps) {
 
         {/* MARK: Menu */}
         <Menu open={isOpenMenu} setOpen={setIsOpenMenu} />
+
+        {/* MARK: Notification Menu */}
+        <NotificationMenu open={isOpenNotificationMenu} setOpen={setIsOpenNotificationMenu} />
       </div>
     </header>
   )

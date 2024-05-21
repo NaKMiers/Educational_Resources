@@ -236,3 +236,8 @@ export const updateInfoData = {
       '- 💀 Lưu ý: Đề phòng trường hợp những shop "lừa đảo" khác giả vờ mua hàng sau đó bán lại. Tài khoản của bạn sẽ được đổi pass từ 6 - 15 ngày 1 lần, và pass mới sẽ được gửi qua mail cho bạn. Hãy kiểm tra mail khi không thể đăng nhập. Xin chân thành cảm ơn🫡',
   },
 }
+
+export const notificationSamples = [
+  '{"user": {"_id": "2o3131232132l1j", "name": "John Doe"," avatar": "/images/default-avatar.jpg"}, "createdAt": "05/21/2024 10:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
+  '{"user": {"_id": "2o3131232132l1j", "name": "John Wick"," avatar": "/images/default-avatar.jpg"}, "createdAt": "05/21/2024 11:30 AM", "content": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores, corporis?", "title": "John Doe has commented on your question"}',
+]

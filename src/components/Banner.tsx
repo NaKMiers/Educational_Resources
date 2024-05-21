@@ -2,6 +2,7 @@
 
 import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
+import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCallback, useEffect, useRef } from 'react'
@@ -14,6 +15,8 @@ interface BannerProps {
 
 function Banner({ courses, className = '' }: BannerProps) {
   // hooks
+  const { data: session } = useSession()
+  const curUser: any = session?.user
 
   console.log('courses', courses)
 
@@ -24,13 +27,15 @@ function Banner({ courses, className = '' }: BannerProps) {
   const listRef = useRef<HTMLDivElement>(null)
   const thumbnailsRef = useRef<HTMLDivElement>(null)
   const timeout = useRef<any>(null)
+  const interval = useRef<any>(null)
 
   // values
-  const time = 2001
+  const time = 2000
 
   // methods
   const handleSlide = useCallback((type: 'prev' | 'next') => {
     if (!carouselRef.current || !listRef.current || !thumbnailsRef.current) return
+    clearInterval(interval.current)
     const slideItems = listRef.current.children
     const thumbItems = thumbnailsRef.current.children
 
@@ -61,13 +66,13 @@ function Banner({ courses, className = '' }: BannerProps) {
   }, [handleSlide])
 
   // auto slide
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setInterval(() => {
-  //       nextSlide()
-  //     }, time * 5)
-  //   }, time * 5)
-  // }, [nextSlide])
+  useEffect(() => {
+    setTimeout(() => {
+      interval.current = setInterval(() => {
+        nextSlide()
+      }, time * 5)
+    }, time * 2)
+  }, [nextSlide])
 
   return (
     <div
@@ -115,9 +120,17 @@ function Banner({ courses, className = '' }: BannerProps) {
                   SEE MORE
                 </Link>
                 <Link
-                  href={`/checkout/${course?.slug}`}
+                  href={
+                    curUser?._id &&
+                    curUser?.courses.map((course: any) => course.course).includes(course._id)
+                      ? `/learning/${course?._id}/continue`
+                      : `/checkout/${course?.slug}`
+                  }
                   className='h-10 flex items-center justify-center px-2 shadow-md text-white border-2 border-white font-semibold font-body tracking-wider rounded-md hover:bg-white hover:text-dark trans-200'>
-                  Buy Now
+                  {curUser?._id &&
+                  curUser?.courses.map((course: any) => course.course).includes(course._id)
+                    ? 'Continue Learning'
+                    : 'Buy Now'}
                 </Link>
               </div>
             </div>

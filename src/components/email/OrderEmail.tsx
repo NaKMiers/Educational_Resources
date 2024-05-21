@@ -1,4 +1,4 @@
-import { order as orderSample } from '@/constants/emailDataSamples'
+import { order as orderSample } from '@/constants/dataSamples'
 import { formatPrice } from '@/utils/number'
 import { Body, Column, Container, Img, Row, Section, Tailwind, Text } from '@react-email/components'
 import { theme } from '../../../tailwind.config'

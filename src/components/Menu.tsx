@@ -13,7 +13,7 @@ interface MenuProps {
 
 function Menu({ open, setOpen, className = '' }: MenuProps) {
   // hooks
-  const { data: session, update } = useSession()
+  const { data: session } = useSession()
 
   // states
   const [curUser, setCurUser] = useState<any>(session?.user || {})
@@ -23,13 +23,12 @@ function Menu({ open, setOpen, className = '' }: MenuProps) {
     const getUser = async () => {
       const session = await getSession()
       setCurUser(session?.user)
-      await update()
     }
 
     if (!curUser?._id) {
       getUser()
     }
-  }, [update, curUser])
+  }, [curUser])
 
   // key board event
   useEffect(() => {

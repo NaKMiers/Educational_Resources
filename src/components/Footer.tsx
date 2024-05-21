@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
 function Footer() {
   return (
@@ -11,9 +10,17 @@ function Footer() {
       <div className='flex items-center justify-between gap-21 border-b-2 border-slate-300'>
         <div className='flex items-center gap-4 py-2'>
           <div className='flex items-center gap-2'>
-            <div className='w-[40px] h-[40px] aspect-square rounded-full shadow-lg overflow-hidden'>
-              <Image src='/images/logo.png' width={32} height={32} alt='github' />
-            </div>
+            <Link
+              href='/'
+              className='w-[32px] h-[32px] aspect-square rounded-lg shadow-lg overflow-hidden'>
+              <Image
+                className='w-full h-full object-cover'
+                src='/images/logo.png'
+                width={32}
+                height={32}
+                alt='github'
+              />
+            </Link>
             <span className='font-body text-sky-700 font-bold text-3xl'>ERE</span>
           </div>
 
@@ -32,7 +39,7 @@ function Footer() {
 
       {/* Body */}
       <div className='grid grid-cols-1 md:grid-cols-3 py-21 gap-21'>
-        <div>
+        <div className='flex flex-col md:items-center'>
           <h3 className='font-bold text-xl'>ABOUT US</h3>
 
           <ul>
@@ -54,7 +61,7 @@ function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className='flex flex-col md:items-center'>
           <h3 className='font-bold text-xl'>CONTACT</h3>
 
           <ul>
@@ -76,7 +83,7 @@ function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div className='flex flex-col md:items-center'>
           <h3 className='font-bold text-xl'>CERTIFIED BY</h3>
 
           <ul>
