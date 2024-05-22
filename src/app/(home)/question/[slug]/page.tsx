@@ -1,5 +1,6 @@
 import Comment from '@/components/Comment'
 import Divider from '@/components/Divider'
+import { IComment } from '@/models/CommentModel'
 import { IQuestion } from '@/models/QuestionModel'
 import { IUser } from '@/models/UserModel'
 import { getQuestionDetailPage } from '@/requests'
@@ -8,13 +9,14 @@ import { format } from 'timeago.js'
 
 async function QuestionDetailPage({ params: { slug } }: { params: { slug: string } }) {
   let question: IQuestion | null = null
+  let comments: IComment[] = []
   let user: IUser | null = null
 
   try {
     const data = await getQuestionDetailPage(slug)
-    console.log('data: ', data)
     question = data.question
     user = question?.userId as IUser
+    comments = data.comments
   } catch (err: any) {
     console.log(err)
   }
@@ -57,7 +59,7 @@ async function QuestionDetailPage({ params: { slug } }: { params: { slug: string
 
         {/* Comments */}
         <div className='px-21 pb-21'>
-          {question && <Comment comments={[]} questionId={(question as any)._id} />}
+          {question && <Comment comments={comments} questionId={(question as any)._id} />}
         </div>
       </div>
 
