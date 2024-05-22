@@ -115,3 +115,18 @@ export const getQuestionPageApi = async (query: string = '') => {
 
   return await res.json()
 }
+
+// [GET]
+export const getQuestionDetailPage = async (slug: string, query: string = '') => {
+  // no cache for filter
+  const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/question/${slug}/detail${query}`, {
+    cache: 'no-store',
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}

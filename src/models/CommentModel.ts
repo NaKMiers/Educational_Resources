@@ -57,4 +57,7 @@ export interface IComment {
   hide: boolean
   createdAt: string
   updatedAt: string
+
+  // sub
+  user?: IUser
 }
