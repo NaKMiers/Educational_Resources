@@ -17,7 +17,7 @@ import { GrUpgrade } from 'react-icons/gr'
 import { HiLightningBolt } from 'react-icons/hi'
 import { ImBlocked } from 'react-icons/im'
 import { RiCheckboxMultipleBlankLine, RiDonutChartFill } from 'react-icons/ri'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialogs/ConfirmDialog'
 import Input from '../Input'
 import LoadingButton from '../LoadingButton'
 

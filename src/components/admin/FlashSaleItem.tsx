@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
 import { RiDonutChartFill } from 'react-icons/ri'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialogs/ConfirmDialog'
 import { IFlashSale } from '@/models/FlashSaleModel'
 
 interface FlashSaleItemProps {

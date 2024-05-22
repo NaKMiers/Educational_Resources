@@ -3,6 +3,7 @@ import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Question
+import CommentModel from '@/models/CommentModel'
 import '@/models/QuestionModel'
 import QuestionModel, { IQuestion } from '@/models/QuestionModel'
 
@@ -62,12 +63,20 @@ export async function GET(req: NextRequest) {
     const amount = await QuestionModel.countDocuments(filter)
 
     // get questions from database with filter
-    const questions: IQuestion[] = await QuestionModel.find(filter)
+    let questions: IQuestion[] = await QuestionModel.find(filter)
       .populate('userId')
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)
       .lean()
+
+    // i want to count the number of comment in each question
+    questions = await Promise.all(
+      questions.map(async question => {
+        const commentAmount = await CommentModel.countDocuments({ questionId: question._id })
+        return { ...question, commentAmount }
+      })
+    )
 
     // return response
     return NextResponse.json({ questions, amount }, { status: 200 })

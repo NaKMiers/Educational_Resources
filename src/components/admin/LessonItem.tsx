@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import { FaCheck, FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
 import { RiDonutChartFill } from 'react-icons/ri'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialogs/ConfirmDialog'
 import { IChapter } from '@/models/ChapterModel'
 
 interface LessonItemProps {

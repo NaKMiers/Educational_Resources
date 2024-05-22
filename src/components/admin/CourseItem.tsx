@@ -9,7 +9,7 @@ import { IoBalloonSharp } from 'react-icons/io5'
 import { MdEdit } from 'react-icons/md'
 import { PiLightningFill, PiLightningSlashFill } from 'react-icons/pi'
 import { RiDonutChartFill } from 'react-icons/ri'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialogs/ConfirmDialog'
 
 interface CourseItemProps {
   data: ICourse

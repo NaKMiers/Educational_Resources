@@ -138,6 +138,21 @@ export const activateCoursesApi = async (ids: string[], value: boolean) => {
 }
 
 // [PATCH]
+export const likeCourseApi = async (id: string, value: 'y' | 'n') => {
+  const res = await fetch(`/api/course/${id}/like`, {
+    method: 'PATCH',
+    body: JSON.stringify({ value }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [PATCH]
 export const removeApplyingFlashSalesApi = async (ids: string[]) => {
   const res = await fetch('/api/admin/course/remove-flash-sales', {
     method: 'PATCH',

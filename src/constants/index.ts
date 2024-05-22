@@ -184,3 +184,31 @@ export const features = [
       'Với chức năng đăng câu hỏi, các học viên có thể trực tiếp trao đổi bài giảng của nhau, giúp đỡ nhau giải bày các thắc mắc.',
   },
 ]
+
+// MARK: Report Contents
+export const ReportContents = {
+  question: ['Violence', '18+', 'Spam', 'Fake', 'Duplicate', 'Offensive'],
+  comment: ['Violence', '18+', 'Spam', 'Fake', 'Duplicate', 'Offensive', 'Harassment', 'Hate Speech'],
+  lesson: [
+    'Violence',
+    '18+',
+    'Spam',
+    'Fake',
+    'Duplicate',
+    'Offensive',
+    'Harassment',
+    'Hate Speech',
+    'Wrong Information',
+  ],
+  course: [
+    'Violence',
+    '18+',
+    'Spam',
+    'Fake',
+    'Duplicate',
+    'Offensive',
+    'Harassment',
+    'Hate Speech',
+    'Wrong Information',
+  ],
+}

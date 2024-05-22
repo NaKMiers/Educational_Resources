@@ -1,6 +1,6 @@
 'use client'
 
-import ConfirmDialog from '@/components/ConfirmDialog'
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog'
 import Divider from '@/components/Divider'
 import Input from '@/components/Input'
 import Pagination from '@/components/Pagination'

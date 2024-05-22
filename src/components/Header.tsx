@@ -15,19 +15,21 @@ import { SiCoursera } from 'react-icons/si'
 import Menu from './Menu'
 import NotificationMenu from './NotificationMenu'
 import { INotification } from '@/models/UserModel'
+import { usePathname } from 'next/navigation'
 
 interface HeaderProps {
-  isStatic?: boolean
+  className: string
 }
 
-function Header({ isStatic }: HeaderProps) {
+function Header({ className = '' }: HeaderProps) {
   // hooks
   const { data: session, update } = useSession()
+  const pathname = usePathname()
 
   // states
   const [curUser, setCurUser] = useState<any>(session?.user || {})
-  const [isShow, setIsShow] = useState<boolean>(true)
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
+  const [isTransparent, setIsTransparent] = useState<boolean>(false)
   const [isOpenNotificationMenu, setIsOpenNotificationMenu] = useState<boolean>(false)
   const [notifications, setNotifications] = useState<INotification[]>(curUser?.notifications || [])
 
@@ -111,13 +113,30 @@ function Header({ isStatic }: HeaderProps) {
     [setNotifications, setIsOpenNotificationMenu, notifications]
   )
 
+  // handle scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (pathname === '/') {
+        // set dark if scroll height > 100vh
+        if (window.scrollY > window.innerHeight) {
+          setIsTransparent(false)
+        } else {
+          setIsTransparent(true)
+        }
+      } else {
+        setIsTransparent(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [pathname])
+
   return (
     <header
-      className={`${
-        isStatic ? 'static' : 'fixed z-50'
-      } bg-white w-full text-dark shadow-lg transition-all duration-300 ${
-        isShow ? 'bottom-0 md:bottom-auto md:top-0' : '-bottom-full md:bottom-auto md:-top-full'
-      }`}>
+      className={`fixed z-50 bg-white ${
+        isTransparent ? 'text-white drop-shadow-lg bg-opacity-0' : 'text-dark bg-opacity-100'
+      } w-full shadow-lg transition-all duration-300 bottom-0 md:bottom-auto md:top-0 ${className}`}>
       {/* Main Header */}
       <div className='relative flex justify-between items-center max-w-1200 w-full h-[72px] m-auto px-21'>
         {/* MARK: Brand */}

@@ -1,7 +1,7 @@
 import AddQuestionForm from '@/components/AddQuestionForm'
 import Divider from '@/components/Divider'
 import Pagination from '@/components/Pagination'
-import Question from '@/components/Question'
+import Question from '@/components/QuestionItem'
 import { IQuestion } from '@/models/QuestionModel'
 import { getQuestionPageApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
@@ -26,7 +26,7 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
   return (
     <div className='flex px-21 mb-21'>
       {/* Questions */}
-      <div className='flex-1 border-r-2 border-dark px-21'>
+      <div className='flex-1 px-21'>
         <Divider size={8} />
 
         {/* Input */}
@@ -35,7 +35,7 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
         <Divider size={12} />
 
         {/* Question List */}
-        <ul className='flex flex-col gap-8'>
+        <ul className='grid grid-cols-1 md:grid-cols-2 gap-21'>
           {questions.map(question => (
             <Question question={question} key={question._id} />
           ))}
@@ -48,7 +48,7 @@ async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: 
       </div>
 
       {/* ... */}
-      <div className='max-w-[350px] w-full'></div>
+      {/* <div className='max-w-[350px] w-full'></div> */}
     </div>
   )
 }

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { FaCheck, FaSave, FaTrash } from 'react-icons/fa'
 import { MdCancel, MdEdit } from 'react-icons/md'
 import { RiDonutChartFill } from 'react-icons/ri'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialogs/ConfirmDialog'
 
 interface CategoryItemProps {
   data: ICategory

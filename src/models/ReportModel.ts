@@ -9,6 +9,15 @@ const ReportSchema = new Schema(
       ref: 'user',
       required: true,
     },
+    type: {
+      type: String,
+      enum: ['question', 'comment', 'lesson', 'course'],
+      required: true,
+    },
+    typeId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
     content: {
       type: String,
       required: true,

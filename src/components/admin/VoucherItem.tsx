@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { FaCheck, FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
 import { RiDonutChartFill } from 'react-icons/ri'
-import ConfirmDialog from '../ConfirmDialog'
+import ConfirmDialog from '../dialogs/ConfirmDialog'
 import { IVoucher } from '@/models/VoucherModel'
 import { IUser } from '@/models/UserModel'
 

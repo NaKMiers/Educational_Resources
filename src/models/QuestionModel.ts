@@ -1,6 +1,7 @@
 import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
 import { IUser } from './UserModel'
+import { IComment } from './CommentModel'
 const Schema = mongoose.Schema
 
 const QuestionSchema = new Schema(
@@ -60,4 +61,7 @@ export interface IQuestion {
   commentAmount: number
   createdAt: string
   updatedAt: string
+
+  // sub
+  comments?: IComment[]
 }
