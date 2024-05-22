@@ -18,7 +18,7 @@ import { INotification } from '@/models/UserModel'
 import { usePathname } from 'next/navigation'
 
 interface HeaderProps {
-  className: string
+  className?: string
 }
 
 function Header({ className = '' }: HeaderProps) {
