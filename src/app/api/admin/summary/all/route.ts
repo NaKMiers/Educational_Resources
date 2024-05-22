@@ -65,8 +65,6 @@ export async function GET(req: NextRequest) {
       active: true,
     }).lean()
 
-    console.log('vouchers: ', vouchers)
-
     // get vouchers associated with each collaborator
     collaborators = await Promise.all(
       collaborators.map(async (collaborator: any) => {

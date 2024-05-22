@@ -26,8 +26,6 @@ export async function DELETE(req: NextRequest) {
     await Promise.all(
       deletedOrders.map(async (order: any) => {
         const { userId, item } = order
-        console.log('userId:', userId)
-        console.log('item:', item)
 
         await UserModel.findByIdAndUpdate(userId, {
           $pull: { courses: { course: item._id } },

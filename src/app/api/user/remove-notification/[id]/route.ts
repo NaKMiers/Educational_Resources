@@ -18,8 +18,6 @@ export async function DELETE(req: NextRequest, { params: { id } }: { params: { i
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     const userId = token?._id
 
-    console.log('userId:', userId)
-
     // remove notification
     await UserModel.findByIdAndUpdate(userId, {
       $pull: { notifications: { _id: id } },

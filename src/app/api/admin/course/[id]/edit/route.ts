@@ -28,8 +28,6 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     const originalImages = JSON.parse(data.originalImages as string)
     let images = formData.getAll('images')
 
-    console.log('data:', data)
-
     // get course from database to edit
     const course: ICourse | null = await CourseModel.findById(id).lean()
 

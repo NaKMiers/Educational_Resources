@@ -190,8 +190,6 @@ function UserItem({
     }
   }, [data._id, userData.blockStatuses.blockedComment])
 
-  console.log('data', data)
-
   // handle block / unblock adding question
   const handleBlockAddingQuestion = useCallback(async () => {
     // start loading
@@ -203,8 +201,6 @@ function UserItem({
         data._id,
         !userData.blockStatuses.blockedAddingQuestion
       )
-
-      console.log('updatedUser', updatedUser)
 
       // update user data
       setUserData(updatedUser)

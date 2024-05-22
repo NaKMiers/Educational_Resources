@@ -11,9 +11,7 @@ function Features({ className = '' }: FeaturesProps) {
     <div className={`max-w-1200 mx-auto ${className}`}>
       <div className='px-21/2 py-21 sm:px-0 grid grid-cols-1 md:grid-cols-3 justify-evenly gap-21'>
         {features.map(item => (
-          <div
-            className='px-21 h-full transition-all duration-300 hover:-translate-y-2'
-            key={item.image}>
+          <div className='px-21 h-full trans-300 trans-300 hover:-translate-y-2' key={item.image}>
             <div className='p-21 h-full rounded-small shadow-lg overflow-hidden bg-white'>
               <div className='max-w-[75px] max-h-[75px] w-full h-full aspect-square'>
                 <Image

@@ -53,8 +53,6 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
           const { newComment } = await addCommentApi({ questionId, lessonId, content: data.comment })
           newComment.user = curUser
 
-          console.log('newComment:', newComment)
-
           // add new comment to list
           setCmts(prev => [newComment, ...prev])
 
@@ -100,7 +98,7 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
           {/* label */}
           <label
             htmlFor='comment'
-            className={`absolute text-nowrap rounded-md text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
+            className={`absolute text-nowrap rounded-md text-sm text-gray-500 trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
               errors.comment ? 'text-rose-400' : 'text-dark'
             }`}>
             Comment

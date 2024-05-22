@@ -29,7 +29,7 @@ function Header({ className = '' }: HeaderProps) {
   // states
   const [curUser, setCurUser] = useState<any>(session?.user || {})
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false)
-  const [isTransparent, setIsTransparent] = useState<boolean>(false)
+  const [isTransparent, setIsTransparent] = useState<boolean>(pathname === '/')
   const [isOpenNotificationMenu, setIsOpenNotificationMenu] = useState<boolean>(false)
   const [notifications, setNotifications] = useState<INotification[]>(curUser?.notifications || [])
 
@@ -128,6 +128,9 @@ function Header({ className = '' }: HeaderProps) {
       }
     }
 
+    // initial
+    handleScroll()
+
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [pathname])
@@ -136,14 +139,14 @@ function Header({ className = '' }: HeaderProps) {
     <header
       className={`fixed z-50 bg-white ${
         isTransparent ? 'text-white drop-shadow-lg bg-opacity-0' : 'text-dark bg-opacity-100'
-      } w-full shadow-lg transition-all duration-300 bottom-0 md:bottom-auto md:top-0 ${className}`}>
+      } w-full shadow-lg trans-300 bottom-0 md:bottom-auto md:top-0 ${className}`}>
       {/* Main Header */}
       <div className='relative flex justify-between items-center max-w-1200 w-full h-[72px] m-auto px-21'>
         {/* MARK: Brand */}
         <div
           className={`${
             openSearch ? 'max-w-0 overflow-hidden' : 'max-w-[100px] w-full'
-          } hidden sm:flex sm:flex-shrink-0 pl-4 -ml-4 items-center h-full overflow-x-scroll no-scrollbar duration-300 transition-all`}>
+          } hidden sm:flex sm:flex-shrink-0 pl-4 -ml-4 items-center h-full overflow-x-scroll no-scrollbar trans-300`}>
           <Link href='/' prefetch={false} className='shrink-0 trans-200 spin mr-2'>
             <Image
               className='aspect-square rounded-md'
@@ -162,13 +165,13 @@ function Header({ className = '' }: HeaderProps) {
         <div
           className={`flex items-center ${
             openSearch ? 'max-w-full' : 'max-w-[500px]'
-          } w-full lg:min-w-[520px] duration-300 transition-all`}>
+          } w-full lg:min-w-[520px] trans-300`}>
           <div
             className={`${
               openSearch
                 ? 'max-w-0 w-0 overflow-hidden mr-0'
                 : 'max-w-[114px] md:max-w-[200px] w-full mr-21'
-            } flex items-center gap-21 duration-300 transition-all`}>
+            } flex items-center gap-21 trans-300`}>
             <Link
               href='/'
               className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>

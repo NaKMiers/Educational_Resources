@@ -271,7 +271,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                   {/* label */}
                   <label
                     htmlFor='type'
-                    className={`absolute rounded-md text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
+                    className={`absolute rounded-md text-sm text-gray-500 trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
                       errors.paymentMethod ? 'text-rose-400' : 'text-dark'
                     }`}>
                     Payment Method
@@ -365,7 +365,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
               </p>
 
               <div className='flex justify-center mt-6'>
-                <div className='relative rounded-lg shadow-medium duration-300 transition hover:-translate-y-2 overflow-hidden'>
+                <div className='relative rounded-lg shadow-medium trans-300 hover:-translate-y-2 overflow-hidden'>
                   {paymentMethod === 'momo' ? (
                     <>
                       <Image src={admin.momo.image} height={700} width={350} alt='momo-qr' />

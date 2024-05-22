@@ -13,8 +13,7 @@ function SearchBar() {
   const [searchLoading, setSearchLoading] = useState<boolean>(false)
 
   return (
-    <div
-      className={`flex items-center max-w-[500px] w-full lg:min-w-[520px] duration-300 transition-all`}>
+    <div className={`flex items-center max-w-[500px] w-full lg:min-w-[520px] trans-300`}>
       <div
         className={`w-full border border-dark rounded-[24px] relative mr-2.5 h-[36px] flex items-center justify-center text-dark`}>
         <input

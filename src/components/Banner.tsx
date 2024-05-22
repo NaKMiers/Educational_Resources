@@ -18,8 +18,6 @@ function Banner({ courses, className = '' }: BannerProps) {
   const { data: session } = useSession()
   const curUser: any = session?.user
 
-  console.log('courses', courses)
-
   // states
 
   // ref

@@ -28,7 +28,7 @@ function FloatingButton({ className = '' }: ContactFloatingProps) {
 
   return (
     <div
-      className={`fixed z-30 right-3 bottom-[80px] bg-dark-100 flex items-center rounded-xl transition-all duration-300 overflow-hidden shadow-medium-light select-none ${className}`}>
+      className={`fixed z-30 right-3 bottom-[80px] bg-dark-100 flex items-center rounded-xl trans-300 overflow-hidden shadow-medium-light select-none ${className}`}>
       <Link
         href='/flash-sale'
         className='group flex items-center justify-center h-[44px] w-[44px]'

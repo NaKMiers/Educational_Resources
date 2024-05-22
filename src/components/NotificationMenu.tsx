@@ -31,8 +31,6 @@ function NotificationMenu({
 
   // states
   const [curUser, setCurUser] = useState<any>(session?.user || {})
-  console.log('curUser:', curUser)
-
   // update user session
   useEffect(() => {
     const getUser = async () => {
@@ -78,7 +76,7 @@ function NotificationMenu({
             : 'max-h-0 sm:max-h-0 p-0 sm:max-w-0 sm:w-0 opacity-0x'
         } ${
           curUser && !curUser?._id ? 'hidden' : ''
-        } flex flex-col gap-2 overflow-y-auto w-full overflow-hidden transition-all duration-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-100`}>
+        } flex flex-col gap-2 overflow-y-auto w-full overflow-hidden trans-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-100`}>
         {notifications.map((noti: INotification) => (
           <li className='relative bg-red-100 rounded-lg hover:bg-white trans-300 p-2' key={noti._id}>
             <div

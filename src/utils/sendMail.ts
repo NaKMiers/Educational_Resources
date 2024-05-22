@@ -82,8 +82,6 @@ export async function sendResetPasswordEmail(email: string, name: string, link: 
     // Render template với dữ liệu
     const html = render(ResetPasswordEmail({ name, link }))
 
-    console.log('html', html)
-
     await sendMail(email, 'Reset Password', html)
   } catch (err: any) {
     console.log(err)

@@ -99,7 +99,7 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
               ? `/learning/${course?._id}/continue`
               : `/checkout/${course?.slug}`
           }
-          className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark duration-300 transition-all hover:-translate-y-1'>
+          className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark trans-300 hover:-translate-y-1'>
           {curUser?._id && curUser?.courses.map((course: any) => course.course).includes(course._id)
             ? 'Continue Learning'
             : 'Buy Now'}

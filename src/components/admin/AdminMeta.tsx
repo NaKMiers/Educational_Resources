@@ -35,7 +35,7 @@ function AdminMeta({ handleFilter, handleResetFilter, className = '', children }
 
   return (
     <div
-      className={`mt-8 bg-white self-end w-full rounded-medium shadow-md text-dark overflow-auto transition-all duration-300 no-scrollbar p-21 max-w-full ${className}`}>
+      className={`mt-8 bg-white self-end w-full rounded-medium shadow-md text-dark overflow-auto trans-300 no-scrollbar p-21 max-w-full ${className}`}>
       <div className='grid grid-cols-12 gap-21'>
         {/* MARK: children 1 -> n - 1 */}
         {Children.toArray(children).slice(0, -1)}

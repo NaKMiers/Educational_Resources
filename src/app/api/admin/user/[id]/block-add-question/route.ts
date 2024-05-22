@@ -16,16 +16,12 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
     // get values from request body
     const { value } = await req.json()
 
-    console.log('value:', value)
-
     // block / unblock user comment
     const updatedUser = await UserModel.findByIdAndUpdate(
       id,
       { $set: { 'blockStatuses.blockedAddingQuestion': value } },
       { new: true }
     )
-
-    console.log(updatedUser)
 
     return NextResponse.json({
       updatedUser,

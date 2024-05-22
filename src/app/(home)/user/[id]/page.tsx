@@ -13,7 +13,6 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
   try {
     // get user profile
     const res = await getUsersApi(id)
-    console.log('res:', res)
 
     user = res.user
   } catch (err: any) {

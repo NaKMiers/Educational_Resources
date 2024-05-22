@@ -137,7 +137,7 @@ function Slider({ time, hideControls, children, thumbs = [], mobile, className =
       onTouchEnd={handleTouchEnd}>
       {/* MARK: Slide Track */}
       <div
-        className={`flex w-full h-full cursor-pointer no-scrollbar transition-all ease-linear duration-300`}
+        className={`flex w-full h-full cursor-pointer no-scrollbar ease-linear trans-300`}
         style={{ marginLeft: '-100%' }}
         ref={slideTrackRef}>
         {[

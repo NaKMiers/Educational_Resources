@@ -50,7 +50,7 @@ async function Home() {
         <GroupCourses
           className='md:px-20'
           child='question'
-          childClassName='w-full sm:w-1/2 md:w-1/3 px-21/2'
+          childClassName='w-full sm:w-1/2 lg:w-1/3 px-21/2'
           questions={questions}
         />
 

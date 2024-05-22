@@ -79,8 +79,6 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
   // update personal info
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     async data => {
-      console.log('data', data)
-
       // validate form
       if (!handleValidate(data)) return
 

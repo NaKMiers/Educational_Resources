@@ -116,8 +116,6 @@ function Meta({
   // handle submit filter
   const handleFilter: SubmitHandler<FieldValues> = useCallback(
     async ({ data, newSelectedCates, newSelectedTgs }) => {
-      console.log('Filtering...', newSelectedCates)
-
       const params: any = handleOptimizeFilter({ data, newSelectedCates, newSelectedTgs })
 
       // handle query
@@ -195,8 +193,7 @@ function Meta({
   }, [handleFilter, handleResetFilter, handleSubmit])
 
   return (
-    <div
-      className={`self-end w-full text-dark transition-all duration-300 no-scrollbar p-21 ${className}`}>
+    <div className={`self-end w-full text-dark trans-300 no-scrollbar p-21 ${className}`}>
       {/* MARK: Filter */}
       <div className='relative grid grid-cols-12 gap-21'>
         {/* MARK: Categories Selection */}
@@ -243,7 +240,7 @@ function Meta({
               openFilterCategory
                 ? 'max-h-[200px] max-w-[500px] w-full p-3 opacity-1 overflow-auto'
                 : 'max-w-0 max-h-0 overflow-hidden p-0 opacity-0'
-            } flex flex-wrap gap-1 transition-all duration-300 absolute top-9 left-0 z-30 rounded-lg shadow-md bg-slate-100`}>
+            } flex flex-wrap gap-1 trans-300 absolute top-9 left-0 z-30 rounded-lg shadow-md bg-slate-100`}>
             <li
               className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                 categories.length === selectedFilterCategories.length
@@ -327,7 +324,7 @@ function Meta({
               openFilterTag
                 ? 'max-h-[200px] max-w-[500px] w-full p-3 opacity-1 overflow-auto'
                 : 'max-w-0 max-h-0 overflow-hidden p-0 opacity-0'
-            } flex flex-wrap gap-1 transition-all duration-300 absolute top-9 md:left-1/3 z-30 rounded-lg shadow-md bg-slate-100`}>
+            } flex flex-wrap gap-1 trans-300 absolute top-9 md:left-1/3 z-30 rounded-lg shadow-md bg-slate-100`}>
             <li
               className={`overflow-hidden max-w-60 text-ellipsis text-nowrap h-[34px] leading-[34px] px-2 rounded-md border cursor-pointer select-none trans-200 ${
                 tags.length === selectedFilterTags.length
@@ -397,7 +394,7 @@ function Meta({
                 {/* MARK: Label */}
                 <label
                   htmlFor={'search'}
-                  className={`absolute text-nowrap rounded-md text-sm text-dark duration-300 transform -translate-y-4 scale-75 top-2 left-5 z-10 origin-[0] font-semibold bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-[48%] peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
+                  className={`absolute text-nowrap rounded-md text-sm text-dark trans-300 transform -translate-y-4 scale-75 top-2 left-5 z-10 origin-[0] font-semibold bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-[48%] peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
                     errors.search ? 'text-rose-400' : 'text-dark'
                   }`}>
                   Search

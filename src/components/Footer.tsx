@@ -2,12 +2,13 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import Divider from './Divider'
 
 function Footer() {
   return (
     <footer className='border-t-2 border-slate-300 px-21'>
       {/* Head */}
-      <div className='flex items-center justify-between gap-21 border-b-2 border-slate-300'>
+      <div className='max-w-1200 mx-auto flex items-center justify-between gap-21'>
         <div className='flex items-center gap-4 py-2'>
           <div className='flex items-center gap-2'>
             <Link
@@ -37,23 +38,25 @@ function Footer() {
         </div>
       </div>
 
+      <Divider size={0} border />
+
       {/* Body */}
       <div className='grid grid-cols-1 md:grid-cols-3 py-21 gap-21'>
         <div className='flex flex-col md:items-center'>
           <h3 className='font-bold text-xl'>ABOUT US</h3>
 
           <ul>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Link href='/' className='underline underline-offset-2'>
                 Home
               </Link>
             </li>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Link href='/courses' className='underline underline-offset-2'>
                 Course
               </Link>
             </li>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Link href='/question' className='underline underline-offset-2'>
                 Forum
               </Link>
@@ -65,17 +68,17 @@ function Footer() {
           <h3 className='font-bold text-xl'>CONTACT</h3>
 
           <ul>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Link href='https://facebook.com' className='underline underline-offset-2'>
                 https://facebook.com
               </Link>
             </li>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Link href='https://github.com' className='underline underline-offset-2'>
                 https://github.com
               </Link>
             </li>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Link href='https://ere-eta.vercel.app' className='underline underline-offset-2'>
                 https://ere-eta.vercel.app
               </Link>
@@ -87,10 +90,10 @@ function Footer() {
           <h3 className='font-bold text-xl'>CERTIFIED BY</h3>
 
           <ul>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Image src='/images/certificate-1.png' width={130} height={130} alt='certificate' />
             </li>
-            <li className='hover:tracking-wider duration-300 transition-all py-1'>
+            <li className='hover:tracking-wider trans-300 py-1'>
               <Image src='/images/certificate-2.png' width={130} height={130} alt='certificate' />
             </li>
           </ul>

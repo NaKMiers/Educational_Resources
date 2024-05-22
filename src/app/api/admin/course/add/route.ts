@@ -27,8 +27,6 @@ export async function POST(req: NextRequest) {
     const categories = JSON.parse(data.categories as string)
     let images = formData.getAll('images')
 
-    console.log('author', author)
-
     // check images
     if (!images.length) {
       return NextResponse.json({ message: 'Images are required' }, { status: 400 })
@@ -39,7 +37,6 @@ export async function POST(req: NextRequest) {
     }
 
     const imageUrls = await Promise.all(images.map(file => uploadFile(file)))
-    console.log('imageUrls:', imageUrls)
 
     // create new course
     const newCourse = new CourseModel({
@@ -53,8 +50,6 @@ export async function POST(req: NextRequest) {
       oldPrice,
       images: imageUrls,
     })
-
-    console.log('newCourse:', newCourse)
 
     // save new course to database
     await newCourse.save()

@@ -47,7 +47,6 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
   const handleClose = useCallback(async () => {
     try {
       const { updatedQuestion } = await closeQuestionsApi(data._id, status === 'open' ? 'close' : 'open')
-      console.log('handleClose:', updatedQuestion)
 
       // update state
       setData(prev => ({ ...prev, status: updatedQuestion.status }))
@@ -105,7 +104,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
         <div className='absolute top-2 right-2 flex gap-2'>
           {(user._id === curUser?._id || user.role === 'admin') && (
             <button
-              className={`font-bold px-3 py-1.5 text-xs bg-slate-200 hover:text-white border-2 rounded-lg shadow-lg trans-200 ${
+              className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
                 status === 'open'
                   ? 'border-dark hover:bg-black'
                   : 'border-green-500 text-green-500 hover:bg-green-500'
@@ -117,7 +116,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
           )}
 
           <button
-            className={`font-bold px-3 py-1.5 text-xs hover:bg-dark-0 hover:border-dark hover:text-rose-500 border-2 border-rose-400 text-rose-400 rounded-lg shadow-lg trans-200`}
+            className={`font-bold px-1.5 py-1 text-[10px] hover:bg-dark-0 hover:border-dark hover:text-rose-500 border border-rose-400 text-rose-400 rounded-md shadow-md trans-200`}
             title='Report'
             onClick={() => setIsOpenReportDialog(true)}>
             Report

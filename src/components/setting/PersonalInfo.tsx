@@ -60,8 +60,6 @@ function PersonalInfo({ className = '' }: PersonalInfoProps) {
     }
   }, [reset, curUser])
 
-  console.log(getValues())
-
   // update personal info
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
     async data => {

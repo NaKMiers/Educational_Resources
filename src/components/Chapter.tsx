@@ -33,7 +33,7 @@ function Chapter({ chapter, courseId, lessonId = '', className = '' }: ChapterPr
         <ul
           className={`flex flex-col px-2 gap-1 ${
             open ? 'max-h-auto' : 'max-h-0'
-          } duration-300 transition-all overflow-hidden`}>
+          } trans-300 overflow-hidden`}>
           {chapter.lessons?.map(lesson => (
             <Link
               href={`/learning/${courseId}/${lesson._id}`}
