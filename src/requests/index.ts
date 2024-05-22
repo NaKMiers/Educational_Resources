@@ -28,5 +28,8 @@ export * from './voucherRequest'
 // Flash Sale
 export * from './flashSaleRequest'
 
+// Report
+export * from './reportRequest'
+
 // Admin
 export * from './adminRequest'

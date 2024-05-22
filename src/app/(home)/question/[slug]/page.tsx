@@ -1,3 +1,4 @@
+import BottomOfQuestion from '@/components/BottomOfQuestion'
 import Comment from '@/components/Comment'
 import Divider from '@/components/Divider'
 import { IComment } from '@/models/CommentModel'
@@ -53,6 +54,9 @@ async function QuestionDetailPage({ params: { slug } }: { params: { slug: string
           <p className='font-body tracking-wider py-21 text-lg'>{question?.content}</p>
 
           <Divider size={0} border />
+
+          {/* Bottom of question */}
+          {question && <BottomOfQuestion question={question} commentAmount={comments.length} />}
         </div>
 
         <Divider size={6} />

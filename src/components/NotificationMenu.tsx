@@ -1,12 +1,10 @@
 'use client'
 
 import { INotification } from '@/models/UserModel'
-import { removeNotificationApi } from '@/requests'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
-import toast from 'react-hot-toast'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import { format } from 'timeago.js'
 
@@ -76,39 +74,41 @@ function NotificationMenu({
             : 'max-h-0 sm:max-h-0 p-0 sm:max-w-0 sm:w-0 opacity-0x'
         } ${
           curUser && !curUser?._id ? 'hidden' : ''
-        } flex flex-col gap-2 overflow-y-auto w-full overflow-hidden trans-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-100`}>
-        {notifications.map((noti: INotification) => (
-          <li className='relative bg-red-100 rounded-lg hover:bg-white trans-300 p-2' key={noti._id}>
-            <div
-              className={`flex gap-2 ${noti.link ? 'cursor-pointer' : ''}`}
-              onClick={() => noti.link && router.push(noti.link)}>
-              <div className='max-w-[28px] max-h-[28px] w-full h-full rounded-md shadow-lg overflow-hidden'>
-                <Image
-                  className='w-full h-full object-cover'
-                  src={noti.image}
-                  width={28}
-                  height={28}
-                  alt='avatar'
-                />
-              </div>
-              <div className='font-body tracking-wider -mt-1 w-full'>
-                <p className='flex justify-between gap-2 font-semibold text-xs'>
-                  {noti.title}
-                  <IoCloseCircleOutline
-                    size={20}
-                    className='wiggle-1 flex-shrink-0'
-                    onClick={e => {
-                      e.stopPropagation()
-                      handleRemoveNotification(noti._id)
-                    }}
+        } text-dark flex flex-col gap-2 overflow-y-auto w-full overflow-hidden trans-300 absolute bottom-[72px] md:bottom-auto md:top-[60px] right-0 sm:right-21 z-30 sm:rounded-medium sm:shadow-sky-400 shadow-md bg-slate-100`}>
+        {notifications
+          .sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt))
+          .map((noti: INotification) => (
+            <li className='relative bg-red-100 rounded-lg hover:bg-white trans-300 p-2' key={noti._id}>
+              <div
+                className={`flex gap-2 ${noti.link ? 'cursor-pointer' : ''}`}
+                onClick={() => noti.link && router.push(noti.link)}>
+                <div className='max-w-[28px] max-h-[28px] w-full h-full rounded-md shadow-lg overflow-hidden'>
+                  <Image
+                    className='w-full h-full object-cover'
+                    src={noti.image}
+                    width={28}
+                    height={28}
+                    alt='avatar'
                   />
-                </p>
-                <p className='text-xs'>{format(noti.createdAt)}</p>
+                </div>
+                <div className='font-body tracking-wider -mt-1 w-full'>
+                  <p className='flex justify-between gap-2 font-semibold text-xs'>
+                    {noti.title}
+                    <IoCloseCircleOutline
+                      size={20}
+                      className='wiggle-1 flex-shrink-0'
+                      onClick={e => {
+                        e.stopPropagation()
+                        handleRemoveNotification(noti._id)
+                      }}
+                    />
+                  </p>
+                  <p className='text-xs'>{format(noti.createdAt)}</p>
+                </div>
               </div>
-            </div>
-            {noti.content && <p className='font-body text-xs tracking-wider mt-2'>{noti.content}</p>}
-          </li>
-        ))}
+              {noti.content && <p className='font-body text-xs tracking-wider mt-2'>{noti.content}</p>}
+            </li>
+          ))}
       </ul>
     </>
   )

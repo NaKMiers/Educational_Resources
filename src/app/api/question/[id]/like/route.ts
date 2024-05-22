@@ -2,6 +2,7 @@ import { connectDatabase } from '@/config/database'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 import QuestionModel from '@/models/QuestionModel'
+import UserModel, { IUser } from '@/models/UserModel'
 
 // Models: Question, User
 import '@/models/QuestionModel'
@@ -22,8 +23,13 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
     // get id and value to like to dislike
     const { value } = await req.json()
 
+    // get user liked / disliked
+    const user: IUser | null = await UserModel.findById(userId)
+      .select('username avatar firstName lastName')
+      .lean()
+
     // user does not exist
-    if (!userId) {
+    if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 })
     }
 
@@ -46,6 +52,22 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
 
     if (!updatedQuestion) {
       return NextResponse.json({ message: 'Question not found' }, { status: 404 })
+    }
+
+    // notify user only if like
+    if (!value && updatedQuestion.userId !== userId) {
+      await UserModel.findByIdAndUpdate(updatedQuestion.userId, {
+        $push: {
+          notifications: {
+            _id: new Date().getTime(),
+            title:
+              (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) +
+              ' liked on your question',
+            image: user.avatar,
+            type: 'emotion-question',
+          },
+        },
+      })
     }
 
     // return response

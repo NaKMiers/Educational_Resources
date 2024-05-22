@@ -14,8 +14,8 @@ const ReportSchema = new Schema(
       enum: ['question', 'comment', 'lesson', 'course'],
       required: true,
     },
-    typeId: {
-      type: Schema.Types.ObjectId,
+    link: {
+      type: String,
       required: true,
     },
     content: {
@@ -32,7 +32,9 @@ export default ReportModel
 export interface IReport {
   _id: string
   userId: string | IUser
+  type: string
+  link: string
   content: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }

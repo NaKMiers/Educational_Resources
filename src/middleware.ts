@@ -50,7 +50,7 @@ const requiredJoined = async (req: NextRequest, token: JWT | null) => {
   const courseId: string = req.nextUrl.pathname.split('/learning/')[1].split('/')[0]
 
   // current user hasn't joined the course
-  if (!courses.includes(courseId)) {
+  if (!courses.includes(courseId) && token.role !== 'admin') {
     return NextResponse.redirect(new URL('/', req.url))
   }
 

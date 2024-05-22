@@ -53,7 +53,7 @@ function AddQuestionForm() {
   }, [router, curUser, value])
 
   return (
-    <div className='flex items-center gap-3'>
+    <div className='flex gap-3'>
       <Link
         href={`/user/${curUser?._id}`}
         className='flex-shrink-0 w-[40px] h-[40px] rounded-full overflow-hidden shadow-lg border-2 border-white'>
@@ -65,11 +65,11 @@ function AddQuestionForm() {
         />
       </Link>
 
-      <input
-        className='h-[40px] w-full px-3 rounded-lg shadow-lg outline-none font-semibold font-body tracking-wider placeholder:font-body placeholder:tracking-wider'
-        type='text'
+      <textarea
+        className='w-full px-3 rounded-lg shadow-lg outline-none font-semibold font-body tracking-wider placeholder:font-body placeholder:tracking-wider'
         value={value}
         onChange={e => setValue(e.target.value)}
+        rows={3}
         placeholder={`What's on your mind${curUser?.lastName ? `, ${curUser?.lastName}` : ''}?`}
       />
 

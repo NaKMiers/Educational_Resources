@@ -15,22 +15,22 @@ export async function POST(req: NextRequest) {
 
     // get user id
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! })
-    const userId = token?.id
+    const userId = token?._id
 
     // check user id
     if (!userId) {
-      return NextResponse.json({ message: 'User not found' }, { status: 404 })
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 404 })
     }
 
     // get data from request
-    const { typeId, type, content } = await req.json()
+    const { type, content, link } = await req.json()
 
     // create report
     const report = new ReportModel({
       userId,
-      typeId,
       type,
       content,
+      link,
     })
 
     await report.save()

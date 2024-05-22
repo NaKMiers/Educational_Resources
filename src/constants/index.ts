@@ -186,7 +186,7 @@ export const features = [
 ]
 
 // MARK: Report Contents
-export const ReportContents = {
+export const reportContents = {
   question: ['Violence', '18+', 'Spam', 'Fake', 'Duplicate', 'Offensive'],
   comment: ['Violence', '18+', 'Spam', 'Fake', 'Duplicate', 'Offensive', 'Harassment', 'Hate Speech'],
   lesson: [

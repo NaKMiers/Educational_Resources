@@ -1,6 +1,6 @@
 'use client'
 
-import { ReportContents } from '@/constants'
+import { reportContents } from '@/constants'
 import { IQuestion } from '@/models/QuestionModel'
 import { IUser } from '@/models/UserModel'
 import { closeQuestionsApi, likeQuestionsApi } from '@/requests/questionRequest'
@@ -28,6 +28,8 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
   const [data, setData] = useState<IQuestion>(question)
   const { userId, content, likes, commentAmount, status } = data
   const user: IUser = userId as IUser
+
+  // report states
   const [isOpenReportDialog, setIsOpenReportDialog] = useState<boolean>(false)
   const [selectedContent, setSelectedContent] = useState<string>('')
 
@@ -56,6 +58,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
     }
   }, [data._id, status])
 
+  // handle report question
   const handleReport = useCallback(async () => {
     // check if content is selected or not
     if (!selectedContent) {
@@ -67,9 +70,9 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
       console.log('report')
 
       const { message } = await addReportApi({
-        typeId: question._id,
         type: 'question',
         content: selectedContent,
+        link: `/question/${question.slug}`,
       })
 
       // show success
@@ -78,7 +81,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
       console.log(err)
       toast.error(err.message)
     }
-  }, [question._id, selectedContent])
+  }, [selectedContent, question.slug])
 
   return (
     <div className={`rounded-2xl shadow-lg bg-white bg-opacity-80 ${className}`}>
@@ -101,27 +104,29 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
           </p>
           <p className='text-slate-500 text-sm font-semibold'>{format(question.createdAt)}</p>
         </Link>
-        <div className='absolute top-2 right-2 flex gap-2'>
-          {(user._id === curUser?._id || user.role === 'admin') && (
-            <button
-              className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
-                status === 'open'
-                  ? 'border-dark hover:bg-black'
-                  : 'border-green-500 text-green-500 hover:bg-green-500'
-              }`}
-              title={status === 'open' ? 'opening' : 'closing'}
-              onClick={handleClose}>
-              {status === 'open' ? 'close' : 'open'}
-            </button>
-          )}
+        {curUser?._id && (
+          <div className='absolute top-2 right-2 flex gap-2'>
+            {(user._id === curUser._id || user.role === 'admin') && (
+              <button
+                className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
+                  status === 'open'
+                    ? 'border-dark hover:bg-black'
+                    : 'border-green-500 text-green-500 hover:bg-green-500'
+                }`}
+                title={status === 'open' ? 'opening' : 'closing'}
+                onClick={handleClose}>
+                {status === 'open' ? 'close' : 'open'}
+              </button>
+            )}
 
-          <button
-            className={`font-bold px-1.5 py-1 text-[10px] hover:bg-dark-0 hover:border-dark hover:text-rose-500 border border-rose-400 text-rose-400 rounded-md shadow-md trans-200`}
-            title='Report'
-            onClick={() => setIsOpenReportDialog(true)}>
-            Report
-          </button>
-        </div>
+            <button
+              className={`font-bold px-1.5 py-1 text-[10px] hover:bg-dark-0 hover:border-dark hover:text-rose-500 border border-rose-400 text-rose-400 rounded-md shadow-md trans-200`}
+              title='Report'
+              onClick={() => setIsOpenReportDialog(true)}>
+              Report
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Center */}
@@ -156,7 +161,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
         open={isOpenReportDialog}
         setOpen={setIsOpenReportDialog}
         title='Report Question'
-        contents={ReportContents.question}
+        contents={reportContents.question}
         selectedContent={selectedContent}
         setSelectedContent={setSelectedContent}
         onAccept={handleReport}

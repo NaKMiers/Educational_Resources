@@ -1,4 +1,5 @@
 import { IComment } from '@/models/CommentModel'
+import { addReportApi } from '@/requests'
 import { hideCommentApi, likeCommentApi, replyCommentApi } from '@/requests/commentRequest'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -8,6 +9,8 @@ import toast from 'react-hot-toast'
 import { FaEye, FaEyeSlash, FaHeart, FaRegHeart, FaSortDown } from 'react-icons/fa'
 import { format } from 'timeago.js'
 import LoadingButton from './LoadingButton'
+import ReportDialog from './dialogs/ReportDigalog'
+import { reportContents } from '@/constants'
 
 interface CommentItemProps {
   comment: IComment
@@ -23,6 +26,10 @@ function CommentItem({ comment, setCmts, className = '' }: CommentItemProps) {
   // states
   const [isOpenReply, setIsOpenReply] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  // report states
+  const [isOpenReportDialog, setIsOpenReportDialog] = useState<boolean>(false)
+  const [selectedContent, setSelectedContent] = useState<string>('')
 
   // values
   const user = comment.user
@@ -80,6 +87,31 @@ function CommentItem({ comment, setCmts, className = '' }: CommentItemProps) {
     },
     [comment._id, setCmts, curUser, reset]
   )
+
+  // handle report comment
+  const handleReport = useCallback(async () => {
+    // check if content is selected or not
+    if (!selectedContent) {
+      toast.error('Please select a content to report')
+      return
+    }
+
+    try {
+      console.log('report')
+
+      const { message } = await addReportApi({
+        type: 'comment',
+        content: selectedContent,
+        link: `/comment/${comment._id}`,
+      })
+
+      // show success
+      toast.success(message)
+    } catch (err: any) {
+      console.log(err)
+      toast.error(err.message)
+    }
+  }, [comment._id, selectedContent])
 
   // like / unlike comment
   const likeComment = useCallback(
@@ -176,6 +208,25 @@ function CommentItem({ comment, setCmts, className = '' }: CommentItemProps) {
               {comment.hide ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
             </button>
           )}
+          {curUser?._id && (
+            <button
+              className={`font-bold px-1.5 py-0.5 text-[10px] hover:bg-dark-0 hover:border-dark hover:text-rose-500 border border-rose-400 text-rose-400 rounded-[4px] trans-200`}
+              title='Report'
+              onClick={() => setIsOpenReportDialog(true)}>
+              Report
+            </button>
+          )}
+          {/* Confirm Demote Collaborator Dialog */}
+          <ReportDialog
+            open={isOpenReportDialog}
+            setOpen={setIsOpenReportDialog}
+            title='Report Question'
+            contents={reportContents.comment}
+            selectedContent={selectedContent}
+            setSelectedContent={setSelectedContent}
+            onAccept={handleReport}
+            isLoading={false}
+          />
         </div>
 
         {/* MARK: Content */}

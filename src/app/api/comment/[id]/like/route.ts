@@ -2,6 +2,7 @@ import { connectDatabase } from '@/config/database'
 import CommentModel, { IComment } from '@/models/CommentModel'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
+import UserModel, { IUser } from '@/models/UserModel'
 
 // Models: Comment, User
 import '@/models/CommentModel'
@@ -22,8 +23,13 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
     // get id and value to like to dislike
     const { value } = await req.json()
 
+    // get user liked / disliked
+    const user: IUser | null = await UserModel.findById(userId)
+      .select('username avatar firstName lastName')
+      .lean()
+
     // user does not exist
-    if (!userId) {
+    if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 })
     }
 
@@ -65,6 +71,7 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
       return NextResponse.json({ message: 'Comment not found' }, { status: 404 })
     }
 
+    // format comment
     const comment: IComment = {
       ...updatedComment,
       userId: updatedComment.userId._id,
@@ -74,6 +81,22 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
         userId: c.userId._id,
         user: c.userId,
       })),
+    }
+
+    // notify user only if like
+    if (value === 'y' && updatedComment.userId._id !== userId) {
+      await UserModel.findByIdAndUpdate(updatedComment.userId._id, {
+        $push: {
+          notifications: {
+            _id: new Date().getTime(),
+            title:
+              (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username) +
+              ' liked on your comment',
+            image: user.avatar,
+            type: 'emotion-comment',
+          },
+        },
+      })
     }
 
     // return response
