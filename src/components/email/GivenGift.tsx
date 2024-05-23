@@ -71,7 +71,7 @@ export function GivenGift({ order = orderSample }: { order?: any }) {
                     <b>{formatPrice(order.total)}</b>
                   </p>
                   <p>
-                    <b>Email: </b>
+                    <b>Giver: </b>
                     <span className='text-[#0a82ed]'>{order.email}</span>
                   </p>
                 </div>

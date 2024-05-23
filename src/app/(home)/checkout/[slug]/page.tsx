@@ -196,12 +196,15 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
     try {
       // send request to server
       const { user } = await findUserApi(data.receivedEmail)
+      console.log('user:', user)
 
       // set found user
       setFoundUser(user)
       setBuyAsGiftMessage(
         `Gift this course to ${
-          user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username
+          user.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user?.username || user.email
         }`
       )
     } catch (err: any) {
