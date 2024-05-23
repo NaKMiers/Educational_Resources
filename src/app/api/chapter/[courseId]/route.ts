@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic'
 
 // [GET]: /course/learning/:courseId
 export async function GET(req: NextRequest, { params: { courseId } }: { params: { courseId: string } }) {
-  console.log('- Get Course Learning - ')
+  console.log('- Get Chapters Learning - ')
 
   try {
     // connect to database

@@ -1,3 +1,4 @@
+import Avatar from '@/components/Avatar'
 import Divider from '@/components/Divider'
 import GroupCourses from '@/components/GroupCourses'
 import { IUser } from '@/models/UserModel'
@@ -51,15 +52,7 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
 
         {/* Avatar */}
         <div className='max-w-[200px] max-h-[200[px] w-full h-full flex-shrink-0 order-1 sm:order-2 '>
-          <div className='w-full rounded-full aspect-square border-2 border-white shadow-lg overflow-hidden'>
-            <Image
-              className='w-full h-full object-cover'
-              src={user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR!}
-              width={200}
-              height={200}
-              alt='avatar'
-            />
-          </div>
+          <Avatar />
         </div>
       </div>
 

@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
       return NextResponse.json(
         {
-          message: `Đã gửi email xác minh tới địa chỉ ${email}. Vui lòng kiểm tra email của bạn.`,
+          message: `Email has been sent to ${email}. Please check you inbox.`,
         },
         { status: 200 }
       )
@@ -61,13 +61,13 @@ export async function POST(req: NextRequest) {
 
     // check edcode is exist
     if (!decode) {
-      return NextResponse.json({ message: 'Token không hợp lệ' }, { status: 401 })
+      return NextResponse.json({ message: 'Invalid token' }, { status: 401 })
     }
 
     // check expired time
     const currentTime = Math.floor(Date.now() / 1000)
     if ((decode.exp || 0) < currentTime) {
-      return NextResponse.json({ message: 'Link khôi phục đã hết hạn' }, { status: 401 })
+      return NextResponse.json({ message: 'Link has been expired' }, { status: 401 })
     }
 
     // update user isVerified = true
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       { new: true }
     )
 
-    return NextResponse.json({ updatedUser, message: 'Xác minh email thành công' }, { status: 200 })
+    return NextResponse.json({ updatedUser, message: 'Verify successfully' }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

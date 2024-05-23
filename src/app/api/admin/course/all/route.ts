@@ -96,8 +96,6 @@ export async function GET(req: NextRequest) {
           maxPrice: { $max: '$price' },
           minSold: { $min: '$sold' },
           maxSold: { $max: '$sold' },
-          minStock: { $min: '$stock' },
-          maxStock: { $max: '$stock' },
         },
       },
     ])
