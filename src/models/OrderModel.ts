@@ -24,6 +24,9 @@ const OrderSchema = new Schema(
       required: true,
       min: 0,
     },
+    receivedUser: {
+      type: String,
+    },
     voucherApplied: {
       type: Schema.Types.ObjectId,
       ref: 'voucher',
@@ -60,6 +63,7 @@ export interface IOrder {
   userId: string | IUser
   email: string
   total: number
+  receivedUser?: string
   voucherApplied: string | IVoucher
   discount: number
   item: any

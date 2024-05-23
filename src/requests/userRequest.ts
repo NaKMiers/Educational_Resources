@@ -27,6 +27,19 @@ export const getUsersApi = async (id: string = '') => {
 }
 
 // [GET]
+export const findUserApi = async (email: string = '') => {
+  // no-store to bypass cache
+  const res = await fetch(`/api/user/find/${email}`, { cache: 'no-store' })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
+// [GET]
 export const getRoleUsersApi = async () => {
   // no-store to bypass cache
   const res = await fetch('/api/admin/user/role-users', { cache: 'no-store' })

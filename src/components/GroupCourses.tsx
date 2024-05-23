@@ -115,7 +115,9 @@ function GroupCourses({
           {(child === 'course-card' ? courses : questions).map((item: any, index) => (
             <div
               key={index}
-              className={`relative flex-shrink-0 ${!isDragging ? 'snap-start' : ''} ${childClassName}`}>
+              className={`relative h-full flex-shrink-0 ${
+                !isDragging ? 'snap-start' : ''
+              } ${childClassName}`}>
               {child === 'course-card' ? (
                 <CourseCard course={item.course} className='' />
               ) : (

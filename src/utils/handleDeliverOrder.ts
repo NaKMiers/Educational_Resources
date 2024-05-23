@@ -2,14 +2,13 @@ import CourseModel from '@/models/CourseModel'
 import OrderModel, { IOrder } from '@/models/OrderModel'
 import UserModel, { IUser } from '@/models/UserModel'
 import VoucherModel, { IVoucher } from '@/models/VoucherModel'
-import { NextResponse } from 'next/server'
 
 // Models: Order, Voucher, User, Course
 import '@/models/CourseModel'
 import '@/models/OrderModel'
 import '@/models/UserModel'
 import '@/models/VoucherModel'
-import { notifyDeliveryOrder } from './sendMail'
+import { notifyDeliveryOrder, notifyGivenCourse } from './sendMail'
 
 export default async function handleDeliverOrder(id: string, message: string = '') {
   console.log('- Handle Deliver Order -')
@@ -41,15 +40,30 @@ export default async function handleDeliverOrder(id: string, message: string = '
   }
 
   // get item and applied voucher
-  const { item, email, total, userId } = order
+  const { item, email, total, userId, receivedUser } = order
 
-  // get user to check if user has already joined course
-  const userCourses: any = await UserModel.findById(userId).select('courses').lean()
+  const buyer: IUser | null = await UserModel.findById(userId).lean()
 
-  if (
-    userCourses?.courses.map((course: any) => course.course.toString()).includes(item._id.toString())
-  ) {
-    throw new Error('User has already joined this course')
+  // buy for themselves
+  if (!receivedUser) {
+    // get user to check if user has already joined course
+    const userCourses: any = buyer?.courses
+
+    if (userCourses.map((course: any) => course.course.toString()).includes(item._id.toString())) {
+      throw new Error('User has already joined this course')
+    }
+  }
+  // buy as a gift
+  else {
+    const receiver: IUser | null = await UserModel.findOne({ email: receivedUser }).lean()
+    if (!receiver) {
+      throw new Error('Receiver not found')
+    }
+
+    const userCourses: any = receiver?.courses
+    if (userCourses.map((course: any) => course.course.toString()).includes(item._id.toString())) {
+      throw new Error('Receiver has already joined this course')
+    }
   }
 
   // VOUCHER
@@ -81,8 +95,9 @@ export default async function handleDeliverOrder(id: string, message: string = '
   }
 
   // USER
+  const emailUser = receivedUser || email
   await UserModel.findOneAndUpdate(
-    { email },
+    { email: emailUser },
     {
       $inc: { expended: total },
       $addToSet: {
@@ -95,7 +110,13 @@ export default async function handleDeliverOrder(id: string, message: string = '
       $push: {
         notifications: {
           _id: new Date().getTime(),
-          title: 'You new course has been delivered',
+          title: receivedUser
+            ? `You have been given a course by ${
+                buyer?.firstName && buyer?.lastName
+                  ? `${buyer.firstName} ${buyer.lastName}`
+                  : buyer?.username
+              }`
+            : 'You new course has been delivered',
           image: '/images/logo.png',
           link: '/my-courses',
           type: 'delivered-order',
@@ -131,6 +152,17 @@ export default async function handleDeliverOrder(id: string, message: string = '
 
   // EMAIL
   await notifyDeliveryOrder(email, orderData)
+
+  // notifiy given course
+  if (receivedUser) {
+    await notifyGivenCourse(
+      receivedUser,
+      `${
+        buyer?.firstName && buyer?.lastName ? `${buyer.firstName} ${buyer.lastName}` : buyer?.username
+      }`,
+      orderData
+    )
+  }
 
   return {
     order,

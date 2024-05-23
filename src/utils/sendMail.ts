@@ -8,6 +8,7 @@ import { render } from '@react-email/render'
 import nodeMailer from 'nodemailer'
 
 // Models: User
+import GivenGift from '@/components/email/GivenGift'
 import '@/models/UserModel'
 
 // SEND MAIL CORE
@@ -56,6 +57,18 @@ export async function notifyDeliveryOrder(email: string, orderData: any) {
   try {
     const html = render(OrderEmail({ order: orderData }))
     await sendMail(email, 'You have an order from ERE', html)
+  } catch (err: any) {
+    console.log(err)
+  }
+}
+
+// given course notification
+export async function notifyGivenCourse(receiveEmail: string, sender: string, orderData: any) {
+  console.log('- Notify Given Course To Receiver -')
+
+  try {
+    const html = render(GivenGift({ order: { ...orderData, sender } }))
+    await sendMail(receiveEmail, `You have been given a course from ${sender}`, html)
   } catch (err: any) {
     console.log(err)
   }

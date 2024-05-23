@@ -58,21 +58,32 @@ export const generateOrderCodeApi = async () => {
 }
 
 // [POST]
-export const createOrderApi = async (
-  code: string,
-  email: string,
-  total: number,
-  voucherApplied: string | undefined,
-  discount: number | undefined,
-  item: any,
+export const createOrderApi = async ({
+  code,
+  email,
+  total,
+  voucherApplied,
+  receivedUser,
+  discount,
+  item,
+  paymentMethod,
+}: {
+  code: string
+  email: string
+  total: number
+  receivedUser: string | undefined
+  voucherApplied: string | undefined
+  discount: number | undefined
+  item: any
   paymentMethod: string
-) => {
+}) => {
   const res = await fetch('/api/order/create', {
     method: 'POST',
     body: JSON.stringify({
       code,
       email,
       total,
+      receivedUser,
       voucherApplied,
       discount,
       item,

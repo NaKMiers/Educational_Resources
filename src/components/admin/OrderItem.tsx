@@ -206,6 +206,14 @@ function OrderItem({
             </div>
           </div>
 
+          {/* Received User */}
+          {data.receivedUser && (
+            <p className='font-body tracking-wider'>
+              <span className='font-semibold text-orange-500'>Received User:</span>{' '}
+              <span className='underline underline-offset-1'>{data?.receivedUser}</span>
+            </p>
+          )}
+
           {/* Total */}
           <p
             className='flex items-center flex-wrap gap-x-2 mr-2 text-green-500 text-xl font-semibold'

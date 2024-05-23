@@ -3,6 +3,7 @@ import React from 'react'
 import Heading from './Heading'
 import Divider from './Divider'
 import { ICourse } from '@/models/CourseModel'
+import Link from 'next/link'
 
 interface BestSellerProps {
   courses: ICourse[]
@@ -30,15 +31,26 @@ function BestSeller({ courses, className = '' }: BestSellerProps) {
 
       <div className='grid grid-cols-1 md:grid-cols-3 gap-21'>
         {courses.map((course, index) => (
-          <div className='relative rounded-lg shadow-lg aspect-square overflow-hidden' key={course._id}>
-            <Image className='w-full h-full object-cover' src={course.images[0]} fill alt='thumbnail' />
+          <Link
+            href={`/${course.slug}`}
+            className='rounded-lg shadow-lg overflow-hidden'
+            key={course._id}>
+            <div className='aspect-video w-full shadow-lg'>
+              <Image
+                className='w-full h-full object-cover'
+                src={course.images[0]}
+                width={300}
+                height={300}
+                alt='thumbnail'
+              />
+            </div>
 
-            <div className='absolute left-0 bottom-0 w-full rounded-t-lg flex px-21 pt-10 pb-4 gap-21 justify-between bg-white'>
+            <div className='relative w-full rounded-t-l g flex px-21 pt-10 pb-4 gap-21 justify-between bg-white'>
               <span className='font-semibold text-lg'>Sold</span>
               <span className='font-semibold text-lg'>{course.joined}</span>
 
               {index <= 2 && (
-                <span className='absolute w-[80px] h-[80px] right-8 -top-5'>
+                <span className='absolute w-[60px] h-[60px] right-8 -top-5'>
                   <Image
                     className='w-full h-full object-cover'
                     src={`/images/top-${index + 1}-badge.png`}
@@ -48,7 +60,7 @@ function BestSeller({ courses, className = '' }: BestSellerProps) {
                 </span>
               )}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

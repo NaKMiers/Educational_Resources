@@ -2,7 +2,6 @@ import { connectDatabase } from '@/config/database'
 import OrderModel from '@/models/OrderModel'
 import UserModel from '@/models/UserModel'
 import handleDeliverOrder from '@/utils/handleDeliverOrder'
-import { notifyNewOrderToAdmin } from '@/utils/sendMail'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -19,7 +18,10 @@ export async function POST(req: NextRequest) {
     await connectDatabase()
 
     // get data to create order
-    const { code, email, total, voucherApplied, discount, item, paymentMethod } = await req.json()
+    const { code, email, total, receivedUser, voucherApplied, discount, item, paymentMethod } =
+      await req.json()
+
+    console.log('receivedUser: ', receivedUser)
 
     // get user id
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
@@ -39,12 +41,15 @@ export async function POST(req: NextRequest) {
       code,
       userId,
       email,
+      receivedUser,
       voucherApplied,
       discount,
       total,
       item,
       paymentMethod,
     })
+
+    console.log('newOrder: ', newOrder)
 
     await Promise.all([
       // save new order

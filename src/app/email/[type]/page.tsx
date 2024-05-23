@@ -1,3 +1,4 @@
+import GivenGift from '@/components/email/GivenGift'
 import NotifyCommentEmail from '@/components/email/NotifyCommentEmail'
 import NotifyOrderEmail from '@/components/email/NotifyOrderEmail'
 import OrderEmail from '@/components/email/OrderEmail'
@@ -20,6 +21,8 @@ function EmailTemplatePage({ params: { type } }: { params: { type: string } }) {
         return <SummaryEmail />
       case 'notify-comment':
         return <NotifyCommentEmail />
+      case 'given-gift':
+        return <GivenGift />
       default:
         return null
     }

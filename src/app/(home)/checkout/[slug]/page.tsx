@@ -7,8 +7,15 @@ import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
 import { IFlashSale } from '@/models/FlashSaleModel'
+import { IUser } from '@/models/UserModel'
 import { IVoucher } from '@/models/VoucherModel'
-import { applyVoucherApi, createOrderApi, generateOrderCodeApi, getSingleCourseApi } from '@/requests'
+import {
+  applyVoucherApi,
+  createOrderApi,
+  findUserApi,
+  generateOrderCodeApi,
+  getSingleCourseApi,
+} from '@/requests'
 import { applyFlashSalePrice, calcPercentage, formatPrice } from '@/utils/number'
 import { Link } from '@react-email/components'
 import { getSession, useSession } from 'next-auth/react'
@@ -17,8 +24,8 @@ import { notFound, useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { FaCircleNotch } from 'react-icons/fa'
 import { IoIosHelpCircle } from 'react-icons/io'
+import { IoMail } from 'react-icons/io5'
 import { MdOutlinePayments } from 'react-icons/md'
 import { RiCoupon2Fill, RiDonutChartFill } from 'react-icons/ri'
 
@@ -33,11 +40,19 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
   const [course, setCourse] = useState<ICourse | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<'momo' | 'banking'>('momo')
 
+  // voucher states
   const [isShowVoucher, setIsShowVoucher] = useState<boolean>(false)
   const [voucher, setVoucher] = useState<IVoucher | null>(null)
   const [voucherMessage, setVoucherMessage] = useState<string>('')
   const [applyingVoucher, setApplyingVoucher] = useState<boolean>(false)
 
+  // gift states
+  const [isShowGift, setIsShowGift] = useState<boolean>(false)
+  const [findingUser, setFindingUser] = useState<boolean>(false)
+  const [buyAsGiftMessage, setBuyAsGiftMessage] = useState<string>('')
+  const [foundUser, setFoundUser] = useState<IUser | null>(null)
+
+  // payment detail states
   const [subTotal, setSubTotal] = useState<number>(0)
   const [total, setTotal] = useState<number>(0)
   const [discount, setDiscount] = useState<number>(0)
@@ -58,6 +73,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
   } = useForm<FieldValues>({
     defaultValues: {
       paymentMethod: 'momo',
+      code: '',
+      receivedEmail: '',
     },
   })
 
@@ -171,6 +188,33 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
     [subTotal, curUser]
   )
 
+  // send request to server to check voucher
+  const handleFindUser: SubmitHandler<FieldValues> = useCallback(async data => {
+    // start finding user
+    setFindingUser(true)
+
+    try {
+      // send request to server
+      const { user } = await findUserApi(data.receivedEmail)
+
+      // set found user
+      setFoundUser(user)
+      setBuyAsGiftMessage(
+        `Gift this course to ${
+          user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username
+        }`
+      )
+    } catch (err: any) {
+      console.log(err)
+      const { message } = err
+      toast.error(message)
+      setBuyAsGiftMessage(message)
+    } finally {
+      // stop finding user
+      setFindingUser(false)
+    }
+  }, [])
+
   // handle copy
   const handleCopy = useCallback((text: string) => {
     navigator.clipboard.writeText(text)
@@ -188,15 +232,16 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
 
     try {
       // send request to server to create order
-      const { message } = await createOrderApi(
+      const { message } = await createOrderApi({
         code,
-        curUser.email,
+        email: curUser.email,
         total,
-        voucher?._id,
+        receivedUser: foundUser?.email,
+        voucherApplied: voucher?._id,
         discount,
-        course,
-        paymentMethod
-      )
+        item: course,
+        paymentMethod,
+      })
 
       // notify success
       toast.success(message)
@@ -220,7 +265,7 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
     curUser?._id,
     curUser.email,
     discount,
-    ,
+    foundUser?.email,
     total,
     voucher,
     course,
@@ -470,10 +515,12 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 disabled={applyingVoucher}
                 register={register}
                 errors={errors}
-                required
                 type='text'
                 icon={RiCoupon2Fill}
-                onFocus={() => clearErrors('code')}
+                onFocus={() => {
+                  clearErrors('code')
+                  setVoucherMessage('')
+                }}
                 className='w-full'
               />
               <button
@@ -493,6 +540,59 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             </div>
             {voucherMessage && (
               <p className={`${voucher ? 'text-green-500' : 'text-rose-500'} mb-2`}>{voucherMessage}</p>
+            )}
+
+            {/* Buy as a gift */}
+            <div className='mb-2'>
+              You want to gift to someone?{' '}
+              <p className='text-nowrap inline'>
+                (
+                <button
+                  className='text-orange-600 hover:underline z-10'
+                  onClick={() => setIsShowGift(prev => !prev)}>
+                  click here
+                </button>
+                )
+              </p>
+            </div>
+
+            <div
+              className={`flex items-center gap-2 mb-2 overflow-hidden trans-200 ${
+                isShowGift ? 'max-h-[200px]' : 'max-h-0'
+              }`}>
+              <Input
+                id='receivedEmail'
+                label='Email'
+                disabled={findingUser}
+                register={register}
+                errors={errors}
+                type='text'
+                icon={IoMail}
+                onFocus={() => {
+                  clearErrors('receivedEmail')
+                  setBuyAsGiftMessage('')
+                }}
+                className='w-full'
+              />
+              <button
+                className={`rounded-lg border py-2 px-3 text-nowrap h-[42px] flex-shrink-0 hover:bg-black trans-200 hover:text-white ${
+                  findingUser
+                    ? 'border-slate-200 bg-slate-200 pointer-events-none'
+                    : 'border-dark text-dark '
+                }`}
+                onClick={handleSubmit(handleFindUser)}
+                disabled={findingUser}>
+                {findingUser ? (
+                  <RiDonutChartFill size={26} className='animate-spin text-slate-300' />
+                ) : (
+                  'Find'
+                )}
+              </button>
+            </div>
+            {buyAsGiftMessage && (
+              <p className={`${foundUser ? 'text-green-500' : 'text-rose-500'} mb-2`}>
+                {buyAsGiftMessage}
+              </p>
             )}
 
             <Divider size={2} />
