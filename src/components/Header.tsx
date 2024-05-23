@@ -138,7 +138,9 @@ function Header({ className = '' }: HeaderProps) {
   return (
     <header
       className={`fixed z-50 bg-white ${
-        isTransparent ? 'text-white drop-shadow-lg bg-opacity-0' : 'text-dark bg-opacity-100'
+        isTransparent
+          ? 'text-dark md:text-white drop-shadow-lg md:bg-opacity-0'
+          : 'text-dark bg-opacity-100'
       } w-full shadow-lg trans-300 bottom-0 md:bottom-auto md:top-0 ${className}`}>
       {/* Main Header */}
       <div className='relative flex justify-between items-center max-w-1200 w-full h-[72px] m-auto px-21'>

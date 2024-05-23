@@ -87,7 +87,7 @@ function Banner({ courses, className = '' }: BannerProps) {
               height={1080}
               alt='item'
             />
-            <div className='content absolute top-[12%] left-1/2 -translate-x-1/2 max-w-[85%] w-[1140px] drop-shadow-2xl text-white'>
+            <div className='content absolute top-[15%] left-1/2 -translate-x-1/2 max-w-[85%] w-[1140px] drop-shadow-2xl text-white'>
               <div className='author font-bold tracking-[10px] drop-shadow-lg uppercase'>
                 {course.author}
               </div>
