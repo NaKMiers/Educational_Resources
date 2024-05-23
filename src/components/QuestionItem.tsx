@@ -88,7 +88,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
       {/* Top */}
       <div className='relative flex gap-3 p-4 border-b-2 border-slate-300'>
         <Link
-          href={`/user/${user._id}`}
+          href={`/user/${user?._id}`}
           className='flex-shrink-0 w-[40px] h-[40px] rounded-full aspect-square overflow-hidden shadow-lg'>
           <Image
             className='w-full h-full object-cover'
