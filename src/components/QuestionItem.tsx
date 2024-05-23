@@ -106,7 +106,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
         </Link>
         {curUser?._id && (
           <div className='absolute top-2 right-2 flex gap-2'>
-            {(user?._id === curUser._id || user.role === 'admin') && (
+            {(user?._id === curUser._id || user?.role === 'admin') && (
               <button
                 className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
                   status === 'open'
