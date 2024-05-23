@@ -92,21 +92,21 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
           className='flex-shrink-0 w-[40px] h-[40px] rounded-full aspect-square overflow-hidden shadow-lg'>
           <Image
             className='w-full h-full object-cover'
-            src={user.avatar}
+            src={user?.avatar}
             width={75}
             height={75}
             alt='avatar'
           />
         </Link>
-        <Link href={`/user/${user._id}`}>
+        <Link href={`/user/${user?._id}`}>
           <p className='text-lg font-bold -mt-1.5'>
-            {user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.username}
+            {user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user?.username}
           </p>
           <p className='text-slate-500 text-sm font-semibold'>{format(question.createdAt)}</p>
         </Link>
         {curUser?._id && (
           <div className='absolute top-2 right-2 flex gap-2'>
-            {(user._id === curUser._id || user.role === 'admin') && (
+            {(user?._id === curUser._id || user.role === 'admin') && (
               <button
                 className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
                   status === 'open'
