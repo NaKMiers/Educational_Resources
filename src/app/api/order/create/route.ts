@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from 'next/server'
 // Models: User, Order
 import '@/models/OrderModel'
 import '@/models/UserModel'
+import { notifyNewOrderToAdmin } from '@/utils/sendMail'
 
 // [POST]: /order/create
 export async function POST(req: NextRequest) {
