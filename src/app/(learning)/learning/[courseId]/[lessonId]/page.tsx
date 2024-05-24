@@ -5,12 +5,12 @@ import ReportDialog from '@/components/dialogs/ReportDigalog'
 import { reportContents } from '@/constants'
 import { ICourse } from '@/models/CourseModel'
 import { ILesson } from '@/models/LessonModel'
-import { addReportApi, getLessonApi } from '@/requests'
+import { addReportApi, getLessonApi, likeLessonApi } from '@/requests'
 import { getSession, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { FaQuestion } from 'react-icons/fa'
+import { FaHeart, FaQuestion, FaRegHeart } from 'react-icons/fa'
 import { IoChevronBackCircleOutline } from 'react-icons/io5'
 
 function LessonPage({
@@ -82,6 +82,27 @@ function LessonPage({
     }
   }, [lesson?._id, selectedContent])
 
+  // like / unlike lesson
+  const likeLesson = useCallback(
+    async (value: 'y' | 'n') => {
+      if (lesson?._id) {
+        try {
+          // send request to like / dislike lesson
+          const { updatedLesson } = await likeLessonApi(lesson._id, value)
+
+          // like / dislike lesson
+          setLesson(updatedLesson)
+        } catch (err: any) {
+          toast.error(err.message)
+          console.log(err)
+        }
+      } else {
+        toast.error('Lesson not found')
+      }
+    },
+    [lesson?._id]
+  )
+
   return (
     <div className='w-full'>
       <Divider size={5} />
@@ -135,6 +156,23 @@ function LessonPage({
       </div>
 
       <Divider size={4} />
+
+      <div className='group inline-flex items-center font-semibold gap-1 px-3'>
+        {lesson?.likes.includes(curUser?._id) ? (
+          <FaHeart
+            size={20}
+            className='text-rose-400 cursor-pointer wiggle'
+            onClick={() => likeLesson('n')}
+          />
+        ) : (
+          <FaRegHeart
+            size={20}
+            className='text-rose-400 cursor-pointer wiggle'
+            onClick={() => likeLesson('y')}
+          />
+        )}{' '}
+        <span>{lesson?.likes.length}</span>
+      </div>
 
       {/* Title */}
       <h1 className='text-ellipsis line-clamp-2 w-full text-4xl font-body tracking-wider px-3' title=''>

@@ -73,6 +73,21 @@ export const activateLessonsApi = async (ids: string[], value: boolean) => {
   return await res.json()
 }
 
+// [PATCH]
+export const likeLessonApi = async (id: string, value: 'y' | 'n') => {
+  const res = await fetch(`/api/lesson/${id}/like`, {
+    method: 'PATCH',
+    body: JSON.stringify({ value }),
+  })
+
+  // check status
+  if (!res.ok) {
+    throw new Error((await res.json()).message)
+  }
+
+  return await res.json()
+}
+
 // [DELETE]
 export const deleteLessonsApi = async (ids: string[]) => {
   const res = await fetch(`/api/admin/lesson/delete`, {
