@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Question
 import '@/models/QuestionModel'
+import UserModel, { IUser } from '@/models/UserModel'
 
 // [POST]: /question/add
 export async function POST(req: NextRequest) {
@@ -15,12 +16,19 @@ export async function POST(req: NextRequest) {
     await connectDatabase()
 
     // get user
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     const userId = token?._id
 
+    const user: IUser | null = await UserModel.findById(userId).lean()
+
     // check userId
-    if (!userId) {
+    if (!user) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    // check if user is allowed to add question
+    if (user.blockStatuses.blockedAddingQuestion) {
+      return NextResponse.json({ message: 'You are not allowed to add question' }, { status: 401 })
     }
 
     // get data to add question

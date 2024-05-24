@@ -97,8 +97,8 @@ function PersonalSetting() {
       <Divider size={8} />
 
       {/* MARK: Private Information */}
-      {/* <PrivateInfo /> */}
-      {/* <Divider size={8} /> */}
+      <PrivateInfo />
+      <Divider size={8} />
 
       {/* MARK: Notification Setting */}
       <NotificationSettings />

@@ -65,13 +65,13 @@ function ResetPasswordEmail({
               <a href={link} className='text-blue-500'>
                 restore your password
               </a>{' '}
-              ngay.
+              now.
             </p>
 
             <div className='text-center p-3'>
               <a
                 href={link}
-                className='inline bg-primary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
+                className='inline bg-sky-500 no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
                 Restore password
               </a>
             </div>

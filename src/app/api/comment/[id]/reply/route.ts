@@ -24,13 +24,16 @@ export async function POST(req: NextRequest, { params: { id } }: { params: { id:
     const { content } = await req.json()
 
     // get user commented
-    const user: IUser | null = await UserModel.findById(userId)
-      .select('username avatar firstName lastName')
-      .lean()
+    const user: IUser | null = await UserModel.findById(userId).lean()
 
     // user does not exist
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 })
+    }
+
+    // check if user is allowed to comment
+    if (user.blockStatuses.blockedComment) {
+      return NextResponse.json({ message: 'You are not allowed to comment' }, { status: 403 })
     }
 
     // check if parent comment id or content is empty
@@ -64,8 +67,6 @@ export async function POST(req: NextRequest, { params: { id } }: { params: { id:
       return NextResponse.json({ message: 'Parent comment not found' }, { status: 404 })
     }
     const notifyUserId = parentComment?.userId
-
-    console.log('notifyUserId', notifyUserId)
 
     // notify user
     await UserModel.findByIdAndUpdate(notifyUserId, {

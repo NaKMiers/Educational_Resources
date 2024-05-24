@@ -60,12 +60,12 @@ export function SummaryEmail({ summary = summarySample }: { summary?: any }) {
                 </h1>
 
                 <h2 className='text-3xl text-slate-400 mt-0 font-semibold text-center'>
-                  Báo cáo thu nhập tháng {curMonth}
+                  Month Income Report
                 </h2>
 
                 <div className='text-sm mt-8'>
                   <p>
-                    <b>Cộng tác viên: </b>
+                    <b>Collaborator: </b>
                     <span>
                       {(user.firstName && user.lastname
                         ? user.firstName + ' ' + user.lastname
@@ -73,15 +73,15 @@ export function SummaryEmail({ summary = summarySample }: { summary?: any }) {
                     </span>
                   </p>
                   <p>
-                    <b>Hoa hồng: </b>
+                    <b>Commission: </b>
                     <span className='font-semibodl text-rose-500'>{user.commission.value}</span>
                   </p>
                   <p>
-                    <b>Số lượng voucher trong tháng: </b>
+                    <b>Number of vouchers in month: </b>
                     <span>{vouchers.length}</span>
                   </p>
                   <p>
-                    <b>Thu nhập trong tháng {curMonth}: </b>
+                    <b>Month Income {curMonth}: </b>
                     <b className='text-green-500'>{formatPrice(income)}</b>
                   </p>
                 </div>

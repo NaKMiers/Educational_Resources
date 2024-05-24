@@ -48,9 +48,9 @@ function VerifyEmailEmail({
           <Section className='px-5'>
             <p>Hi {name},</p>
             <p>
-              Bạn đã gửi yêu cầu xác minh email tại{' '}
-              <span className='font-semibold'>&quot;ERE&quot;</span> lúc{' '}
-              {new Intl.DateTimeFormat('vi', {
+              You have requested an email verification at{' '}
+              <span className='font-semibold'>&quot;ERE&quot;</span> at{' '}
+              {new Intl.DateTimeFormat('en', {
                 dateStyle: 'full',
                 timeStyle: 'medium',
                 timeZone: 'Asia/Ho_Chi_Minh',
@@ -58,37 +58,34 @@ function VerifyEmailEmail({
               .
             </p>
 
-            <p>Nếu đây không phải là bạn, vui lòng bỏ qua email này.</p>
+            <p>If this not you, please ignore this email.</p>
 
             <p>
-              Ngược lại, nếu đây là bạn, hãy ấn nút bên dưới để{' '}
+              On the contrary, if this is you, please click the button below to{' '}
               <a href={link} className='text-blue-500'>
-                xác minh email của bạn
+                verify your email
               </a>{' '}
-              ngay.
+              now.
             </p>
 
             {/* Button */}
             <div className='text-center p-3'>
               <a
                 href={link}
-                className='inline bg-secondary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
-                Xác minh email
+                className='inline bg-sky-500 no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
+                Verify email
               </a>
             </div>
 
+            <p>To keep your account in secure, do not share this email to anyone else!</p>
             <p>
-              Để giữ có tài khoản của bạn được an toàn, vui lòng không chia sẻ email này với bất kỳ ai.
-            </p>
-            <p>
-              Nếu có bất kỳ thắc mắc nào? Vui lòng liên hệ ERE để được hỗ trợ một cách nhiệt tình và
-              nhanh chống:{' '}
+              If you have any questions? Please contact us for fast and enthusiastic support:{' '}
               <a href='https://www.messenger.com/t/170660996137305' className='text-blue-500'>
-                Liên hệ
+                Contact
               </a>
             </p>
             <p>
-              Chân thành cảm ơn,
+              Thank you very much,
               <br />
               ERE
             </p>

@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
         : 'Your order has been sent to email ' + email
 
     // notify new order to admin
-    // await notifyNewOrderToAdmin(newOrder)
+    await notifyNewOrderToAdmin(newOrder)
 
     return NextResponse.json({ message }, { status: 201 })
   } catch (err: any) {

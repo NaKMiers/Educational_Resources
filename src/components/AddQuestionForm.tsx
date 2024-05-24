@@ -37,7 +37,7 @@ function AddQuestionForm() {
     setLoading(true)
 
     try {
-      const question = await addQuestionApi({ content: value })
+      await addQuestionApi({ content: value })
 
       // reset
       setValue('')
@@ -45,7 +45,8 @@ function AddQuestionForm() {
       // reload page
       router.refresh()
     } catch (err: any) {
-      console.error(err)
+      console.log(err)
+      toast.error(err.message)
     } finally {
       // stop loading
       setLoading(false)

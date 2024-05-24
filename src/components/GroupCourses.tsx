@@ -6,7 +6,7 @@ import { IQuestion } from '@/models/QuestionModel'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import CourseCard from './CourseCard'
-import Question from './QuestionItem'
+import QuestionItem from './QuestionItem'
 
 interface GroupCoursesProps {
   category?: ICategory
@@ -121,7 +121,7 @@ function GroupCourses({
               {child === 'course-card' ? (
                 <CourseCard course={item.course} className='' />
               ) : (
-                <Question question={item} />
+                <QuestionItem question={item} />
               )}
             </div>
           ))}

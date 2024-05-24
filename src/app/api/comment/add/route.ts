@@ -19,20 +19,23 @@ export async function POST(req: NextRequest) {
     await connectDatabase()
 
     // get user id to add comment
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! })
+    const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! })
     const userId = token?._id
 
     // get product id and content to add comment
     const { questionId, lessonId, content } = await req.json()
 
     // get user commented
-    const user: IUser | null = await UserModel.findById(userId)
-      .select('username avatar firstName lastName')
-      .lean()
+    const user: IUser | null = await UserModel.findById(userId).lean()
 
     // user does not exist
     if (!user) {
       return NextResponse.json({ message: 'User not found' }, { status: 401 })
+    }
+
+    // check if user is allowed to comment
+    if (user.blockStatuses.blockedComment) {
+      return NextResponse.json({ message: 'You are not allowed to comment' }, { status: 403 })
     }
 
     // check if productId or content is empty

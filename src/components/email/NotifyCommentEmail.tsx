@@ -49,34 +49,34 @@ export function NotifyCommentEmail({ data = commentData }: { data?: any }) {
               <Column className='font'>
                 <h1 className='text-2xl font-bold text-center'>Hi {data.receiver}👋 </h1>
                 <h2 className='text-xl font-semibold text-center'>
-                  Có người vừa phản hồi bình luận của bạn, hãy phản hồi lại ngay nào 😊!
+                  Someone has just replied your comment, reply now 😊!
                 </h2>
 
                 <div className='text-sm mt-8'>
                   <p>
-                    <b>Người bình luận: </b>
+                    <b>Commenter: </b>
                     <span className='text-secondary tracking-wider font-semibold'>
                       {data.senderName}
                     </span>{' '}
                     <span className='text-slate-500'>({data.senderEmail})</span>
                   </p>
                   <p>
-                    <b>Người nhận: </b>
+                    <b>Receiver: </b>
                     <span className='text-secondary tracking-wider font-semibold'>
                       {data.receiver}
                     </span>{' '}
                     <span className='text-slate-500'>({data.receiverEmail})</span>
                   </p>
                   <p>
-                    <b>Thời gian: </b>
-                    {new Intl.DateTimeFormat('vi', {
+                    <b>At time: </b>
+                    {new Intl.DateTimeFormat('en', {
                       dateStyle: 'full',
                       timeStyle: 'medium',
                       timeZone: 'Asia/Ho_Chi_Minh',
                     }).format(new Date(data.time))}
                   </p>
                   <p>
-                    <b>Nội dung: </b>
+                    <b>Content: </b>
                     <span className='text-slate-500'>{data.content}</span>
                   </p>
                 </div>

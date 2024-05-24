@@ -31,6 +31,7 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
@@ -92,7 +93,7 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
             disabled={isLoading}
             type='text'
             {...register('comment', { required: true })}
-            onWheel={e => e.currentTarget.blur()}
+            onBlur={() => clearErrors('comment')}
           />
 
           {/* label */}
@@ -107,7 +108,7 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
         <LoadingButton
           className='h-[40px] flex items-center px-3 sm:px-6 border border-primary hover:bg-primary text-primary hover:text-white rounded-lg trans-200'
           onClick={handleSubmit(sendComment)}
-          text='Gửi'
+          text='Send'
           isLoading={isLoading}
         />
       </div>

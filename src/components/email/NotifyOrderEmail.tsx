@@ -58,7 +58,7 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
                   </p>
                   <p>
                     <b>Bought Date: </b>
-                    {new Intl.DateTimeFormat('vi', {
+                    {new Intl.DateTimeFormat('en', {
                       dateStyle: 'full',
                       timeStyle: 'medium',
                       timeZone: 'Asia/Ho_Chi_Minh',
@@ -108,8 +108,8 @@ export function NotifyOrderEmail({ order = orderSample }: { order?: any }) {
               <div className='text-center p-3 mb-8'>
                 <a
                   href={`https://ere-eta.vercel.app/admin/order/all`}
-                  className='inline bg-primary no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
-                  Giao hàng ngay
+                  className='inline bg-sky-500 no-underline rounded-lg text-white font-semibold cursor-pointer py-3 px-7 border-0'>
+                  Deliver Now
                 </a>
               </div>
             )}

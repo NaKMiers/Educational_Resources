@@ -3,7 +3,6 @@
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
 import { setOpenAuthentication } from '@/libs/reducers/modalReducer'
 import { updatePrivateInfoApi } from '@/requests'
-import { capitalize } from '@/utils'
 import { useSession } from 'next-auth/react'
 import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
@@ -62,7 +61,11 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
       let isValid = true
 
       // new password must be at least 6 characters and contain at least 1 lowercase, 1 uppercase, 1 number
-      if (data.newPassword.trim() && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(data.newPassword)) {
+      if (
+        curUser?.role === 'local' &&
+        data.newPassword.trim() &&
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(data.newPassword)
+      ) {
         setError('newPassword', {
           type: 'manual',
           message:
@@ -73,7 +76,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
 
       return isValid
     },
-    [setError]
+    [setError, curUser?.role]
   )
 
   // update personal info
@@ -228,7 +231,7 @@ function PrivateInfo({ className = '' }: PrivateInfoProps) {
         )}
         <div className='col-span-3 md:col-span-1'>
           <p className='text-slate-500'>Role</p>
-          <p>{capitalize(curUser?.role || '')}</p>
+          <p className='uppercase font-semibold text-purple-500'>{curUser?.role}</p>
         </div>
       </div>
     </div>
