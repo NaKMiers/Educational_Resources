@@ -54,8 +54,6 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
       return NextResponse.json({ message: 'Lesson not found' }, { status: 404 })
     }
 
-    // format lesson
-
     // return response
     return NextResponse.json(
       { updatedLesson, message: `${value === 'y' ? 'Like' : 'Dislike'} successfully` },
