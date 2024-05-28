@@ -40,7 +40,7 @@ const handler = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials: any) {
-        console.log('- Credentials -', credentials)
+        console.log('- Credentials -')
 
         // connect to database
         await connectDatabase()
@@ -87,9 +87,6 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       console.log('- JWT -')
-      // console.log('jwt-xxxx', token)
-      // console.log('jwt-trigger', trigger)
-      // console.log('jwt-ss', session)
 
       if (trigger === 'update' && token._id) {
         console.log('- Update Token -')
@@ -111,8 +108,6 @@ const handler = NextAuth({
 
     async session({ session, token }) {
       console.log('- Session -')
-      // console.log('session-xxxx', session)
-      // console.log('session-token', token)
 
       session.user = token
 

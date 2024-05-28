@@ -19,7 +19,6 @@ export async function PUT(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! })
     const userId = token?._id
     const oldAvatar: string = token?.avatar as string
-    console.log('oldAvatar', oldAvatar)
 
     // get data to create product
     const formData = await req.formData()

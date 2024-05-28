@@ -4,7 +4,7 @@ import { IComment } from '@/models/CommentModel'
 import { addCommentApi } from '@/requests/commentRequest'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import CommentItem from './CommentItem'
@@ -23,7 +23,7 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
   const curUser: any = session?.user
 
   // states
-  const [cmts, setCmts] = useState<IComment[]>(comments || [])
+  const [cmts, setCmts] = useState<IComment[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   // forms
@@ -39,6 +39,11 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
     },
   })
 
+  // set cmts
+  useEffect(() => {
+    setCmts(comments)
+  }, [comments])
+
   // handle send comment
   const sendComment: SubmitHandler<FieldValues> = useCallback(
     async data => {
@@ -46,7 +51,7 @@ function Comment({ comments, questionId, lessonId, className = '' }: CommentProp
       if (!curUser) return toast.error('You have to login to perform this action')
 
       // check if comment is valid
-      if (questionId) {
+      if (questionId || lessonId) {
         setIsLoading(true)
 
         try {

@@ -13,8 +13,6 @@ function Avatar() {
   const { data: session, update } = useSession()
   const user: any = session?.user
 
-  console.log('user', user)
-
   // states
   const [imageUrl, setImageUrl] = useState<string>('')
   const [file, setFile] = useState<File | null>(null)

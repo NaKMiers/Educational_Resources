@@ -22,8 +22,6 @@ export async function POST(req: NextRequest) {
     const { code, email, total, receivedUser, voucherApplied, discount, item, paymentMethod } =
       await req.json()
 
-    console.log('receivedUser: ', receivedUser)
-
     // get user id
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     const userId = token?._id
@@ -49,8 +47,6 @@ export async function POST(req: NextRequest) {
       item,
       paymentMethod,
     })
-
-    console.log('newOrder: ', newOrder)
 
     await Promise.all([
       // save new order

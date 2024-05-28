@@ -1,8 +1,10 @@
 'use client'
 
+import Comment from '@/components/Comment'
 import Divider from '@/components/Divider'
 import ReportDialog from '@/components/dialogs/ReportDigalog'
 import { reportContents } from '@/constants'
+import { IComment } from '@/models/CommentModel'
 import { ICourse } from '@/models/CourseModel'
 import { ILesson } from '@/models/LessonModel'
 import { addReportApi, getLessonApi, likeLessonApi } from '@/requests'
@@ -24,6 +26,7 @@ function LessonPage({
   // states
   const [curUser, setCurUser] = useState<any>(session?.user || {})
   const [lesson, setLesson] = useState<ILesson | null>(null)
+  const [comments, setComments] = useState<IComment[]>([])
 
   // report states
   const [isOpenReportDialog, setIsOpenReportDialog] = useState<boolean>(false)
@@ -47,8 +50,11 @@ function LessonPage({
     const getLesson = async () => {
       // get lesson for learning
       try {
-        const { lesson } = await getLessonApi(lessonId)
+        const { lesson, comments } = await getLessonApi(lessonId)
+
+        // set states
         setLesson(lesson)
+        setComments(comments)
       } catch (err: any) {
         console.log(err)
       }
@@ -66,8 +72,6 @@ function LessonPage({
     }
 
     try {
-      console.log('report')
-
       const { message } = await addReportApi({
         type: 'lesson',
         content: selectedContent,
@@ -157,22 +161,33 @@ function LessonPage({
 
       <Divider size={4} />
 
-      <div className='group inline-flex items-center font-semibold gap-1 px-3'>
-        {lesson?.likes.includes(curUser?._id) ? (
-          <FaHeart
-            size={20}
-            className='text-rose-400 cursor-pointer wiggle'
-            onClick={() => likeLesson('n')}
-          />
-        ) : (
-          <FaRegHeart
-            size={20}
-            className='text-rose-400 cursor-pointer wiggle'
-            onClick={() => likeLesson('y')}
-          />
-        )}{' '}
-        <span>{lesson?.likes.length}</span>
+      <div className='flex justify-between font-semibold gap-21 px-3'>
+        <div className='group flex items-center justify-center gap-1'>
+          {lesson?.likes.includes(curUser?._id) ? (
+            <FaHeart
+              size={20}
+              className='text-rose-400 cursor-pointer wiggle'
+              onClick={() => likeLesson('n')}
+            />
+          ) : (
+            <FaRegHeart
+              size={20}
+              className='text-rose-400 cursor-pointer wiggle'
+              onClick={() => likeLesson('y')}
+            />
+          )}{' '}
+          <span>{lesson?.likes.length}</span>
+        </div>
+
+        <Link
+          href='/question'
+          className='px-2 py-1 bg-slate-200 flex items-center rounded-lg hover:bg-dark-100 hover:text-white trans-200 shadow-lg'>
+          <span className='font-semibold text-lg'>Ask Question </span>
+          <FaQuestion size={18} />
+        </Link>
       </div>
+
+      <Divider size={2} />
 
       {/* Title */}
       <h1 className='text-ellipsis line-clamp-2 w-full text-4xl font-body tracking-wider px-3' title=''>
@@ -184,15 +199,19 @@ function LessonPage({
       {/* Description */}
       <div className='px-4'>{lesson?.description}</div>
 
-      <Divider size={8} />
+      {/* <Divider size={8} /> */}
 
       {/* Question */}
-      <Link
-        href='/question'
-        className='absolute bottom-[70px] right-2 px-2 py-1 bg-slate-200  flex items-center rounded-lg hover:bg-dark-100 hover:text-white trans-200 shadow-lg'>
-        <span className='font-semibold text-lg'>Ask Question </span>
-        <FaQuestion size={18} />
-      </Link>
+
+      <Divider size={8} />
+
+      <div className='px-3'>
+        <h3 className='font-semibold text-xl mb-2 text-slate-800'>Comments</h3>
+
+        <Comment comments={comments} lessonId={lesson?._id} />
+      </div>
+
+      <Divider size={8} />
     </div>
   )
 }

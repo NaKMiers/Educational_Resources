@@ -147,7 +147,7 @@ function RegisterPage() {
   return (
     <div className='relative min-h-screen w-full overflow-hidden'>
       <Image
-        className='absolute z-30 top-0 left-0'
+        className='w-[44px] absolute z-30 top-21 left-21 rounded-md'
         src='/images/logo.png'
         width={70}
         height={70}
