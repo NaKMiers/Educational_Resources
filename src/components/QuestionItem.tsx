@@ -130,7 +130,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
       </div>
 
       {/* Center */}
-      <div className='px-5 py-6 font-body tracking-wider border-b-2 border-slate-300'>{content}</div>
+      <div className='px-5 py-6 font-body tracking-wider border-b-2 border-slate-300 overflow-auto'>{content}</div>
 
       {/* Bottom */}
       <div className='flex h-[50px]'>
