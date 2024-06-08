@@ -23,11 +23,12 @@ export async function POST(req: NextRequest) {
     if (existingUser) {
       return NextResponse.json({ message: 'Email or username is already taken' }, { status: 401 })
     }
+
     // create new user
     const newUser = new UserModel({ firstName, lastName, username, email, password })
     await newUser.save()
 
-    // get resgisted user
+    // get registered user
     const registeredUser: any = await UserModel.findOne({ email }).lean()
 
     // exclude password from user object

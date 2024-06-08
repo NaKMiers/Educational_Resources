@@ -65,7 +65,7 @@ export async function PUT(req: NextRequest) {
     }
 
     // update personal info
-    const asd = await UserModel.findByIdAndUpdate(
+    await UserModel.findByIdAndUpdate(
       userId,
       {
         $set: set,

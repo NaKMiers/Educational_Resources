@@ -110,7 +110,6 @@ const handler = NextAuth({
       console.log('- Session -')
 
       session.user = token
-
       return session
     },
 
@@ -152,7 +151,7 @@ const handler = NextAuth({
             return true
           }
 
-          // create new user with google infomation (auto verified email)
+          // create new user with google information (auto verified email)
           const newUser = new UserModel({
             email,
             avatar,

@@ -171,7 +171,8 @@ function LoginPage() {
 
           <Link
             href='/auth/forgot-password'
-            className='block w-full text-right text-sm underline underline-offset-2 mt-2'>
+            className='block w-full text-right text-sm underline underline-offset-2 mt-2'
+          >
             Forgot Password?
           </Link>
 
@@ -181,7 +182,8 @@ function LoginPage() {
               disabled={isLoading}
               className={`h-[42px] flex items-center justify-center border border-dark bg-secondary text-dark rounded-3xl px-5 mt-5 font-bold text-lg hover:bg-white trans-200 ${
                 isLoading ? 'bg-slate-200 pointer-events-none' : ''
-              }`}>
+              }`}
+            >
               {isLoading ? (
                 <FaCircleNotch
                   size={18}
