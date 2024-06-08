@@ -25,10 +25,12 @@ export async function POST(req: NextRequest, { params: { code } }: { params: { c
     const { email, total } = await req.json()
 
     // get voucher from database to apply
-    const voucher: IVoucher | null = await VoucherModel.findOne({ code }).populate('owner').lean()
+    const voucher: IVoucher | null = await VoucherModel.findOne({ code, active: true })
+      .populate('owner')
+      .lean()
 
     // if voucher does not exist
-    if (!voucher || !voucher.active) {
+    if (!voucher) {
       return NextResponse.json({ message: 'Voucher not found' }, { status: 404 })
     }
 
@@ -45,12 +47,12 @@ export async function POST(req: NextRequest, { params: { code } }: { params: { c
       )
     }
 
-    // voucher has expired => * voucher never be expired if expire = null
+    // voucher has expired => voucher never be expired if expire = null
     if (voucher.expire && new Date() > new Date(voucher.expire)) {
       return NextResponse.json({ message: 'You voucher has been expired' }, { status: 401 })
     }
 
-    // voucher has over used => * voucher can be used infitite times if timesLeft = null
+    // voucher has over used => * voucher can be used infinite times if timesLeft = null
     if ((voucher.timesLeft || 0) <= 0) {
       return NextResponse.json({ message: 'You voucher has been run out of using' }, { status: 401 })
     }

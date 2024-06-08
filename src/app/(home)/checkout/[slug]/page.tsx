@@ -294,20 +294,23 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     errors.paymentMethod
                       ? 'border-rose-400 bg-rose-100'
                       : 'border-slate-200 bg-slate-100'
-                  }`}>
+                  }`}
+                >
                   <MdOutlinePayments size={19} className='text-secondary' />
                 </span>
                 <div
                   className={`relative w-full border-[2px] border-l-0 bg-white rounded-tr-lg rounded-br-lg ${
                     errors.paymentMethod ? 'border-rose-400' : 'border-slate-200'
-                  }`}>
+                  }`}
+                >
                   <select
                     id='paymentMethod'
                     className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                     disabled={false}
                     required
                     {...register('paymentMethod', { required: true })}
-                    onChange={e => setPaymentMethod(e.target.value as 'momo' | 'banking')}>
+                    onChange={e => setPaymentMethod(e.target.value as 'momo' | 'banking')}
+                  >
                     <option value='momo' className='font-semibold text-rose-800'>
                       MOMO
                     </option>
@@ -321,7 +324,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     htmlFor='type'
                     className={`absolute rounded-md text-sm text-gray-500 trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
                       errors.paymentMethod ? 'text-rose-400' : 'text-dark'
-                    }`}>
+                    }`}
+                  >
                     Payment Method
                   </label>
                 </div>
@@ -345,7 +349,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 </a>
               ) : (
                 <a
-                  href={`https://dl.vietqr.io/pay?app=vcb&ba=${admin.banking.account}@vcb&am=${total}&tn=${code}`}>
+                  href={`https://dl.vietqr.io/pay?app=vcb&ba=${admin.banking.account}@vcb&am=${total}&tn=${code}`}
+                >
                   Ấn vào link sau để chuyển nhanh:{' '}
                   <span className='text-[#62b866] underline'>Link to Vietcombank</span>
                 </a>
@@ -357,7 +362,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     Bank:{' '}
                     <span
                       className='text-[#399162] font-semibold cursor-pointer'
-                      onClick={() => handleCopy(admin.banking.name)}>
+                      onClick={() => handleCopy(admin.banking.name)}
+                    >
                       {admin.banking.name}
                     </span>
                   </p>
@@ -367,7 +373,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     Account:{' '}
                     <span
                       className='text-[#a1396c] font-semibold cursor-pointer'
-                      onClick={() => handleCopy(admin.momo.account)}>
+                      onClick={() => handleCopy(admin.momo.account)}
+                    >
                       {admin.momo.account}
                     </span>
                   </p>
@@ -376,7 +383,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     Account:{' '}
                     <span
                       className='text-secondary font-semibold cursor-pointer'
-                      onClick={() => handleCopy(admin.banking.account)}>
+                      onClick={() => handleCopy(admin.banking.account)}
+                    >
                       {admin.banking.account}
                     </span>
                   </p>
@@ -385,7 +393,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                   Amount:{' '}
                   <span
                     className='text-green-500 font-semibold cursor-pointer'
-                    onClick={() => handleCopy(`${total}`)}>
+                    onClick={() => handleCopy(`${total}`)}
+                  >
                     {formatPrice(total)}
                   </span>
                 </p>
@@ -393,7 +402,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                   Content:{' '}
                   <span
                     className='text-yellow-500 underline-offset-1 font-semibold cursor-pointer'
-                    onClick={() => handleCopy(code)}>
+                    onClick={() => handleCopy(code)}
+                  >
                     {code}
                   </span>
                 </p>
@@ -406,7 +416,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 Order will be sent to you at email{' '}
                 <span
                   className='text-green-500 underline cursor-pointer'
-                  onClick={() => handleCopy(curUser?.email)}>
+                  onClick={() => handleCopy(curUser?.email)}
+                >
                   {curUser?.email}
                 </span>{' '}
                 after paid.
@@ -457,7 +468,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
               <button
                 onClick={handleCheckout}
                 disabled={false}
-                className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}>
+                className={`h-[42px] w-full flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}
+              >
                 Confirm Payment
               </button>
             </div>
@@ -501,7 +513,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 (
                 <button
                   className='text-sky-600 hover:underline z-10'
-                  onClick={() => setIsShowVoucher(prev => !prev)}>
+                  onClick={() => setIsShowVoucher(prev => !prev)}
+                >
                   click here
                 </button>
                 )
@@ -511,7 +524,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             <div
               className={`flex items-center gap-2 mb-2 overflow-hidden trans-200 ${
                 isShowVoucher ? 'max-h-[200px]' : 'max-h-0'
-              }`}>
+              }`}
+            >
               <Input
                 id='code'
                 label='Voucher'
@@ -533,7 +547,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     : 'border-dark text-dark '
                 }`}
                 onClick={handleSubmit(handleApplyVoucher)}
-                disabled={applyingVoucher}>
+                disabled={applyingVoucher}
+              >
                 {applyingVoucher ? (
                   <RiDonutChartFill size={26} className='animate-spin text-slate-300' />
                 ) : (
@@ -552,7 +567,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                 (
                 <button
                   className='text-orange-600 hover:underline z-10'
-                  onClick={() => setIsShowGift(prev => !prev)}>
+                  onClick={() => setIsShowGift(prev => !prev)}
+                >
                   click here
                 </button>
                 )
@@ -562,7 +578,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             <div
               className={`flex items-center gap-2 mb-2 overflow-hidden trans-200 ${
                 isShowGift ? 'max-h-[200px]' : 'max-h-0'
-              }`}>
+              }`}
+            >
               <Input
                 id='receivedEmail'
                 label='Email'
@@ -584,7 +601,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
                     : 'border-dark text-dark '
                 }`}
                 onClick={handleSubmit(handleFindUser)}
-                disabled={findingUser}>
+                disabled={findingUser}
+              >
                 {findingUser ? (
                   <RiDonutChartFill size={26} className='animate-spin text-slate-300' />
                 ) : (
@@ -633,7 +651,8 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
               <button
                 onClick={handleCheckout}
                 disabled={false}
-                className={`h-[42px] flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}>
+                className={`h-[42px] flex items-center justify-center border border-dark text-dark rounded-lg shadow-lg px-5 font-bold text-lg hover:bg-dark-0 hover:text-white trans-200`}
+              >
                 Confirm Payment
               </button>
             </div>

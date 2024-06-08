@@ -27,7 +27,13 @@ export async function POST(req: NextRequest) {
     const userId = token?._id
 
     // check if user has already joined course
-    const userCourses: any = await UserModel.findById(userId).select('courses').lean()
+    let userCourses: any = []
+
+    if (receivedUser) {
+      userCourses = await UserModel.findOne({ email: receivedUser }).select('courses').lean()
+    } else {
+      userCourses = await UserModel.findById(userId).select('courses').lean()
+    }
 
     if (
       userCourses?.courses.map((course: any) => course.course.toString()).includes(item._id.toString())
@@ -57,7 +63,7 @@ export async function POST(req: NextRequest) {
         $push: {
           notifications: {
             _id: new Date().getTime(),
-            title: 'You have buy a new course, please wait in a few minutes to get access to course',
+            title: 'You have bought a new course, please wait in a few minutes to get access to course',
             image: '/images/logo.png',
             link: '/my-courses',
             type: 'create-order',
