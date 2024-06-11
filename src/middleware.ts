@@ -14,7 +14,7 @@ const requireAuth = async (req: NextRequest, token: JWT | null) => {
 }
 
 // Require UnAuth
-const requireUnauth = async (req: NextRequest, token: JWT | null) => {
+const requireUnAuth = async (req: NextRequest, token: JWT | null) => {
   console.log('- Require UnAuth -')
 
   // check auth
@@ -71,6 +71,7 @@ export default async function middleware(req: NextRequest) {
   ) {
     return requireAdmin(req, token)
   }
+
   // require auth
   else if (
     req.nextUrl.pathname.startsWith('/user') ||
@@ -79,10 +80,12 @@ export default async function middleware(req: NextRequest) {
   ) {
     return requireAuth(req, token)
   }
-  // require unauth
+
+  // require unAuth
   else if (req.nextUrl.pathname.startsWith('/auth')) {
-    return requireUnauth(req, token)
+    return requireUnAuth(req, token)
   }
+
   // require joined
   else if (req.nextUrl.pathname.startsWith('/learning')) {
     return requiredJoined(req, token)

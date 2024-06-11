@@ -292,20 +292,23 @@ function EditLessonPage() {
             <span
               className={`inline-flex items-center px-3 rounded-tl-lg rounded-bl-lg border-[2px] text-sm text-gray-900 ${
                 errors.courseId ? 'border-rose-400 bg-rose-100' : 'border-slate-200 bg-slate-100'
-              }`}>
+              }`}
+            >
               <MdCategory size={19} className='text-secondary' />
             </span>
             <div
               className={`relative w-full border-[2px] border-l-0 bg-white rounded-tr-lg rounded-br-lg ${
                 errors.courseId ? 'border-rose-400' : 'border-slate-200'
-              }`}>
+              }`}
+            >
               <select
                 id='courseId'
                 className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                 disabled={isLoading}
                 value={getValues('courseId')}
                 {...register('courseId', { required: true })}
-                onChange={e => setSelectedCourse(e.target.value)}>
+                onChange={e => setSelectedCourse(e.target.value)}
+              >
                 <option value=''>Select Course</option>
                 {Object.keys(groupCourses)?.map(key => (
                   <optgroup label={key} key={key}>
@@ -323,7 +326,8 @@ function EditLessonPage() {
                 htmlFor='type'
                 className={`absolute rounded-md text-sm text-gray-500 trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
                   errors.couseId ? 'text-rose-400' : 'text-dark'
-                }`}>
+                }`}
+              >
                 CouseId
               </label>
             </div>
@@ -339,18 +343,21 @@ function EditLessonPage() {
             <span
               className={`inline-flex items-center px-3 rounded-tl-lg rounded-bl-lg border-[2px] text-sm text-gray-900 ${
                 errors.chapterId ? 'border-rose-400 bg-rose-100' : 'border-slate-200 bg-slate-100'
-              }`}>
+              }`}
+            >
               <MdCategory size={19} className='text-secondary' />
             </span>
             <div
               className={`relative w-full border-[2px] border-l-0 bg-white rounded-tr-lg rounded-br-lg ${
                 errors.chapterId ? 'border-rose-400' : 'border-slate-200'
-              }`}>
+              }`}
+            >
               <select
                 id='chapterId'
                 className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                 disabled={isLoading}
-                {...register('chapterId', { required: true })}>
+                {...register('chapterId', { required: true })}
+              >
                 <option value=''>Select Chapter</option>
                 {chapters.map(chapter => (
                   <option value={chapter._id} key={chapter._id}>
@@ -364,7 +371,8 @@ function EditLessonPage() {
                 htmlFor='type'
                 className={`absolute rounded-md text-sm text-gray-500 trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
                   errors.chapterId ? 'text-rose-400' : 'text-dark'
-                }`}>
+                }`}
+              >
                 ChapterId
               </label>
             </div>
@@ -446,17 +454,20 @@ function EditLessonPage() {
         <div className='mb-5'>
           <div className={`flex`}>
             <span
-              className={`inline-flex items-center px-3 rounded-tl-lg rounded-bl-lg border-[2px] text-sm text-gray-900 border-slate-200 bg-slate-100`}>
+              className={`inline-flex items-center px-3 rounded-tl-lg rounded-bl-lg border-[2px] text-sm text-gray-900 border-slate-200 bg-slate-100`}
+            >
               <MdCategory size={19} className='text-secondary' />
             </span>
             <div
-              className={`relative w-full border-[2px] border-l-0 bg-white rounded-tr-lg rounded-br-lg border-slate-200`}>
+              className={`relative w-full border-[2px] border-l-0 bg-white rounded-tr-lg rounded-br-lg border-slate-200`}
+            >
               <select
                 id='sourceType'
                 className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-dark bg-transparent focus:outline-none focus:ring-0 peer'
                 disabled={isLoading}
                 value={sourceType}
-                onChange={(e: any) => setSourceType(e.target.value)}>
+                onChange={(e: any) => setSourceType(e.target.value)}
+              >
                 <option value='embed'>Embed</option>
                 <option value='file'>File</option>
               </select>
@@ -466,7 +477,8 @@ function EditLessonPage() {
                 htmlFor='sourceType'
                 className={`absolute rounded-md text-sm text-gray-500 trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer ${
                   errors.couseId ? 'text-rose-400' : 'text-dark'
-                }`}>
+                }`}
+              >
                 Source Type
               </label>
             </div>
@@ -496,7 +508,8 @@ function EditLessonPage() {
                 {/* label */}
                 <label
                   htmlFor={'fileUrl'}
-                  className='absolute rounded-md text-sm trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer text-dark'>
+                  className='absolute rounded-md text-sm trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer text-dark'
+                >
                   Source
                 </label>
               </div>
@@ -521,7 +534,8 @@ function EditLessonPage() {
                 {/* label */}
                 <label
                   htmlFor={'fileUrl'}
-                  className='absolute rounded-md text-sm trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer text-dark'>
+                  className='absolute rounded-md text-sm trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer text-dark'
+                >
                   Source
                 </label>
               </div>
@@ -549,7 +563,8 @@ function EditLessonPage() {
 
             <button
               onClick={() => handleRemoveSource(fileUrl)}
-              className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'>
+              className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'
+            >
               <FaX size={16} className='text-dark group-hover:text-white trans-200' />
             </button>
           </div>
@@ -569,7 +584,8 @@ function EditLessonPage() {
           />
           <label
             className={`select-none cursor-pointer border border-green-500 px-4 py-2 rounded-lg trans-200 bg-white text-green-500 peer-checked:bg-green-500 peer-checked:text-white`}
-            htmlFor='active'>
+            htmlFor='active'
+          >
             Active
           </label>
         </div>

@@ -64,6 +64,7 @@ function AddCoursePage() {
         toast.error(err.message)
       }
     }
+
     const getCategories = async () => {
       try {
         // send request to server to get all categories
@@ -291,7 +292,8 @@ function AddCoursePage() {
               isChecked ? 'bg-green-500 text-white' : 'bg-white text-green-500'
             }`}
             htmlFor='active'
-            onClick={() => setIsChecked(!isChecked)}>
+            onClick={() => setIsChecked(!isChecked)}
+          >
             Active
           </label>
           <input type='checkbox' id='active' hidden {...register('active', { required: false })} />
@@ -318,7 +320,8 @@ function AddCoursePage() {
                   className={`cursor-pointer select-none rounded-lg border border-green-500 text-green-500 py-[6px] px-3 trans-200 ${
                     selectedTags.some(t => t === tag._id) ? 'bg-green-500 text-white' : ''
                   }`}
-                  htmlFor={tag._id}>
+                  htmlFor={tag._id}
+                >
                   {tag.title}
                 </label>
               </Fragment>
@@ -349,7 +352,8 @@ function AddCoursePage() {
                       ? 'bg-green-500 text-white'
                       : ''
                   }`}
-                  htmlFor={category._id}>
+                  htmlFor={category._id}
+                >
                   {category.title}
                 </label>
               </Fragment>
@@ -377,7 +381,8 @@ function AddCoursePage() {
               {/* label */}
               <label
                 htmlFor={'images'}
-                className='absolute rounded-md text-sm trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer text-dark'>
+                className='absolute rounded-md text-sm trans-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1 cursor-pointer text-dark'
+              >
                 Images
               </label>
             </div>
@@ -398,7 +403,8 @@ function AddCoursePage() {
 
                 <button
                   onClick={() => handleRemoveImage(url)}
-                  className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'>
+                  className='absolute top-2 bg-slate-300 p-2 right-2 group hover:bg-dark-100 rounded-lg'
+                >
                   <FaX size={16} className='text-dark group-hover:text-white trans-200' />
                 </button>
               </div>

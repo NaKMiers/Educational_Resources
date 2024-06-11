@@ -19,8 +19,10 @@ export async function GET(req: NextRequest, { params: { courseId } }: { params: 
     await connectDatabase()
 
     // get all chapters and lessons of course
-    const chapters: IChapter[] = await ChapterModel.find({ courseId }).lean()
+    let chapters: IChapter[] = await ChapterModel.find({ courseId }).lean()
     const lessons: ILesson[] = await LessonModel.find({ courseId }).lean()
+
+    chapters = chapters.sort((a, b) => a.order - b.order)
 
     // add lessons to each chapter
     const chaptersWithLessons = chapters.map(chapter => {

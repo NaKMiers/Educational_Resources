@@ -31,18 +31,9 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
       return NextResponse.json({ message: 'Order has not done yet!' }, { status: 400 })
     }
 
-    const { email, voucherApplied, discount } = order
+    const { email, discount } = order
 
-    // get voucher description to create mail
-    let voucherDescription
-    if (voucherApplied) {
-      const voucher: IVoucher | null = await VoucherModel.findOne({
-        code: voucherApplied,
-      }).lean()
-      voucherDescription = voucher && voucher.desc
-    }
-
-    // data transfering to email
+    // data transferring to email
     const orderData = {
       ...order,
       discount,
