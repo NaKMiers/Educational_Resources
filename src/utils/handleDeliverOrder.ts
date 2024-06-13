@@ -53,6 +53,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
       throw new Error('User has already joined this course')
     }
   }
+
   // buy as a gift
   else {
     const receiver: IUser | null = await UserModel.findOne({ email: receivedUser }).lean()
@@ -106,6 +107,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
           process: 0,
         },
       },
+
       // notify user
       $push: {
         notifications: {
@@ -143,7 +145,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
     { new: true }
   ).lean()
 
-  // data transfering to email
+  // data transferring to email
   const orderData = {
     ...updatedOrder,
     discount: updatedOrder?.discount || 0,
@@ -153,7 +155,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
   // EMAIL
   await notifyDeliveryOrder(email, orderData)
 
-  // notifiy given course
+  // notify given course
   if (receivedUser) {
     await notifyGivenCourse(
       receivedUser,
