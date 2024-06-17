@@ -146,6 +146,9 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
         finalTotal = discount < 0 ? 0 : discount
       } else if (voucher.type === 'percentage') {
         discount = +calcPercentage(voucher.value, subTotal)
+        if (Math.abs(discount) > voucher.maxReduce) {
+          discount = -voucher.maxReduce
+        }
         finalTotal = subTotal + discount
       }
     }
