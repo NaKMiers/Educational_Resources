@@ -137,7 +137,8 @@ function OrderItem({
           setSelectedOrders(prev =>
             prev.includes(data._id) ? prev.filter(id => id !== data._id) : [...prev, data._id]
           )
-        }>
+        }
+      >
         <div className='w-[calc(100%_-_44px)]'>
           {/* MARK: Thumbnails */}
           <div className='w-full h-full flex items-center flex-wrap gap-2 mb-2 max-h-[145px] overflow-y-auto '>
@@ -146,7 +147,8 @@ function OrderItem({
               prefetch={false}
               className='relative rounded-lg shadow-md overflow-hidden'
               onClick={e => e.stopPropagation()}
-              key={data.item._id}>
+              key={data.item._id}
+            >
               <Image
                 className='aspect-video h-auto w-auto'
                 src={data.item.images[0] || '/images/not-found.jpg'}
@@ -164,7 +166,8 @@ function OrderItem({
               className={`inline font-semibold text-${
                 data.status === 'done' ? 'green' : data.status === 'pending' ? 'red' : 'slate'
               }-400`}
-              title='status'>
+              title='status'
+            >
               {data.status}
             </p>
 
@@ -178,7 +181,8 @@ function OrderItem({
               className={`inline font-semibold text-[${
                 data.paymentMethod === 'momo' ? '#a1396c' : '#399162'
               }]`}
-              title='payment-method'>
+              title='payment-method'
+            >
               {data.paymentMethod}
             </p>
           </div>
@@ -190,7 +194,8 @@ function OrderItem({
               onClick={e => {
                 e.stopPropagation()
                 handleCopy(data.email)
-              }}>
+              }}
+            >
               {data.email}
             </span>
             <div className='inline-flex items-center gap-1.5 border border-secondary rounded-md px-1.5 py-1'>
@@ -200,7 +205,8 @@ function OrderItem({
                   e.stopPropagation()
                   setValue('search', data.email)
                   handleFilter()
-                }}>
+                }}
+              >
                 <FaSearch size={14} className='wiggle' />
               </span>
             </div>
@@ -217,14 +223,16 @@ function OrderItem({
           {/* Total */}
           <p
             className='flex items-center flex-wrap gap-x-2 mr-2 text-green-500 text-xl font-semibold'
-            title='total'>
+            title='total'
+          >
             {formatPrice(data.total)}{' '}
           </p>
 
           {data.voucherApplied && data.discount && (
             <p
               className='font-semibold text-slate-400 text-sm'
-              title={`voucherApplied: ${(data.voucherApplied as IVoucher).desc}`}>
+              title={`voucherApplied: ${(data.voucherApplied as IVoucher).desc}`}
+            >
               {(data.voucherApplied as IVoucher).code}{' '}
               <span className='text-secondary font-normal'>({formatPrice(data.discount)})</span>
             </p>
@@ -249,15 +257,6 @@ function OrderItem({
 
         {/* MARK: Action Buttons */}
         <div className='flex flex-col flex-shrink-0 border bg-white border-dark text-dark rounded-lg px-2 py-3 gap-4'>
-          {/* Detail Button */}
-          <Link
-            href={`/admin/order/${data.code}`}
-            className='block group'
-            onClick={e => e.stopPropagation()}
-            title='Detail'>
-            <FaEye size={18} className='text-primary wiggle' />
-          </Link>
-
           {/* Deliver Button */}
           {data.status !== 'done' && (
             <button
@@ -268,7 +267,8 @@ function OrderItem({
                 setConfirmType('deliver')
                 setIsOpenConfirmModal(true)
               }}
-              title='Deliver'>
+              title='Deliver'
+            >
               {isLoading ? (
                 <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
               ) : (
@@ -287,7 +287,8 @@ function OrderItem({
                 setConfirmType('re-deliver')
                 setIsOpenConfirmModal(true)
               }}
-              title='Re-Deliver'>
+              title='Re-Deliver'
+            >
               {isLoading ? (
                 <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
               ) : (
@@ -304,7 +305,8 @@ function OrderItem({
               e.stopPropagation()
               setIsOpenMessageModal(true)
             }}
-            title='Re-Deliver'>
+            title='Re-Deliver'
+          >
             <SiGooglemessages size={19} className='text-teal-500 wiggle' />
           </button>
 
@@ -317,7 +319,8 @@ function OrderItem({
                 e.stopPropagation()
                 handleCancelOrders([data._id])
               }}
-              title='Cancel'>
+              title='Cancel'
+            >
               <ImCancelCircle size={18} className='text-slate-300 wiggle' />
             </button>
           )}
@@ -331,7 +334,8 @@ function OrderItem({
               setConfirmType('delete')
               setIsOpenConfirmModal(true)
             }}
-            title='Delete'>
+            title='Delete'
+          >
             {loadingOrders.includes(data._id) ? (
               <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
             ) : (
@@ -346,7 +350,8 @@ function OrderItem({
             onClick={e => {
               e.stopPropagation()
               setIsOpenMessageModal(false)
-            }}>
+            }}
+          >
             <Input
               id='message'
               label='Message'
