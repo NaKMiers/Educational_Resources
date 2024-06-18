@@ -13,7 +13,8 @@ function Footer() {
           <div className='flex items-center gap-2'>
             <Link
               href='/'
-              className='w-[32px] h-[32px] aspect-square rounded-lg shadow-lg overflow-hidden'>
+              className='w-[32px] h-[32px] aspect-square rounded-lg shadow-lg overflow-hidden'
+            >
               <Image
                 className='w-full h-full object-cover'
                 src='/images/logo.png'
@@ -74,7 +75,7 @@ function Footer() {
               </Link>
             </li>
             <li className='hover:tracking-wider trans-300 py-1'>
-              <Link href='https://github.com' className='underline underline-offset-2'>
+              <Link href='https://github.com/NaKMiers' className='underline underline-offset-2'>
                 https://github.com
               </Link>
             </li>
