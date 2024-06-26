@@ -147,7 +147,7 @@ function RegisterPage() {
   return (
     <div className='relative min-h-screen w-full overflow-hidden'>
       <Image
-        className='w-[44px] absolute z-30 top-21 left-21 rounded-md'
+        className='hidden md:block w-[44px] absolute z-30 top-21 left-21 rounded-md'
         src='/images/logo.png'
         width={70}
         height={70}
@@ -208,9 +208,21 @@ function RegisterPage() {
         />
       </div>
 
-      <div className='flex justify-center px-[10%] pt-24 absolute z-10 top-0 right-0 bottom-0 h-screen w-full md:w-2/3 bg-primary md:rounded-l-[40px] md:shadow-lg md:border-l-2 md:border-gray-500 overflow-y-scroll'>
+      {/* MARK: Body */}
+      <div className='flex justify-center px-[10%] pt-24 absolute z-10 top-0 right-0 bottom-0 h-screen w-full md:w-2/3 bg-gradient-radial from-primary to-secondary md:rounded-l-[40px] md:shadow-lg md:border-l-2 md:border-gray-500 overflow-y-scroll'>
         <div className='flex flex-col gap-6 w-full'>
-          <h1 className='font-semibold text-3xl'>Create Account</h1>
+          <div className='flex items-center gap-3'>
+            <div className='md:hidden w-[40px] rounded-md overflow-hidden shadow-lg'>
+              <Image
+                className='w-full h-full object-contain object-left'
+                src='/images/logo.png'
+                width={80}
+                height={80}
+                alt='logo'
+              />
+            </div>
+            <h1 className='font-semibold text-3xl'>Create Account</h1>
+          </div>
 
           <Divider size={4} />
 
@@ -282,7 +294,8 @@ function RegisterPage() {
               disabled={isLoading}
               className={`h-[50px] flex items-center justify-center border border-dark bg-secondary text-dark rounded-3xl px-5 mt-3 font-bold text-lg hover:bg-white trans-200 ${
                 isLoading ? 'bg-slate-200 pointer-events-none' : ''
-              }`}>
+              }`}
+            >
               {isLoading ? (
                 <FaCircleNotch
                   size={18}
@@ -302,8 +315,9 @@ function RegisterPage() {
               Login
             </Link>
           </p>
-          <div className='relative w-full border h-2 border-dark mt-2'>
-            <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary px-3 py-2 font-semibold'>
+
+          <div className='relative w-full border h-2 border-dark my-2'>
+            <span className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg px-3 py-2 font-semibold'>
               Or
             </span>
           </div>

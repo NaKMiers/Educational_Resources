@@ -67,13 +67,15 @@ function Pagination({
   return (
     pageAmount > 1 && (
       <div
-        className={`flex font-semibold gap-2 justify-center w-full max-w-[491px] mx-auto ${className}`}>
+        className={`flex font-semibold gap-2 justify-center w-full max-w-[491px] mx-auto ${className}`}
+      >
         {/* MARK: Prev */}
         {currentPage != 1 && (
           <Link
             href={getPageLink(currentPage <= 1 ? 1 : currentPage - 1)}
-            className='rounded-lg border-2 py-[6px] px-2 bg-white hover:bg-secondary text-dark hover:text-white trans-200 border-white'
-            title={`👈 Trang ${currentPage <= 1 ? 1 : currentPage - 1}`}>
+            className='rounded-lg border-2 py-[6px] px-2 bg-white hover:bg-secondary hover:border-secondary text-dark hover:text-white trans-200 border-slate-200'
+            title={`👈 Trang ${currentPage <= 1 ? 1 : currentPage - 1}`}
+          >
             Trước
           </Link>
         )}
@@ -83,10 +85,11 @@ function Pagination({
           {Array.from({ length: pageAmount }).map((_, index) => (
             <Link
               href={getPageLink(index + 1)}
-              className={`rounded-lg border-2 py-[6px] px-4 hover:bg-secondary hover:text-white trans-200 border-white text-dark ${
-                currentPage === index + 1 ? 'bg-primary border-primary' : 'bg-white'
+              className={`rounded-lg border-2 py-[6px] px-4 hover:bg-secondary hover:border-secondary hover:text-white trans-200 text-dark ${
+                currentPage === index + 1 ? 'bg-primary border-primary' : 'border-slate-200'
               }`}
-              key={index}>
+              key={index}
+            >
               {index + 1}
             </Link>
           ))}
@@ -96,8 +99,9 @@ function Pagination({
         {currentPage != pageAmount && (
           <Link
             href={getPageLink(currentPage >= pageAmount ? pageAmount : currentPage + 1)}
-            className='rounded-lg border-2 py-[6px] px-2 bg-white hover:bg-secondary text-dark hover:text-white trans-200 border-white'
-            title={`👉 Trang ${currentPage >= pageAmount ? pageAmount : currentPage + 1}`}>
+            className='rounded-lg border-2 py-[6px] px-2 bg-white hover:bg-secondary hover:border-secondary text-dark hover:text-white trans-200 border-slate-200'
+            title={`👉 Trang ${currentPage >= pageAmount ? pageAmount : currentPage + 1}`}
+          >
             Sau
           </Link>
         )}

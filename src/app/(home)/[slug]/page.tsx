@@ -8,6 +8,7 @@ import { IComment } from '@/models/CommentModel'
 import { ICourse } from '@/models/CourseModel'
 import { IFlashSale } from '@/models/FlashSaleModel'
 import { getCoursePageApi } from '@/requests'
+import { duration } from '@/utils/time'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -22,6 +23,13 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
   let course: ICourse | null = null
   let chapters: IChapter[] = []
   let comments: IComment[] = []
+  let totalTime: {
+    hours: number
+    minutes: number
+  } = {
+    hours: 0,
+    minutes: 0,
+  }
 
   // MARK: Get Data
   try {
@@ -38,7 +46,7 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
   return (
     <div className='max-w-1200 mx-auto pt-21 px-21'>
       {/* Introduction */}
-      <div className='relative bg-slate-200 p-21 grid grid-cols-2 gap-[42px] items-start rounded-lg shadow-lg'>
+      <div className='relative bg-gradient-to-tr from-primary to-secondary p-21 grid grid-cols-2 gap-[42px] items-start rounded-lg shadow-lg'>
         <div className='col-span-2 lg:col-span-1'>
           {/* Thumbnails */}
           <div className='relative flex justify-center items-center rounded-lg shadow-md overflow-hidden'>
@@ -116,7 +124,7 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
 
           {/* Detail */}
           <div className='col-span-12 lg:col-span-4 order-1 lg:order-2'>
-            <div className='h-full p-3 pb-5 rounded-lg bg-slate-200 shadow-lg'>
+            <div className='h-full p-3 pb-5 rounded-lg bg-gradient-to-tr from-primary to-secondary shadow-lg'>
               <h1 className='font-semibold text-3xl'>Detail</h1>
 
               <Divider size={3} />
@@ -125,7 +133,8 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                 {/* Categories */}
                 <p
                   className='flex flex-wrap items-center gap-1 text-dark text-[18px] mr-2 leading-4 font-body tracking-wide'
-                  title={course.title}>
+                  title={course.title}
+                >
                   <span>Categories: </span>
                   {(course.categories as ICategory[]).map(category => (
                     <Link
@@ -133,7 +142,8 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                       className={`shadow-md text-xs ${
                         category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
                       } px-2 py-px select-none rounded-md font-body mr-1`}
-                      key={category._id}>
+                      key={category._id}
+                    >
                       {category.title || 'empty'}
                     </Link>
                   ))}
@@ -144,7 +154,8 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                 {/* Tags */}
                 <p
                   className='flex flex-wrap items-center gap-1 text-dark text-[18px] mr-2 leading-4 font-body tracking-wide'
-                  title={course.title}>
+                  title={course.title}
+                >
                   <span>Tags: </span>
                   {(course.tags as ICategory[]).map(tag => (
                     <Link
@@ -152,7 +163,8 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                       className={`shadow-md text-xs ${
                         tag.title ? 'bg-sky-300 text-dark' : 'bg-slate-200 text-slate-400'
                       } px-2 py-px select-none rounded-md font-body mr-1`}
-                      key={tag._id}>
+                      key={tag._id}
+                    >
                       {tag.title || 'empty'}
                     </Link>
                   ))}
@@ -163,18 +175,19 @@ async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
                 {/* Total Time */}
                 <p
                   className='flex flex-wrap items-center gap-1 text-dark text-[18px] mr-2 leading-4 font-body tracking-wide'
-                  title={course.title}>
+                  title={course.title}
+                >
                   <span>Total Time: </span>
-                  <span>
-                    {Math.round(
+                  <span className='font-semibold text-white text-[16px]'>
+                    {duration(
                       chapters.reduce(
                         (acc, chapter) =>
                           acc +
                           (chapter.lessons?.reduce((total, lesson) => total + lesson.duration, 0) || 0),
                         0
-                      ) / 60
-                    )}{' '}
-                    minutes
+                      ),
+                      'long'
+                    )}
                   </span>
                 </p>
               </div>

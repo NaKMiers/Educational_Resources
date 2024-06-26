@@ -8,6 +8,7 @@ import '@/models/CategoryModel'
 import '@/models/CourseModel'
 import '@/models/QuestionModel'
 import '@/models/UserModel'
+import { getToken } from 'next-auth/jwt'
 
 export const dynamic = 'force-dynamic'
 
@@ -18,6 +19,9 @@ export async function GET(req: NextRequest) {
   try {
     // connect to database
     await connectDatabase()
+
+    // get current user id
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
     // get courses
     const courses = await CourseModel.find({

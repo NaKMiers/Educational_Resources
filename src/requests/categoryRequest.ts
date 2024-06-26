@@ -3,6 +3,20 @@
 import { EditingValues } from '@/app/(admin)/admin/category/all/page'
 
 // [GET]
+export const getCategoriesApi = async (query: string = '') => {
+  // no cache
+  const res = await fetch(`/api/category${query}`, { next: { revalidate: 30 } })
+  const data = await res.json()
+
+  // check status
+  if (!res.ok) {
+    throw new Error(data.message)
+  }
+
+  return data
+}
+
+// [GET]
 export const getAllCategoriesApi = async (query: string = '') => {
   // no cache
   const res = await fetch(`/api/admin/category/all${query}`, { cache: 'no-store' })

@@ -13,6 +13,7 @@ import toast from 'react-hot-toast'
 import { FaRegCommentDots, FaRegThumbsUp } from 'react-icons/fa'
 import { format } from 'timeago.js'
 import ReportDialog from './dialogs/ReportDigalog'
+import { HiDotsVertical } from 'react-icons/hi'
 
 interface QuestionItemProps {
   question: IQuestion
@@ -27,6 +28,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
   // states
   const [data, setData] = useState<IQuestion>(question)
   const { userId, content, likes, commentAmount, status } = data
+  const [showActions, setShowActions] = useState<boolean>(false)
   const user: IUser = userId as IUser
 
   // report states
@@ -67,8 +69,6 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
     }
 
     try {
-      console.log('report')
-
       const { message } = await addReportApi({
         type: 'question',
         content: selectedContent,
@@ -89,7 +89,8 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
       <div className='relative flex gap-3 p-4 border-b-2 border-slate-300'>
         <Link
           href={`/user/${user?._id}`}
-          className='flex-shrink-0 w-[40px] h-[40px] rounded-full aspect-square overflow-hidden shadow-lg'>
+          className='flex-shrink-0 w-[40px] h-[40px] rounded-full aspect-square overflow-hidden shadow-lg'
+        >
           <Image
             className='w-full h-full object-cover'
             src={user?.avatar}
@@ -104,38 +105,58 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
           </p>
           <p className='text-slate-500 text-sm font-semibold'>{format(question.createdAt)}</p>
         </Link>
-        {curUser?._id && (
-          <div className='absolute top-2 right-2 flex gap-2'>
-            {(user?._id === curUser._id || user?.role === 'admin') && (
-              <button
-                className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
-                  status === 'open'
-                    ? 'border-dark hover:bg-black'
-                    : 'border-green-500 text-green-500 hover:bg-green-500'
-                }`}
-                title={status === 'open' ? 'opening' : 'closing'}
-                onClick={handleClose}>
-                {status === 'open' ? 'close' : 'open'}
-              </button>
-            )}
 
-            <button
-              className={`font-bold px-1.5 py-1 text-[10px] hover:bg-dark-0 hover:border-dark hover:text-rose-500 border border-rose-400 text-rose-400 rounded-md shadow-md trans-200`}
-              title='Report'
-              onClick={() => setIsOpenReportDialog(true)}>
-              Report
+        {/* Action Buttons */}
+        {curUser?._id && (
+          <div className='relative flex-1 flex justify-end items-center'>
+            <button className='group' onClick={() => setShowActions(prev => !prev)}>
+              <HiDotsVertical size={20} className='wiggle' />
             </button>
+
+            <div
+              className={`fixed z-10 top-0 left-0 right-0 bottom-0 ${showActions ? '' : 'hidden'}`}
+              onClick={() => setShowActions(false)}
+            />
+            <div
+              className={`${
+                showActions ? 'max-w-[120px] max-h-[40px] px-1.5 py-1' : 'max-w-0 max-h-0 p-0'
+              }  overflow-hidden absolute z-20 bottom-full right-0 flex gap-2 shadow-lg rounded-md bg-white trans-300`}
+            >
+              {(user?._id === curUser._id || user?.role === 'admin') && (
+                <button
+                  className={`font-bold px-1.5 py-1 text-[10px] bg-slate-200 hover:text-white border rounded-md shadow-md trans-200 ${
+                    status === 'open'
+                      ? 'border-dark hover:bg-black'
+                      : 'border-green-500 text-green-500 hover:bg-green-500'
+                  }`}
+                  title={status === 'open' ? 'opening' : 'closing'}
+                  onClick={handleClose}
+                >
+                  {status === 'open' ? 'close' : 'open'}
+                </button>
+              )}
+
+              <button
+                className={`font-bold px-1.5 py-1 text-[10px] hover:bg-dark-0 hover:border-dark hover:text-rose-500 border border-rose-400 text-rose-400 rounded-md shadow-md trans-200`}
+                title='Report'
+                onClick={() => setIsOpenReportDialog(true)}
+              >
+                Report
+              </button>
+            </div>
           </div>
         )}
       </div>
 
       {/* Center */}
-      <div className='px-5 py-6 font-body tracking-wider border-b-2 border-slate-300 overflow-auto'>{content}</div>
+      <div className='px-5 py-6 font-body tracking-wider border-b-2 border-slate-300 overflow-auto'>
+        {content}
+      </div>
 
       {/* Bottom */}
       <div className='flex h-[50px]'>
         <div className='flex justify-center items-center w-full border-r-2 border-slate-300'>
-          <button className='flex items-center justify-center group'>
+          <button className='flex items-center justify-center group -mb-1'>
             <span className='mr-1.5 font-semibold'>{likes.length}</span>{' '}
             <FaRegThumbsUp
               size={18}
@@ -143,7 +164,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
                 !likes.includes(curUser?._id)
                   ? 'text-dark group-hover:text-rose-500'
                   : 'text-rose-500 group-hover:text-dark'
-              } trans-200`}
+              } -mt-1.5 trans-200`}
               onClick={handleLike}
             />
           </button>

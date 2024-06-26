@@ -1,4 +1,3 @@
-import { generateSlug } from '@/utils'
 import mongoose from 'mongoose'
 import { ICourse } from './CourseModel'
 import { ILesson } from './LessonModel'

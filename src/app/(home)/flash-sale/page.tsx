@@ -49,7 +49,8 @@ async function FlashSalePage({ searchParams }: { searchParams?: { [key: string]:
           </p>
           <Link
             href='/'
-            className='text-sky-500 underline underline-offset-2 hover:text-sky-700 trans-200'>
+            className='text-sky-500 underline underline-offset-2 hover:text-sky-700 trans-200'
+          >
             Return Home
           </Link>
         </div>

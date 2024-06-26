@@ -136,9 +136,10 @@ function ForgotPasswordPage() {
           </p>
         </div>
 
+        {/* MARK: Body */}
         <div className='md:absolute top-1/2 md:right-[50px] md:-translate-y-1/2 px-[32px] py-2 max-w-[500px] w-full bg-white rounded-[28px] overflow-y-auto'>
-          <div className='flex justify-center items-center gap-1'>
-            <div className='w-[50px]'>
+          <div className='flex justify-center items-center gap-2.5 mt-2'>
+            <div className='w-[32px] rounded-md overflow-hidden shadow-lg'>
               <Image
                 className='w-full h-full object-contain object-left'
                 src='/images/logo.png'
@@ -187,7 +188,8 @@ function ForgotPasswordPage() {
 
           <Link
             href='/auth/login'
-            className='block w-full text-right text-sm underline underline-offset-2 mt-2'>
+            className='block w-full text-right text-sm underline underline-offset-2 mt-2'
+          >
             Back to login
           </Link>
 
@@ -197,7 +199,8 @@ function ForgotPasswordPage() {
               disabled={isSent && isCounting}
               className={`border border-dark bg-secondary text-dark rounded-3xl px-5 py-1.5 mt-5 font-bold text-lg hover:bg-white trans-200 ${
                 isLoading || isCounting ? 'pointer-events-none bg-white' : 'bg-secondary'
-              }`}>
+              }`}
+            >
               {isLoading || isCounting ? (
                 <FaCircleNotch size={18} className='text-dark trans-200 animate-spin' />
               ) : (
@@ -228,7 +231,8 @@ function ForgotPasswordPage() {
           <div className='flex flex-wrap md:flex-nowrap justify-center gap-x-6 gap-y-4'>
             <button
               className='flex items-center gap-2 group rounded-2xl border border-dark px-2.5 py-3'
-              onClick={() => signIn('github')}>
+              onClick={() => signIn('github')}
+            >
               <div className='aspect-square rounded-full wiggle flex-shrink-0'>
                 <Image
                   className='w-full h-full object-cover'

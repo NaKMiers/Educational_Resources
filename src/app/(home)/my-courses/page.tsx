@@ -50,7 +50,7 @@ function MyCoursesPage({ searchParams }: { searchParams?: { [key: string]: strin
       <Divider size={6} />
 
       {/* Heading */}
-      <h1 className='text-4xl font-semibold px-21 text-center'>My Courses</h1>
+      <h1 className='text-4xl font-semibold px-21 text-center'>My Courses ({courses.length || ''})</h1>
 
       <Divider size={8} border />
 
@@ -68,7 +68,8 @@ function MyCoursesPage({ searchParams }: { searchParams?: { [key: string]: strin
           </p>
           <Link
             href='/courses'
-            className='text-sky-500 underline underline-offset-2 hover:text-sky-700 hover:tracking trans-200'>
+            className='text-sky-500 underline underline-offset-2 hover:text-sky-700 hover:tracking trans-200'
+          >
             Explore our courses and start learning today!
           </Link>
         </div>

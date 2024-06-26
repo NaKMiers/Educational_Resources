@@ -1,6 +1,7 @@
 import { features } from '@/constants'
 import Image from 'next/image'
 import Divider from './Divider'
+import Heading from './Heading'
 
 interface FeaturesProps {
   className?: string
@@ -9,6 +10,10 @@ interface FeaturesProps {
 function Features({ className = '' }: FeaturesProps) {
   return (
     <div className={`max-w-1200 mx-auto ${className}`}>
+      <Heading title='My Features' space />
+
+      <Divider size={8} />
+
       <div className='px-21/2 py-21 sm:px-0 grid grid-cols-1 md:grid-cols-3 justify-evenly gap-21'>
         {features.map(item => (
           <div className='px-21 h-full trans-300 trans-300 hover:-translate-y-2' key={item.image}>

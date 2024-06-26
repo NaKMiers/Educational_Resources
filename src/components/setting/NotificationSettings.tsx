@@ -42,10 +42,10 @@ function NotificationSettings({ className = '' }: NotificationSettingsProps) {
       }
 
       try {
-        const { value, message } = await changeNotificationSettingApi(
-          type,
-          !userNotificationSettings[type]
-        )
+        // update first
+        setUserNotificationSettings((prev: any) => ({ ...prev, [type]: !prev[type] }))
+
+        const { message } = await changeNotificationSettingApi(type, !userNotificationSettings[type])
 
         // notify sucecss
         toast.success(message)
@@ -57,12 +57,13 @@ function NotificationSettings({ className = '' }: NotificationSettingsProps) {
         toast.error(err.message)
       }
     },
-    [update, curUser?._id, userNotificationSettings]
+    [curUser?._id, update, userNotificationSettings]
   )
 
   return (
     <div
-      className={`relative rounded-lg border border-dark shadow-lg py-8 overflow-x-scroll ${className}`}>
+      className={`relative rounded-lg border border-dark shadow-lg py-8 overflow-x-scroll ${className}`}
+    >
       <div className='absolute font-semibold text-2xl w-[calc(100%_-_20px)] left-1/2 -translate-x-1/2 h-0.5 bg-slate-700'>
         <span className='absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-sm bg-white px-2 py-1 rounded-lg text-center'>
           Notification Settings

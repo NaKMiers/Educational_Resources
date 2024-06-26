@@ -75,7 +75,8 @@ function Banner({ courses, className = '' }: BannerProps) {
   return (
     <div
       className={`carousel mt-[-72px] relative w-full h-[calc(100vh)] overflow-hidden shadow-lg ${className}`}
-      ref={carouselRef}>
+      ref={carouselRef}
+    >
       {/* List Items */}
       <div className='list' ref={listRef}>
         {courses.map((course, index) => (
@@ -93,7 +94,8 @@ function Banner({ courses, className = '' }: BannerProps) {
               </div>
               <div
                 className='title font-bold text-[30px] md:text-[5em] leading-[1.3em] drop-shadow-xl text-ellipsis line-clamp-1'
-                title={course.title}>
+                title={course.title}
+              >
                 {course.title}
               </div>
               <div className='topic flex flex-wrap gap-x-2 gap-y-1 font-bold my-3'>
@@ -103,7 +105,8 @@ function Banner({ courses, className = '' }: BannerProps) {
                     className={`shadow-md text-xs ${
                       category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
                     } px-2 py-px select-none rounded-md font-body`}
-                    key={category._id}>
+                    key={category._id}
+                  >
                     {category.title || 'empty'}
                   </Link>
                 ))}
@@ -114,7 +117,8 @@ function Banner({ courses, className = '' }: BannerProps) {
               <div className='buttons flex flex-wrap gap-1.5 mt-5'>
                 <Link
                   href={`/${course.slug}`}
-                  className='h-10 flex items-center justify-center px-2 shadow-md text-dark bg-slate-100 font-semibold font-body tracking-wider rounded-md hover:bg-dark-0 hover:text-white trans-200'>
+                  className='h-10 flex items-center justify-center px-2 shadow-md text-dark bg-slate-100 font-semibold font-body tracking-wider rounded-md hover:bg-dark-0 hover:text-white trans-200'
+                >
                   SEE MORE
                 </Link>
                 <Link
@@ -124,7 +128,8 @@ function Banner({ courses, className = '' }: BannerProps) {
                       ? `/learning/${course?._id}/continue`
                       : `/checkout/${course?.slug}`
                   }
-                  className='h-10 flex items-center justify-center px-2 shadow-md text-white border-2 border-white font-semibold font-body tracking-wider rounded-md hover:bg-white hover:text-dark trans-200'>
+                  className='h-10 flex items-center justify-center px-2 shadow-md text-white border-2 border-white font-semibold font-body tracking-wider rounded-md hover:bg-white hover:text-dark trans-200'
+                >
                   {curUser?._id &&
                   curUser?.courses.map((course: any) => course.course).includes(course._id)
                     ? 'Continue Learning'
@@ -140,11 +145,13 @@ function Banner({ courses, className = '' }: BannerProps) {
       {!!courses.length && (
         <div
           className='thumbnails absolute bottom-[50px] left-1/2 z-10 flex gap-21 text-white'
-          ref={thumbnailsRef}>
+          ref={thumbnailsRef}
+        >
           {[...courses.slice(1), courses[0]].map(course => (
             <div
               className='item relative w-[150px] h-[220px] flex-shrink-0 overflow-hidden rounded-medium'
-              key={course._id}>
+              key={course._id}
+            >
               <Image
                 className='img w-full h-full object-cover'
                 src={course.images[0]}
@@ -164,12 +171,14 @@ function Banner({ courses, className = '' }: BannerProps) {
       <div className='arrows absolute bottom-[50px] left-[10%] md:left-1/3 flex gap-4'>
         <button
           className='prev flex items-center justify-center w-12 h-12 rounded-full text-dark border border-dark bg-white shadow-lg z-10 hover:bg-dark-0 hover:text-white trans-200'
-          onClick={prevSlide}>
+          onClick={prevSlide}
+        >
           <FaChevronLeft size={16} />
         </button>
         <button
           className='next flex items-center justify-center w-12 h-12 rounded-full text-dark border border-dark bg-white shadow-lg z-10 hover:bg-dark-0 hover:text-white trans-200'
-          onClick={nextSlide}>
+          onClick={nextSlide}
+        >
           <FaChevronRight size={16} />
         </button>
       </div>

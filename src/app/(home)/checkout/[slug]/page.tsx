@@ -101,7 +101,6 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
         // revalidate every 1 minute
         const { course } = await getSingleCourseApi(slug)
 
-        console.log('course:', course)
         setCourse(course)
       } catch (err: any) {
         return notFound()
@@ -199,7 +198,6 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
     try {
       // send request to server
       const { user } = await findUserApi(data.receivedEmail)
-      console.log('user:', user)
 
       // set found user
       setFoundUser(user)

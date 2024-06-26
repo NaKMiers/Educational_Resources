@@ -123,9 +123,10 @@ function LoginPage() {
           </p>
         </div>
 
+        {/* MARK: Body */}
         <div className='lg:absolute top-1/2 lg:right-[50px] lg:-translate-y-1/2 px-[32px] py-2 max-w-[500px] w-full bg-white rounded-[28px] overflow-y-auto'>
           <div className='flex justify-center items-center gap-2.5 mt-2'>
-            <div className='w-[32px] rounded-md overflow-hidden'>
+            <div className='w-[32px] rounded-md overflow-hidden shadow-lg'>
               <Image
                 className='w-full h-full object-contain object-left'
                 src='/images/logo.png'

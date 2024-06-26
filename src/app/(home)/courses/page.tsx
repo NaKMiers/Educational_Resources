@@ -39,10 +39,10 @@ async function CoursesPage({ searchParams }: { searchParams?: { [key: string]: s
       <Divider size={6} />
 
       {/* Heading */}
-      <h1 className='text-4xl font-semibold px-21'>Courses</h1>
+      <h1 className='text-4xl font-semibold'>Courses</h1>
 
       {/* Filter & Search Bar */}
-      <div className='flex justify-between'>
+      <div className='flex justify-between -mx-21'>
         {/* Filter */}
         <Meta searchParams={searchParams} tags={tags} categories={categories} chops={chops} />
       </div>

@@ -44,8 +44,8 @@ const OrderSchema = new Schema(
       default: 'pending',
     },
     paymentMethod: {
-      enum: ['momo', 'banking'],
       type: String,
+      enum: ['momo', 'banking'],
     },
   },
   {

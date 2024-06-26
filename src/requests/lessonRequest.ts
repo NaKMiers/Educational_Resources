@@ -1,9 +1,9 @@
 // Lesson -------------------------------------
 
 // [GET]
-export const getAllLessonsApi = async (query: string = '') => {
+export const getAllChapterLessonsApi = async (chapterId: string, query: string = '') => {
   // no-store to bypass cache
-  const res = await fetch(`/api/admin/lesson/all${query}`, {
+  const res = await fetch(`/api/admin/lesson/${chapterId}/all${query}`, {
     cache: 'no-store',
   })
 
@@ -29,8 +29,8 @@ export const getLessonApi = async (id: string) => {
 }
 
 // [POST]
-export const addLessonApi = async (data: FormData) => {
-  const res = await fetch('/api/admin/lesson/add', {
+export const addLessonApi = async (chapterId: string, data: FormData) => {
+  const res = await fetch(`/api/admin/lesson/${chapterId}/add`, {
     method: 'POST',
     body: data,
   })

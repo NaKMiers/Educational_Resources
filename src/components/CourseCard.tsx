@@ -9,6 +9,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Divider from './Divider'
 import Price from './Price'
+import { useState } from 'react'
+import { IUser } from '@/models/UserModel'
+import { HiDotsVertical } from 'react-icons/hi'
 
 interface CourseCardProps {
   course: ICourse
@@ -21,15 +24,20 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
   const { data: session } = useSession()
   const curUser: any = session?.user
 
+  // states
+  const [showActions, setShowActions] = useState<boolean>(false)
+
   return (
     <div
-      className={`relative flex flex-col w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}>
+      className={`relative flex flex-col w-full h-full p-4 bg-white bg-opacity-80 shadow-lg rounded-xl hover:-translate-y-1 transition duration-500 ${className}`}
+    >
       {/* MARK: Thumbnails */}
       <Link
         href={`/${course.slug}`}
         prefetch={false}
-        className='relative aspect-video rounded-lg overflow-hidden shadow-lg block'>
-        <div className='flex w-full overflow-x-scroll snap-x snap-mandatory'>
+        className='relative aspect-video rounded-lg overflow-hidden shadow-lg block group'
+      >
+        <div className='flex w-full overflow-x-scroll snap-x snap-mandatory hover:scale-105 trans-500'>
           {course.images.map(src => (
             <Image
               className='flex-shrink-0 snap-start w-full h-full object-cover'
@@ -57,8 +65,9 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
       {/* Title */}
       <Link href={`/${course.slug}`} prefetch={false}>
         <h3
-          className='font-body text-xl text-dark tracking-wide leading-[22px] my-3'
-          title={course.title}>
+          className='font-body text-[21px] text-dark tracking-wider leading-[22px] my-4'
+          title={course.title}
+        >
           {course.title}
         </h3>
       </Link>
@@ -78,7 +87,8 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
           <Link
             href={`/courses?ctg=${(cat as ICategory).slug}`}
             key={(cat as ICategory).slug}
-            className='text-xs font-semibold font-body tracking-wide text-dark px-2 py-1 shadow rounded-lg bg-sky-300'>
+            className='text-xs font-semibold font-body tracking-wide text-dark px-2 py-1 shadow rounded-lg bg-sky-300'
+          >
             {(cat as ICategory).title}
           </Link>
         ))}
@@ -99,11 +109,31 @@ function CourseCard({ course, hideBadge, className = '' }: CourseCardProps) {
               ? `/learning/${course?._id}/continue`
               : `/checkout/${course?.slug}`
           }
-          className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark trans-300 hover:-translate-y-1'>
+          className='font-semibold h-[42px] flex w-full items-center justify-center rounded-lg shadow-lg bg-dark-100 text-white border-2 border-dark hover:bg-white hover:text-dark trans-300 hover:-translate-y-1'
+        >
           {curUser?._id && curUser?.courses.map((course: any) => course.course).includes(course._id)
             ? 'Continue Learning'
             : 'Buy Now'}
         </Link>
+        {curUser?._id && curUser.courses.map((course: any) => course.course).includes(course._id) && (
+          <div className='relative h-[42px] flex justify-end items-center pl-1'>
+            <button className='group' onClick={() => setShowActions(prev => !prev)}>
+              <HiDotsVertical size={24} className='wiggle' />
+            </button>
+            <div
+              className={`${
+                showActions ? 'max-w-[100px] max-h-[40px] px-1.5 py-1' : 'max-w-0 max-h-0 p-0'
+              }  overflow-hidden absolute z-20 top-[80%] flex gap-2 rounded-md trans-300`}
+            >
+              <Link
+                href={`/checkout/${course.slug}`}
+                className={`font-bold text-nowrap px-1.5 py-1 text-[10px] bg-white hover:bg-dark-0 hover:text-white border border-dark text-dark rounded-md shadow-md trans-200`}
+              >
+                Buy as a gift
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
 
       <Divider size={2} />

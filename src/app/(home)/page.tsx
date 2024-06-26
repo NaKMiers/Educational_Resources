@@ -28,23 +28,22 @@ async function Home() {
       {/* Banner */}
       <Banner courses={courses} />
 
-      <Divider size={28} />
+      <Divider size={32} />
 
       {/* Best Seller */}
-      <Divider size={4} />
       <BestSeller courses={bestSellers} />
 
-      <Divider size={28} />
+      <Divider size={32} />
 
       {/* Features */}
-      <Heading title='My Features' space />
-      <Divider size={8} />
       <Features />
 
-      <Divider size={28} />
+      <Divider size={32} />
 
       {/* Questions */}
-      <Heading title='Questions' space />
+      <div className='max-w-1200 mx-auto'>
+        <Heading title='Questions' space />
+      </div>
       <Divider size={8} />
       <div className='relative px-8 md:px-12 py-21'>
         <GroupCourses
@@ -57,7 +56,7 @@ async function Home() {
         <Divider size={20} />
       </div>
 
-      <Divider size={28} />
+      <Divider size={32} />
     </div>
   )
 }

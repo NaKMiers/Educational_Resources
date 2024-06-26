@@ -1,10 +1,11 @@
 import { EditingValues } from '@/app/(admin)/admin/chapter/[courseId]/all/page'
 import { IChapter } from '@/models/ChapterModel'
 import React, { useState } from 'react'
-import { FaTrash } from 'react-icons/fa'
+import { FaEye, FaPlusCircle, FaTrash } from 'react-icons/fa'
 import { MdEdit } from 'react-icons/md'
 import { RiDonutChartFill } from 'react-icons/ri'
 import ConfirmDialog from '../dialogs/ConfirmDialog'
+import Link from 'next/link'
 
 interface ChapterItemProps {
   data: IChapter
@@ -43,7 +44,8 @@ function ChapterItem({
           setSelectedChapters(prev =>
             prev.includes(data._id) ? prev.filter(id => id !== data._id) : [...prev, data._id]
           )
-        }>
+        }
+      >
         {/* Chapter Title */}
         <p className='font-semibold'>{data.title}</p>
 
@@ -59,6 +61,26 @@ function ChapterItem({
 
         {/* MARK: Action Buttons */}
         <div className='flex self-end border border-dark rounded-lg px-3 py-2 gap-4'>
+          {/* View Lessons */}
+          <Link
+            href={`/admin/lesson/${data._id}/all`}
+            className='block group'
+            onClick={e => e.stopPropagation()}
+            title='View Lessons'
+          >
+            <FaEye size={18} className='wiggle' />
+          </Link>
+
+          {/* Add Lesson */}
+          <Link
+            href={`/admin/lesson/${data._id}/add`}
+            className='block group'
+            onClick={e => e.stopPropagation()}
+            title='Add Lesson'
+          >
+            <FaPlusCircle size={18} className='wiggle' />
+          </Link>
+
           {/* Edit Button */}
           <button
             className='block group'
@@ -72,7 +94,8 @@ function ChapterItem({
                 content: data.content,
                 order: data.order,
               })
-            }}>
+            }}
+          >
             <MdEdit size={18} className='wiggle' />
           </button>
 
@@ -84,7 +107,8 @@ function ChapterItem({
               setIsOpenConfirmModal(true)
             }}
             disabled={loadingChapters.includes(data._id)}
-            title='Delete'>
+            title='Delete'
+          >
             {loadingChapters.includes(data._id) ? (
               <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
             ) : (

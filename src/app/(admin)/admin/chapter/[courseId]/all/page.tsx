@@ -19,6 +19,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaSearch, FaSort } from 'react-icons/fa'
+import { ICourse } from '@/models/CourseModel'
 
 export type EditingValues = {
   _id: string
@@ -40,6 +41,7 @@ function AllCourseChaptersPage({
   const router = useRouter()
 
   // states
+  const [course, setCourse] = useState<ICourse | null>(null)
   const [chapters, setChapters] = useState<IChapter[]>([])
   const [amount, setAmount] = useState<number>(0)
   const [selectedChapters, setSelectedChapters] = useState<string[]>([])
@@ -83,9 +85,10 @@ function AllCourseChaptersPage({
       dispatch(setPageLoading(true))
 
       try {
-        const { chapters, amount } = await getAllCourseChaptersApi(courseId, query) // cache: no-store
+        const { course, chapters, amount } = await getAllCourseChaptersApi(courseId, query) // cache: no-store
 
         // set to states
+        setCourse(course)
         setChapters(chapters)
         setAmount(amount)
 
@@ -268,18 +271,23 @@ function AllCourseChaptersPage({
               setSelectedChapters(
                 selectedChapters.length > 0 ? [] : chapters.map(chapter => chapter._id)
               )
-            }>
+            }
+          >
             {selectedChapters.length > 0 ? 'Unselect All' : 'Select All'}
           </button>
 
           {/* Delete Many Button */}
-          {!!selectedChapters.length && (
-            <button
-              className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
-              onClick={() => setIsOpenConfirmModal(true)}>
-              Delete
-            </button>
-          )}
+          {!!selectedChapters.length &&
+            chapters
+              .filter(chapter => selectedChapters.includes(chapter._id))
+              .reduce((acc, chapter) => acc + chapter.lessonQuantity, 0) === 0 && (
+              <button
+                className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
+                onClick={() => setIsOpenConfirmModal(true)}
+              >
+                Delete
+              </button>
+            )}
         </div>
       </AdminMeta>
 
@@ -292,6 +300,13 @@ function AllCourseChaptersPage({
         onAccept={() => handleDeleteChapters(selectedChapters)}
         isLoading={loadingChapters.length > 0}
       />
+
+      <Divider />
+
+      {/* MARK: Course */}
+      <h2 className='text-center font-semibold text-2xl text-slate-200' title='course'>
+        {course?.title}
+      </h2>
 
       {/* MARK: Amount */}
       <div className='p-3 text-sm text-right text-white font-semibold'>

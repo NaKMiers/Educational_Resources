@@ -40,7 +40,7 @@ function BottomOfQuestion({ question, commentAmount, className = '' }: BottomOfQ
 
   return (
     <div className='flex h-[50px] gap-4'>
-      <button className='flex items-center justify-center group'>
+      <button className='flex items-center justify-center group -mb-1'>
         <span className='mr-1.5 font-semibold'>{likes.length}</span>{' '}
         <FaRegThumbsUp
           size={18}
@@ -48,7 +48,7 @@ function BottomOfQuestion({ question, commentAmount, className = '' }: BottomOfQ
             !likes.includes(curUser?._id)
               ? 'text-dark group-hover:text-rose-500'
               : 'text-rose-500 group-hover:text-dark'
-          } trans-200`}
+          } -mt-1.5 trans-200`}
           onClick={handleLike}
         />
       </button>

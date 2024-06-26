@@ -33,11 +33,12 @@ function BestSeller({ courses, className = '' }: BestSellerProps) {
         {courses.map((course, index) => (
           <Link
             href={`/${course.slug}`}
-            className='rounded-lg shadow-lg overflow-hidden'
-            key={course._id}>
+            className='rounded-lg shadow-lg overflow-hidden group'
+            key={course._id}
+          >
             <div className='aspect-video w-full shadow-lg'>
               <Image
-                className='w-full h-full object-cover'
+                className='w-full h-full object-cover group-hover:scale-105 trans-500'
                 src={course.images[0]}
                 width={300}
                 height={300}

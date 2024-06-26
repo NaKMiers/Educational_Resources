@@ -110,14 +110,17 @@ function PersonalSetting() {
         className={`${
           openAuthentication ? 'block' : 'hidden'
         } flex items-center justify-center fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50`}
-        onClick={() => dispatch(setOpenAuthentication(false))}>
+        onClick={() => dispatch(setOpenAuthentication(false))}
+      >
         <div
           className='flex flex-col items-center relative rounded-lg shadow-lg max-w-[500px] w-full bg-white p-21'
-          onClick={e => e.stopPropagation()}>
+          onClick={e => e.stopPropagation()}
+        >
           {/* Close Button */}
           <button
             className='absolute top-3 right-3 group'
-            onClick={() => dispatch(setOpenAuthentication(false))}>
+            onClick={() => dispatch(setOpenAuthentication(false))}
+          >
             <IoMdCloseCircleOutline size={22} className='wiggle' />
           </button>
           <p className='flex items-center justify-center gap-1'>
@@ -142,7 +145,8 @@ function PersonalSetting() {
             disabled={isCheckingAuthentication}
             className={`h-8 flex items-center justify-center rounded-lg shadow-lg px-4 py-1 text-slate-500 bg-slate-200 hover:bg-white trans-200 ${
               isCheckingAuthentication ? 'bg-slate-200 pointer-events-none' : ''
-            }`}>
+            }`}
+          >
             {isCheckingAuthentication ? (
               <FaCircleNotch
                 size={18}

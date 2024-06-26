@@ -3,8 +3,10 @@ import ChapterModel from '@/models/ChapterModel'
 import { searchParamsToObject } from '@/utils/handleQuery'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Chapter
+// Models: Chapter, Course
 import '@/models/ChapterModel'
+import '@/models/CourseModel'
+import CourseModel from '@/models/CourseModel'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,6 +26,14 @@ export async function GET(req: NextRequest, { params: { courseId } }: { params: 
     let itemPerPage = 9
     const filter: { [key: string]: any } = { courseId }
     let sort: { [key: string]: any } = { updatedAt: -1 } // default sort
+
+    // get course
+    const course = await CourseModel.findById(courseId).select('title slug').lean()
+
+    // check if course not found
+    if (!course) {
+      return NextResponse.json({ message: 'Course not found' }, { status: 404 })
+    }
 
     // build filter
     for (const key in params) {
@@ -76,23 +86,8 @@ export async function GET(req: NextRequest, { params: { courseId } }: { params: 
     // get all chapters from database
     const chapters = await ChapterModel.find(filter).sort(sort).skip(skip).limit(itemPerPage).lean()
 
-    // // get all order without filter
-    // const chops = await CourseModel.aggregate([
-    //   {
-    //     $group: {
-    //       _id: null,
-    //       minPrice: { $min: '$price' },
-    //       maxPrice: { $max: '$price' },
-    //       minSold: { $min: '$sold' },
-    //       maxSold: { $max: '$sold' },
-    //       minStock: { $min: '$stock' },
-    //       maxStock: { $max: '$stock' },
-    //     },
-    //   },
-    // ])
-
     // return all courses
-    return NextResponse.json({ chapters, amount }, { status: 200 })
+    return NextResponse.json({ course, chapters, amount }, { status: 200 })
   } catch (err: any) {
     return NextResponse.json({ message: err.message }, { status: 500 })
   }

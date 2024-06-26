@@ -4,7 +4,7 @@ import { formatPrice } from '@/utils/number'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa'
+import { FaCheck, FaEye, FaEyeSlash, FaTrash } from 'react-icons/fa'
 import { IoBalloonSharp } from 'react-icons/io5'
 import { MdEdit } from 'react-icons/md'
 import { PiLightningFill, PiLightningSlashFill } from 'react-icons/pi'
@@ -52,14 +52,16 @@ function CourseItem({
           setSelectedCourses(prev =>
             prev.includes(data._id) ? prev.filter(id => id !== data._id) : [...prev, data._id]
           )
-        }>
+        }
+      >
         <div className='flex-grow'>
           {/* MARK: Thumbnails */}
           <Link
             href={`/${data.slug}`}
             prefetch={false}
             className='relative flex items-center max-w-[160px] rounded-lg shadow-md overflow-hidden mb-2'
-            onClick={e => e.stopPropagation()}>
+            onClick={e => e.stopPropagation()}
+          >
             <div className='flex items-center w-full overflow-x-scroll snap-x snap-mandatory no-scrollbar'>
               {data.images.map((src, index) => (
                 <Image
@@ -85,14 +87,16 @@ function CourseItem({
           {/* Categories */}
           <p
             className='flex flex-wrap gap-1 font-semibold text-dark text-[18px] leading-4 font-body tracking-wide'
-            title={data.title}>
+            title={data.title}
+          >
             {(data.categories as ICategory[]).map(category => (
               <Link
                 href={`/courses?ctg=${category.slug}`}
                 className={`shadow-md text-xs ${
                   category.title ? 'bg-yellow-300 text-dark' : 'bg-slate-200 text-slate-400'
                 } px-2 py-px select-none rounded-md font-body`}
-                key={category._id}>
+                key={category._id}
+              >
                 {category.title || 'empty'}
               </Link>
             ))}
@@ -148,12 +152,12 @@ function CourseItem({
               }
             }}
             disabled={loadingCourses.includes(data._id)}
-            title={data.active ? 'Deactivate' : 'Activate'}>
-            {data.active ? (
-              <FaEye size={18} className='wiggle text-green-500' />
-            ) : (
-              <FaEyeSlash size={18} className='wiggle text-slate-300' />
-            )}
+            title={data.active ? 'Deactivate' : 'Activate'}
+          >
+            <FaCheck
+              size={18}
+              className={`wiggle ${data.active ? 'text-green-500' : 'text-slate-300'}`}
+            />
           </button>
 
           {/* Remove Flashsale Button */}
@@ -166,7 +170,8 @@ function CourseItem({
                 setConfirmType('Remove Flash Sale')
               }}
               disabled={loadingCourses.includes(data._id)}
-              title='Remove Flash Sale'>
+              title='Remove Flash Sale'
+            >
               <PiLightningSlashFill size={18} className='wiggle text-yellow-400' />
             </button>
           )}
@@ -176,7 +181,8 @@ function CourseItem({
             href={`/admin/course/${data._id}/edit`}
             className='block group'
             onClick={e => e.stopPropagation()}
-            title='Edit'>
+            title='Edit'
+          >
             <MdEdit size={18} className='wiggle' />
           </Link>
 
@@ -185,8 +191,9 @@ function CourseItem({
             href={`/admin/chapter/${data._id}/all`}
             className='block group'
             onClick={e => e.stopPropagation()}
-            title='View Chapters'>
-            <IoBalloonSharp size={18} className='wiggle' />
+            title='View Chapters'
+          >
+            <FaEye size={18} className='wiggle' />
           </Link>
 
           {/* Delete Button */}
@@ -197,7 +204,8 @@ function CourseItem({
               setIsOpenConfirmModal(true)
             }}
             disabled={loadingCourses.includes(data._id)}
-            title='Delete'>
+            title='Delete'
+          >
             {loadingCourses.includes(data._id) ? (
               <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
             ) : (

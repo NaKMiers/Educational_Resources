@@ -7,6 +7,7 @@ export const loading = createSlice({
     isLoading: false,
     openAuthentication: false,
     authenticated: false,
+    openSidebar: true,
   },
   reducers: {
     setPageLoading: (state, action: PayloadAction<boolean>) => ({
@@ -25,8 +26,13 @@ export const loading = createSlice({
       ...state,
       authenticated: action.payload,
     }),
+    setOpenSidebar: (state, action: PayloadAction<boolean>) => ({
+      ...state,
+      openSidebar: action.payload,
+    }),
   },
 })
 
-export const { setPageLoading, setLoading, setOpenAuthentication, setAuthenticated } = loading.actions
+export const { setPageLoading, setLoading, setOpenAuthentication, setAuthenticated, setOpenSidebar } =
+  loading.actions
 export default loading.reducer

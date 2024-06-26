@@ -1,9 +1,11 @@
 import { connectDatabase } from '@/config/database'
 import ChapterModel from '@/models/ChapterModel'
+import LessonModel from '@/models/LessonModel'
 import { NextRequest, NextResponse } from 'next/server'
 
-// Models: Chapter
+// Models: Chapter, Lesson
 import '@/models/ChapterModel'
+import '@/models/LessonModel'
 
 // [DELETE]: /admin/chapter/delete
 export async function DELETE(req: NextRequest) {
@@ -18,6 +20,17 @@ export async function DELETE(req: NextRequest) {
 
     // get delete categories
     const deletedChapters = await ChapterModel.find({ _id: { $in: ids } }).lean()
+
+    // count number of lessons in chapters
+    const lessonQuantity = await LessonModel.countDocuments({ chapterId: { $in: ids } })
+
+    // prevent deleting chapters with lessons
+    if (lessonQuantity > 0) {
+      return NextResponse.json(
+        { message: `Cannot delete chapters with lessons. Please delete the lessons first` },
+        { status: 400 }
+      )
+    }
 
     // delete chapter from database
     await ChapterModel.deleteMany({ _id: { $in: ids } })

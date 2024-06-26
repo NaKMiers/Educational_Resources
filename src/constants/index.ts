@@ -41,20 +41,6 @@ export const adminLinks = [
     ],
   },
   {
-    title: 'Lesson',
-    Icon: MdPlayLesson,
-    links: [
-      {
-        title: 'All Lessons',
-        href: '/admin/lesson/all',
-      },
-      {
-        title: 'Add Lesson',
-        href: '/admin/lesson/add',
-      },
-    ],
-  },
-  {
     title: 'User',
     Icon: FaUser,
     links: [

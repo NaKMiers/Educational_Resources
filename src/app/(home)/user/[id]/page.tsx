@@ -3,7 +3,6 @@ import Divider from '@/components/Divider'
 import GroupCourses from '@/components/GroupCourses'
 import { IUser } from '@/models/UserModel'
 import { getUsersApi } from '@/requests'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FaDiscourse } from 'react-icons/fa'
@@ -59,7 +58,9 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
       {/* Center */}
       <div className='relative grid grid-cols-12 md:px-10 border-b-2 border-dark'>
         <div className='col-span-12 lg:col-span-8 px-8 py-21 order-2 lg:order-1'>
-          <h2 className='font-bold text-2xl text-center text-slate-600'>Joined Courses</h2>
+          <h2 className='font-bold text-2xl text-center text-slate-600'>
+            Joined Courses ({user.courses.length || ''})
+          </h2>
 
           {!!user.courses.length ? (
             <GroupCourses child='course-card' courses={user.courses} />

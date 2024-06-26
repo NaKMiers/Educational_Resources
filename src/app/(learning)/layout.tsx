@@ -45,14 +45,10 @@ export default async function RootLayout({
           <PageLoading />
 
           {/* Main */}
-          <main className='grid grid-cols-12 mb-[72px] md:mb-auto md:mt-[72px] gap-y-4'>
-            <div className='col-span-12 md:col-span-3 border-0 md:border-r-2 border-dark px-3 order-2 md:order-1'>
-              <AllLessons />
-            </div>
+          <main className='flex mb-[72px] md:mb-auto md:mt-[72px] gap-y-4'>
+            <AllLessons />
 
-            <div className='flex flex-col relative col-span-12 md:col-span-9 order-1 md:order-2'>
-              {children}
-            </div>
+            {children}
           </main>
         </StoreProvider>
       </body>

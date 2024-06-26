@@ -23,7 +23,7 @@ async function QuestionDetailPage({ params: { slug } }: { params: { slug: string
   }
 
   return (
-    <div className='max-w-1200 mx-auto'>
+    <div className='max-w-1200 mx-auto px-21'>
       <Divider size={10} />
 
       <div className='rounded-lg shadow-lg'>
