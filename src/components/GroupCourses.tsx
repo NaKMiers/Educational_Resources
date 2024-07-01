@@ -1,13 +1,12 @@
 'use client'
 
+import CourseCard from '@/components/CourseCard'
 import { ICategory } from '@/models/CategoryModel'
 import { ICourse } from '@/models/CourseModel'
 import { IQuestion } from '@/models/QuestionModel'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import CourseCard from '@/components/CourseCard'
 import QuestionItem from './QuestionItem'
-import { motion } from 'framer-motion'
 
 interface GroupCoursesProps {
   category?: ICategory
@@ -86,14 +85,7 @@ function GroupCourses({
   }, [])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, translateY: 100 }}
-      whileInView={{ opacity: 1, translateY: 0 }}
-      transition={{ duration: 0.5 }}
-      viewport={{ once: true }}
-      className={`relative ${className}`}
-      id={bestSeller ? 'best-seller' : category?.slug}
-    >
+    <div className={`relative ${className}`} id={bestSeller ? 'best-seller' : category?.slug}>
       {/* MARK: Next - Previous */}
       {!isExpaned && (
         <>
@@ -139,7 +131,7 @@ function GroupCourses({
           ))}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
