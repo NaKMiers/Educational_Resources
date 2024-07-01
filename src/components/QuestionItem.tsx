@@ -84,7 +84,7 @@ function QuestionItem({ question, className = '' }: QuestionItemProps) {
   }, [selectedContent, question.slug])
 
   return (
-    <div className={`rounded-2xl shadow-lg bg-white bg-opacity-80 ${className}`}>
+    <div className={`rounded-2xl shadow-lg bg-white ${className}`}>
       {/* Top */}
       <div className='relative flex gap-3 p-4 border-b-2 border-slate-300'>
         <Link

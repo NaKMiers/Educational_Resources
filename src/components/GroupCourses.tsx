@@ -5,8 +5,9 @@ import { ICourse } from '@/models/CourseModel'
 import { IQuestion } from '@/models/QuestionModel'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import CourseCard from './CourseCard'
+import CourseCard from '@/components/CourseCard'
 import QuestionItem from './QuestionItem'
+import { motion } from 'framer-motion'
 
 interface GroupCoursesProps {
   category?: ICategory
@@ -85,18 +86,27 @@ function GroupCourses({
   }, [])
 
   return (
-    <div className={`relative ${className}`} id={bestSeller ? 'best-seller' : category?.slug}>
+    <motion.div
+      initial={{ opacity: 0, translateY: 100 }}
+      whileInView={{ opacity: 1, translateY: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className={`relative ${className}`}
+      id={bestSeller ? 'best-seller' : category?.slug}
+    >
       {/* MARK: Next - Previous */}
       {!isExpaned && (
         <>
           <button
             className='group flex items-center justify-center absolute -left-21 top-1/2 -translate-y-1/2 bg-secondary bg-opacity-80 w-11 h-11 z-10 rounded-full shadow-md trans-200 hover:bg-opacity-100 group'
-            onClick={prevSlide}>
+            onClick={prevSlide}
+          >
             <FaChevronLeft size={18} className='wiggle text-white' />
           </button>
           <button
             className='group flex items-center justify-center absolute -right-21 top-1/2 -translate-y-1/2 bg-secondary bg-opacity-80 w-11 h-11 z-10 rounded-full shadow-md trans-200 hover:bg-opacity-100 group'
-            onClick={nextSlide}>
+            onClick={nextSlide}
+          >
             <FaChevronRight size={18} className='wiggle text-white' />
           </button>
         </>
@@ -111,13 +121,15 @@ function GroupCourses({
           ref={slideTrackRef}
           onMouseDown={() => setIsDragging(true)}
           onMouseMove={handleDraging}
-          onMouseUp={() => setIsDragging(false)}>
+          onMouseUp={() => setIsDragging(false)}
+        >
           {(child === 'course-card' ? courses : questions).map((item: any, index) => (
             <div
               key={index}
               className={`relative h-full flex-shrink-0 ${
                 !isDragging ? 'snap-start' : ''
-              } ${childClassName}`}>
+              } ${childClassName}`}
+            >
               {child === 'course-card' ? (
                 <CourseCard course={item.course} className='' />
               ) : (
@@ -127,7 +139,7 @@ function GroupCourses({
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

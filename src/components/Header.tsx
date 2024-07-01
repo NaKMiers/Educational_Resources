@@ -140,15 +140,17 @@ function Header({ className = '' }: HeaderProps) {
       className={`fixed z-50 bg-white ${
         isTransparent
           ? 'text-dark md:text-white drop-shadow-lg md:bg-opacity-0'
-          : 'text-dark bg-opacity-100'
-      } w-full shadow-lg trans-300 bottom-0 md:bottom-auto md:top-0 ${className}`}>
+          : 'text-dark bg-opacity-100 shadow-lg'
+      } w-full trans-300 bottom-0 md:bottom-auto md:top-0 ${className}`}
+    >
       {/* Main Header */}
       <div className='relative flex justify-between items-center max-w-1200 w-full h-[72px] m-auto px-21'>
         {/* MARK: Brand */}
         <div
           className={`${
             openSearch ? 'max-w-0 overflow-hidden' : 'max-w-[100px] w-full'
-          } hidden sm:flex sm:flex-shrink-0 pl-4 -ml-4 items-center h-full overflow-x-scroll no-scrollbar trans-300`}>
+          } hidden sm:flex sm:flex-shrink-0 pl-4 -ml-4 items-center h-full overflow-x-scroll no-scrollbar trans-300`}
+        >
           <Link href='/' prefetch={false} className='shrink-0 trans-200 spin mr-2'>
             <Image
               className='aspect-square rounded-md'
@@ -167,28 +169,33 @@ function Header({ className = '' }: HeaderProps) {
         <div
           className={`flex items-center ${
             openSearch ? 'max-w-full' : 'max-w-[500px]'
-          } w-full lg:min-w-[520px] trans-300`}>
+          } w-full lg:min-w-[520px] trans-300`}
+        >
           <div
             className={`${
               openSearch
                 ? 'max-w-0 w-0 overflow-hidden mr-0'
                 : 'max-w-[114px] md:max-w-[200px] w-full mr-21'
-            } flex items-center gap-21 trans-300`}>
+            } flex items-center gap-21 trans-300`}
+          >
             <Link
               href='/'
-              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'
+            >
               <span className='hidden md:block'>Home</span>
               <FaHome size={24} className='md:hidden' />
             </Link>
             <Link
               href='/courses'
-              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'
+            >
               <span className='hidden md:block'>Course</span>
               <SiCoursera size={24} className='md:hidden' />
             </Link>
             <Link
               href='/question'
-              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'>
+              className='font-semibold hover:text-sky-400 underline-offset-2 trans-200 relative after:absolute after:-bottom-0.5 after:left-0 after:w-0 hover:after:w-full after:h-0.5 after:bg-sky-400 after:transition-all after:duration-300'
+            >
               <span className='hidden md:block'>Forum</span>
               <MdForum size={24} className='md:hidden' />
             </Link>
@@ -197,7 +204,8 @@ function Header({ className = '' }: HeaderProps) {
           <div
             className={`${
               !searchResults ? 'overflow-hidden' : ''
-            } w-full border border-dark rounded-[24px] relative mr-2.5 h-[36px] flex items-center justify-center text-dark`}>
+            } w-full border border-dark rounded-[24px] relative mr-2.5 h-[36px] flex items-center justify-center text-dark`}
+          >
             <input
               type='text'
               placeholder='Search...'
@@ -219,7 +227,8 @@ function Header({ className = '' }: HeaderProps) {
               onClick={e => !searchValue && e.preventDefault()}
               className={`group h-full w-[40px] flex justify-center items-center rounded-r-lg bg-white ${
                 searchLoading ? 'pointer-events-none' : ''
-              }`}>
+              }`}
+            >
               {searchLoading ? (
                 <RiDonutChartFill size={20} className='animate-spin text-slate-300' />
               ) : (
@@ -230,13 +239,15 @@ function Header({ className = '' }: HeaderProps) {
             <ul
               className={`${
                 searchResults && openResults ? 'max-h-[500px] p-2' : 'max-h-0 p-0'
-              } absolute z-20 bottom-12 lg:bottom-auto lg:top-12 left-0 w-full rounded-lg shadow-medium bg-slate-200 bg-opacity-75 gap-2 overflow-y-auto transition-all duration-300`}>
+              } absolute z-20 bottom-12 lg:bottom-auto lg:top-12 left-0 w-full rounded-lg shadow-medium bg-slate-200 bg-opacity-75 gap-2 overflow-y-auto transition-all duration-300`}
+            >
               {searchResults?.length ? (
                 searchResults.map(course => (
                   <Link
                     href={`/${course.slug}`}
                     key={course._id}
-                    className='flex gap-4 py-2 items-start rounded-lg p-2 hover:bg-sky-200 trans-200'>
+                    className='flex gap-4 py-2 items-start rounded-lg p-2 hover:bg-sky-200 trans-200'
+                  >
                     <div className='relative aspect-video flex-shrink-0'>
                       {course.stock <= 0 && (
                         <div className='absolute top-0 left-0 right-0 flex justify-center items-start aspect-video bg-white rounded-lg bg-opacity-50'>
@@ -284,7 +295,8 @@ function Header({ className = '' }: HeaderProps) {
               <>
                 <button
                   className='relative group'
-                  onClick={() => setIsOpenNotificationMenu(prev => !prev)}>
+                  onClick={() => setIsOpenNotificationMenu(prev => !prev)}
+                >
                   <FaBell size={24} className='wiggle' />
                   {!!notifications.length && (
                     <span className='absolute top-0 right-0 w-1.5 h-1.5 rounded-lg bg-green-400' />
@@ -292,7 +304,8 @@ function Header({ className = '' }: HeaderProps) {
                 </button>
                 <div
                   className='flex items-center gap-2 cursor-pointer'
-                  onClick={() => setIsOpenMenu(prev => !prev)}>
+                  onClick={() => setIsOpenMenu(prev => !prev)}
+                >
                   <Image
                     className='aspect-square rounded-full wiggle-0'
                     src={curUser?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR!}
@@ -313,12 +326,14 @@ function Header({ className = '' }: HeaderProps) {
             <div className='flex items-center gap-3'>
               <Link
                 href='/auth/login'
-                className='bg-[#019CDE] text-white hover:bg-white hover:text-dark border border-dark text-nowrap trans-200 px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
+                className='bg-[#019CDE] text-white hover:bg-white hover:text-dark border border-dark text-nowrap trans-200 px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'
+              >
                 Sign In
               </Link>
               <Link
                 href='/auth/register'
-                className='bg-[#001D4F] text-[#019CDE] hover:bg-white hover:text-dark border border-dark text-nowrap trans-200 px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'>
+                className='bg-[#001D4F] text-[#019CDE] hover:bg-white hover:text-dark border border-dark text-nowrap trans-200 px-4 py-1.5 rounded-3xl font-body font-semibold tracking-wider cursor-pointer'
+              >
                 Sign Up
               </Link>
             </div>
@@ -335,7 +350,8 @@ function Header({ className = '' }: HeaderProps) {
           </button>
           <button
             className='flex justify-center items-center w-[40px] h-[40px]'
-            onClick={() => setIsOpenMenu(prev => !prev)}>
+            onClick={() => setIsOpenMenu(prev => !prev)}
+          >
             <FaBars size={22} className='trans-200 wiggle' />
           </button>
         </div>

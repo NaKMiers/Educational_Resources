@@ -37,7 +37,6 @@ async function Home() {
 
       {/* Features */}
       <Features />
-
       <Divider size={32} />
 
       {/* Questions */}

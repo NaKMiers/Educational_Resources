@@ -51,7 +51,7 @@ async function ProfilePage({ params: { id } }: { params: { id: string } }) {
 
         {/* Avatar */}
         <div className='max-w-[200px] max-h-[200[px] w-full h-full flex-shrink-0 order-1 sm:order-2 '>
-          <Avatar />
+          <Avatar user={user} />
         </div>
       </div>
 

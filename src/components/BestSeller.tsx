@@ -1,9 +1,10 @@
-import Image from 'next/image'
-import React from 'react'
-import Heading from './Heading'
-import Divider from './Divider'
+'use client'
+
 import { ICourse } from '@/models/CourseModel'
+import Image from 'next/image'
 import Link from 'next/link'
+import Divider from './Divider'
+import Heading from './Heading'
 
 interface BestSellerProps {
   courses: ICourse[]

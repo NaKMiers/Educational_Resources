@@ -1,5 +1,6 @@
 'use client'
 
+import { IUser } from '@/models/UserModel'
 import { changeAvatarApi } from '@/requests'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
@@ -8,7 +9,13 @@ import toast from 'react-hot-toast'
 import { FaCamera, FaSave } from 'react-icons/fa'
 import { ImCancelCircle } from 'react-icons/im'
 
-function Avatar() {
+interface AvatarProps {
+  user?: IUser
+  className?: string
+}
+
+function Avatar({ user: usr, className = '' }: AvatarProps) {
+  console.log('usr', usr)
   // hook
   const { data: session, update } = useSession()
   const user: any = session?.user
@@ -94,11 +101,13 @@ function Avatar() {
   }, [imageUrl])
 
   return (
-    <div className='group relative w-full rounded-full aspect-square border-2 border-white shadow-lg overflow-hidden'>
-      {(imageUrl || user?.avatar) && (
+    <div
+      className={`group relative w-full rounded-full aspect-square border-2 border-white shadow-lg overflow-hidden ${className}`}
+    >
+      {(usr?.avatar || imageUrl || user?.avatar) && (
         <Image
-          className='w-full h-full object-cover'
-          src={imageUrl || user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
+          className='w-full h-full object-cover shadow-lg'
+          src={usr?.avatar || imageUrl || user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
           width={200}
           height={200}
           alt='avatar'
@@ -114,10 +123,11 @@ function Avatar() {
         onChange={handleAddFile}
         ref={avatarInputRef}
       />
-      {!isChangingAvatar && (
+      {!isChangingAvatar && !usr && (
         <div
           className='absolute top-0 left-0 flex opacity-0 group-hover:opacity-100 items-center justify-center bg-dark-0 w-full h-full bg-opacity-20 trans-200 cursor-pointer drop-shadow-lg'
-          onClick={() => !imageUrl && avatarInputRef.current?.click()}>
+          onClick={() => !imageUrl && avatarInputRef.current?.click()}
+        >
           {imageUrl ? (
             <div className='flex items-center justify-center gap-21'>
               <FaSave size={40} className='text-green-400 wiggle-1' onClick={handleSaveAvatar} />

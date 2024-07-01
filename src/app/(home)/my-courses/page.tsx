@@ -1,6 +1,6 @@
 'use client'
 
-import CourseCard from '@/components/CourseCard'
+import CourseCard from '@/components/sss'
 import Divider from '@/components/Divider'
 import Pagination from '@/components/Pagination'
 import { useAppDispatch } from '@/libs/hooks'
