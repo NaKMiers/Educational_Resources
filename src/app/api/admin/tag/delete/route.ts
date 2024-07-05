@@ -1,9 +1,11 @@
 import { connectDatabase } from '@/config/database'
 import TagModel from '@/models/TagModel'
 import { NextRequest, NextResponse } from 'next/server'
+import CourseModel from '@/models/CourseModel'
 
-// Models: Tag
+// Models: Tag, Course
 import '@/models/TagModel'
+import '@/models/CourseModel'
 
 // [DELETE]: /admin/tag/delete
 export async function DELETE(req: NextRequest) {
@@ -15,6 +17,12 @@ export async function DELETE(req: NextRequest) {
 
     // get tag ids to delete
     const { ids } = await req.json()
+
+    // only allow to delete tags if no courses are associated with them
+    const courseExists = await CourseModel.exists({ tags: { $in: ids } })
+    if (courseExists) {
+      return NextResponse.json({ message: 'Cannot delete tags that have courses' }, { status: 400 })
+    }
 
     // get delete tags
     const deletedTags = await TagModel.find({ _id: { $in: ids } }).lean()

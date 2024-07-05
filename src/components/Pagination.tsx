@@ -9,6 +9,7 @@ interface PaginationProps {
   searchParams: { [key: string]: string[] | string } | undefined
   amount: number
   itemsPerPage: number
+  dark?: boolean
   className?: string
 }
 
@@ -16,6 +17,7 @@ function Pagination({
   searchParams = {},
   amount = 0,
   itemsPerPage = 9, // default item/page
+  dark,
   className = '',
 }: PaginationProps) {
   // hooks
@@ -85,9 +87,9 @@ function Pagination({
           {Array.from({ length: pageAmount }).map((_, index) => (
             <Link
               href={getPageLink(index + 1)}
-              className={`rounded-lg border-2 py-[6px] px-4 hover:bg-secondary hover:border-secondary hover:text-white trans-200 text-dark ${
-                currentPage === index + 1 ? 'bg-primary border-primary' : 'border-slate-200'
-              }`}
+              className={`rounded-lg border-2 py-[6px] px-4 hover:bg-secondary hover:border-secondary hover:text-white trans-200 ${
+                dark ? 'text-white' : 'text-dark'
+              } ${currentPage === index + 1 ? 'bg-primary border-primary' : 'border-slate-200'}`}
               key={index}
             >
               {index + 1}

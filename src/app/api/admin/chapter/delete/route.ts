@@ -18,19 +18,17 @@ export async function DELETE(req: NextRequest) {
     // get chapter ids to delete
     const { ids } = await req.json()
 
-    // get delete categories
-    const deletedChapters = await ChapterModel.find({ _id: { $in: ids } }).lean()
-
-    // count number of lessons in chapters
-    const lessonQuantity = await LessonModel.countDocuments({ chapterId: { $in: ids } })
-
-    // prevent deleting chapters with lessons
-    if (lessonQuantity > 0) {
+    // only allow to delete chapter if no lessons are associated with them
+    const lessonExists = await LessonModel.exists({ chapterId: { $in: ids } })
+    if (lessonExists) {
       return NextResponse.json(
-        { message: `Cannot delete chapters with lessons. Please delete the lessons first` },
+        { message: `Cannot delete chapters with lessons. Please delete all related lessons first` },
         { status: 400 }
       )
     }
+
+    // get delete categories
+    const deletedChapters = await ChapterModel.find({ _id: { $in: ids } }).lean()
 
     // delete chapter from database
     await ChapterModel.deleteMany({ _id: { $in: ids } })

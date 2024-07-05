@@ -1,9 +1,11 @@
 import { connectDatabase } from '@/config/database'
 import CategoryModel from '@/models/CategoryModel'
 import { NextRequest, NextResponse } from 'next/server'
+import CourseModel from '@/models/CourseModel'
 
-// Models: Category
+// Models: Category, Course
 import '@/models/CategoryModel'
+import '@/models/CourseModel'
 
 // [DELETE]: /admin/category/delete
 export async function DELETE(req: NextRequest) {
@@ -15,6 +17,15 @@ export async function DELETE(req: NextRequest) {
 
     // get category ids to delete
     const { ids } = await req.json()
+
+    // only allow to delete categories if no courses are associated with them
+    const courseExists = await CourseModel.exists({ categories: { $in: ids } })
+    if (courseExists) {
+      return NextResponse.json(
+        { message: 'Cannot delete categories that have courses' },
+        { status: 400 }
+      )
+    }
 
     // get delete categories
     const deletedCategories = await CategoryModel.find({ _id: { $in: ids } }).lean()

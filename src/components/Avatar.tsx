@@ -123,7 +123,7 @@ function Avatar({ user: usr, className = '' }: AvatarProps) {
         onChange={handleAddFile}
         ref={avatarInputRef}
       />
-      {!isChangingAvatar && !usr && (
+      {!isChangingAvatar && usr?._id === user?._id && user?.authType === 'local' && (
         <div
           className='absolute top-0 left-0 flex opacity-0 group-hover:opacity-100 items-center justify-center bg-dark-0 w-full h-full bg-opacity-20 trans-200 cursor-pointer drop-shadow-lg'
           onClick={() => !imageUrl && avatarInputRef.current?.click()}

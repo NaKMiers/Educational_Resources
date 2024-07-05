@@ -3,6 +3,7 @@ import LessonModel, { ILesson } from '@/models/LessonModel'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Models: Lesson, Course
+import ChapterModel from '@/models/ChapterModel'
 import '@/models/CourseModel'
 import '@/models/LessonModel'
 
@@ -22,10 +23,17 @@ export async function DELETE(req: NextRequest) {
       _id: { $in: ids },
     }).lean()
 
-    // delete lesson by ids
-    await LessonModel.deleteMany({
-      _id: { $in: ids },
-    })
+    await Promise.all([
+      // delete lesson by ids
+      await LessonModel.deleteMany({
+        _id: { $in: ids },
+      }),
+      // decrease chapter's lesson quantity
+      await ChapterModel.updateMany(
+        { _id: { $in: lessons.map(lesson => lesson.chapterId) } },
+        { $inc: { lessonQuantity: -1 } }
+      ),
+    ])
 
     // return response
     return NextResponse.json(

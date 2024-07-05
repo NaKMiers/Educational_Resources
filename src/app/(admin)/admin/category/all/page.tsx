@@ -191,7 +191,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
     }
   }, [])
 
-  // handle opimize filter
+  // handle optimize filter
   const handleOptimizeFilter: SubmitHandler<FieldValues> = useCallback(
     data => {
       // reset page
@@ -277,7 +277,7 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
     <div className='w-full'>
       {/* MARK: Top & Pagination */}
       <AdminHeader title='All Categories' addLink='/admin/category/add' />
-      <Pagination searchParams={searchParams} amount={amount} itemsPerPage={itemPerPage} />
+      <Pagination dark searchParams={searchParams} amount={amount} itemsPerPage={itemPerPage} />
 
       {/* MARK: Filter */}
       <AdminMeta handleFilter={handleSubmit(handleFilter)} handleResetFilter={handleResetFilter}>
@@ -371,7 +371,8 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
               setSelectedCategories(
                 selectedCategories.length > 0 ? [] : categories.map(category => category._id)
               )
-            }>
+            }
+          >
             {selectedCategories.length > 0 ? 'Unselect All' : 'Select All'}
           </button>
 
@@ -384,7 +385,8 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
                   handleSaveEditingCategories(
                     editingValues.filter(value => selectedCategories.includes(value._id))
                   )
-                }>
+                }
+              >
                 Save All
               </button>
               {/* Cancel Many Button */}
@@ -396,7 +398,8 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
                   setEditingValues(
                     editingValues.filter(value => !selectedCategories.includes(value._id))
                   )
-                }}>
+                }}
+              >
                 Cancel
               </button>
             </>
@@ -407,7 +410,8 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
             selectedCategories.some(id => !categories.find(category => category._id === id)?.booted) && (
               <button
                 className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white trans-200'
-                onClick={() => handleBootCategories(selectedCategories, true)}>
+                onClick={() => handleBootCategories(selectedCategories, true)}
+              >
                 Mark
               </button>
             )}
@@ -417,7 +421,8 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
             selectedCategories.some(id => categories.find(category => category._id === id)?.booted) && (
               <button
                 className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
-                onClick={() => handleBootCategories(selectedCategories, false)}>
+                onClick={() => handleBootCategories(selectedCategories, false)}
+              >
                 Unmark
               </button>
             )}
@@ -426,7 +431,8 @@ function AllCategoriesPage({ searchParams }: { searchParams?: { [key: string]: s
           {!!selectedCategories.length && (
             <button
               className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
-              onClick={() => setIsOpenConfirmModal(true)}>
+              onClick={() => setIsOpenConfirmModal(true)}
+            >
               Delete
             </button>
           )}
