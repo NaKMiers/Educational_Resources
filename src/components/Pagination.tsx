@@ -88,7 +88,7 @@ function Pagination({
             <Link
               href={getPageLink(index + 1)}
               className={`rounded-lg border-2 py-[6px] px-4 hover:bg-secondary hover:border-secondary hover:text-white trans-200 ${
-                dark ? 'text-white' : 'text-dark'
+                dark ? 'text-white' : 'text-slate-500'
               } ${currentPage === index + 1 ? 'bg-primary border-primary' : 'border-slate-200'}`}
               key={index}
             >

@@ -45,7 +45,8 @@ function VoucherItem({
           setSelectedVouchers(prev =>
             prev.includes(data._id) ? prev.filter(id => id !== data._id) : [...prev, data._id]
           )
-        }>
+        }
+      >
         {/* MARK: Body */}
         <div>
           <div className='flex items-center gap-3'>
@@ -108,7 +109,7 @@ function VoucherItem({
           {/* Owner */}
           <p className='text-sm' title='owner'>
             <span className='font-semibold'>Owner: </span>
-            <span>{(data.owner as IUser).firstName + ' ' + (data.owner as IUser).lastName}</span>
+            <span>{(data.owner as IUser)?.firstName + ' ' + (data.owner as IUser)?.lastName}</span>
           </p>
 
           {/* Used Users */}
@@ -139,7 +140,8 @@ function VoucherItem({
               e.stopPropagation()
               handleActivateVouchers([data._id], !data.active)
             }}
-            title={data.active ? 'Deactivate' : 'Activate'}>
+            title={data.active ? 'Deactivate' : 'Activate'}
+          >
             <FaCheck
               size={18}
               className={`wiggle ${data.active ? 'text-green-500' : 'text-slate-300'}`}
@@ -151,7 +153,8 @@ function VoucherItem({
             href={`/admin/voucher/${data.code}/edit`}
             className='block group'
             onClick={e => e.stopPropagation()}
-            title='Edit'>
+            title='Edit'
+          >
             <MdEdit size={18} className='wiggle' />
           </Link>
 
@@ -163,7 +166,8 @@ function VoucherItem({
               setIsOpenConfirmModal(true)
             }}
             disabled={loadingVouchers.includes(data._id)}
-            title='Delete'>
+            title='Delete'
+          >
             {loadingVouchers.includes(data._id) ? (
               <RiDonutChartFill size={18} className='animate-spin text-slate-300' />
             ) : (

@@ -168,7 +168,7 @@ function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: str
     }
   }, [])
 
-  // handle opimize filter
+  // handle optimize filter
   const handleOptimizeFilter: SubmitHandler<FieldValues> = useCallback(
     data => {
       // reset page
@@ -498,7 +498,8 @@ function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: str
               setSelectedVouchers(
                 selectedVouchers.length > 0 ? [] : vouchers.map(voucher => voucher._id)
               )
-            }>
+            }
+          >
             {selectedVouchers.length > 0 ? 'Unselect All' : 'Select All'}
           </button>
 
@@ -506,7 +507,8 @@ function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: str
           {selectedVouchers.some(id => !vouchers.find(voucher => voucher._id === id)?.active) && (
             <button
               className='border border-green-400 text-green-400 rounded-lg px-3 py-2 hover:bg-green-400 hover:text-white trans-200'
-              onClick={() => handleActivateVouchers(selectedVouchers, true)}>
+              onClick={() => handleActivateVouchers(selectedVouchers, true)}
+            >
               Activate
             </button>
           )}
@@ -515,7 +517,8 @@ function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: str
           {selectedVouchers.some(id => vouchers.find(voucher => voucher._id === id)?.active) && (
             <button
               className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
-              onClick={() => handleActivateVouchers(selectedVouchers, false)}>
+              onClick={() => handleActivateVouchers(selectedVouchers, false)}
+            >
               Deactivate
             </button>
           )}
@@ -524,7 +527,8 @@ function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: str
           {!!selectedVouchers.length && (
             <button
               className='border border-red-500 text-red-500 rounded-lg px-3 py-2 hover:bg-red-500 hover:text-white trans-200'
-              onClick={() => setIsOpenConfirmModal(true)}>
+              onClick={() => setIsOpenConfirmModal(true)}
+            >
               Delete
             </button>
           )}
