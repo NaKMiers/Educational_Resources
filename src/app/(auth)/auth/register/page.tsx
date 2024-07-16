@@ -39,7 +39,7 @@ function RegisterPage() {
 
   // validate form
   const handleValidate: SubmitHandler<FieldValues> = useCallback(
-    data => {
+    (data) => {
       let isValid = true
 
       // username must be at least 5 characters
@@ -52,24 +52,16 @@ function RegisterPage() {
       }
 
       // email must be valid
-      if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(data.email)) {
+      if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/.test(data.email)) {
         setError('email', {
           type: 'manual',
           message: 'Email không hợp lệ',
         })
         isValid = false
       } else {
-        const { email } = data
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i
-
-        if (!emailRegex.test(email)) {
+        if (commonEmailMistakes.some((mistake) => data.email.toLowerCase().includes(mistake))) {
           setError('email', { message: 'Email không hợp lệ' })
           isValid = false
-        } else {
-          if (commonEmailMistakes.some(mistake => email.toLowerCase().includes(mistake))) {
-            setError('email', { message: 'Email không hợp lệ' })
-            isValid = false
-          }
         }
       }
 
@@ -90,7 +82,7 @@ function RegisterPage() {
 
   // MARK: Register Submition
   const onSubmit: SubmitHandler<FieldValues> = useCallback(
-    async data => {
+    async (data) => {
       // validate form
       if (!handleValidate(data)) return
 

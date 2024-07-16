@@ -27,7 +27,7 @@ const UserSchema = new Schema(
       unique: true,
       validate: {
         validator: function (value: string) {
-          return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)
+          return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,8}$/.test(value)
         },
         message: 'Email không hợp lệ',
       },

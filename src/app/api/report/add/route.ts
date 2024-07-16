@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     // get user id
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET! })
     const userId = token?._id
-
+    
     // check user id
     if (!userId) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 404 })
