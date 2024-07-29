@@ -104,10 +104,10 @@ function Avatar({ user: usr, className = '' }: AvatarProps) {
     <div
       className={`group relative w-full rounded-full aspect-square border-2 border-white shadow-lg overflow-hidden ${className}`}
     >
-      {(usr?.avatar || imageUrl || user?.avatar) && (
+      {(imageUrl || usr?.avatar || user?.avatar) && (
         <Image
           className='w-full h-full object-cover shadow-lg'
-          src={usr?.avatar || imageUrl || user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
+          src={imageUrl || usr?.avatar || user?.avatar || process.env.NEXT_PUBLIC_DEFAULT_AVATAR}
           width={200}
           height={200}
           alt='avatar'
