@@ -16,6 +16,7 @@ interface AvatarProps {
 
 function Avatar({ user: usr, className = '' }: AvatarProps) {
   console.log('usr', usr)
+
   // hook
   const { data: session, update } = useSession()
   const user: any = session?.user
