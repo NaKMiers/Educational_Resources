@@ -11,7 +11,9 @@ import CommentModel from '@/models/CommentModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /admin/lesson/:id
-export async function GET(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Get Lesson -')
 
   try {
@@ -23,7 +25,7 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
       .populate({
         path: 'courseId',
       })
-      .lean()
+      .lean<ILesson>()
 
     // check lesson
     if (!lesson) {

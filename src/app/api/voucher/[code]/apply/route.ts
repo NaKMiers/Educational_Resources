@@ -10,7 +10,9 @@ import '@/models/UserModel'
 import { IUser } from '@/models/UserModel'
 
 // [POST]: /voucher/:code/apply
-export async function POST(req: NextRequest, { params: { code } }: { params: { code: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ code: string }> }) {
+  const { code } = await props.params
+
   console.log('- Apply Voucher -')
 
   try {
@@ -27,7 +29,7 @@ export async function POST(req: NextRequest, { params: { code } }: { params: { c
     // get voucher from database to apply
     const voucher: IVoucher | null = await VoucherModel.findOne({ code, active: true })
       .populate('owner')
-      .lean()
+      .lean<IVoucher>()
 
     // if voucher does not exist
     if (!voucher) {

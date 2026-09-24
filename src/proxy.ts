@@ -58,7 +58,7 @@ const requiredJoined = async (req: NextRequest, token: JWT | null) => {
 }
 
 // Middleware
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   console.log('- Middleware -')
 
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })

@@ -12,7 +12,9 @@ import { generateSlug } from '@/utils'
 import { deleteFile, uploadFile } from '@/utils/uploadFile'
 
 // [PUT]: /api/admin/tag/:code/edit
-export async function PUT(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Edit Course -')
 
   try {
@@ -29,7 +31,7 @@ export async function PUT(req: NextRequest, { params: { id } }: { params: { id: 
     let images = formData.getAll('images')
 
     // get course from database to edit
-    const course: ICourse | null = await CourseModel.findById(id).lean()
+    const course: ICourse | null = await CourseModel.findById(id).lean<ICourse>()
 
     // course does exist
     if (!course) {

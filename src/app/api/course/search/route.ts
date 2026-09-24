@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     filter.$or = orArray
 
     // find courses by category base on search params
-    let courses: ICourse[] = await CourseModel.find(filter).sort(sort).lean()
+    let courses: ICourse[] = await CourseModel.find(filter).sort(sort).lean<ICourse[]>()
 
     // return response
     return NextResponse.json({ courses }, { status: 200 })

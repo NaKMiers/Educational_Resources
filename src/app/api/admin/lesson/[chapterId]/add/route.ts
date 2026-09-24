@@ -12,10 +12,9 @@ import '@/models/LessonModel'
 import '@/models/UserModel'
 
 // [POST]: /admin/lesson/add
-export async function POST(
-  req: NextRequest,
-  { params: { chapterId } }: { params: { chapterId: string } }
-) {
+export async function POST(req: NextRequest, props: { params: Promise<{ chapterId: string }> }) {
+  const { chapterId } = await props.params
+
   console.log('- Add Lesson - ')
 
   try {

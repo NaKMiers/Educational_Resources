@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const token: any = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
     const userId = token?._id
 
-    const user: IUser | null = await UserModel.findById(userId).lean()
+    const user: IUser | null = await UserModel.findById(userId).lean<IUser>()
 
     // check userId
     if (!user) {

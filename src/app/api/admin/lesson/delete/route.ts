@@ -21,7 +21,7 @@ export async function DELETE(req: NextRequest) {
     // Find lessons by their IDs before deletion
     const lessons: ILesson[] = await LessonModel.find({
       _id: { $in: ids },
-    }).lean()
+    }).lean<ILesson[]>()
 
     await Promise.all([
       // delete lesson by ids

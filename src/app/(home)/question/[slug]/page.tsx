@@ -8,7 +8,9 @@ import { getQuestionDetailPage } from '@/requests'
 import Image from 'next/image'
 import { format } from 'timeago.js'
 
-async function QuestionDetailPage({ params: { slug } }: { params: { slug: string } }) {
+async function QuestionDetailPage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params
+
   let question: IQuestion | null = null
   let comments: IComment[] = []
   let user: IUser | null = null

@@ -8,7 +8,9 @@ import '@/models/QuestionModel'
 import '@/models/UserModel'
 
 // [PATCH]: /Question/:id/close
-export async function PATCH(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Like Question -')
 
   try {

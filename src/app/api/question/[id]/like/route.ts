@@ -9,7 +9,9 @@ import '@/models/QuestionModel'
 import '@/models/UserModel'
 
 // [PATCH]: /Question/:id/like
-export async function PATCH(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Like Question -')
 
   try {
@@ -26,7 +28,7 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
     // get user liked / disliked
     const user: IUser | null = await UserModel.findById(userId)
       .select('username avatar firstName lastName')
-      .lean()
+      .lean<IUser>()
 
     // user does not exist
     if (!user) {

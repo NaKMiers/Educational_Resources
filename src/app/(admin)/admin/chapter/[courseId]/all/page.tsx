@@ -15,7 +15,7 @@ import {} from '@/requests'
 import { deleteChaptersApi, getAllCourseChaptersApi } from '@/requests/chapterRequest'
 import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaSearch, FaSort } from 'react-icons/fa'
@@ -28,13 +28,15 @@ export type EditingValues = {
   order: number
 }
 
-function AllCourseChaptersPage({
-  searchParams,
-  params: { courseId },
-}: {
-  searchParams?: { [key: string]: string[] }
-  params: { courseId: string }
-}) {
+function AllCourseChaptersPage(
+  props: {
+    searchParams: Promise<{ [key: string]: string[] }>
+    params: Promise<{ courseId: string }>
+  }
+) {
+  const { courseId } = use(props.params)
+
+  const searchParams = use(props.searchParams)
   // hooks
   const dispatch = useAppDispatch()
   const pathname = usePathname()

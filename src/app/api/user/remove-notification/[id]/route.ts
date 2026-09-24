@@ -7,7 +7,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import '@/models/UserModel'
 
 // [DELETE]: /user/remove-notification/:id
-export async function DELETE(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Remove Notification -')
 
   try {

@@ -11,7 +11,9 @@ import '@/models/CommentModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /question/:slug/detail
-export async function GET(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Get Question Detail Page - ')
 
   try {
@@ -23,7 +25,7 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
       .populate({
         path: 'userId',
       })
-      .lean()
+      .lean<IQuestion>()
 
     // check if question exists or not
     if (!question) {

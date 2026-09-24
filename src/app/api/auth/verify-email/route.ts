@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const token = searchParams.get('token')
 
     // get user to check
-    const user: IUser | null = await UserModel.findOne({ email }).lean()
+    const user: IUser | null = await UserModel.findOne({ email }).lean<IUser>()
 
     // check if email is exist in the database
     if (!user) {

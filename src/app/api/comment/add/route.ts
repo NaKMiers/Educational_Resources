@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const { questionId, lessonId, content } = await req.json()
 
     // get user commented
-    const user: IUser | null = await UserModel.findById(userId).lean()
+    const user: IUser | null = await UserModel.findById(userId).lean<IUser>()
 
     // user does not exist
     if (!user) {
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       // get user to notify base on questionId
       const question: IQuestion | null = await QuestionModel.findById(questionId)
         .select('userId slug')
-        .lean()
+        .lean<IQuestion>()
       if (!question) {
         return NextResponse.json({ message: 'Question not found' }, { status: 404 })
       }

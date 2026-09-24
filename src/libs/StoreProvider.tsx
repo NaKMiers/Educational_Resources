@@ -1,19 +1,15 @@
 'use client'
 
 import { SessionProvider } from 'next-auth/react'
-import { useRef } from 'react'
+import { useState } from 'react'
 import { Provider } from 'react-redux'
-import { AppStore, makeStore } from './store'
+import { makeStore } from './store'
 
 function StoreProvider({ children, session }: { children: React.ReactNode; session: any }) {
-  const storeRef = useRef<AppStore>()
-
-  if (!storeRef.current) {
-    storeRef.current = makeStore()
-  }
+  const [store] = useState(makeStore)
 
   return (
-    <Provider store={storeRef.current}>
+    <Provider store={store}>
       <SessionProvider session={session}>{children}</SessionProvider>
     </Provider>
   )

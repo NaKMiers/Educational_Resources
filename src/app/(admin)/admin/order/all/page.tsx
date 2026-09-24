@@ -13,12 +13,13 @@ import { cancelOrdersApi, deletedOrdersApi, getAllOrdersApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import { formatPrice } from '@/utils/number'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaCalendar, FaSearch, FaSort } from 'react-icons/fa'
 
-function AllOrdersPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+function AllOrdersPage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = use(props.searchParams)
   // store
   const dispatch = useAppDispatch()
   const pathname = usePathname()

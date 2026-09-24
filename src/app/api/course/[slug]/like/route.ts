@@ -8,7 +8,9 @@ import '@/models/CourseModel'
 import '@/models/UserModel'
 
 // [PATCH]: /course/:id/like
-export async function PATCH(req: NextRequest, { params: { slug } }: { params: { slug: string } }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params
+
   console.log('- Like Course -')
 
   try {

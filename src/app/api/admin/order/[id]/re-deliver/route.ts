@@ -9,7 +9,9 @@ import '@/models/OrderModel'
 import '@/models/VoucherModel'
 
 // [PATCH]: /admin/order/:id/re-deliver
-export async function PATCH(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Re-Deliver Order -')
 
   try {
@@ -20,7 +22,7 @@ export async function PATCH(req: NextRequest, { params: { id } }: { params: { id
     const { message } = await req.json()
 
     // get order to re-deliver
-    let order: IOrder | null = await OrderModel.findById(id).lean()
+    let order: IOrder | null = await OrderModel.findById(id).lean<IOrder>()
 
     // voucher does not exist
     if (!order) {

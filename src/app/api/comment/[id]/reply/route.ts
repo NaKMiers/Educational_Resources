@@ -9,7 +9,9 @@ import '@/models/CommentModel'
 import '@/models/UserModel'
 
 // [POST]: /comment/add
-export async function POST(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function POST(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Reply Comment - ')
 
   try {
@@ -24,7 +26,7 @@ export async function POST(req: NextRequest, { params: { id } }: { params: { id:
     const { content } = await req.json()
 
     // get user commented
-    const user: IUser | null = await UserModel.findById(userId).lean()
+    const user: IUser | null = await UserModel.findById(userId).lean<IUser>()
 
     // user does not exist
     if (!user) {
@@ -60,7 +62,7 @@ export async function POST(req: NextRequest, { params: { id } }: { params: { id:
       { new: true }
     )
       .populate('userId', 'username avatar firstName lastName')
-      .lean()
+      .lean<IComment>()
 
     // parent comment not found
     if (!parentComment) {

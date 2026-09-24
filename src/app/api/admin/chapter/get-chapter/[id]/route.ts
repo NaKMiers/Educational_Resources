@@ -9,7 +9,9 @@ import '@/models/CourseModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /admin/chapter/get-chapter/:id
-export async function GET(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Get Chapter -')
 
   try {

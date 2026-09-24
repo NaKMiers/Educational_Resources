@@ -20,7 +20,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
       select: 'code',
       populate: 'owner',
     })
-    .lean()
+    .lean<IOrder>()
 
   // error state
   let orderError = {
@@ -42,7 +42,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
   // get item and applied voucher
   const { item, email, total, userId, receivedUser } = order
 
-  const buyer: IUser | null = await UserModel.findById(userId).lean()
+  const buyer: IUser | null = await UserModel.findById(userId).lean<IUser>()
 
   // buy for themselves
   if (!receivedUser) {
@@ -56,7 +56,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
 
   // buy as a gift
   else {
-    const receiver: IUser | null = await UserModel.findOne({ email: receivedUser }).lean()
+    const receiver: IUser | null = await UserModel.findOne({ email: receivedUser }).lean<IUser>()
     if (!receiver) {
       throw new Error('Receiver not found')
     }
@@ -143,7 +143,7 @@ export default async function handleDeliverOrder(id: string, message: string = '
       $set: { status: 'done', item: course },
     },
     { new: true }
-  ).lean()
+  ).lean<IOrder>()
 
   // data transferring to email
   const orderData = {

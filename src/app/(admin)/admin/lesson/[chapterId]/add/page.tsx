@@ -3,7 +3,7 @@
 import Input from '@/components/Input'
 import LoadingButton from '@/components/LoadingButton'
 import { useAppDispatch, useAppSelector } from '@/libs/hooks'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { FaCheck, FaFile, FaInfo } from 'react-icons/fa'
 
@@ -24,7 +24,9 @@ export type GroupCourses = {
   [key: string]: ICourse[]
 }
 
-function AddLessonPage({ params: { chapterId } }: { params: { chapterId: string } }) {
+function AddLessonPage(props: { params: Promise<{ chapterId: string }> }) {
+  const { chapterId } = use(props.params)
+
   // hooks
   const dispatch = useAppDispatch()
   const isLoading = useAppSelector(state => state.modal.isLoading)

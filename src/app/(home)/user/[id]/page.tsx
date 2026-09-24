@@ -7,7 +7,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FaDiscourse } from 'react-icons/fa'
 
-async function ProfilePage({ params: { id } }: { params: { id: string } }) {
+async function ProfilePage(props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   let user: IUser
 
   try {

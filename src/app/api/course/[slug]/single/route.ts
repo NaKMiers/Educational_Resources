@@ -8,7 +8,9 @@ import '@/models/CourseModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /course/:id
-export async function GET(req: NextRequest, { params: { slug } }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params
+
   console.log('- Get Course Single -')
 
   try {

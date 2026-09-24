@@ -22,7 +22,7 @@ export async function PATCH(req: NextRequest) {
     await LessonModel.updateMany({ _id: { $in: ids } }, { $set: { active: value || false } })
 
     // get updated lessons
-    const lessons: ILesson[] = await LessonModel.find({ _id: { $in: ids } }).lean()
+    const lessons: ILesson[] = await LessonModel.find({ _id: { $in: ids } }).lean<ILesson[]>()
 
     if (!lessons.length) {
       throw new Error('No lesson found')

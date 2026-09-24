@@ -58,12 +58,12 @@ export async function GET(req: NextRequest) {
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)
-      .lean()
+      .lean<IUser[]>()
 
     // get all vouchers from database
     const vouchers: IVoucher[] = await VoucherModel.find({
       active: true,
-    }).lean()
+    }).lean<IVoucher[]>()
 
     // get vouchers associated with each collaborator
     collaborators = await Promise.all(

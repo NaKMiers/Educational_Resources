@@ -2,7 +2,7 @@
 
 import { ICourse } from '@/models/CourseModel'
 import { likeCourseApi } from '@/requests'
-import { Link } from '@react-email/components'
+import Link from 'next/link'
 import { getSession, useSession } from 'next-auth/react'
 import { useCallback, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'

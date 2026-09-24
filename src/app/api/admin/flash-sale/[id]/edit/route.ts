@@ -8,7 +8,9 @@ import '@/models/FlashSaleModel'
 import '@/models/CourseModel'
 
 // [PUT]: /api/admin/flash-sale/:id/edit
-export async function PUT(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Edit Flash sale -')
 
   try {

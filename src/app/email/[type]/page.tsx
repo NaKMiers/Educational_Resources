@@ -6,7 +6,9 @@ import ResetPasswordEmail from '@/components/email/ResetPasswordEmail'
 import SummaryEmail from '@/components/email/SummaryEmail'
 import VerifyEmailEmail from '@/components/email/VerifyEmailEmail'
 
-function EmailTemplatePage({ params: { type } }: { params: { type: string } }) {
+async function EmailTemplatePage(props: { params: Promise<{ type: string }> }) {
+  const { type } = await props.params
+
   const renderComponent = () => {
     switch (type) {
       case 'order':

@@ -18,7 +18,9 @@ import '@/models/UserModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /course/:slug
-export async function GET(req: NextRequest, { params: { slug } }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params
+
   console.log('- Get Course Page -')
 
   try {
@@ -31,7 +33,7 @@ export async function GET(req: NextRequest, { params: { slug } }: { params: { sl
       active: true,
     })
       .populate('tags categories flashSale')
-      .lean()
+      .lean<ICourse>()
 
     // check if course is not found
     if (!course) {
@@ -39,8 +41,8 @@ export async function GET(req: NextRequest, { params: { slug } }: { params: { sl
     }
 
     // get all chapters and lessons of course
-    const chapters: IChapter[] = await ChapterModel.find({ courseId: course._id }).lean()
-    const lessons: ILesson[] = await LessonModel.find({ courseId: course._id }).lean()
+    const chapters: IChapter[] = await ChapterModel.find({ courseId: course._id }).lean<IChapter[]>()
+    const lessons: ILesson[] = await LessonModel.find({ courseId: course._id }).lean<ILesson[]>()
 
     // add lessons to each chapter
     const chaptersWithLessons = chapters.map(chapter => {

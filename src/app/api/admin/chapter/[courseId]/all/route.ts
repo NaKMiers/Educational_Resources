@@ -11,7 +11,9 @@ import CourseModel from '@/models/CourseModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /admin/chapter/:courseId/all
-export async function GET(req: NextRequest, { params: { courseId } }: { params: { courseId: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ courseId: string }> }) {
+  const { courseId } = await props.params
+
   console.log('- Get All Chapters Of Course -')
 
   try {

@@ -12,17 +12,17 @@ import { ILesson } from '@/models/LessonModel'
 import { addReportApi, getLessonApi, likeLessonApi } from '@/requests'
 import { getSession, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, use } from 'react'
 import toast from 'react-hot-toast'
 import { BsLayoutSidebarInsetReverse } from 'react-icons/bs'
 import { FaChevronLeft, FaHeart, FaQuestion, FaRegHeart } from 'react-icons/fa'
 import { HiDotsHorizontal } from 'react-icons/hi'
 
-function LessonPage({
-  params: { courseId, lessonId },
-}: {
-  params: { courseId: string; lessonId: string }
+function LessonPage(props: {
+  params: Promise<{ courseId: string; lessonId: string }>
 }) {
+  const { courseId, lessonId } = use(props.params)
+
   // hooks
   const dispatch = useAppDispatch()
   const openSidebar = useAppSelector(state => state.modal.openSidebar)

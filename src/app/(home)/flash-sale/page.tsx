@@ -6,7 +6,8 @@ import { getFlashSalePageApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import Link from 'next/link'
 
-async function FlashSalePage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+async function FlashSalePage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = await props.searchParams
   let courses: ICourse[] = []
   let query: string = ''
   let amount: number = 0

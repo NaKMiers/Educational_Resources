@@ -18,7 +18,9 @@ export const metadata: Metadata = {
   title: 'Course',
 }
 
-async function CoursePage({ params: { slug } }: { params: { slug: string } }) {
+async function CoursePage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params
+
   // Data
   let course: ICourse | null = null
   let chapters: IChapter[] = []

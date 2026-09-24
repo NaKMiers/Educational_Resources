@@ -5,7 +5,9 @@ import { NextRequest, NextResponse } from 'next/server'
 // Models: empty
 
 // [PATCH]: /admin/order/:id/deliver
-export async function PATCH(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Deliver Order -')
 
   try {

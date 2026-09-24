@@ -9,7 +9,8 @@ import { getQuestionPageApi } from '@/requests'
 import { cn } from '@/utils/cn'
 import { handleQuery } from '@/utils/handleQuery'
 
-async function QuestionPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+async function QuestionPage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = await props.searchParams
   let questions: IQuestion[] = []
   let amount: number = 0
   let itemsPerPage: number = 8

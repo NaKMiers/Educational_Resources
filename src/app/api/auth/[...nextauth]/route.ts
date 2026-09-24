@@ -90,14 +90,14 @@ const handler = NextAuth({
 
       if (trigger === 'update' && token._id) {
         console.log('- Update Token -')
-        const userDB: IUser | null = await UserModel.findById(token._id).lean()
+        const userDB: IUser | null = await UserModel.findById(token._id).lean<IUser>()
         if (userDB) {
           return { ...token, ...userDB }
         }
       }
 
       if (user) {
-        const userDB: IUser | null = await UserModel.findOne({ email: user.email }).lean()
+        const userDB: IUser | null = await UserModel.findOne({ email: user.email }).lean<IUser>()
         if (userDB) {
           token = { ...token, ...userDB }
         }

@@ -13,14 +13,15 @@ import { activateVouchersApi, deleteVouchersApi, getAllVouchersApi } from '@/req
 import { handleQuery } from '@/utils/handleQuery'
 import { formatPrice } from '@/utils/number'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaCalendar, FaSearch, FaSort } from 'react-icons/fa'
 
 export type VoucherWithOwner = IVoucher & { owner: { firstName: string; lastName: string } }
 
-function AllVouchersPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+function AllVouchersPage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = use(props.searchParams)
   // store
   const dispatch = useAppDispatch()
   const pathname = usePathname()

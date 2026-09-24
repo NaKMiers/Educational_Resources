@@ -10,7 +10,9 @@ import '@/models/VoucherModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /admin/voucher/:id
-export async function GET(req: NextRequest, { params: { code } }: { params: { code: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ code: string }> }) {
+  const { code } = await props.params
+
   console.log('- Get Voucher -')
 
   try {

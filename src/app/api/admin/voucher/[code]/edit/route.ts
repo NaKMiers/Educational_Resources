@@ -6,7 +6,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import '@/models/VoucherModel'
 
 // [PUT]: /api/admin/tag/:code/edit
-export async function PUT(req: NextRequest, { params: { code } }: { params: { code: string } }) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ code: string }> }) {
+  const { code } = await props.params
+
   console.log('- Edit Voucher -')
 
   try {

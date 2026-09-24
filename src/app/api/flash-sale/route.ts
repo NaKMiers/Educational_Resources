@@ -76,7 +76,7 @@ export async function GET(req: NextRequest) {
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)
-      .lean()
+      .lean<ICourse[]>()
 
     // get amount of account
     amount = await CourseModel.countDocuments(filter)

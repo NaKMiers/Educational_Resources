@@ -13,19 +13,21 @@ import { ILesson } from '@/models/LessonModel'
 import { activateLessonsApi, deleteLessonsApi, getAllChapterLessonsApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
-import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaSearch, FaSort } from 'react-icons/fa'
 import { GroupCourses } from '../add/page'
 
-function AllLessonsPage({
-  params: { chapterId },
-  searchParams,
-}: {
-  params: { chapterId: string }
-  searchParams?: { [key: string]: string[] | string }
-}) {
+function AllLessonsPage(
+  props: {
+    params: Promise<{ chapterId: string }>
+    searchParams: Promise<{ [key: string]: string[] | string }>
+  }
+) {
+  const searchParams = use(props.searchParams)
+  const { chapterId } = use(props.params)
+
   // store
   const dispatch = useAppDispatch()
   const pathname = usePathname()

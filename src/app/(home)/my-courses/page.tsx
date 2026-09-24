@@ -6,12 +6,12 @@ import { useAppDispatch } from '@/libs/hooks'
 import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { ICourse } from '@/models/CourseModel'
 import { getMyCoursesApi } from '@/requests'
-import { Link } from '@react-email/components'
+import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-function MyCoursesPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+function MyCoursesPage() {
   // hooks
   const dispatch = useAppDispatch()
   const { data: session } = useSession()

@@ -17,11 +17,10 @@ import {
   getSingleCourseApi,
 } from '@/requests'
 import { applyFlashSalePrice, calcPercentage, formatPrice } from '@/utils/number'
-import { Link } from '@react-email/components'
 import { getSession, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { notFound, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { IoIosHelpCircle } from 'react-icons/io'
@@ -29,7 +28,9 @@ import { IoMail } from 'react-icons/io5'
 import { MdOutlinePayments } from 'react-icons/md'
 import { RiCoupon2Fill, RiDonutChartFill } from 'react-icons/ri'
 
-function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
+function CheckoutPage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(props.params)
+
   // hooks
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -480,9 +481,14 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             {/* Note */}
             <p className='font-body italic text-sm text-center mb-10'>
               *If you are not received any email in 5 minutes, please contact admin to be supported.{' '}
-              <Link href='https://facebook.com' className='text-sky-500 underline underline-offset-2'>
+              <a
+                href='https://facebook.com'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-sky-500 underline underline-offset-2'
+              >
                 Contact now
-              </Link>
+              </a>
               .
             </p>
           </div>
@@ -661,9 +667,14 @@ function CheckoutPage({ params: { slug } }: { params: { slug: string } }) {
             {/* Note */}
             <p className='font-body italic text-sm text-center'>
               *If you are not received any email in 5 minutes, please contact admin to be supported.{' '}
-              <Link href='https://facebook.com' className='text-sky-500 underline underline-offset-2'>
+              <a
+                href='https://facebook.com'
+                target='_blank'
+                rel='noopener noreferrer'
+                className='text-sky-500 underline underline-offset-2'
+              >
                 Contact now
-              </Link>
+              </a>
               .
             </p>
           </div>

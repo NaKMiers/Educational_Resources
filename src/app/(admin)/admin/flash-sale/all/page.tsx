@@ -13,12 +13,13 @@ import { IFlashSale } from '@/models/FlashSaleModel'
 import { deleteFlashSalesApi, getAllFlashSalesApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, use } from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FaCalendar, FaSort } from 'react-icons/fa'
 
-function AllFlashSalesPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+function AllFlashSalesPage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = use(props.searchParams)
   // store
   const dispatch = useAppDispatch()
   const pathname = usePathname()

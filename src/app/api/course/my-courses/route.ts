@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
     const userId = token?._id
 
     // get user to get course id list
-    const user: IUser | null = await UserModel.findById(userId).select('courses').lean()
+    const user: IUser | null = await UserModel.findById(userId).select('courses').lean<IUser>()
 
     // check if user is logged in
     if (!user) {

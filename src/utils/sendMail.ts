@@ -4,7 +4,7 @@ import ResetPasswordEmail from '@/components/email/ResetPasswordEmail'
 import SummaryEmail from '@/components/email/SummaryEmail'
 import VerifyEmailEmail from '@/components/email/VerifyEmailEmail'
 import UserModel from '@/models/UserModel'
-import { render } from '@react-email/render'
+import { render } from '@react-email/components'
 import nodeMailer from 'nodemailer'
 
 // Models: User
@@ -43,7 +43,7 @@ export async function notifyNewOrderToAdmin(newOrder: any) {
     }).lean()
     let emails: string[] = [...admins.map(admin => admin.email), process.env.NEXT_PUBLIC_MAIL]
 
-    const html = render(NotifyOrderEmail({ order: newOrder }))
+    const html = await render(NotifyOrderEmail({ order: newOrder }))
     await sendMail(emails, 'New Order', html)
   } catch (err: any) {
     console.log(err)
@@ -55,7 +55,7 @@ export async function notifyDeliveryOrder(email: string, orderData: any) {
   console.log('- Notify Delivery Order -')
 
   try {
-    const html = render(OrderEmail({ order: orderData }))
+    const html = await render(OrderEmail({ order: orderData }))
     await sendMail(email, 'You have an order from ERE', html)
   } catch (err: any) {
     console.log(err)
@@ -67,7 +67,7 @@ export async function notifyGivenCourse(receiveEmail: string, sender: string, or
   console.log('- Notify Given Course To Receiver -')
 
   try {
-    const html = render(GivenGift({ order: { ...orderData, sender } }))
+    const html = await render(GivenGift({ order: { ...orderData, sender } }))
     await sendMail(receiveEmail, `You have been given a course from ${sender}`, html)
   } catch (err: any) {
     console.log(err)
@@ -80,7 +80,7 @@ export async function summaryNotification(email: string, summary: any) {
 
   try {
     // Render template với dữ liệu
-    const html = render(SummaryEmail({ summary }))
+    const html = await render(SummaryEmail({ summary }))
     await sendMail(email, `Monthly Summary ${new Date().getMonth() + 1}`, html)
   } catch (err: any) {
     console.log(err)
@@ -93,7 +93,7 @@ export async function sendResetPasswordEmail(email: string, name: string, link: 
 
   try {
     // Render template với dữ liệu
-    const html = render(ResetPasswordEmail({ name, link }))
+    const html = await render(ResetPasswordEmail({ name, link }))
 
     await sendMail(email, 'Reset Password', html)
   } catch (err: any) {
@@ -107,7 +107,7 @@ export async function sendVerifyEmail(email: string, name: string, link: string)
 
   try {
     // Render template với dữ liệu
-    const html = render(VerifyEmailEmail({ name, link }))
+    const html = await render(VerifyEmailEmail({ name, link }))
     await sendMail(email, 'Verify Email', html)
   } catch (err: any) {
     console.log(err)

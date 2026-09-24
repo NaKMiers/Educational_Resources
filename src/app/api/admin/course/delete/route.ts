@@ -59,7 +59,7 @@ export async function DELETE(req: NextRequest) {
     // find courses by their IDs before deletion
     const courses: ICourse[] = await CourseModel.find({
       _id: { $in: ids },
-    }).lean()
+    }).lean<ICourse[]>()
 
     // delete course by ids
     await CourseModel.deleteMany({

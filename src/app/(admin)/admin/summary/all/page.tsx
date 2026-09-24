@@ -9,10 +9,11 @@ import { setPageLoading } from '@/libs/reducers/modalReducer'
 import { IUser } from '@/models/UserModel'
 import { getAllCollaboratorsApi, sendSummaryApi } from '@/requests/summaryRequest'
 import { handleQuery } from '@/utils/handleQuery'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, use } from 'react'
 import toast from 'react-hot-toast'
 
-function AllSummariesPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+function AllSummariesPage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = use(props.searchParams)
   // hooks
   const dispatch = useAppDispatch()
 

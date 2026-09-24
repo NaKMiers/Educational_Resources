@@ -11,7 +11,9 @@ import '@/models/LessonModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /course/learning/:courseId
-export async function GET(req: NextRequest, { params: { courseId } }: { params: { courseId: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ courseId: string }> }) {
+  const { courseId } = await props.params
+
   console.log('- Get Chapters Learning - ')
 
   try {
@@ -19,8 +21,8 @@ export async function GET(req: NextRequest, { params: { courseId } }: { params: 
     await connectDatabase()
 
     // get all chapters and lessons of course
-    let chapters: IChapter[] = await ChapterModel.find({ courseId }).lean()
-    const lessons: ILesson[] = await LessonModel.find({ courseId }).lean()
+    let chapters: IChapter[] = await ChapterModel.find({ courseId }).lean<IChapter[]>()
+    const lessons: ILesson[] = await LessonModel.find({ courseId }).lean<ILesson[]>()
 
     chapters = chapters.sort((a, b) => a.order - b.order)
 

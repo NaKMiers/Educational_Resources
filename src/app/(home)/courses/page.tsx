@@ -8,7 +8,8 @@ import { ITag } from '@/models/TagModel'
 import { getCoursesApi } from '@/requests'
 import { handleQuery } from '@/utils/handleQuery'
 
-async function CoursesPage({ searchParams }: { searchParams?: { [key: string]: string[] } }) {
+async function CoursesPage(props: { searchParams: Promise<{ [key: string]: string[] }> }) {
+  const searchParams = await props.searchParams
   let courses: ICourse[] = []
   let tags: ITag[] = []
   let categories: ICategory[] = []

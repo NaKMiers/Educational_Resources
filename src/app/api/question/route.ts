@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
       .sort(sort)
       .skip(skip)
       .limit(itemPerPage)
-      .lean()
+      .lean<IQuestion[]>()
 
     // i want to count the number of comment in each question
     questions = await Promise.all(

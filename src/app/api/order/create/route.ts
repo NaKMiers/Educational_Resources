@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     // create new order
     const newOrder = new OrderModel({
-      code,s
+      code,
       userId,
       email,
       receivedUser,

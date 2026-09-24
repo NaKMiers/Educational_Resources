@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     }).lean()
 
     // get collaborator
-    const collaborators: IUser[] = await UserModel.find({ _id: { $in: ids } }).lean()
+    const collaborators: IUser[] = await UserModel.find({ _id: { $in: ids } }).lean<IUser[]>()
 
     // get summaries
     const summaries = collaborators.map(collaborator => {

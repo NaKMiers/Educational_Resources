@@ -7,7 +7,9 @@ import '@/models/UserModel'
 import { getToken } from 'next-auth/jwt'
 
 // [GET]: /api/user/:id
-export async function GET(req: NextRequest, { params: { email } }: { params: { email: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ email: string }> }) {
+  const { email } = await props.params
+
   console.log('- Find User -')
 
   try {
@@ -27,7 +29,7 @@ export async function GET(req: NextRequest, { params: { email } }: { params: { e
     }
 
     // get user by email
-    let user: IUser | null = await UserModel.findOne({ email }).lean()
+    let user: IUser | null = await UserModel.findOne({ email }).lean<IUser>()
 
     // check if user exists
     if (!user) {

@@ -10,7 +10,9 @@ import '@/models/FlashSaleModel'
 export const dynamic = 'force-dynamic'
 
 // [GET]: /flash-sale/:id
-export async function GET(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const { id } = await props.params
+
   console.log('- Get Flash Sale -')
 
   try {
@@ -18,7 +20,7 @@ export async function GET(req: NextRequest, { params: { id } }: { params: { id: 
     await connectDatabase()
 
     // get flash sale from database
-    const flashSale: IFlashSale | null = await FlashSaleModel.findById(id).lean()
+    const flashSale: IFlashSale | null = await FlashSaleModel.findById(id).lean<IFlashSale>()
 
     if (!flashSale) {
       return NextResponse.json({ message: 'Flash sale not found' }, { status: 404 })

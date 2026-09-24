@@ -6,10 +6,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import '@/models/ChapterModel'
 
 // [POST]: /admin/chapter/:courseId/add
-export async function POST(
-  req: NextRequest,
-  { params: { courseId } }: { params: { courseId: string } }
-) {
+export async function POST(req: NextRequest, props: { params: Promise<{ courseId: string }> }) {
+  const { courseId } = await props.params
+
   console.log('- Add Chapter -')
 
   try {
